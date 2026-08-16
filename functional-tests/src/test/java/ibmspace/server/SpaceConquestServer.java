@@ -70,6 +70,7 @@ public class SpaceConquestServer extends PortableRemoteObject implements SpaceCo
         }
     }
 
+    @Override
     public synchronized GameView joinGame(String playerName) throws RemoteException {
         if (fGame.isGameStarted()) {
             // Probably should throw an exception here
@@ -99,23 +100,28 @@ public class SpaceConquestServer extends PortableRemoteObject implements SpaceCo
         return view;
     }
 
+    @Override
     public void quitGame(GameView gameView) throws RemoteException {
         gameView.quit();
         fNumberOfPlayers--;
-        if (fNumberOfPlayers == 0)
+        if (fNumberOfPlayers == 0) {
             PortableRemoteObject.unexportObject(this);
+        }
     }
 
+    @Override
     public synchronized Planet[] getGalaxyMap() throws RemoteException {
         Planet[] planets = fGame.createGalaxyMap();
         return planets;
     }
 
+    @Override
     public synchronized int getNumberOfPlanets() throws RemoteException {
         Planet[] planets = getGalaxyMap();
         return Array.getLength(planets);
     }
 
+    @Override
     public synchronized Planet getPlanet(int index) throws RemoteException {
         Planet[] planets = getGalaxyMap();
         return planets[index];

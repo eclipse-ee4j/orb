@@ -97,11 +97,13 @@ public class ThreadPoolManagerImpl implements ThreadPoolManager {
             if (isDestroyed) {
                 Exceptions.self.threadGroupIsDestroyed(threadGroup);
             } else {
-                if (numThreads > 0)
+                if (numThreads > 0) {
                     Exceptions.self.threadGroupHasActiveThreadsInClose(threadGroup, numThreads);
+                }
 
-                if (numGroups > 0)
+                if (numGroups > 0) {
                     Exceptions.self.threadGroupHasSubGroupsInClose(threadGroup, numGroups);
+                }
 
                 threadGroup.destroy();
             }

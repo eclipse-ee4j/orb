@@ -25,10 +25,12 @@ import java.util.*;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 
 public class RMIPOACounterTest extends CORBATest {
+    @Override
     protected Controller newClientController() {
         return new InternalExec();
     }
 
+    @Override
     protected void doTest() throws Throwable {
         // try this one. the report dir was already set to gen/corba/rmipoacounter
         Options.setOutputDirectory((String) getArgs().get(test.Test.OUTPUT_DIRECTORY));

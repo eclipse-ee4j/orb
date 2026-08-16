@@ -30,6 +30,7 @@ public class MessageBuilderServantPOA extends PortableRemoteObject implements Me
         // DO NOT CALL SUPER - that would connect the object.
     }
 
+    @Override
     public String m(String x) {
         String result = x + baseMsg;
         System.out.println(baseMsg);

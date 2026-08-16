@@ -216,7 +216,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
 
     /**
      * Creates a new RequestInfoImpl object.
-     * 
+     *
      * @param myORB ORB to use
      */
     public RequestInfoImpl(ORB myORB) {
@@ -236,7 +236,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
      *
      * Uniquely identifies an active request/reply sequence. Once a request/reply sequence is concluded this ID may be
      * reused. (this is NOT necessarily the same as the GIOP request_id).
-     * 
+     *
      * @return unique request identifier
      */
     @Override
@@ -253,7 +253,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
     /**
      * This method returns the list of arguments for the operation that was invoked. It raises NO_RESOURCES exception if the
      * operation is not invoked by using DII mechanism.
-     * 
+     *
      * @return array of arguments
      */
     @Override
@@ -262,7 +262,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
     /**
      * This method returns the list of exceptions that was raised when the operation was invoked. It raises NO_RESOURCES
      * exception if the operation is not invoked by using DII mechanism.
-     * 
+     *
      * @return array of raised exceptions
      */
     @Override
@@ -271,7 +271,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
     /**
      * This method returns the list of contexts for the DII operation. It raises NO_RESOURCES exception if the operation is
      * not invoked by using DII mechanism.
-     * 
+     *
      * @return array of contexts
      */
     @Override
@@ -280,7 +280,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
     /**
      * This method returns the list of operation_context for the DII operation. It raises NO_RESOURCES exception if the
      * operation is not invoked by using DII mechanism.
-     * 
+     *
      * @return array of operation contexts
      */
     @Override
@@ -289,7 +289,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
     /**
      * This method returns the result from the invoked DII operation. It raises NO_RESOURCES exception if the operation is
      * not invoked by using DII mechanism.
-     * 
+     *
      * @return the result from the invoked operation
      */
     @Override
@@ -301,7 +301,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
      * Indicates whether a response is expected. On the client, a reply is not returned when response_expected is false, so
      * receive_reply cannot be called. receive_other is called unless an exception occurs, in which case receive_exception
      * is called. On the client, within send_poll, this attribute is true.
-     * 
+     *
      * @return if a response is expected
      */
     @Override
@@ -333,7 +333,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
      * <li>{@link org.omg.PortableInterceptor.LOCATION_FORWARD}</li>
      * <li>{@link org.omg.PortableInterceptor.TRANSPORT_RETRY}</li>
      * </ul>
-     * 
+     *
      * @return result status
      */
     @Override
@@ -347,7 +347,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
      *
      * If the reply_status attribute is LOCATION_FORWARD then this attribute will contain the object to which the request
      * will be forwarded. It is indeterminate whether a forwarded request will actually occur.
-     * 
+     *
      * @return object to which attribute is forwarded.
      */
     @Override
@@ -359,7 +359,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
      * If the given slot has not been set, then an any containing a type code with a TCKind value of tk_null is returned.
      * <p>
      * If the ID does not define an allocated slot, InvalidSlot is raised.
-     * 
+     *
      * @param id ID of the slot to get data from
      * @return Data held in the given slot
      * @throws InvalidSlot If the id is not for an allocated slot
@@ -378,7 +378,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
      *
      * This operation returns a copy of the service context with the given ID that is associated with the request. If the
      * request's service context does not contain an entry for that ID, BAD_PARAM with a minor code of TBD_BP is raised.
-     * 
+     *
      * @param id ID of the service context
      * @return A copy of the service context
      */
@@ -390,7 +390,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
      *
      * This operation returns a copy of the service context with the given ID that is associated with the reply. IF the
      * request's service context does not contain an entry for that ID, BAD_PARAM with a minor code of TBD_BP is raised.
-     * 
+     *
      * @param id ID of the service context
      * @return A copy of the Service Context
      */
@@ -426,7 +426,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
     /**
      * Inserts the UserException inside the given ApplicationException into the given Any. Throws an UNKNOWN with minor code
      * OMGSYstemException.UNKNOWN_USER_EXCEPTION if the Helper class could not be found to insert it with.
-     * 
+     *
      * @param appException Exception to insert
      * @param result {@link Any} to insert Exception into
      */
@@ -474,7 +474,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
     /**
      * Inserts the UserException into the given Any. Throws an UNKNOWN with minor code
      * OMGSYstemException.UNKNOWN_USER_EXCEPTION if the Helper class could not be found to insert it with.
-     * 
+     *
      * @param userException Exception to insert
      * @param result {@link Any} to insert the exception into
      */
@@ -505,7 +505,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
 
     /**
      * Internal utility method to convert an NVList into a PI Parameter[]
-     * 
+     *
      * @param parNVList list to concert
      * @return parameter array
      */
@@ -541,7 +541,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
     /**
      * Utility to wrap the given Exception in an Any object and return it. If the exception is a UserException which cannot
      * be inserted into an any, then this returns an Any containing the system exception UNKNOWN.
-     * 
+     *
      * @param exception Exception to wrap
      * @return {@link Any} wrapping the exception
      */
@@ -585,7 +585,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
     /**
      * Utility method to look up a service context with the given id and convert it to an IOP.ServiceContext. Uses the given
      * HashMap as a cache. If not found in cache, the result is inserted in the cache.
-     * 
+     *
      * @param cachedServiceContexts cache to search first in
      * @param serviceContexts contexts to look up in
      * @param id ID to use for look up
@@ -642,7 +642,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
      * Raises BAD_INV_ORDER if replace is false and a service context with the given id already exists.
      * <p>
      * Uses the given HashMap as a cache. If a service context is placed in the container, it goes in the HashMap as well.
-     * 
+     *
      * @param cachedServiceContexts map to also add the context to
      * @param serviceContexts ServiceContexts to add it to
      * @param service_context context to add
@@ -684,7 +684,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
      * system exception is raised. This keeps track of how many were successfully executed so we know not to execute the
      * corresponding ending interception points for the interceptors whose starting interception points were not completed.
      * This simulates the "Flow Stack Visual Model" presented in section 5.1.3.
-     * 
+     *
      * @param num number of interceptors successfully invoked
      */
     protected void setFlowStackIndex(int num) {
@@ -694,7 +694,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
     /**
      * Returns the number of interceptors whose starting interception points were actually invoked on this client request.
      * See setFlowStackIndex for more details.
-     * 
+     *
      * @return number of interceptors
      * @see #setFlowStackIndex(int)
      */
@@ -704,7 +704,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
 
     /**
      * Sets which ending interception point should be called for each interceptor in the virtual flow stack.
-     * 
+     *
      * @param call ending interception point
      */
     protected void setEndingPointCall(int call) {
@@ -713,7 +713,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
 
     /**
      * Retrieves the current ending point call type (see setEndingPointCall for more details).
-     * 
+     *
      * @return ending point call type
      * @see #setEndingPointCall(int)
      */
@@ -723,7 +723,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
 
     /**
      * Sets which intermediate interception point should be called for each interceptor in the virtual flow stack.
-     * 
+     *
      * @param call intermediate interception point
      */
     protected void setIntermediatePointCall(int call) {
@@ -732,7 +732,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
 
     /**
      * Retrieves the current intermediate point call type (see setEndingPointCall for more details).
-     * 
+     *
      * @return current intermediate point
      * @see #setEndingPointCall(int)
      */
@@ -742,7 +742,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
 
     /**
      * Sets which starting interception point should be called for each interceptor in the virtual flow stack.
-     * 
+     *
      * @param call which point should called
      */
     protected void setStartingPointCall(int call) {
@@ -751,7 +751,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
 
     /**
      * Retrieves the current starting point call type (see setStartingPointCall for more details).
-     * 
+     *
      * @return the current stating point
      * @see #setStartingPointCall(int)
      */
@@ -762,7 +762,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
     /**
      * Returns true if all interceptors' starting and ending points have already executed to completion, or false if not
      * yet.
-     * 
+     *
      * @return if all interceptors have been executed to completion
      */
     protected boolean getAlreadyExecuted() {
@@ -771,7 +771,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
 
     /**
      * Sets whether all interceptors' starting and ending points have already been executed to completion.
-     * 
+     *
      * @param alreadyExecuted if all interceptors have been executed
      */
     protected void setAlreadyExecuted(boolean alreadyExecuted) {
@@ -780,7 +780,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
 
     /**
      * Sets the value to be returned by reply_status
-     * 
+     *
      * @param replyStatus The value of the reply status
      */
     protected void setReplyStatus(short replyStatus) {
@@ -789,7 +789,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
 
     /**
      * Gets the current reply_status without doing an access check (available only to package and subclasses)
-     * 
+     *
      * @return Current reply status
      */
     protected short getReplyStatus() {
@@ -798,7 +798,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
 
     /**
      * Stores the given ForwardRequest object for later analysis. This version supplements setForwardRequest( IOR );
-     * 
+     *
      * @param forwardRequest ForwardRequest to store
      * @see #setForwardRequest(com.sun.corba.ee.spi.ior.IOR)
      */
@@ -810,7 +810,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
     /**
      * Stores the given IOR for later forward request analysis. This version supplements setForwardRequest( ForwardRequest
      * );
-     * 
+     *
      * @param ior IOR to store
      * @see #setForwardRequest(org.omg.PortableInterceptor.ForwardRequest)
      */
@@ -821,7 +821,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
 
     /**
      * Retrieves the ForwardRequest object as a ForwardRequest exception.
-     * 
+     *
      * @return the ForwardRequest object
      */
     protected ForwardRequest getForwardRequestException() {
@@ -839,7 +839,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
 
     /**
      * Retrieves the IOR of the ForwardRequest exception.
-     * 
+     *
      * @return The IOR of the exception
      */
     protected IOR getForwardRequestIOR() {
@@ -854,7 +854,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
 
     /**
      * Sets the exception to be returned by received_exception and received_exception_id.
-     * 
+     *
      * @param exception exception to be returned
      */
     protected void setException(Exception exception) {
@@ -871,7 +871,7 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
     /**
      * Sets the execution point that we are currently executing (starting points, intermediate points, or ending points).
      * This allows us to enforce the validity table.
-     * 
+     *
      * @param executionPoint Current execution point
      */
     protected void setCurrentExecutionPoint(int executionPoint) {

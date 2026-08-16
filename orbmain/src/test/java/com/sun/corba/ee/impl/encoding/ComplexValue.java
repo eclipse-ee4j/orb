@@ -26,7 +26,7 @@ import java.util.List;
 public class ComplexValue implements Serializable {
     static final String REPID = "RMI:com.sun.corba.ee.impl.encoding.ComplexValue:526A075F52D4A68C:31E83A657AE82D48";
     int anInt;
-    List<Value1> arrayList = new ArrayList<Value1>(1);
+    List<Value1> arrayList = new ArrayList<>(1);
     Value1 value;
 
     ComplexValue(char aChar, int anInt) {

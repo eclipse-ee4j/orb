@@ -56,10 +56,12 @@ public class IORInterceptorImpl extends org.omg.CORBA.LocalObject implements ORB
 
     public final String baseMsg = IORInterceptorImpl.class.getName();
 
+    @Override
     public String name() {
         return baseMsg;
     }
 
+    @Override
     public void destroy() {
     }
 
@@ -67,9 +69,11 @@ public class IORInterceptorImpl extends org.omg.CORBA.LocalObject implements ORB
     // ORBInitializer
     //
 
+    @Override
     public void pre_init(ORBInitInfo info) {
     }
 
+    @Override
     public void post_init(ORBInitInfo info) {
         orb = ((ORBInitInfoExt) info).getORB();
         try {
@@ -84,20 +88,21 @@ public class IORInterceptorImpl extends org.omg.CORBA.LocalObject implements ORB
     // IORInterceptor
     //
 
+    @Override
     public void establish_components(IORInfo iorInfo) {
         try {
             IORInfoExt iorInfoExt = (IORInfoExt) iorInfo;
 
             String localAddress = InetAddress.getLocalHost().getHostAddress();
 
-            for (int i = 0; i < Common.socketTypes.length; i++) {
+            for (String socketType : Common.socketTypes) {
 
-                TaggedCustomSocketInfo socketInfo = new TaggedCustomSocketInfo(Common.socketTypes[i], localAddress,
-                        iorInfoExt.getServerPort(Common.socketTypes[i]));
+                TaggedCustomSocketInfo socketInfo = new TaggedCustomSocketInfo(socketType, localAddress,
+                        iorInfoExt.getServerPort(socketType));
 
                 if (orb.transportDebugFlag) {
-                    dprint(".establish_components:" + " " + Common.socketTypes[i] + " " + localAddress + " "
-                            + iorInfoExt.getServerPort(Common.socketTypes[i]));
+                    dprint(".establish_components:" + " " + socketType + " " + localAddress + " "
+                            + iorInfoExt.getServerPort(socketType));
                 }
 
                 Any any = orb.create_any();

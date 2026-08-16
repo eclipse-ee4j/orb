@@ -27,34 +27,41 @@ import org.omg.CosNaming.NamingContextHelper;
 import org.omg.PortableServer.POA;
 
 public class Server extends VerifierPOA {
+    @Override
     public char verifyChar(char ch) {
         System.out.println("verifyChar " + (int) ch);
         return ch;
     }
 
+    @Override
     public char verifyWChar(char wch) {
         System.out.println("verifyWChar " + (int) wch);
         return wch;
     }
 
+    @Override
     public String verifyString(String str) {
         System.out.println("verifyString " + str);
         return str;
     }
 
+    @Override
     public String verifyWString(String wstr) {
         System.out.println("verifyWString " + wstr.length());
         return wstr;
     }
 
+    @Override
     public void verifyCharSeq(CodeSetTester.VerifierPackage.TestCharSeqHolder chSeq) {
         System.out.println("verifyCharSeq " + chSeq.value.length);
     }
 
+    @Override
     public void verifyWCharSeq(CodeSetTester.VerifierPackage.TestWCharSeqHolder wchSeq) {
         System.out.println("verifyWCharSeq " + wchSeq.value.length);
     }
 
+    @Override
     public CodeSetTester.CustomMarshaledValue verifyTransmission(CodeSetTester.CustomMarshaledValue cv) {
         return cv;
     }

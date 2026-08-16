@@ -26,27 +26,31 @@ package javax.rmi.CORBA.serialization;
  */
 
 public abstract class Stock implements org.omg.CORBA.portable.StreamableValue {
-    protected float current = (float) 0;
+    protected float current = 0;
     protected String symbol = null;
 
     private static String[] _truncatable_ids = { StockHelper.id() };
 
+    @Override
     public String[] _truncatable_ids() {
         return _truncatable_ids;
     }
 
     public abstract float update();
 
+    @Override
     public void _read(org.omg.CORBA.portable.InputStream istream) {
         this.current = istream.read_float();
         this.symbol = org.omg.CORBA.WStringValueHelper.read(istream);
     }
 
+    @Override
     public void _write(org.omg.CORBA.portable.OutputStream ostream) {
         ostream.write_float(this.current);
         org.omg.CORBA.WStringValueHelper.write(ostream, this.symbol);
     }
 
+    @Override
     public org.omg.CORBA.TypeCode _type() {
         return StockHelper.type();
     }

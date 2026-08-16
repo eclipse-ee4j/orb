@@ -51,16 +51,19 @@ class AServiceImpl extends LocalObject implements AService {
         this.piCurrent = piCurrent;
     }
 
+    @Override
     public void begin() {
         Any any = ORB.init().create_any();
         any.insert_long(++currentServiceId);
         setSlot(any);
     }
 
+    @Override
     public void end() {
         setSlot(NOT_IN_EFFECT);
     }
 
+    @Override
     public void verify() {
         try {
             Any any = piCurrent.get_slot(slotId);

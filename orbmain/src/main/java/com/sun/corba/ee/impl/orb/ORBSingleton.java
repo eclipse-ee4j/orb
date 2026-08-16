@@ -93,7 +93,7 @@ import org.omg.CORBA.portable.OutputStream;
  * instances.
  *
  * See ORBImpl.java for the real ORB implementation.
- * 
+ *
  * @see ORBImpl
  */
 public class ORBSingleton extends ORB {
@@ -447,7 +447,7 @@ public class ORBSingleton extends ORB {
 
     /*
      * Return the service context registry
-     * 
+     *
      * @return throws {@link SecurityException}
      */
     @Override
@@ -457,7 +457,7 @@ public class ORBSingleton extends ORB {
 
     /**
      * Return the service context cache as null
-     * 
+     *
      * @return {@code null}
      */
     @Override
@@ -467,7 +467,7 @@ public class ORBSingleton extends ORB {
 
     /**
      * Get the transient server ID
-     * 
+     *
      * @return throws {@link SecurityException}
      */
     @Override
@@ -477,7 +477,7 @@ public class ORBSingleton extends ORB {
 
     /**
      * Return the bootstrap naming port specified in the ORBInitialPort param.
-     * 
+     *
      * @return throws {@link SecurityException}
      */
     public int getORBInitialPort() {
@@ -486,7 +486,7 @@ public class ORBSingleton extends ORB {
 
     /**
      * Return the bootstrap naming host specified in the ORBInitialHost param.
-     * 
+     *
      * @return throws {@link SecurityException}
      */
     public String getORBInitialHost() {

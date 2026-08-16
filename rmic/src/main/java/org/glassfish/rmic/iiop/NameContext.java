@@ -112,7 +112,7 @@ class NameContext {
      */
     public void put (String name) {
 
-        if (allowCollisions == false) {
+        if (!allowCollisions) {
             throw new Error("Must use assertPut(name)");
         }
 

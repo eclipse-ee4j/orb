@@ -172,7 +172,9 @@ class Context implements Constants {
     public
     int getScopeNumber(ClassDefinition c) {
         for (Context ctx = this; ctx != null; ctx = ctx.prev) {
-            if (ctx.field == null)  continue;
+            if (ctx.field == null) {
+                continue;
+            }
             if (ctx.field.getClassDefinition() == c) {
                 return ctx.frameNumber;
             }
@@ -677,8 +679,9 @@ class Context implements Constants {
     Context getLabelContext(Identifier lbl) {
         for (Context ctx = this ; ctx != null ; ctx = ctx.prev) {
             if ((ctx.node != null) && (ctx.node instanceof Statement)) {
-                if (((Statement)(ctx.node)).hasLabel(lbl))
+                if (((Statement)(ctx.node)).hasLabel(lbl)) {
                     return ctx;
+                }
             }
         }
         return null;
@@ -854,6 +857,7 @@ class ContextEnvironment extends Environment {
         this.innerEnv = env;
     }
 
+    @Override
     public Identifier resolveName(Identifier name) {
         return ctx.resolveName(innerEnv, name);
     }

@@ -188,13 +188,15 @@ public final class StubInvocationHandlerImpl implements LinkedInvocationHandler 
                 } catch (InvocationTargetException ex) {
                     Throwable mex = ex.getCause();
                     // mex should never be null, as null cannot be thrown
-                    if (dmm.isDeclaredException(mex))
+                    if (dmm.isDeclaredException(mex)) {
                         throw mex;
-                    else
+                    } else {
                         throw Util.getInstance().wrapException(mex);
+                    }
                 } catch (Throwable thr) {
-                    if (thr instanceof ThreadDeath)
+                    if (thr instanceof ThreadDeath) {
                         throw thr;
+                    }
 
                     // This is not a user thrown exception from the
                     // method call, so don't copy it. This is either

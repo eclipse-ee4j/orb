@@ -40,7 +40,7 @@ public class ProcessMonitor {
 
     /**
      * Constructor.
-     * 
+     *
      * @param theProcess The process to monitor.
      * @param out The stream to which to copy Process.getInputStream() data.
      * @param err The stream to which to copy Process.getErrorStream() data.
@@ -55,7 +55,7 @@ public class ProcessMonitor {
 
     /**
      * Constructor.
-     * 
+     *
      * @param theProcess The process to monitor.
      * @param out The stream to which to copy Process.getInputStream() data.
      * @param err The stream to which to copy Process.getErrorStream() data.

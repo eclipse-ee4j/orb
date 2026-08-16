@@ -44,10 +44,12 @@ public class ObjectByValue implements java.io.Serializable {
         this.str2 = str2;
     }
 
+    @Override
     public String toString() {
         return "{" + value1 + ", " + value2 + ", " + str1 + ", " + str2 + "}";
     }
 
+    @Override
     public boolean equals(Object right) {
         if (right instanceof ObjectByValue) {
             ObjectByValue other = (ObjectByValue) right;

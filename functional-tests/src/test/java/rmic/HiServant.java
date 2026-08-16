@@ -25,22 +25,27 @@ import java.rmi.RemoteException;
 import java.io.IOException;
 
 public class HiServant implements Hi {
+    @Override
     public String hi_0() {
         return "Hi!";
     }
 
+    @Override
     public String hi_1() throws ClassNotFoundException {
         throw new ClassNotFoundException();
     }
 
+    @Override
     public String hi_2() throws Exception {
         return "hi";
     }
 
+    @Override
     public String hi_3() throws IOException, ClassNotFoundException {
         return "hi";
     }
 
+    @Override
     public String hi_4(String in) throws IOException, ClassNotFoundException, HelloException {
         return "hi";
     }

@@ -24,7 +24,7 @@ import java.util.*;
 
 /**
  * AlarmHandler provides an interface which is called asynchronously by Alarm at the scheduled wakeup time.
- * 
+ *
  * @see Alarm
  * @author Bryan Atsatt
  */
@@ -38,7 +38,7 @@ public interface AlarmHandler {
      * given process, all usage of alarms is known, implementations may safely use more time. The nextAlarmWakeupTime
      * argument passed to this method can be used to determine how much time can be used; however, it is expected that few
      * clients can effectively use this information.
-     * 
+     *
      * @param theAlarm The alarm.
      * @param nextAlarmWakeupTime The next (currently) scheduled wakeup time for any alarm. May be zero, in which case there
      * are no currently scheduled alarms. (This is not the next scheduled wakeup for <i>this</i> alarm -- alarms are

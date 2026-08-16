@@ -34,10 +34,11 @@ public class ServiceContextFactoryRegistryImpl implements ServiceContextFactoryR
     private Map<Integer, ServiceContext.Factory> scMap;
 
     public ServiceContextFactoryRegistryImpl(ORB orb) {
-        scMap = new HashMap<Integer, ServiceContext.Factory>();
+        scMap = new HashMap<>();
         this.orb = orb;
     }
 
+    @Override
     public void register(ServiceContext.Factory factory) {
         if (scMap.get(factory.getId()) == null) {
             scMap.put(factory.getId(), factory);
@@ -46,6 +47,7 @@ public class ServiceContextFactoryRegistryImpl implements ServiceContextFactoryR
         } // BAD_PARAM
     }
 
+    @Override
     public ServiceContext.Factory find(int scId) {
         ServiceContext.Factory result = scMap.get(scId);
         return result;

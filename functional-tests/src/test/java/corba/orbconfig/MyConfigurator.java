@@ -26,6 +26,7 @@ import com.sun.corba.ee.spi.orb.ORB;
 public class MyConfigurator implements ORBConfigurator {
     public static boolean wasCalled = false;
 
+    @Override
     public void configure(DataCollector dc, ORB orb) {
         wasCalled = true;
     }

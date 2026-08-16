@@ -47,10 +47,12 @@ class CompilerError extends Error {
         this.e = e;
     }
 
+    @Override
     public void printStackTrace() {
-        if (e == this)
+        if (e == this) {
             super.printStackTrace();
-        else
+        } else {
             e.printStackTrace();
+        }
     }
 }

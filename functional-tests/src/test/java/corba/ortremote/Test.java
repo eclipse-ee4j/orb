@@ -50,6 +50,7 @@ public class Test {
     }
 
     static class CounterServantLocator extends LocalObject implements ServantLocator {
+        @Override
         public Servant preinvoke(byte[] oid, POA poa, String operation, CookieHolder cookie) throws ForwardRequest {
             ORTEcho impl = null;
 
@@ -65,6 +66,7 @@ public class Test {
             return servant;
         }
 
+        @Override
         public void postinvoke(byte[] oid, POA poa, String operation, java.lang.Object cookie, Servant servant) {
             // NOP
         }
@@ -124,7 +126,8 @@ public class Test {
 
         session.start("ORT marshalling test over RMI-IIOP");
 
-        session.testForPass("ObjectReferenceFactory", new NullaryFunction<Object>() {
+        session.testForPass("ObjectReferenceFactory", new NullaryFunction<>() {
+            @Override
             public Object evaluate() {
                 try {
                     return testRef.getORF();
@@ -136,7 +139,8 @@ public class Test {
             }
         }, orf);
 
-        session.testForPass("ObjectReferenceTemplate", new NullaryFunction<Object>() {
+        session.testForPass("ObjectReferenceTemplate", new NullaryFunction<>() {
+            @Override
             public Object evaluate() {
                 try {
                     return testRef.getORT();

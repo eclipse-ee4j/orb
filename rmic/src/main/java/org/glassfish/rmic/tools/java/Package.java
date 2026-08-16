@@ -50,8 +50,9 @@ class Package {
      * name.
      */
     public Package(ClassPath binaryPath, Identifier pkg) {
-        if (pkg.isInner())
+        if (pkg.isInner()) {
             pkg = Identifier.lookup(pkg.getQualifier(), pkg.getFlatName());
+        }
         this.binaryPath = binaryPath;
         this.pkg = pkg.toString().replace('.', File.separatorChar);
     }
@@ -116,6 +117,7 @@ class Package {
         return null;
     }
 
+    @Override
     public String toString() {
         if (pkg.equals("")) {
             return "unnamed package";

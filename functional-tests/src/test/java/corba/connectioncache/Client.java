@@ -52,6 +52,7 @@ import corba.framework.TestngRunner;
 public class Client {
     // Ignore all of the LogRecord information except the message.
     public static class ReallySimpleFormatter extends Formatter {
+        @Override
         public synchronized String format(LogRecord record) {
             return record.getMessage() + "\n";
         }
@@ -243,7 +244,7 @@ public class Client {
     public void outboundTest3() throws IOException {
         testBanner("outboundTest3: cycle to busy connections");
         ContactInfoImpl cinfo = ContactInfoImpl.get("FirstContact");
-        Set<ConnectionImpl> conns = new HashSet<ConnectionImpl>();
+        Set<ConnectionImpl> conns = new HashSet<>();
         for (int ctr = 0; ctr < MAX_PARALLEL_CONNECTIONS; ctr++) {
             ConnectionImpl conn = obcache.get(cinfo);
             conns.add(conn);
@@ -279,16 +280,16 @@ public class Client {
     public void outboundTest4() throws IOException {
         testBanner("outboundTest4: test reclamation");
         final int numContactInfo = HIGH_WATER_MARK / MAX_PARALLEL_CONNECTIONS;
-        final List<ContactInfoImpl> cinfos = new ArrayList<ContactInfoImpl>();
+        final List<ContactInfoImpl> cinfos = new ArrayList<>();
         for (int ctr = 0; ctr < numContactInfo; ctr++) {
             cinfos.add(ContactInfoImpl.get("ContactInfo" + ctr));
         }
         final ContactInfoImpl overcinfo = ContactInfoImpl.get("OverflowContactInfo");
 
         // Open up HIGH_WATER_MARK total connections
-        List<HashSet<ConnectionImpl>> csa = new ArrayList<HashSet<ConnectionImpl>>();
+        List<HashSet<ConnectionImpl>> csa = new ArrayList<>();
         for (int ctr = 0; ctr < numContactInfo; ctr++) {
-            HashSet<ConnectionImpl> set = new HashSet<ConnectionImpl>();
+            HashSet<ConnectionImpl> set = new HashSet<>();
             csa.add(set);
             for (int num = 0; num < MAX_PARALLEL_CONNECTIONS; num++) {
                 set.add(obcache.get(cinfos.get(ctr)));
@@ -368,7 +369,8 @@ public class Client {
     }
 
     // Several tests for ConnectionFinders
-    private static ConnectionFinder<ConnectionImpl> cf1 = new ConnectionFinder<ConnectionImpl>() {
+    private static ConnectionFinder<ConnectionImpl> cf1 = new ConnectionFinder<>() {
+        @Override
         public ConnectionImpl find(ContactInfo<ConnectionImpl> cinfo, Collection<ConnectionImpl> idleConnections,
                 Collection<ConnectionImpl> busyConnections) throws IOException {
 
@@ -376,7 +378,8 @@ public class Client {
         }
     };
 
-    private static ConnectionFinder<ConnectionImpl> cf2 = new ConnectionFinder<ConnectionImpl>() {
+    private static ConnectionFinder<ConnectionImpl> cf2 = new ConnectionFinder<>() {
+        @Override
         public ConnectionImpl find(ContactInfo<ConnectionImpl> cinfo, Collection<ConnectionImpl> idleConnections,
                 Collection<ConnectionImpl> busyConnections) throws IOException {
 
@@ -384,7 +387,8 @@ public class Client {
         }
     };
 
-    private static ConnectionFinder<ConnectionImpl> cf3 = new ConnectionFinder<ConnectionImpl>() {
+    private static ConnectionFinder<ConnectionImpl> cf3 = new ConnectionFinder<>() {
+        @Override
         public ConnectionImpl find(ContactInfo<ConnectionImpl> cinfo, Collection<ConnectionImpl> idleConnections,
                 Collection<ConnectionImpl> busyConnections) throws IOException {
 
@@ -392,7 +396,8 @@ public class Client {
         }
     };
 
-    private static ConnectionFinder<ConnectionImpl> cf4 = new ConnectionFinder<ConnectionImpl>() {
+    private static ConnectionFinder<ConnectionImpl> cf4 = new ConnectionFinder<>() {
+        @Override
         public ConnectionImpl find(ContactInfo<ConnectionImpl> cinfo, Collection<ConnectionImpl> idleConnections,
                 Collection<ConnectionImpl> busyConnections) throws IOException {
 
@@ -527,17 +532,17 @@ public class Client {
     public void inboundTest3() throws IOException {
         testBanner("inboundTest3: test reclamation");
         final int numContactInfo = HIGH_WATER_MARK / MAX_PARALLEL_CONNECTIONS;
-        final List<ContactInfoImpl> cinfos = new ArrayList<ContactInfoImpl>();
+        final List<ContactInfoImpl> cinfos = new ArrayList<>();
         for (int ctr = 0; ctr < numContactInfo; ctr++) {
             cinfos.add(ContactInfoImpl.get("ContactInfo" + ctr));
         }
         final ContactInfoImpl overcinfo = ContactInfoImpl.get("OverflowContactInfo");
 
         // Open up HIGH_WATER_MARK total connections
-        List<HashSet<ConnectionImpl>> csa = new ArrayList<HashSet<ConnectionImpl>>();
+        List<HashSet<ConnectionImpl>> csa = new ArrayList<>();
         for (int ctr = 0; ctr < numContactInfo; ctr++) {
             ContactInfoImpl cinfo = cinfos.get(ctr);
-            HashSet<ConnectionImpl> set = new HashSet<ConnectionImpl>();
+            HashSet<ConnectionImpl> set = new HashSet<>();
             csa.add(set);
             for (int num = 0; num < MAX_PARALLEL_CONNECTIONS; num++) {
                 ConnectionImpl conn = cinfo.createConnection();

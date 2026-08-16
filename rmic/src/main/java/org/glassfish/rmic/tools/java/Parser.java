@@ -198,6 +198,7 @@ class Parser extends Scanner implements ParserActions, Constants {
      * package declaration
      * @deprecated
      */
+    @Override
     @Deprecated
     public void packageDeclaration(long off, IdentifierToken nm) {
         // By default, call the deprecated version.
@@ -216,6 +217,7 @@ class Parser extends Scanner implements ParserActions, Constants {
      * import class
      * @deprecated
      */
+    @Override
     @Deprecated
     public void importClass(long off, IdentifierToken nm) {
         // By default, call the deprecated version.
@@ -234,6 +236,7 @@ class Parser extends Scanner implements ParserActions, Constants {
      * import package
      * @deprecated
      */
+    @Override
     @Deprecated
     public void importPackage(long off, IdentifierToken nm) {
         // By default, call the deprecated version.
@@ -252,6 +255,7 @@ class Parser extends Scanner implements ParserActions, Constants {
      * Define class
      * @deprecated
      */
+    @Override
     @Deprecated
     public ClassDefinition beginClass(long off, String doc,
                                       int mod, IdentifierToken nm,
@@ -292,6 +296,7 @@ class Parser extends Scanner implements ParserActions, Constants {
      * End class
      * @deprecated
      */
+    @Override
     @Deprecated
     public void endClass(long off, ClassDefinition c) {
         // By default, call the deprecated version.
@@ -310,6 +315,7 @@ class Parser extends Scanner implements ParserActions, Constants {
      * Define a field
      * @deprecated
      */
+    @Override
     @Deprecated
     public void defineField(long where, ClassDefinition c,
                             String doc, int mod, Type t,
@@ -499,13 +505,17 @@ class Parser extends Scanner implements ParserActions, Constants {
           case INTVAL: {
             int v = scanner.intValue;
             long q = scan();
-            if (v < 0 && radix == 10) env.error(q, "overflow.int.dec");
+            if (v < 0 && radix == 10) {
+                env.error(q, "overflow.int.dec");
+            }
             return new IntExpression(q, v);
           }
           case LONGVAL: {
             long v = scanner.longValue;
             long q = scan();
-            if (v < 0 && radix == 10) env.error(q, "overflow.long.dec");
+            if (v < 0 && radix == 10) {
+                env.error(q, "overflow.long.dec");
+            }
             return new LongExpression(q, v);
           }
           case FLOATVAL: {
@@ -560,13 +570,17 @@ class Parser extends Scanner implements ParserActions, Constants {
               case INTVAL: {
                 int v = scanner.intValue;
                 long q = scan();
-                if (v < 0 && radix == 10) env.error(q, "overflow.int.dec");
+                if (v < 0 && radix == 10) {
+                    env.error(q, "overflow.int.dec");
+                }
                 return new IntExpression(q, v);
               }
               case LONGVAL: {
                 long v = scanner.longValue;
                 long q = scan();
-                if (v < 0 && radix == 10) env.error(q, "overflow.long.dec");
+                if (v < 0 && radix == 10) {
+                    env.error(q, "overflow.long.dec");
+                }
                 return new LongExpression(q, v);
               }
               case FLOATVAL: {
@@ -718,8 +732,9 @@ class Parser extends Scanner implements ParserActions, Constants {
     protected Expression parseExpression() throws SyntaxError, IOException {
         for (Expression e = parseTerm() ; e != null ; e = e.order()) {
             Expression more = parseBinaryExpression(e);
-            if (more == null)
+            if (more == null) {
                 return e;
+            }
             e = more;
         }
         // this return is bogus
@@ -780,8 +795,9 @@ class Parser extends Scanner implements ParserActions, Constants {
                 if (token == NEW) {
                     // new C().new N()
                     scan();
-                    if (token != IDENT)
+                    if (token != IDENT) {
                         expect(IDENT);
+                    }
                     e = parseNewInstanceExpression(p, e, parseTypeExpression());
                     break;
                 }
@@ -1276,8 +1292,9 @@ class Parser extends Scanner implements ParserActions, Constants {
                 catches = true;
             }
 
-            if (catches)
+            if (catches) {
                 s = new TryStatement(p, s, statArgs(i));
+            }
 
             if (token == FINALLY) {
                 scan();
@@ -1699,8 +1716,9 @@ class Parser extends Scanner implements ParserActions, Constants {
           case LPAREN:
             // It is a constructor
             id = new IdentifierToken(idInit);
-            if ((mod & M_STRICTFP) != 0)
+            if ((mod & M_STRICTFP) != 0) {
                 env.error(pos, "bad.constructor.modifier");
+            }
             break;
 
           default:
@@ -2186,6 +2204,7 @@ class Parser extends Scanner implements ParserActions, Constants {
     // and class building into distinct responsibility areas.
     // (Perhaps tree building could be virtualized too.)
 
+    @Override
     public long scan() throws IOException {
         if (scanner != this && scanner != null) {
             long result = scanner.scan();
@@ -2196,6 +2215,7 @@ class Parser extends Scanner implements ParserActions, Constants {
         return super.scan();
     }
 
+    @Override
     public void match(int open, int close) throws IOException {
         if (scanner != this) {
             scanner.match(open, close);

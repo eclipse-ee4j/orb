@@ -28,6 +28,7 @@ import java.util.*;
  * for Assertions covered in this test.
  */
 public class IORInterceptorTest extends CORBATest {
+    @Override
     protected void doTest() throws Throwable {
         Controller orbd = createORBD();
 

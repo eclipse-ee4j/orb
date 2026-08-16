@@ -69,12 +69,15 @@ public class Settlement implements java.io.Serializable {
     }
 
     public long getIncome() {
-        if (fPopulation == null)
+        if (fPopulation == null) {
             System.out.println("fPopulation is null!!");
-        if (fPlanet == null)
+        }
+        if (fPlanet == null) {
             System.out.println("fPlanet is null!!");
-        if (fPlayer == null)
+        }
+        if (fPlayer == null) {
             System.out.println("fPlayer is null!!");
+        }
 
         return (long) (fPopulation.getIdealIncome() * fPlanet.getSuitabilityFor(fPlayer));
     }

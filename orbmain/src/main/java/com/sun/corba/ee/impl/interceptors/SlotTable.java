@@ -44,7 +44,7 @@ public class SlotTable {
 
     /**
      * The constructor instantiates an Array of Any[] of size given by slotSize parameter.
-     * 
+     *
      * @param orb The ORB
      * @param slotSize Size of array
      */
@@ -56,7 +56,7 @@ public class SlotTable {
 
     /**
      * This method sets the slot data at the given slot id (index).
-     * 
+     *
      * @param id Index
      * @param data Slot data
      * @throws InvalidSlot If the id is greater than the slot data size.
@@ -73,7 +73,7 @@ public class SlotTable {
 
     /**
      * This method get the slot data for the given slot id (index).
-     * 
+     *
      * @param id Index
      * @return Slot data
      * @throws InvalidSlot If the id is greater than the slot data size.
@@ -94,7 +94,7 @@ public class SlotTable {
      * This method resets all the slot data to null if dirtyFlag is set.
      */
     void resetSlots() {
-        if (dirtyFlag == true) {
+        if (dirtyFlag) {
             for (int i = 0; i < theSlotData.length; i++) {
                 theSlotData[i] = null;
             }
@@ -103,7 +103,7 @@ public class SlotTable {
 
     /**
      * This method returns the size of the allocated slots.
-     * 
+     *
      * @return slot size
      */
     int getSize() {

@@ -24,6 +24,7 @@ import corba.framework.*;
 import java.util.*;
 
 public class POAManagerTest extends CORBATest {
+    @Override
     protected void doTest() throws Throwable {
         Controller orbd = createORBD();
         Controller server = createServer("corba.poamanager.HelloServer");

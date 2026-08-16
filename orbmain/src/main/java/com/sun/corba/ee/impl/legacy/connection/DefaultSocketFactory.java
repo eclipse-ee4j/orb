@@ -49,6 +49,7 @@ public class DefaultSocketFactory implements ORBSocketFactory {
         this.orb = orb;
     }
 
+    @Override
     public ServerSocket createServerSocket(String type, int port) throws IOException {
         if (!type.equals(ORBSocketFactory.IIOP_CLEAR_TEXT)) {
             throw wrapper.defaultCreateServerSocketGivenNonIiopClearText(type);
@@ -66,6 +67,7 @@ public class DefaultSocketFactory implements ORBSocketFactory {
         return serverSocket;
     }
 
+    @Override
     public SocketInfo getEndPointInfo(ORB orb, IOR ior, SocketInfo socketInfo) {
         IIOPProfileTemplate temp = (IIOPProfileTemplate) ior.getProfile().getTaggedProfileTemplate();
         IIOPAddress primary = temp.getPrimaryAddress();
@@ -73,6 +75,7 @@ public class DefaultSocketFactory implements ORBSocketFactory {
         return new EndPointInfoImpl(ORBSocketFactory.IIOP_CLEAR_TEXT, primary.getPort(), primary.getHost().toLowerCase());
     }
 
+    @Override
     public Socket createSocket(SocketInfo socketInfo) throws IOException, GetEndPointInfoAgainException {
         Socket socket;
 

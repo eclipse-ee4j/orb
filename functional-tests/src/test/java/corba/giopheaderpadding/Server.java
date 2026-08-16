@@ -64,7 +64,7 @@ public class Server extends org.omg.CORBA.LocalObject implements ORBInitializer,
 
             if (!ColocatedClientServer.isColocated) {
                 U.sop(main + " : creating ORB.");
-                orb = (ORB) ORB.init(av, null);
+                orb = (ORB) org.omg.CORBA.ORB.init(av, null);
                 U.sop(main + " : creating InitialContext.");
                 initialContext = C.createInitialContext(orb);
             }
@@ -98,9 +98,11 @@ public class Server extends org.omg.CORBA.LocalObject implements ORBInitializer,
 
     // ORBInitializer interface implementation.
 
+    @Override
     public void pre_init(ORBInitInfo info) {
     }
 
+    @Override
     public void post_init(ORBInitInfo info) {
         // register the interceptors.
         try {
@@ -113,15 +115,18 @@ public class Server extends org.omg.CORBA.LocalObject implements ORBInitializer,
 
     // implementation of the Interceptor interface.
 
+    @Override
     public String name() {
         return "ServerInterceptor";
     }
 
+    @Override
     public void destroy() {
     }
 
     // implementation of the ServerInterceptor interface.
 
+    @Override
     public void receive_request_service_contexts(ServerRequestInfo ri) throws ForwardRequest {
 
         String opName = ri.operation();
@@ -172,18 +177,22 @@ public class Server extends org.omg.CORBA.LocalObject implements ORBInitializer,
         }
     }
 
+    @Override
     public void receive_request(ServerRequestInfo ri) throws ForwardRequest {
         U.sop("receive_request called : " + ri.operation());
     }
 
+    @Override
     public void send_reply(ServerRequestInfo ri) {
         U.sop("send_reply called : " + ri.operation());
     }
 
+    @Override
     public void send_exception(ServerRequestInfo ri) throws ForwardRequest {
         U.sop("send_exception called : " + ri.operation());
     }
 
+    @Override
     public void send_other(ServerRequestInfo ri) throws ForwardRequest {
         U.sop("send_other called : " + ri.operation());
     }

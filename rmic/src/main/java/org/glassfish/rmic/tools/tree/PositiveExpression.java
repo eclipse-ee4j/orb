@@ -39,6 +39,7 @@ class PositiveExpression extends UnaryExpression {
     /**
      * Select the type of the expression
      */
+    @Override
     void selectType(Environment env, Context ctx, int tm) {
         if ((tm & TM_DOUBLE) != 0) {
             type = Type.tDouble;
@@ -55,6 +56,7 @@ class PositiveExpression extends UnaryExpression {
     /**
      * Simplify
      */
+    @Override
     Expression simplify() {
         return right;
     }

@@ -32,6 +32,7 @@ import com.sun.corba.ee.spi.misc.ORBConstants;
 
 public class SendingContextTest extends CORBATest {
 
+    @Override
     protected void doTest() throws Throwable {
 
         if (test.Test.useJavaSerialization()) {

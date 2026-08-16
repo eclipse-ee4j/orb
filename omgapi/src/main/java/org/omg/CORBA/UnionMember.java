@@ -35,28 +35,28 @@ public final class UnionMember implements org.omg.CORBA.portable.IDLEntity {
 
     /**
      * The name of the union member described by this <code>UnionMember</code> object.
-     * 
+     *
      * @serial
      */
     public String name;
 
     /**
      * The label of the union member described by this <code>UnionMember</code> object.
-     * 
+     *
      * @serial
      */
     public org.omg.CORBA.Any label;
 
     /**
      * The type of the union member described by this <code>UnionMember</code> object.
-     * 
+     *
      * @serial
      */
     public org.omg.CORBA.TypeCode type;
 
     /**
      * The typedef that represents the IDL type of the union member described by this <code>UnionMember</code> object.
-     * 
+     *
      * @serial
      */
     public org.omg.CORBA.IDLType type_def;

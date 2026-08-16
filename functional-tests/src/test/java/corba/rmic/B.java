@@ -20,5 +20,6 @@
 package corba.rmic;
 
 public interface B extends A, java.rmi.Remote {
+    @Override
     public void f() throws Exception;
 }

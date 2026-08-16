@@ -79,7 +79,7 @@ public class POAManagerImpl extends org.omg.CORBA.LocalObject implements POAMana
     // fields protected by stateLock
     private State state; // current state of this POAManager
 
-    private Set<POAImpl> poas = new HashSet<POAImpl>(4); // all poas controlled by this POAManager
+    private Set<POAImpl> poas = new HashSet<>(4); // all poas controlled by this POAManager
 
     // fields using other synchronization methods
     private AtomicInteger nInvocations = new AtomicInteger(0); // Number of invocations in progress
@@ -116,10 +116,10 @@ public class POAManagerImpl extends org.omg.CORBA.LocalObject implements POAMana
      * can't recall right now). I suspect the issues may have been related to problems with the client-side retry logic, but
      * those problems have now been fixed. In any case, we need to fix the POAManager issues.
      */
-    private static ThreadLocal<MultiSet<POAManagerImpl>> activeManagers = new ThreadLocal<MultiSet<POAManagerImpl>>() {
+    private static ThreadLocal<MultiSet<POAManagerImpl>> activeManagers = new ThreadLocal<>() {
         @Override
         public MultiSet<POAManagerImpl> initialValue() {
-            return new MultiSet<POAManagerImpl>();
+            return new MultiSet<>();
         }
     };
 
@@ -171,7 +171,7 @@ public class POAManagerImpl extends org.omg.CORBA.LocalObject implements POAMana
     @ManagedAttribute
     @Description("The set of POAs managed by this POAManager")
     Set<POAImpl> getManagedPOAs() {
-        return new HashSet<POAImpl>(poas);
+        return new HashSet<>(poas);
     }
 
     @ManagedAttribute
@@ -312,6 +312,7 @@ public class POAManagerImpl extends org.omg.CORBA.LocalObject implements POAMana
     /**
      * <code>activate</code> <b>Spec: pages 3-14 thru 3-18</b>
      */
+    @Override
     @Poa
     @ManagedOperation
     @Description("Make this POAManager active, so it can handle new requests")
@@ -342,6 +343,7 @@ public class POAManagerImpl extends org.omg.CORBA.LocalObject implements POAMana
     /**
      * <code>hold_requests</code> <b>Spec: pages 3-14 thru 3-18</b>
      */
+    @Override
     @Poa
     @ManagedOperation
     @Description("Hold all requests to this POAManager")
@@ -378,6 +380,7 @@ public class POAManagerImpl extends org.omg.CORBA.LocalObject implements POAMana
     /**
      * <code>discard_requests</code> <b>Spec: pages 3-14 thru 3-18</b>
      */
+    @Override
     @Poa
     @ManagedOperation
     @ParameterNames({ "waitForCompletion" })
@@ -421,6 +424,7 @@ public class POAManagerImpl extends org.omg.CORBA.LocalObject implements POAMana
      * <code>deactivate</code> <b>Spec: pages 3-14 thru 3-18</b> Note: INACTIVE is a permanent state.
      */
 
+    @Override
     @Poa
     public void deactivate(boolean etherealize_objects, boolean wait_for_completion)
             throws org.omg.PortableServer.POAManagerPackage.AdapterInactive {
@@ -478,6 +482,7 @@ public class POAManagerImpl extends org.omg.CORBA.LocalObject implements POAMana
             this.pmi = pmi;
         }
 
+        @Override
         @Poa
         public void run() {
             pmi.stateLock.writeLock().lock();
@@ -497,7 +502,7 @@ public class POAManagerImpl extends org.omg.CORBA.LocalObject implements POAMana
                 pmi.stateLock.readLock().lock();
                 try {
                     preparingToEtherealize(pmi);
-                    copyOfPOAs = new HashSet<POAImpl>(pmi.poas);
+                    copyOfPOAs = new HashSet<>(pmi.poas);
                 } finally {
                     pmi.stateLock.readLock().unlock();
                 }
@@ -525,6 +530,7 @@ public class POAManagerImpl extends org.omg.CORBA.LocalObject implements POAMana
      * Added according to the spec CORBA V2.3; this returns the state of the POAManager
      */
 
+    @Override
     public org.omg.PortableServer.POAManagerPackage.State get_state() {
         return state;
     }

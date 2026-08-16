@@ -44,14 +44,16 @@ public class InboundConnectionCacheImpl extends ConnectionCacheBase implements I
     private InboundConnectionCacheProbeProvider pp = new InboundConnectionCacheProbeProvider();
 
     public InboundConnectionCacheImpl(ORB orb, Acceptor acceptor) {
-        super(orb, acceptor.getConnectionCacheType(), ((Acceptor) acceptor).getMonitoringName());
-        this.connectionCache = new ArrayList<Connection>();
+        super(orb, acceptor.getConnectionCacheType(), acceptor.getMonitoringName());
+        this.connectionCache = new ArrayList<>();
     }
 
+    @Override
     public Connection get(Acceptor acceptor) {
         throw wrapper.methodShouldNotBeCalled();
     }
 
+    @Override
     @Transport
     public void put(Acceptor acceptor, Connection connection) {
         synchronized (backingStore()) {
@@ -62,6 +64,7 @@ public class InboundConnectionCacheImpl extends ConnectionCacheBase implements I
         }
     }
 
+    @Override
     @Transport
     public void remove(Connection connection) {
         synchronized (backingStore()) {
@@ -76,10 +79,12 @@ public class InboundConnectionCacheImpl extends ConnectionCacheBase implements I
     // Implementation
     //
 
+    @Override
     public Collection values() {
         return connectionCache;
     }
 
+    @Override
     protected Object backingStore() {
         return connectionCache;
     }

@@ -31,14 +31,17 @@ public class RemoteObjectServer extends PortableRemoteObject implements RemoteOb
         this.value = value;
     }
 
+    @Override
     public boolean isValue() throws java.rmi.RemoteException {
         return false;
     }
 
+    @Override
     public int getValue() throws java.rmi.RemoteException {
         return value;
     }
 
+    @Override
     public String getCodeBase() throws java.rmi.RemoteException {
         return RMIClassLoader.getClassAnnotation(getClass());
     }

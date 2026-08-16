@@ -37,7 +37,7 @@ public class TestObjectSuper implements Serializable {
         dataS1 = 23910;
         dataS2 = '\u6A5F';
         dataS3 = new Long(999211L);
-        optDataS1 = new Double((double) 24124.23121);
+        optDataS1 = new Double(24124.23121);
         optDataS2 = 2412;
         optDataS3 = new BigInteger("982749812479812481242148998391", 10);
 
@@ -45,6 +45,7 @@ public class TestObjectSuper implements Serializable {
         optDataS4.add(optDataS1);
     }
 
+    @Override
     public String toString() {
         return (super.getClass().equals(Object.class) ? "" : super.toString()) + " [TestObjectSuper dataS1=" + dataS1 + ", dataS2="
                 + (int) dataS2 + ", dataS3=" + dataS3 + ", optDataS1=" + optDataS1 + ", optDataS2=" + optDataS2 + ", optDataS3=" + optDataS3
@@ -52,14 +53,16 @@ public class TestObjectSuper implements Serializable {
     }
 
     private boolean defaultedValues() {
-        return dataS1 == 0 && (int) dataS2 == 0 && dataS3 == null;
+        return dataS1 == 0 && dataS2 == 0 && dataS3 == null;
     }
 
+    @Override
     public boolean equals(Object obj) {
         try {
             TestObjectSuper other = (TestObjectSuper) obj;
-            if (other == null)
+            if (other == null) {
                 return false;
+            }
 
             return (defaultedValues() || other.defaultedValues())
                     || (dataS1 == other.dataS1 && dataS2 == other.dataS2 && dataS3.equals(other.dataS3) && optDataS1.equals(other.optDataS1)
@@ -123,7 +126,7 @@ public class TestObjectSuper implements Serializable {
         } catch (OptionalDataException ode) {
             System.out.println("Defaulting");
             // Optional object data not present
-            optDataS1 = new Double((double) 24124.23121);
+            optDataS1 = new Double(24124.23121);
         }
 
         System.out.println("Reading optional int");

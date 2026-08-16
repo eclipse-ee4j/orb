@@ -40,6 +40,7 @@ import com.sun.corba.ee.spi.transport.SocketInfo;
 import com.sun.corba.ee.impl.misc.ORBUtility;
 
 public class IORToSocketInfoImpl implements IORToSocketInfo {
+    @Override
     public List getSocketInfo(IOR ior, List previous) {
         boolean debug = ior.getORB().transportDebugFlag;
 
@@ -75,7 +76,7 @@ public class IORToSocketInfoImpl implements IORToSocketInfo {
         Iterator iterator;
         /*
          * DO NOT DO THIS FOR THE TEST iterator = iiopProfileTemplate.iteratorById( TAG_ALTERNATE_IIOP_ADDRESS.value);
-         * 
+         *
          * while (iterator.hasNext()) { AlternateIIOPAddressComponent alternate = (AlternateIIOPAddressComponent)
          * iterator.next(); hostname = alternate.getAddress().getHost().toLowerCase(); port = alternate.getAddress().getPort();
          * socketInfo = createSocketInfo("Alternate", SocketInfo.IIOP_CLEAR_TEXT, hostname, port); result.add(socketInfo); }
@@ -119,14 +120,17 @@ public class IORToSocketInfoImpl implements IORToSocketInfo {
             System.out.println(testMessage + " " + type + " " + hostname + " " + port);
         }
         return new SocketInfo() {
+            @Override
             public String getType() {
                 return type;
             }
 
+            @Override
             public String getHost() {
                 return hostname;
             }
 
+            @Override
             public int getPort() {
                 return port;
             }

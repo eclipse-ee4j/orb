@@ -39,17 +39,14 @@ public class POAPolicyMediatorImpl_NR_UDS extends POAPolicyMediatorBase {
         super(policies, poa);
 
         // assert !policies.retainServants() && policies.useDefaultServant()
-        if (policies.retainServants()) {
-            throw wrapper.policyMediatorBadPolicyInFactory();
-        }
-
-        if (!policies.useDefaultServant()) {
+        if (policies.retainServants() || !policies.useDefaultServant()) {
             throw wrapper.policyMediatorBadPolicyInFactory();
         }
 
         defaultServant = null;
     }
 
+    @Override
     protected java.lang.Object internalGetServant(byte[] id, String operation) throws ForwardRequest {
 
         poa.readLock();
@@ -64,26 +61,32 @@ public class POAPolicyMediatorImpl_NR_UDS extends POAPolicyMediatorBase {
         }
     }
 
+    @Override
     public void returnServant() {
         // NO-OP
     }
 
+    @Override
     public void etherealizeAll() {
         // NO-OP
     }
 
+    @Override
     public void clearAOM() {
         // NO-OP
     }
 
+    @Override
     public ServantManager getServantManager() throws WrongPolicy {
         throw new WrongPolicy();
     }
 
+    @Override
     public void setServantManager(ServantManager servantManager) throws WrongPolicy {
         throw new WrongPolicy();
     }
 
+    @Override
     public Servant getDefaultServant() throws NoServant, WrongPolicy {
         if (defaultServant == null) {
             throw new NoServant();
@@ -91,23 +94,28 @@ public class POAPolicyMediatorImpl_NR_UDS extends POAPolicyMediatorBase {
         return defaultServant;
     }
 
+    @Override
     public void setDefaultServant(Servant servant) throws WrongPolicy {
         this.defaultServant = servant;
         setDelegate(defaultServant, "DefaultServant".getBytes());
     }
 
+    @Override
     public final void activateObject(byte[] id, Servant servant) throws WrongPolicy, ServantAlreadyActive, ObjectAlreadyActive {
         throw new WrongPolicy();
     }
 
+    @Override
     public Servant deactivateObject(byte[] id) throws ObjectNotActive, WrongPolicy {
         throw new WrongPolicy();
     }
 
+    @Override
     public byte[] servantToId(Servant servant) throws ServantNotActive, WrongPolicy {
         throw new WrongPolicy();
     }
 
+    @Override
     public Servant idToServant(byte[] id) throws WrongPolicy, ObjectNotActive {
         if (defaultServant != null) {
             return defaultServant;

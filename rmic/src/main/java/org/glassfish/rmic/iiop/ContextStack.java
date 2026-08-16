@@ -131,7 +131,9 @@ public class ContextStack {
      * System.out.
      */
     final void traceCallStack () {
-        if (trace) dumpCallStack();
+        if (trace) {
+            dumpCallStack();
+        }
     }
 
     public final static void dumpCallStack() {
@@ -364,8 +366,10 @@ public class ContextStack {
     }
 
     public void clear () {
-        for (int i = 0; i < stack.length; i++) {
-            if (stack[i] != null) stack[i].destroy();
+        for (TypeContext element : stack) {
+            if (element != null) {
+                element.destroy();
+            }
         }
     }
 }
@@ -407,6 +411,7 @@ public String getTypeDescription() {
     }
 }
 
+@Override
 public String toString () {
     if (element != null) {
         return ContextStack.getContextCodeString(code) + element.getElementName();

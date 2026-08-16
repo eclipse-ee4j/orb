@@ -50,6 +50,7 @@ class AssignOpExpression extends BinaryAssignExpression {
      * Select the type
      *
      */
+    @Override
     @SuppressWarnings("fallthrough")
     final void selectType(Environment env, Context ctx, int tm) {
         Type rtype = null;      // special conversion type for RHS
@@ -130,15 +131,19 @@ class AssignOpExpression extends BinaryAssignExpression {
      * Get the increment, return NOINC if an increment is not possible
      */
     int getIncrement() {
-        if ((left.op == IDENT) && type.isType(TC_INT) && (right.op == INTVAL))
-            if ((op == ASGADD) || (op == ASGSUB))
+        if ((left.op == IDENT) && type.isType(TC_INT) && (right.op == INTVAL)) {
+            if ((op == ASGADD) || (op == ASGSUB)) {
                 if (((IdentifierExpression)left).field.isLocal()) {
                     int val = ((IntExpression)right).value;
-                    if (op == ASGSUB)
+                    if (op == ASGSUB) {
                         val = -val;
-                    if (val == (short)val)
+                    }
+                    if (val == (short)val) {
                         return val;
+                    }
                 }
+            }
+        }
         return NOINC;
     }
 
@@ -146,6 +151,7 @@ class AssignOpExpression extends BinaryAssignExpression {
     /**
      * Check an assignment expression
      */
+    @Override
     public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         vset = left.checkAssignOp(env, ctx, vset, exp, this);
         vset = right.checkValue(env, ctx, vset, exp);
@@ -164,6 +170,7 @@ class AssignOpExpression extends BinaryAssignExpression {
     /**
      * Inline
      */
+    @Override
     public Expression inlineValue(Environment env, Context ctx) {
         // Why not inlineLHS?  But that does not work.
         left = left.inlineValue(env, ctx);
@@ -177,6 +184,7 @@ class AssignOpExpression extends BinaryAssignExpression {
     /**
      * Create a copy of the expression for method inlining
      */
+    @Override
     public Expression copyInline(Context ctx) {
         AssignOpExpression e = (AssignOpExpression)clone();
         e.left = left.copyInline(ctx);
@@ -190,6 +198,7 @@ class AssignOpExpression extends BinaryAssignExpression {
     /**
      * The cost of inlining this statement
      */
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
         /*----------*
         return (getIncrement() != NOINC)
@@ -259,9 +268,11 @@ class AssignOpExpression extends BinaryAssignExpression {
         }
     }
 
+    @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         code(env, ctx, asm, true);
     }
+    @Override
     public void code(Environment env, Context ctx, Assembler asm) {
         code(env, ctx, asm, false);
     }
@@ -269,6 +280,7 @@ class AssignOpExpression extends BinaryAssignExpression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print("(" + opNames[op] + " ");
         left.print(out);

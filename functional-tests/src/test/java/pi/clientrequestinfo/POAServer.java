@@ -53,6 +53,7 @@ public class POAServer implements InternalProcess {
         }
     }
 
+    @Override
     public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         this.out = out;
 

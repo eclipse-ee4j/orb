@@ -78,9 +78,9 @@ public class JDKBridge {
     // We reclaim soft references using a ReferenceQueue.
 
     private static class LoadClassCache {
-        private static Map<String, Map<String, Entry>> nullLoaderMap = new HashMap<String, Map<String, Entry>>();
-        private static Map<ClassLoader, Map<String, Entry>> nonNullLoaderMap = new WeakHashMap<ClassLoader, Map<String, Entry>>();
-        private static ReferenceQueue<Class> queue = new ReferenceQueue<Class>();
+        private static Map<String, Map<String, Entry>> nullLoaderMap = new HashMap<>();
+        private static Map<ClassLoader, Map<String, Entry>> nonNullLoaderMap = new WeakHashMap<>();
+        private static ReferenceQueue<Class> queue = new ReferenceQueue<>();
 
         private static class Entry extends SoftReference<Class> {
             String codeBase;
@@ -143,8 +143,9 @@ public class JDKBridge {
             Class cls = null;
             if (scm != null) {
                 Entry entry = scm.get(className);
-                if (entry != null)
+                if (entry != null) {
                     cls = entry.get();
+                }
             }
 
             return cls;
@@ -158,13 +159,13 @@ public class JDKBridge {
             if (loader == null) {
                 scm = nullLoaderMap.get(remoteCodebase);
                 if (scm == null) {
-                    scm = new HashMap<String, Entry>();
+                    scm = new HashMap<>();
                     nullLoaderMap.put(remoteCodebase, scm);
                 }
             } else {
                 scm = nonNullLoaderMap.get(loader);
                 if (scm == null) {
-                    scm = new HashMap<String, Entry>();
+                    scm = new HashMap<>();
                     nonNullLoaderMap.put(loader, scm);
                 }
             }

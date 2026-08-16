@@ -37,6 +37,7 @@ public class MapType extends CompoundType {
         super(null, 0, null);
     }
 
+    @Override
     public String getTypeDescription() {
         return null;
     }
@@ -73,14 +74,15 @@ public class MapType extends CompoundType {
                     env.reset();
                     int line = offset + i - 2;
                     String num = Integer.toString(line);
-                    if (line < 10)
+                    if (line < 10) {
                         num = "    " + num;
-                    else if (line < 100)
+                    } else if (line < 100) {
                         num = "   " + num;
-                    else if (line < 1000)
+                    } else if (line < 1000) {
                         num = "  " + num;
-                    else if (line < 10000)
+                    } else if (line < 10000) {
                         num = " " + num;
+                    }
                     System.out.print(num + " - " + className);
 
                     Type result = getType(className, stack);
@@ -94,8 +96,9 @@ public class MapType extends CompoundType {
                         }
                     }
                 } catch (Throwable e) {
-                    if (e instanceof ThreadDeath)
+                    if (e instanceof ThreadDeath) {
                         throw (ThreadDeath) e;
+                    }
                     status = 1;
                     System.out.println("!!!Exception: " + className + " caught " + e);
                 }

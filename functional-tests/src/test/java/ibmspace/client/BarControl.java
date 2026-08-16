@@ -130,6 +130,7 @@ public class BarControl extends JComponent implements MouseMotionListener {
     // Painting
     //
 
+    @Override
     public void paint(Graphics g) {
         update(g);
     }
@@ -138,6 +139,7 @@ public class BarControl extends JComponent implements MouseMotionListener {
         return Math.sqrt(value);
     }
 
+    @Override
     public void update(Graphics g) {
         Insets insets = getInsets();
         Dimension size = getSize();
@@ -193,6 +195,7 @@ public class BarControl extends JComponent implements MouseMotionListener {
     // Input Handling
     //
 
+    @Override
     public void mouseDragged(MouseEvent e) {
         fPercentage = computePercentage(e.getPoint());
         fActionSource.notifyListeners(this, "Percentage Changed");
@@ -200,6 +203,7 @@ public class BarControl extends JComponent implements MouseMotionListener {
         repaint();
     }
 
+    @Override
     public void mouseMoved(MouseEvent e) {
     }
 
@@ -211,20 +215,22 @@ public class BarControl extends JComponent implements MouseMotionListener {
             int x = insets.left;
             int width = getSize().width - insets.left - insets.right;
             width = Math.max(width, 0);
-            if (p.x > x)
+            if (p.x > x) {
                 percentage = Math.min((double) p.x - x, width) / width;
-            else
+            } else {
                 percentage = 0.0;
+            }
         }
 
         if (fOrientation == VERTICAL) {
             int y = insets.top;
             int height = getSize().height - insets.top - insets.bottom;
             height = Math.max(height, 0);
-            if (p.y < (y + height))
+            if (p.y < (y + height)) {
                 percentage = Math.min((double) y + height - p.y, height) / height;
-            else
+            } else {
                 percentage = 0.0;
+            }
         }
 
         return Math.pow(percentage, 2);

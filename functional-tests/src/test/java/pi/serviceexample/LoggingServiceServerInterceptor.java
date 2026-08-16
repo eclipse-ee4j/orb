@@ -71,10 +71,12 @@ public class LoggingServiceServerInterceptor extends org.omg.CORBA.LocalObject
     // Interceptor operations
     //
 
+    @Override
     public String name() {
         return "LoggingServiceServerInterceptor";
     }
 
+    @Override
     public void destroy() {
     }
 
@@ -82,6 +84,7 @@ public class LoggingServiceServerInterceptor extends org.omg.CORBA.LocalObject
     // ClientRequestInterceptor operations
     //
 
+    @Override
     public void send_request(ClientRequestInfo ri) {
 
         // If the server interceptor sets the recursion slot then
@@ -100,15 +103,19 @@ public class LoggingServiceServerInterceptor extends org.omg.CORBA.LocalObject
         }
     }
 
+    @Override
     public void send_poll(ClientRequestInfo ri) {
     }
 
+    @Override
     public void receive_reply(ClientRequestInfo ri) {
     }
 
+    @Override
     public void receive_exception(ClientRequestInfo ri) {
     }
 
+    @Override
     public void receive_other(ClientRequestInfo ri) {
     }
 
@@ -116,22 +123,27 @@ public class LoggingServiceServerInterceptor extends org.omg.CORBA.LocalObject
     // ServerRequestInterceptor operations
     //
 
+    @Override
     public void receive_request_service_contexts(ServerRequestInfo ri) {
         log(ri, "receive_request_service_contexts");
     }
 
+    @Override
     public void receive_request(ServerRequestInfo ri) {
         log(ri, "receive_request");
     }
 
+    @Override
     public void send_reply(ServerRequestInfo ri) {
         log(ri, "send_reply");
     }
 
+    @Override
     public void send_exception(ServerRequestInfo ri) {
         log(ri, "send_exception");
     }
 
+    @Override
     public void send_other(ServerRequestInfo ri) {
         log(ri, "send_other");
     }

@@ -40,6 +40,7 @@ public class GetServerPolicyStrategy extends InterceptorStrategy {
 
     private static final int INVALID_POLICY_TYPE = 101;
 
+    @Override
     public void receive_request_service_contexts(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri)
             throws org.omg.PortableInterceptor.ForwardRequest {
         try {
@@ -51,6 +52,7 @@ public class GetServerPolicyStrategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void receive_request(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) {
         try {
             super.receive_request(interceptor, ri);
@@ -60,6 +62,7 @@ public class GetServerPolicyStrategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void send_reply(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) {
         try {
             super.send_reply(interceptor, ri);
@@ -69,6 +72,7 @@ public class GetServerPolicyStrategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void send_exception(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri)
             throws org.omg.PortableInterceptor.ForwardRequest {
         try {
@@ -79,6 +83,7 @@ public class GetServerPolicyStrategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void send_other(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri)
             throws org.omg.PortableInterceptor.ForwardRequest {
         try {

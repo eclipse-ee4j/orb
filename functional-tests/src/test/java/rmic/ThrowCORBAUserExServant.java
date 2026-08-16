@@ -28,33 +28,43 @@ public class ThrowCORBAUserExServant implements ThrowCORBAUserException {
     public ThrowCORBAUserExServant() throws RemoteException {
     }
 
+    @Override
     public void a() throws RemoteException {
     }
 
+    @Override
     public void b() throws RemoteException, CORBAUserException {
     }
 
+    @Override
     public void c() throws RemoteException, CORBAUserException, TestException {
     }
 
+    @Override
     public void d() throws RemoteException, CORBAUserException, UserException, TestException {
     }
 
+    @Override
     public void e() throws RemoteException, CORBAUserException, CORBAUserException2, UserException, TestException {
     }
 
+    @Override
     public void f() throws RemoteException, TestException, CORBAUserException, CORBAUserException2, UserException {
     }
 
+    @Override
     public void g() throws RemoteException, UserException, CORBAUserException, TestException, CORBAUserException2 {
     }
 
+    @Override
     public void h() throws RemoteException, TestException, CORBAUserException, CORBAUserException2 {
     }
 
+    @Override
     public void i() throws RemoteException, CORBAUserException, TestException, CORBAUserException2 {
     }
 
+    @Override
     public void j() throws RemoteException, CORBAUserException, CORBAUserException2, TestException {
     }
 }

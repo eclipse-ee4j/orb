@@ -30,24 +30,29 @@ final class ThreadPolicyImpl extends org.omg.CORBA.LocalObject implements Thread
         this.value = value;
     }
 
+    @Override
     public ThreadPolicyValue value() {
         return value;
     }
 
+    @Override
     public int policy_type() {
         return THREAD_POLICY_ID.value;
     }
 
+    @Override
     public Policy copy() {
         return new ThreadPolicyImpl(value);
     }
 
+    @Override
     public void destroy() {
         value = null;
     }
 
     private ThreadPolicyValue value;
 
+    @Override
     public String toString() {
         return "ThreadPolicy["
                 + ((value.value() == ThreadPolicyValue._SINGLE_THREAD_MODEL) ? "SINGLE_THREAD_MODEL" : "ORB_CTRL_MODEL" + "]");

@@ -48,12 +48,12 @@ public class Population implements java.io.Serializable {
     }
 
     public long getIdealIncome() {
-        return (long) ((fAdults + fSeniors) / 8);
+        return (fAdults + fSeniors) / 8;
     }
 
     public void grow(double suitability) {
         long s = size();
-        double offspring = Math.min(Math.max(1.0 + (double) (50000 * suitability / size()), 1.01), 1.6);
+        double offspring = Math.min(Math.max(1.0 + 50000 * suitability / size(), 1.01), 1.6);
 
         fChildren = (long) (fAdults * offspring);
         fSeniors = (long) (fAdults * suitability);

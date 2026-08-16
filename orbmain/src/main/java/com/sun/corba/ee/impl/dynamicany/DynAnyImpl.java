@@ -125,6 +125,7 @@ abstract class DynAnyImpl extends org.omg.CORBA.LocalObject implements DynAny {
     // DynAny interface methods
     //
 
+    @Override
     public org.omg.CORBA.TypeCode type() {
         if (status == STATUS_DESTROYED) {
             throw wrapper.dynAnyDestroyed();
@@ -133,6 +134,7 @@ abstract class DynAnyImpl extends org.omg.CORBA.LocalObject implements DynAny {
     }
 
     // Makes a copy of the Any value inside the parameter
+    @Override
     public void assign(org.omg.DynamicAny.DynAny dyn_any) throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch {
         if (status == STATUS_DESTROYED) {
             throw wrapper.dynAnyDestroyed();
@@ -144,6 +146,7 @@ abstract class DynAnyImpl extends org.omg.CORBA.LocalObject implements DynAny {
     }
 
     // Makes a copy of the Any parameter
+    @Override
     public void from_any(org.omg.CORBA.Any value)
             throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch, org.omg.DynamicAny.DynAnyPackage.InvalidValue {
         if (status == STATUS_DESTROYED) {
@@ -166,12 +169,16 @@ abstract class DynAnyImpl extends org.omg.CORBA.LocalObject implements DynAny {
         any = tempAny;
     }
 
+    @Override
     public abstract org.omg.CORBA.Any to_any();
 
+    @Override
     public abstract boolean equal(org.omg.DynamicAny.DynAny dyn_any);
 
+    @Override
     public abstract void destroy();
 
+    @Override
     public abstract org.omg.DynamicAny.DynAny copy();
 
     // Needed for org.omg.CORBA.Object

@@ -60,6 +60,7 @@ public class PROTest extends RemoteTest {
      * Return an array of fully qualified remote servant class names for which ties/skels need to be generated. Return empty
      * array if none.
      */
+    @Override
     protected String[] getRemoteServantClasses() {
         return compileEm;
     }
@@ -68,6 +69,7 @@ public class PROTest extends RemoteTest {
      * Append additional (i.e. after -iiop and before classes) rmic arguments to 'currentArgs'. This implementation will set
      * the output directory if the OUTPUT_DIRECTORY flag was passed on the command line.
      */
+    @Override
     protected String[] getAdditionalRMICArgs(String[] currentArgs) {
         if (iiop) {
             String[] ourArgs = { "-always", "-keep" };
@@ -85,19 +87,21 @@ public class PROTest extends RemoteTest {
     }
 
     private void newTest(String name) {
-        if (first)
+        if (first) {
             first = false;
-        else
+        } else {
             helper.pass();
+        }
 
         helper.start(name);
     }
 
     /**
      * Perform the test.
-     * 
+     *
      * @param context The context returned by getServantContext().
      */
+    @Override
     public void doTest(ServantContext context) throws Throwable {
         try {
             dprint("test starts");
@@ -109,8 +113,9 @@ public class PROTest extends RemoteTest {
             // We assume that JRMP is only usable when we are not using
             // dynamic RMI-IIOP. Since we test the JRMP case in static mode
             // anyway, we'll just return here in the dynamic case for JRMP.
-            if (usesDynamicStubs && !iiop)
+            if (usesDynamicStubs && !iiop) {
                 return;
+            }
 
             // First ensure that the caches are cleared out so
             // that we can switch between IIOP and JRMP...
@@ -660,8 +665,9 @@ public class PROTest extends RemoteTest {
                 testLoadStub(servant, tie, interfaceName, stubRepoId, true);
             }
 
-            if (!first)
+            if (!first) {
                 helper.pass();
+            }
         } catch (Throwable thr) {
             helper.fail(thr);
         } finally {

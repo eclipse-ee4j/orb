@@ -47,7 +47,7 @@ public final class EncapsulationUtility {
     /**
      * Read the count from is, then read count Identifiables from is using the factory. Add each constructed Identifiable to
      * container.
-     * 
+     *
      * @param <E> extends {@link Identifiable}
      * @param container List to add constructed Identifiables to
      * @param finder Factory to use in creation
@@ -65,7 +65,7 @@ public final class EncapsulationUtility {
 
     /**
      * Write all Identifiables that we contain to os. The total length must be written before this method is called.
-     * 
+     *
      * @param <E> extends {@link Identifiable}
      * @param container List of Identifiables
      * @param os Stream to write to
@@ -81,7 +81,7 @@ public final class EncapsulationUtility {
     /**
      * Helper method that is used to extract data from an output stream and write the data to another output stream. Defined
      * as static so that it can be used in another class.
-     * 
+     *
      * @param dataStream Stream to get data from
      * @param os Stream to write to
      */
@@ -94,7 +94,7 @@ public final class EncapsulationUtility {
     /**
      * Helper method to read the octet array from is, deencapsulate it, and return as another InputStream. This must be
      * called inside the constructor of a derived class to obtain the correct stream for unmarshalling data.
-     * 
+     *
      * @param orb The ORB
      * @param is Stream to read from
      * @return Deencapsulated InputStream
@@ -109,7 +109,7 @@ public final class EncapsulationUtility {
     /**
      * Helper method that reads an octet array from an input stream. Defined as static here so that it can be used in
      * another class.
-     * 
+     *
      * @param is Stream to read from
      * @return Array of bytes from stream
      */

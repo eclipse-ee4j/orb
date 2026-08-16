@@ -36,13 +36,16 @@ public class idlValueTypeCImpl extends idlValueTypeC {
         this.c = c;
     }
 
+    @Override
     public String toString() {
         return baseMsg + " " + a + " " + b + " " + c;
     }
 
+    @Override
     public void marshal(org.omg.CORBA.DataOutputStream out) {
     }
 
+    @Override
     public void unmarshal(org.omg.CORBA.DataInputStream in) {
     }
 }

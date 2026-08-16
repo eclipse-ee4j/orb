@@ -33,6 +33,7 @@ public class RmicTest extends CORBATest {
 
     public static String[] rmicClasses = { "corba.rmic.CImpl" };
 
+    @Override
     protected void doTest() throws Throwable {
         Options.addRMICArgs("-g -iiop -poa -always -keep");
         Options.setRMICClasses(rmicClasses);

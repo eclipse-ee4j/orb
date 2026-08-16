@@ -66,14 +66,17 @@ public class LoadBalancingComponentImpl extends TaggedComponentBase implements L
         loadBalancingValue = theLoadBalancingValue;
     }
 
+    @Override
     public int getLoadBalancingValue() {
         return loadBalancingValue;
     }
 
+    @Override
     public void writeContents(OutputStream os) {
         os.write_ulong(loadBalancingValue);
     }
 
+    @Override
     public int getId() {
         return ORBConstants.TAG_LOAD_BALANCING_ID;
     }

@@ -63,8 +63,9 @@ public class Environment implements Constants {
     Object source;
 
     public Environment(Environment env, Object source) {
-        if (env != null && env.env != null && env.getClass() == this.getClass())
+        if (env != null && env.env != null && env.getClass() == this.getClass()) {
             env = env.env;      // a small optimization
+        }
         this.env = env;
         this.source = source;
     }
@@ -420,7 +421,9 @@ public class Environment implements Constants {
      * to the package scope.  (Fix for 4097882)
      */
     public Type resolveNames(ClassDefinition c, Type t, boolean synth) {
-        if (tracing) dtEvent("Environment.resolveNames: " + c + ", " + t);
+        if (tracing) {
+            dtEvent("Environment.resolveNames: " + c + ", " + t);
+        }
         switch (t.getTypeCode()) {
           case TC_CLASS: {
             Identifier name = t.getClassName();
@@ -514,8 +517,9 @@ public class Environment implements Constants {
         } catch (ClassNotFound ee) {
             // last chance to make something halfway sensible
             Imports imports = getImports();
-            if (imports != null)
+            if (imports != null) {
                 return imports.forceResolve(this, name);
+            }
         }
         return name;
     }
@@ -546,8 +550,9 @@ public class Environment implements Constants {
             tail = (tail == null)? nm: Identifier.lookup(nm, tail);
             name = name.getQualifier();
         }
-        if (tail != null)
+        if (tail != null) {
             name = Identifier.lookupInner(name, tail);
+        }
         return name;
     }
 
@@ -555,7 +560,9 @@ public class Environment implements Constants {
      * Resolve a class name, using only package and import directives.
      */
     public Identifier resolve(Identifier nm) throws ClassNotFound {
-        if (env == null)  return nm;    // a pretty useless no-op
+        if (env == null) {
+            return nm;    // a pretty useless no-op
+        }
         return env.resolve(nm);
     }
 
@@ -563,7 +570,9 @@ public class Environment implements Constants {
      * Get the imports used to resolve class names.
      */
     public Imports getImports() {
-        if (env == null)  return null; // lame default
+        if (env == null) {
+            return null; // lame default
+        }
         return env.getImports();
     }
 
@@ -576,7 +585,9 @@ public class Environment implements Constants {
                                                IdentifierToken superClass,
                                                IdentifierToken interfaces[],
                                                ClassDefinition outerClass) {
-        if (env == null)  return null; // lame default
+        if (env == null) {
+            return null; // lame default
+        }
         return env.makeClassDefinition(origEnv, where, name,
                                        doc, modifiers,
                                        superClass, interfaces, outerClass);
@@ -592,7 +603,9 @@ public class Environment implements Constants {
                                                IdentifierToken argNames[],
                                                IdentifierToken expIds[],
                                                Object value) {
-        if (env == null)  return null; // lame default
+        if (env == null) {
+            return null; // lame default
+        }
         return env.makeMemberDefinition(origEnv, where, clazz, doc, modifiers,
                                        type, name, argNames, expIds, value);
     }
@@ -603,14 +616,18 @@ public class Environment implements Constants {
 
     public boolean isApplicable(MemberDefinition m, Type args[]) throws ClassNotFound {
         Type mType = m.getType();
-        if (!mType.isType(TC_METHOD))
+        if (!mType.isType(TC_METHOD)) {
             return false;
+        }
         Type mArgs[] = mType.getArgumentTypes();
-        if (args.length != mArgs.length)
+        if (args.length != mArgs.length) {
             return false;
-        for (int i = args.length ; --i >= 0 ;)
-            if (!isMoreSpecific(args[i], mArgs[i]))
+        }
+        for (int i = args.length ; --i >= 0 ;) {
+            if (!isMoreSpecific(args[i], mArgs[i])) {
                 return false;
+            }
+        }
         return true;
     }
 
@@ -643,24 +660,34 @@ public class Environment implements Constants {
      */
     @SuppressWarnings("fallthrough")
     public boolean implicitCast(Type from, Type to) throws ClassNotFound {
-        if (from == to)
+        if (from == to) {
             return true;
+        }
 
         int toTypeCode = to.getTypeCode();
 
         switch(from.getTypeCode()) {
         case TC_BYTE:
-            if (toTypeCode == TC_SHORT)
+            if (toTypeCode == TC_SHORT) {
                 return true;
+            }
         case TC_SHORT:
         case TC_CHAR:
-            if (toTypeCode == TC_INT) return true;
+            if (toTypeCode == TC_INT) {
+                return true;
+            }
         case TC_INT:
-            if (toTypeCode == TC_LONG) return true;
+            if (toTypeCode == TC_LONG) {
+                return true;
+            }
         case TC_LONG:
-            if (toTypeCode == TC_FLOAT) return true;
+            if (toTypeCode == TC_FLOAT) {
+                return true;
+            }
         case TC_FLOAT:
-            if (toTypeCode == TC_DOUBLE) return true;
+            if (toTypeCode == TC_DOUBLE) {
+                return true;
+            }
         case TC_DOUBLE:
         default:
             return false;
@@ -749,8 +776,9 @@ public class Environment implements Constants {
                     return explicitCast(t1, t2);
                 }
             } else if (from == Type.tObject || from == Type.tCloneable
-                          || from == Type.tSerializable)
+                          || from == Type.tSerializable) {
                 return true;
+            }
         }
         return false;
     }
@@ -892,8 +920,9 @@ public class Environment implements Constants {
     private static boolean debugging = (System.getProperty("javac.debug") != null);
 
     public static void debugOutput(Object msg) {
-        if (Environment.debugging)
+        if (Environment.debugging) {
             System.out.println(msg.toString());
+        }
     }
 
     /**
@@ -914,7 +943,9 @@ public class Environment implements Constants {
      * Return major version to use in generated class files.
      */
     public short getMajorVersion() {
-        if (env==null) return JAVA_DEFAULT_VERSION;  // needed for javah
+        if (env==null) {
+            return JAVA_DEFAULT_VERSION;  // needed for javah
+        }
         return env.getMajorVersion();
     }
 
@@ -922,7 +953,9 @@ public class Environment implements Constants {
      * Return minor version to use in generated class files.
      */
     public short getMinorVersion() {
-        if (env==null) return JAVA_DEFAULT_MINOR_VERSION;  // needed for javah
+        if (env==null) {
+            return JAVA_DEFAULT_MINOR_VERSION;  // needed for javah
+        }
         return env.getMinorVersion();
     }
 
@@ -967,15 +1000,21 @@ public class Environment implements Constants {
                 (System.getProperty("javac.trace.depend") != null);
 
     public void dtEnter(String s) {
-        if (dependtrace) System.out.println(">>> " + s);
+        if (dependtrace) {
+            System.out.println(">>> " + s);
+        }
     }
 
     public void dtExit(String s) {
-        if (dependtrace) System.out.println("<<< " + s);
+        if (dependtrace) {
+            System.out.println("<<< " + s);
+        }
     }
 
     public void dtEvent(String s) {
-        if (dependtrace) System.out.println(s);
+        if (dependtrace) {
+            System.out.println(s);
+        }
     }
 
     /**

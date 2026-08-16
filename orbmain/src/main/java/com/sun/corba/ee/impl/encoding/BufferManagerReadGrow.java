@@ -78,8 +78,9 @@ public class BufferManagerReadGrow implements BufferManagerRead, MarkAndResetHan
     @Override
     public void reset() {
 
-        if (!markEngaged)
+        if (!markEngaged) {
             return;
+        }
 
         markEngaged = false;
         inputStream.restoreInternalState(streamMemento);

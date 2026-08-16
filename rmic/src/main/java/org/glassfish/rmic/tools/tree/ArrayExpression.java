@@ -43,10 +43,12 @@ class ArrayExpression extends NaryExpression {
     /**
      * Check expression type
      */
+    @Override
     public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         env.error(where, "invalid.array.expr");
         return vset;
     }
+    @Override
     public Vset checkInitializer(Environment env, Context ctx, Vset vset, Type t, Hashtable<Object, Object> exp) {
         if (!t.isType(TC_ARRAY)) {
             if (!t.isType(TC_ERROR)) {
@@ -66,6 +68,7 @@ class ArrayExpression extends NaryExpression {
     /**
      * Inline
      */
+    @Override
     public Expression inline(Environment env, Context ctx) {
         Expression e = null;
         for (int i = 0 ; i < args.length ; i++) {
@@ -76,6 +79,7 @@ class ArrayExpression extends NaryExpression {
         }
         return e;
     }
+    @Override
     public Expression inlineValue(Environment env, Context ctx) {
         for (int i = 0 ; i < args.length ; i++) {
             args[i] = args[i].inlineValue(env, ctx);
@@ -86,6 +90,7 @@ class ArrayExpression extends NaryExpression {
     /**
      * Code
      */
+    @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         int t = 0;
         asm.add(where, opc_ldc, args.length);
@@ -115,7 +120,9 @@ class ArrayExpression extends NaryExpression {
 
             // If the array element is the default initial value,
             // then don't bother generating code for this element.
-            if (args[i].equalsDefault()) continue;
+            if (args[i].equalsDefault()) {
+                continue;
+            }
 
             asm.add(where, opc_dup);
             asm.add(where, opc_ldc, i);

@@ -63,10 +63,11 @@ public class ServantManagerImpl extends org.omg.CORBA.LocalObject implements Ser
         this.orb = orb;
         // initialize the counter database
         counterDb = new CounterDB(logDir);
-        contexts = new HashMap<String, NamingContextImpl>();
+        contexts = new HashMap<>();
         theNameService = aNameService;
     }
 
+    @Override
     public Servant preinvoke(byte[] oid, POA adapter, String operation, CookieHolder cookie) throws ForwardRequest {
 
         String objKey = new String(oid);
@@ -80,6 +81,7 @@ public class ServantManagerImpl extends org.omg.CORBA.LocalObject implements Ser
         return servant;
     }
 
+    @Override
     public void postinvoke(byte[] oid, POA adapter, String operation, java.lang.Object cookie, Servant servant) {
         // nada
     }

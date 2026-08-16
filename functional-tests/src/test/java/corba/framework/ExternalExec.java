@@ -42,6 +42,7 @@ public class ExternalExec extends ControllerAdapter {
     private long startTime = 0;
     private long duration = 0;
 
+    @Override
     public long duration() {
         if (startTime == 0) {
             throw new IllegalStateException("Process has not yet started");
@@ -126,7 +127,7 @@ public class ExternalExec extends ControllerAdapter {
      * @return Complete command line
      */
     protected String[] buildCommand() {
-        List<String> cmd = new ArrayList<String>();
+        List<String> cmd = new ArrayList<>();
         // Command line array:
 
         // [java executable]
@@ -168,6 +169,7 @@ public class ExternalExec extends ControllerAdapter {
      * Starts the class in a separate process, redirecting output appropriately. This method returns when the process
      * starts.
      */
+    @Override
     public void start() throws Exception {
         try {
             startTime = System.currentTimeMillis();
@@ -227,14 +229,17 @@ public class ExternalExec extends ControllerAdapter {
         }
     }
 
+    @Override
     public void stop() {
         terminate();
     }
 
+    @Override
     public final void kill() {
         terminate();
     }
 
+    @Override
     public int waitFor() throws InterruptedException {
         try {
             exitValue = process.waitFor();
@@ -246,6 +251,7 @@ public class ExternalExec extends ControllerAdapter {
         }
     }
 
+    @Override
     public int waitFor(long timeout) throws Exception {
         long stop = System.currentTimeMillis() + timeout;
 
@@ -268,6 +274,7 @@ public class ExternalExec extends ControllerAdapter {
         }
     }
 
+    @Override
     public int exitValue() throws IllegalThreadStateException {
         // Process is running or ended on its own. In the latter
         // case, it will return the exit code. In the former, it
@@ -285,6 +292,7 @@ public class ExternalExec extends ControllerAdapter {
         }
     }
 
+    @Override
     public boolean finished() throws IllegalThreadStateException {
         if (process != null) {
             return CORBAUtil.processFinished(process);

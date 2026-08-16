@@ -107,8 +107,9 @@ public class HelloClient {
             int errors = 0;
             for (int i = 0; i < N_LOOPS * 4; i++) {
                 threads[i].join();
-                if (threads[i].errorOccured())
+                if (threads[i].errorOccured()) {
                     errors++;
+                }
             }
 
             if (errors > 0) {
@@ -257,6 +258,7 @@ class WorkerThread extends Thread {
         errorOccured = false;
     }
 
+    @Override
     public void run() {
         try {
             System.out.println(h.hi());

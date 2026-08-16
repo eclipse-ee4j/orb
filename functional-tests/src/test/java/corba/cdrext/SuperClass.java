@@ -41,10 +41,11 @@ public class SuperClass {
         return sbuf.toString();
     }
 
+    @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof SuperClass))
+        if (!(obj instanceof SuperClass)) {
             return false;
-        else {
+        } else {
             return intValue == ((SuperClass) obj).intValue && strValue.equals(((SuperClass) obj).strValue);
         }
     }

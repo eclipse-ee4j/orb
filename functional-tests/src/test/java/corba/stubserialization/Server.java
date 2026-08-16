@@ -79,9 +79,9 @@ public class Server {
         try {
             HelloServant servant = new HelloServant(orb);
 
-            Tie tie = orb.getPresentationManager().getTie();
+            Tie tie = com.sun.corba.ee.spi.orb.ORB.getPresentationManager().getTie();
             tie.orb(orb);
-            tie.setTarget((java.rmi.Remote) servant);
+            tie.setTarget(servant);
             return tie;
         } catch (Exception e) {
             e.printStackTrace();

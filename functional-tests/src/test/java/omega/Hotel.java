@@ -26,12 +26,13 @@ package omega;
  */
 
 public class Hotel implements org.omg.CORBA.portable.ValueBase {
-    public int tango = (int) 0;
-    public int quickstep = (int) 0;
+    public int tango = 0;
+    public int quickstep = 0;
 
     public Hotel() {
     }
 
+    @Override
     public String[] _truncatable_ids() {
         return omega.HotelHelper.get_instance().get_truncatable_base_ids();
     }

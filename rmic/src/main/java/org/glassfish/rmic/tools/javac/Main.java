@@ -53,14 +53,17 @@ class Main implements Constants {
         }
     }
 
+    @Deprecated
     public static String getText(String key, String fixed) {
         return getText(key, fixed, null);
     }
 
+    @Deprecated
     public static String getText(String key, String fixed1, String fixed2) {
         return getText(key, fixed1, fixed2, null);
     }
 
+    @Deprecated
     static String getText(String key, String fixed1,
                           String fixed2, String fixed3) {
         if (messageRB == null) {
@@ -70,9 +73,15 @@ class Main implements Constants {
             String message = messageRB.getString(key);
             return MessageFormat.format(message, fixed1, fixed2, fixed3);
         } catch (MissingResourceException e) {
-            if (fixed1 == null)  fixed1 = "null";
-            if (fixed2 == null)  fixed2 = "null";
-            if (fixed3 == null)  fixed3 = "null";
+            if (fixed1 == null) {
+                fixed1 = "null";
+            }
+            if (fixed2 == null) {
+                fixed2 = "null";
+            }
+            if (fixed3 == null) {
+                fixed3 = "null";
+            }
             String message = "JAVAC MESSAGE FILE IS BROKEN: key={0}, arguments={1}, {2}, {3}";
             return MessageFormat.format(message, key, fixed1, fixed2, fixed3);
         }

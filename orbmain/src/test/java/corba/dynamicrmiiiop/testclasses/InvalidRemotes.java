@@ -138,6 +138,7 @@ public class InvalidRemotes {
     // method with the same name. doesn't matter if a method with the same
     // name is defined in the most derived interface
     public interface InvalidRemote15 extends G, java.rmi.Remote, H {
+        @Override
         void foo() throws java.rmi.RemoteException;
     }
 

@@ -29,11 +29,13 @@ import HelloA.*;
 import java.util.Properties;
 
 class helloServant extends helloPOA {
+    @Override
     public void shutdown() {
         System.err.println("In helloServant.shutdown, exiting..");
         System.exit(0);
     }
 
+    @Override
     public void sayHello() {
         System.out.println("\nHello world !!\n");
 

@@ -36,7 +36,7 @@ import java.util.List;
  */
 class FileGenerator {
     private Element classElement;
-    private List<Element> methodElements = new ArrayList<Element>();
+    private List<Element> methodElements = new ArrayList<>();
 
     FileGenerator(Element classElement) {
         this.classElement = classElement;
@@ -73,8 +73,9 @@ class FileGenerator {
     }
 
     void writePropertyLines(Writer writer) throws IOException {
-        for (Element methodElement : methodElements)
+        for (Element methodElement : methodElements) {
             writePropertyLine(writer, methodElement);
+        }
     }
 
     private void writePropertyLine(Writer writer, Element methodElement) throws IOException {

@@ -33,6 +33,7 @@ public class POAAppletTest extends CORBATest {
 
     // This is the main method defining the test. All tests
     // should have this.
+    @Override
     protected void doTest() throws Throwable {
         // Tell the test about the IDL and Java files defined above.
         Options.setJavaFiles(javaFiles);

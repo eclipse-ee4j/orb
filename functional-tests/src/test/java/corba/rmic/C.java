@@ -20,5 +20,6 @@
 package corba.rmic;
 
 public interface C extends B, java.rmi.Remote {
+    @Override
     public void f() throws ClassNotFoundException, java.rmi.RemoteException;
 }

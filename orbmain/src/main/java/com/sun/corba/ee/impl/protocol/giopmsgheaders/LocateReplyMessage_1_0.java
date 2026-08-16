@@ -42,8 +42,8 @@ public final class LocateReplyMessage_1_0 extends Message_1_0 implements LocateR
     // Instance variables
 
     private ORB orb = null;
-    private int request_id = (int) 0;
-    private int locate_status = (int) 0;
+    private int request_id = 0;
+    private int locate_status = 0;
     private IOR ior = null;
 
     // Constructors
@@ -62,28 +62,34 @@ public final class LocateReplyMessage_1_0 extends Message_1_0 implements LocateR
 
     // Accessor methods
 
+    @Override
     public int getRequestId() {
         return this.request_id;
     }
 
+    @Override
     public int getReplyStatus() {
         return this.locate_status;
     }
 
+    @Override
     public short getAddrDisposition() {
         return KeyAddr.value;
     }
 
+    @Override
     public SystemException getSystemException(String message) {
         return null; // 1.0 LocateReply body does not contain SystemException
     }
 
+    @Override
     public IOR getIOR() {
         return this.ior;
     }
 
     // IO methods
 
+    @Override
     public void read(org.omg.CORBA.portable.InputStream istream) {
         super.read(istream);
         this.request_id = istream.read_ulong();
@@ -93,12 +99,13 @@ public final class LocateReplyMessage_1_0 extends Message_1_0 implements LocateR
         // The code below reads the reply body if status is OBJECT_FORWARD
         if (this.locate_status == OBJECT_FORWARD) {
             CDRInputObject cdr = (CDRInputObject) istream;
-            this.ior = IORFactories.makeIOR(orb, (InputStream) cdr);
+            this.ior = IORFactories.makeIOR(orb, cdr);
         }
     }
 
     // Note, this writes only the header information.
     // IOR may be written afterwards into the reply mesg body.
+    @Override
     public void write(org.omg.CORBA.portable.OutputStream ostream) {
         super.write(ostream);
         ostream.write_ulong(this.request_id);
@@ -118,6 +125,7 @@ public final class LocateReplyMessage_1_0 extends Message_1_0 implements LocateR
         }
     }
 
+    @Override
     public void callback(MessageHandler handler) throws java.io.IOException {
         handler.handleInput(this);
     }

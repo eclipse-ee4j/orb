@@ -30,14 +30,17 @@ public class ValueObject implements java.io.Serializable, AbstractObject {
         this.value = value;
     }
 
+    @Override
     public boolean isValue() throws java.rmi.RemoteException {
         return true;
     }
 
+    @Override
     public int getValue() throws java.rmi.RemoteException {
         return value;
     }
 
+    @Override
     public String getCodeBase() throws java.rmi.RemoteException {
         return RMIClassLoader.getClassAnnotation(getClass());
     }

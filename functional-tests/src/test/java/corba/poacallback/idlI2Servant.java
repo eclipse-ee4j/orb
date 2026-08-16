@@ -23,6 +23,7 @@ class idlI2Servant extends idlI2POA {
     public idlI2Servant() {
     }
 
+    @Override
     public String o(String arg1) {
         System.out.println("idlI2 Servant called with " + arg1);
         System.out.flush();

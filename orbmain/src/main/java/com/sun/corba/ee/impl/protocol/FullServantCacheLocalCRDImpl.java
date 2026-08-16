@@ -52,6 +52,7 @@ public class FullServantCacheLocalCRDImpl extends ServantCacheLocalCRDBase {
         return newInfo;
     }
 
+    @Override
     @Subcontract
     public void servant_postinvoke(org.omg.CORBA.Object self, ServantObject servantobj) {
         try {

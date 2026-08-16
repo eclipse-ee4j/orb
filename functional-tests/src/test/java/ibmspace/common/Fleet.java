@@ -21,6 +21,7 @@
 package ibmspace.common;
 
 public interface Fleet extends Identifiable {
+    @Override
     ID getID();
 
     ShipDesign getDesign();
@@ -33,5 +34,6 @@ public interface Fleet extends Identifiable {
 
     boolean isOnJourney();
 
+    @Override
     String toString();
 }

@@ -42,6 +42,7 @@ public class Hedgehog extends Warthog implements java.io.Serializable, Porcupine
         return i;
     }
 
+    @Override
     public int getSize() {
         int i = 1;
         return i;

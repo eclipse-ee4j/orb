@@ -32,11 +32,13 @@ public class TestObjectSuper implements Serializable {
         dataS3 = new Long(999211L);
     }
 
+    @Override
     public boolean equals(Object obj) {
         try {
             TestObjectSuper other = (TestObjectSuper) obj;
-            if (other == null)
+            if (other == null) {
                 return false;
+            }
 
             return (defaultedValues() || other.defaultedValues())
                     || (dataS1 == other.dataS1 && dataS2 == other.dataS2 && dataS3.equals(other.dataS3));
@@ -46,9 +48,10 @@ public class TestObjectSuper implements Serializable {
     }
 
     private boolean defaultedValues() {
-        return dataS1 == 0 && (int) dataS2 == 0 && dataS3 == null;
+        return dataS1 == 0 && dataS2 == 0 && dataS3 == null;
     }
 
+    @Override
     public String toString() {
         return (super.getClass().equals(Object.class) ? "" : super.toString()) + " [TestObjectSuper dataS1=" + dataS1 + ", dataS2="
                 + (int) dataS2 + ", dataS3=" + dataS3 + "]";

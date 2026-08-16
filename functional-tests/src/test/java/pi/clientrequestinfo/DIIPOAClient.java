@@ -51,6 +51,7 @@ public class DIIPOAClient extends ClientCommon implements InternalProcess {
         }
     }
 
+    @Override
     public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         TestInitializer.out = out;
         this.out = out;
@@ -74,6 +75,7 @@ public class DIIPOAClient extends ClientCommon implements InternalProcess {
     /**
      * Clear invocation flags of helloRef and helloRefForward
      */
+    @Override
     protected void clearInvoked() throws Exception {
         helloRef.clearInvoked();
         helloRefForward.clearInvoked();
@@ -82,6 +84,7 @@ public class DIIPOAClient extends ClientCommon implements InternalProcess {
     /**
      * Invoke the method with the given name on the object
      */
+    @Override
     protected void invokeMethod(String methodName) throws Exception {
         // Make an invocation:
         if (methodName.equals("sayHello")) {
@@ -100,6 +103,7 @@ public class DIIPOAClient extends ClientCommon implements InternalProcess {
     /**
      * Return true if the method was invoked
      */
+    @Override
     protected boolean wasInvoked() throws Exception {
         return helloRef.wasInvoked();
     }
@@ -107,6 +111,7 @@ public class DIIPOAClient extends ClientCommon implements InternalProcess {
     /**
      * Return true if the method was forwarded
      */
+    @Override
     protected boolean didForward() throws Exception {
         return helloRefForward.wasInvoked();
     }
@@ -114,6 +119,7 @@ public class DIIPOAClient extends ClientCommon implements InternalProcess {
     /**
      * Perform ClientRequestRequestInfo tests
      */
+    @Override
     protected void testClientRequestInfo() throws Exception {
         super.testClientRequestInfo();
 
@@ -124,6 +130,7 @@ public class DIIPOAClient extends ClientCommon implements InternalProcess {
     /**
      * Re-resolves all references to eliminate any cached ForwardRequests from the last invocation
      */
+    @Override
     protected void resolveReferences() throws Exception {
         out.println("    + resolving references...");
         out.println("      - disabling interceptors...");
@@ -174,6 +181,7 @@ public class DIIPOAClient extends ClientCommon implements InternalProcess {
     /**
      * When asked to run exception tests, run in DII mode. This will skip any UserException-related tests.
      */
+    @Override
     protected void testException() throws Exception {
         out.println("+ Testing received_exception[_id]() in DII mode...");
 

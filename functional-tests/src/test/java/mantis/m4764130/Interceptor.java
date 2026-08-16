@@ -45,10 +45,12 @@ public class Interceptor extends org.omg.CORBA.LocalObject implements ClientRequ
     // Interceptor operations
     //
 
+    @Override
     public String name() {
         return this.getClass().getName();
     }
 
+    @Override
     public void destroy() {
     }
 
@@ -56,6 +58,7 @@ public class Interceptor extends org.omg.CORBA.LocalObject implements ClientRequ
     // ClientRequestInterceptor operations
     //
 
+    @Override
     public void send_request(ClientRequestInfo ri) throws ForwardRequest {
         System.out.println(ri.operation());
         if (ri.operation().equals("hello")) {
@@ -66,15 +69,19 @@ public class Interceptor extends org.omg.CORBA.LocalObject implements ClientRequ
         }
     }
 
+    @Override
     public void send_poll(ClientRequestInfo ri) {
     }
 
+    @Override
     public void receive_reply(ClientRequestInfo ri) {
     }
 
+    @Override
     public void receive_exception(ClientRequestInfo ri) {
     }
 
+    @Override
     public void receive_other(ClientRequestInfo ri) {
     }
 
@@ -82,6 +89,7 @@ public class Interceptor extends org.omg.CORBA.LocalObject implements ClientRequ
     // ServerRequestInterceptor operations
     //
 
+    @Override
     public void receive_request_service_contexts(ServerRequestInfo ri) {
         System.out.println(ri.operation());
         try {
@@ -93,15 +101,19 @@ public class Interceptor extends org.omg.CORBA.LocalObject implements ClientRequ
         }
     }
 
+    @Override
     public void receive_request(ServerRequestInfo ri) {
     }
 
+    @Override
     public void send_reply(ServerRequestInfo ri) {
     }
 
+    @Override
     public void send_exception(ServerRequestInfo ri) {
     }
 
+    @Override
     public void send_other(ServerRequestInfo ri) {
     }
 
@@ -109,6 +121,7 @@ public class Interceptor extends org.omg.CORBA.LocalObject implements ClientRequ
     // Initializer operations.
     //
 
+    @Override
     public void pre_init(ORBInitInfo info) {
         System.out.println(this.getClass().getName() + " .pre_init");
         try {
@@ -122,6 +135,7 @@ public class Interceptor extends org.omg.CORBA.LocalObject implements ClientRequ
         }
     }
 
+    @Override
     public void post_init(ORBInitInfo info) {
     }
 }

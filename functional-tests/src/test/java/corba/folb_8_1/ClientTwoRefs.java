@@ -157,8 +157,8 @@ public class ClientTwoRefs {
         try {
             iRef.throwRuntimeException(0);
         } catch (UNKNOWN e) {
-            ;
-            ;
+            
+            
         }
 
         orb.shutdown(false);

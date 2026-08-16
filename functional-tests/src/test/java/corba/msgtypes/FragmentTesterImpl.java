@@ -30,12 +30,15 @@ public class FragmentTesterImpl extends PortableRemoteObject implements Fragment
         this.interceptor = interceptor;
     }
 
+    @Override
     public byte[] verifyTransmission(byte array[]) throws BadArrayException {
-        if (array == null)
+        if (array == null) {
             throw new BadArrayException("Array is null");
+        }
 
-        if (array.length % 4 != 0)
+        if (array.length % 4 != 0) {
             throw new BadArrayException("Invalid array length: " + array.length);
+        }
 
         System.out.println("Array length = " + array.length);
 
@@ -61,10 +64,12 @@ public class FragmentTesterImpl extends PortableRemoteObject implements Fragment
         return array;
     }
 
+    @Override
     public boolean verifyOutcome() {
         return this.interceptor.isBalanced();
     }
 
+    @Override
     public java.lang.Object testFragmentedReply(boolean isSerializable) throws RemoteException {
 
         if (isSerializable) {
@@ -79,9 +84,11 @@ public class FragmentTesterImpl extends PortableRemoteObject implements Fragment
     // just by one character. This ensures that the request header for atleast
     // one of these methods would not be naturally aligned on an 8-octet
     // boundary.
+    @Override
     public void fooA(char ch) {
     }
 
+    @Override
     public void fooB(char ch) {
     }
 }

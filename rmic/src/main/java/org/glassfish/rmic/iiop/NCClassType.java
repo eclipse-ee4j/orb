@@ -52,7 +52,9 @@ public class NCClassType extends ClassType {
     public static NCClassType forNCClass(ClassDefinition classDef,
                                          ContextStack stack) {
 
-        if (stack.anyErrors()) return null;
+        if (stack.anyErrors()) {
+            return null;
+        }
 
         boolean doPop = false;
         try {
@@ -63,7 +65,9 @@ public class NCClassType extends ClassType {
 
             if (existing != null) {
 
-                if (!(existing instanceof NCClassType)) return null; // False hit.
+                if (!(existing instanceof NCClassType)) {
+                    return null; // False hit.
+                }
 
                                 // Yep, so return it...
 
@@ -85,7 +89,9 @@ public class NCClassType extends ClassType {
                 return null;
             }
         } catch (CompilerError e) {
-            if (doPop) stack.pop(false);
+            if (doPop) {
+                stack.pop(false);
+            }
             return null;
         }
     }

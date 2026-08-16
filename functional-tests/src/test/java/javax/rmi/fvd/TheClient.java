@@ -83,39 +83,46 @@ public class TheClient {
                     // Verify connection
                     String str = "hello";
                     String res = narrowTo.ping(str);
-                    if (!res.equals(new String("ServantImpl:" + str)))
+                    if (!res.equals(new String("ServantImpl:" + str))) {
                         throw new Error("Connection bad!");
+                    }
 
                     // Send a mismatched class
                     // i.e. a matching class hierarchy with differing fields
                     ParentClass mismatch = (ParentClass) Class.forName("javax.rmi.download.values.ClientA").newInstance();
-                    if (mismatch == null)
+                    if (mismatch == null) {
                         throw new Error("Could not create javax.rmi.download.values.ClientA");
+                    }
 
-                    if (narrowTo.send(mismatch) != mismatch.getOriginalTotal())
+                    if (narrowTo.send(mismatch) != mismatch.getOriginalTotal()) {
                         throw new Error("Mismatched class not sent correctly!");
+                    }
 
                     // Send a differing hierarchy
                     // - Sender (TheClient) has shallow hierarchy C->A whereas
                     // receiver (TheServer) has deeper hierarchy C->B->A.
                     ParentClass shallowHierarchy = (ParentClass) Class.forName("javax.rmi.download.values.ClassC").newInstance();
 
-                    if (shallowHierarchy == null)
+                    if (shallowHierarchy == null) {
                         throw new Error("Could not create javax.rmi.download.values.ClassA");
+                    }
 
-                    if (narrowTo.send(shallowHierarchy) != shallowHierarchy.getOriginalTotal())
+                    if (narrowTo.send(shallowHierarchy) != shallowHierarchy.getOriginalTotal()) {
                         throw new Error("shallowHierarchy class not sent correctly!");
+                    }
 
                     // Send a differing hierarchy
                     // - Sender (TheClient) has deeper hierarchy E->D->A whereas
                     // receiver (TheServer) has shallow hierarchy E->A.
                     ParentClass deeperHierarchy = (ParentClass) Class.forName("javax.rmi.download.values.ClassE").newInstance();
 
-                    if (deeperHierarchy == null)
+                    if (deeperHierarchy == null) {
                         throw new Error("Could not create javax.rmi.download.values.ClassE");
+                    }
 
-                    if (narrowTo.send(deeperHierarchy) != 19) // ! 26
-                        throw new Error("deeperHierarchy class not sent correctly!");
+                    if (narrowTo.send(deeperHierarchy) != 19) { // ! 26
+                    	throw new Error("deeperHierarchy class not sent correctly!");
+                    }
 
                     // Send a value with a member who's type (class) does
                     // not exist on the receiver's side (i.e. not codebase
@@ -123,16 +130,19 @@ public class TheClient {
                     ParentClass missingClassContainer = (ParentClass) Class.forName("javax.rmi.download.values.MissingContainer")
                             .newInstance();
 
-                    if (missingClassContainer == null)
+                    if (missingClassContainer == null) {
                         throw new Error("Could not create javax.rmi.download.values.MissingContainer");
+                    }
 
-                    if (narrowTo.send(missingClassContainer) != 5)
+                    if (narrowTo.send(missingClassContainer) != 5) {
                         throw new Error("missingClassContainer class not sent correctly");
+                    }
 
                     passed();
 
-                } else
+                } else {
                     throw new Error("Failed to find narrowTo");
+                }
 
             } catch (Throwable ex) {
                 failed(ex);

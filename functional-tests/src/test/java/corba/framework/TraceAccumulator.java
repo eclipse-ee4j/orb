@@ -39,10 +39,12 @@ public class TraceAccumulator implements MethodEventListener {
         elements.add(tel);
     }
 
+    @Override
     public void methodEntered(MethodEvent event) {
         addElement(true, event);
     }
 
+    @Override
     public void methodExited(MethodEvent event) {
         addElement(false, event);
     }
@@ -59,8 +61,9 @@ public class TraceAccumulator implements MethodEventListener {
         while (iter1.hasNext() && iter2.hasNext()) {
             TraceElement tel1 = (TraceElement) (iter1.next());
             TraceElement tel2 = (TraceElement) (iter2.next());
-            if (!tel1.equals(tel2))
+            if (!tel1.equals(tel2)) {
                 return false;
+            }
         }
 
         return iter1.hasNext() == iter2.hasNext();

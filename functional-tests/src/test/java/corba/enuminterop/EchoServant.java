@@ -28,10 +28,12 @@ public class EchoServant extends PortableRemoteObject implements Echo {
         super();
     }
 
+    @Override
     public Object echoObject(String arg) throws RemoteException {
         return getDay(arg);
     }
 
+    @Override
     public Day echoDay(String arg) throws RemoteException {
         return getDay(arg);
     }

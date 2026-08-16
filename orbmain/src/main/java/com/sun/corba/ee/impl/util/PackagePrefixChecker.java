@@ -21,7 +21,7 @@ package com.sun.corba.ee.impl.util;
 
 /**
  * PackagePrefixChecker provides static utility methods for getting package prefixes.
- * 
+ *
  * @author M. Mortazavi
  */
 
@@ -34,10 +34,11 @@ public final class PackagePrefixChecker {
     }
 
     public static String correctPackageName(String p) {
-        if (isOffendingPackage(p))
+        if (isOffendingPackage(p)) {
             return PACKAGE_PREFIX + p;
-        else
+        } else {
             return p;
+        }
     }
 
     public static boolean isOffendingPackage(String p) {
@@ -53,9 +54,10 @@ public final class PackagePrefixChecker {
     }
 
     public static String withoutPackagePrefix(String p) {
-        if (hasBeenPrefixed(p))
+        if (hasBeenPrefixed(p)) {
             return p.substring(PACKAGE_PREFIX_LENGTH);
-        else
+        } else {
             return p;
+        }
     }
 }

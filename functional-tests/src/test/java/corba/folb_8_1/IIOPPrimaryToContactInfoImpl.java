@@ -46,7 +46,7 @@ import com.sun.corba.ee.impl.misc.ORBUtility;
 
 /**
  * This is the "sticky manager" - based on the 7.1 EE concept.
- * 
+ *
  * @author Harold Carr
  */
 public class IIOPPrimaryToContactInfoImpl implements IIOPPrimaryToContactInfo {
@@ -80,6 +80,7 @@ public class IIOPPrimaryToContactInfoImpl implements IIOPPrimaryToContactInfo {
         debug = false;
     }
 
+    @Override
     public synchronized void reset(ContactInfo primary) {
         try {
             if (debug) {
@@ -94,11 +95,12 @@ public class IIOPPrimaryToContactInfoImpl implements IIOPPrimaryToContactInfo {
         }
     }
 
+    @Override
     public synchronized boolean hasNext(ContactInfo primary, ContactInfo previous, List contactInfos) {
         try {
             if (!debugChecked) {
                 debugChecked = true;
-                debug = ((ORB) primary.getBroker()).transportDebugFlag || _logger.isLoggable(Level.FINE);
+                debug = primary.getBroker().transportDebugFlag || _logger.isLoggable(Level.FINE);
             }
 
             if (debug) {
@@ -141,6 +143,7 @@ public class IIOPPrimaryToContactInfoImpl implements IIOPPrimaryToContactInfo {
         }
     }
 
+    @Override
     public synchronized ContactInfo next(ContactInfo primary, ContactInfo previous, List contactInfos) {
         try {
             String debugMsg = null;
@@ -216,11 +219,11 @@ public class IIOPPrimaryToContactInfoImpl implements IIOPPrimaryToContactInfo {
     }
 
     private Object getKey(ContactInfo contactInfo) {
-        if (((SocketInfo) contactInfo).getPort() == 0) {
+        if (contactInfo.getPort() == 0) {
             // When CSIv2 is used the primary will have a zero port.
             // Therefore type/host/port will NOT be unique.
             // So use the entire IOR for the key in that case.
-            return ((ContactInfoList) contactInfo.getContactInfoList()).getEffectiveTargetIOR();
+            return contactInfo.getContactInfoList().getEffectiveTargetIOR();
         } else {
             return contactInfo;
         }

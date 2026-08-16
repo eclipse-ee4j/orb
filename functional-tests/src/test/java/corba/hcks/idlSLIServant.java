@@ -36,80 +36,97 @@ class idlSLIServant extends idlSLIPOA {
         this.orb = orb;
     }
 
+    @Override
     public String raiseForwardRequestInPreinvoke(String a) {
         return a;
     }
 
+    @Override
     public String raiseObjectNotExistInPreinvoke(String a) {
         return a;
     }
 
+    @Override
     public String raiseSystemExceptionInPreinvoke(String a) {
         return a;
     }
 
+    @Override
     public String raiseSystemExceptionInPostinvoke(String a) {
         return a;
     }
 
+    @Override
     public String raiseSystemInServantThenPOThenSE() {
         throw new NO_MEMORY();
     }
 
+    @Override
     public String raiseUserInServantThenSystemInPOThenSE() throws idlExampleException {
         C.throwUserException(baseMsg + C.raiseUserInServantThenSystemInPOThenSE);
         // return for compiler
         return U.SHOULD_NOT_SEE_THIS;
     }
 
+    @Override
     public String makeColocatedCallFromServant() {
         return C.makeColocatedCallFromServant(C.idlSLI1, orb, baseMsg);
     }
 
+    @Override
     public String colocatedCallFromServant(String a) {
         return C.colocatedCallFromServant(a, orb, baseMsg);
     }
 
+    @Override
     public String throwThreadDeathInReceiveRequestServiceContexts(String a) {
         U.sop(U.servant(a));
         return a;
     }
 
+    @Override
     public String throwThreadDeathInPreinvoke(String a) {
         U.sop(U.servant(a));
         return a;
     }
 
+    @Override
     public String throwThreadDeathInReceiveRequest(String a) {
         U.sop(U.servant(a));
         return a;
     }
 
+    @Override
     public String throwThreadDeathInServant(String a) {
         U.sop(U.servant(a));
         throw new ThreadDeath();
     }
 
+    @Override
     public String throwThreadDeathInPostinvoke(String a) {
         U.sop(U.servant(a));
         return a;
     }
 
+    @Override
     public String throwThreadDeathInSendReply(String a) {
         U.sop(U.servant(a));
         return a;
     }
 
+    @Override
     public String throwThreadDeathInServantThenSysInPostThenSysInSendException(String a) {
         U.sop(U.servant(a));
         throw new ThreadDeath();
     }
 
+    @Override
     public void sPic1() {
         C.testAndIncrementPICSlot(true, C.sPic1, SsPicInterceptor.sPic1ASlotId, 3, orb);
         C.testAndIncrementPICSlot(true, C.sPic1, SsPicInterceptor.sPic1BSlotId, 3, orb);
     }
 
+    @Override
     public void sPic2() {
     }
 }

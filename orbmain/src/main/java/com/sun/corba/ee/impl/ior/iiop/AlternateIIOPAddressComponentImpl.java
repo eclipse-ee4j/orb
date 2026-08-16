@@ -32,19 +32,23 @@ import org.omg.IOP.TAG_ALTERNATE_IIOP_ADDRESS;
 public class AlternateIIOPAddressComponentImpl extends TaggedComponentBase implements AlternateIIOPAddressComponent {
     private IIOPAddress addr;
 
+    @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof AlternateIIOPAddressComponentImpl))
+        if (!(obj instanceof AlternateIIOPAddressComponentImpl)) {
             return false;
+        }
 
         AlternateIIOPAddressComponentImpl other = (AlternateIIOPAddressComponentImpl) obj;
 
         return addr.equals(other.addr);
     }
 
+    @Override
     public int hashCode() {
         return addr.hashCode();
     }
 
+    @Override
     public String toString() {
         return "AlternateIIOPAddressComponentImpl[addr=" + addr + "]";
     }
@@ -53,14 +57,17 @@ public class AlternateIIOPAddressComponentImpl extends TaggedComponentBase imple
         this.addr = addr;
     }
 
+    @Override
     public IIOPAddress getAddress() {
         return addr;
     }
 
+    @Override
     public void writeContents(OutputStream os) {
         addr.write(os);
     }
 
+    @Override
     public int getId() {
         return TAG_ALTERNATE_IIOP_ADDRESS.value; // 3 in CORBA 2.3.1 13.6.3
     }

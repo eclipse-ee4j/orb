@@ -60,20 +60,24 @@ public class JavaCompiler extends Compiler {
      *
      * @exception Exception Any error generated during compile or setup, such as abnormal termination
      */
+    @Override
     public void compile(String files[], Vector arguments, String outputDirectory, String reportDirectory) throws Exception {
-        if (files == null || files.length == 0)
+        if (files == null || files.length == 0) {
             return;
+        }
 
         Vector args = new Vector(4 + (arguments == null ? 0 : arguments.size()) + files.length);
         args.add("-g");
         args.add("-d");
         args.add(outputDirectory);
 
-        if (arguments != null)
+        if (arguments != null) {
             args.addAll(arguments);
+        }
 
-        for (int i = 0; i < files.length; i++)
-            args.add(files[i]);
+        for (String file : files) {
+            args.add(file);
+        }
 
         compileExternally(compilerClassName(), CORBAUtil.toArray(args), outputDirectory, reportDirectory, "javac");
     }

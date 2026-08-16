@@ -184,8 +184,9 @@ abstract public class ORB {
             private Properties getFileProperties(String fileName) {
                 try {
                     File propFile = new File(fileName);
-                    if (!propFile.exists())
+                    if (!propFile.exists()) {
                         return null;
+                    }
 
                     Properties props = new Properties();
                     FileInputStream fis = new FileInputStream(propFile);
@@ -209,8 +210,9 @@ abstract public class ORB {
 
                 if (props != null) {
                     String value = props.getProperty(name);
-                    if (value != null)
+                    if (value != null) {
                         return value;
+                    }
                 }
 
                 String javaHome = System.getProperty("java.home");
@@ -249,10 +251,12 @@ abstract public class ORB {
     public static synchronized ORB init() {
         if (singleton == null) {
             String className = getSystemProperty(ORBSingletonClassKey);
-            if (className == null)
+            if (className == null) {
                 className = getPropertyFromFile(ORBSingletonClassKey);
-            if (className == null)
+            }
+            if (className == null) {
                 className = defaultORBSingleton;
+            }
 
             singleton = create_impl(className);
         }
@@ -268,10 +272,7 @@ abstract public class ORB {
 
         try {
             Class<org.omg.CORBA.ORB> orbBaseClass = org.omg.CORBA.ORB.class;
-            return Class.forName(className, true, cl)
-                 .asSubclass(orbBaseClass)
-                 .getDeclaredConstructor()
-                 .newInstance();
+            return Class.forName(className, true, cl).asSubclass(orbBaseClass).getDeclaredConstructor().newInstance();
         } catch (Throwable ex) {
             SystemException systemException = new INITIALIZE("can't instantiate default ORB implementation " + className);
             systemException.initCause(ex);
@@ -300,14 +301,18 @@ abstract public class ORB {
         String className = null;
         ORB orb;
 
-        if (props != null)
+        if (props != null) {
             className = props.getProperty(ORBClassKey);
-        if (className == null)
+        }
+        if (className == null) {
             className = getSystemProperty(ORBClassKey);
-        if (className == null)
+        }
+        if (className == null) {
             className = getPropertyFromFile(ORBClassKey);
-        if (className == null)
+        }
+        if (className == null) {
             className = defaultORB;
+        }
 
         orb = create_impl(className);
         orb.set_parameters(args, props);
@@ -327,14 +332,18 @@ abstract public class ORB {
         ORB orb;
 
         className = app.getParameter(ORBClassKey);
-        if (className == null && props != null)
+        if (className == null && props != null) {
             className = props.getProperty(ORBClassKey);
-        if (className == null)
+        }
+        if (className == null) {
             className = getSystemProperty(ORBClassKey);
-        if (className == null)
+        }
+        if (className == null) {
             className = getPropertyFromFile(ORBClassKey);
-        if (className == null)
+        }
+        if (className == null) {
             className = defaultORB;
+        }
 
         orb = create_impl(className);
         orb.set_parameters(app, props);
@@ -503,8 +512,9 @@ abstract public class ORB {
             Class opDefClass = null;
 
             ClassLoader cl = Thread.currentThread().getContextClassLoader();
-            if (cl == null)
+            if (cl == null) {
                 cl = ClassLoader.getSystemClassLoader();
+            }
             // if this throws a ClassNotFoundException, it will be caught below.
             opDefClass = Class.forName(opDefClassName, true, cl);
 

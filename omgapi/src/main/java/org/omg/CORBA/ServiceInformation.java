@@ -43,7 +43,7 @@ public final class ServiceInformation implements org.omg.CORBA.portable.IDLEntit
 
     /**
      * Constructs a ServiceInformation object with the given service_options and service_details.
-     * 
+     *
      * @param __service_options An array of ints describing the service options.
      * @param __service_details An array of ServiceDetails describing the service details.
      */

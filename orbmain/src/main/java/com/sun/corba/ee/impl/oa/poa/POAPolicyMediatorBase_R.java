@@ -44,10 +44,12 @@ public abstract class POAPolicyMediatorBase_R extends POAPolicyMediatorBase {
         activeObjectMap = ActiveObjectMap.create(poa, !isUnique);
     }
 
+    @Override
     public void returnServant() {
         // NO-OP
     }
 
+    @Override
     public void clearAOM() {
         activeObjectMap.clear();
         activeObjectMap = null;
@@ -78,6 +80,7 @@ public abstract class POAPolicyMediatorBase_R extends POAPolicyMediatorBase {
         factory.registerPOAForServant(poa, servant);
     }
 
+    @Override
     @Poa
     public final void activateObject(byte[] id, Servant servant) throws WrongPolicy, ServantAlreadyActive, ObjectAlreadyActive {
         if (isUnique && activeObjectMap.contains(servant)) {
@@ -93,6 +96,7 @@ public abstract class POAPolicyMediatorBase_R extends POAPolicyMediatorBase {
         activateServant(key, entry, servant);
     }
 
+    @Override
     @Poa
     public Servant deactivateObject(byte[] id) throws ObjectNotActive, WrongPolicy {
         ActiveObjectMap.Key key = new ActiveObjectMap.Key(id);
@@ -135,6 +139,7 @@ public abstract class POAPolicyMediatorBase_R extends POAPolicyMediatorBase {
         return s;
     }
 
+    @Override
     @Poa
     public byte[] servantToId(Servant servant) throws ServantNotActive, WrongPolicy {
         if (!isUnique && !isImplicit) {

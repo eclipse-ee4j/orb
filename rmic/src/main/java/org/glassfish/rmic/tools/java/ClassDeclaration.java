@@ -117,8 +117,10 @@ class ClassDeclaration implements Constants {
      */
     public ClassDefinition getClassDefinition(Environment env)
     throws ClassNotFound {
-        if (tracing) env.dtEvent("getClassDefinition: " +
-                                 getName() + ", status " + getStatus());
+        if (tracing) {
+            env.dtEvent("getClassDefinition: " +
+                                     getName() + ", status " + getStatus());
+        }
 
         // The majority of calls to getClassDefinition() are duplicates.
         // This check makes them fast.  It also allows us to avoid
@@ -167,8 +169,10 @@ class ClassDeclaration implements Constants {
      * class.
      */
     public ClassDefinition getClassDefinitionNoCheck(Environment env) throws ClassNotFound {
-        if (tracing) env.dtEvent("getClassDefinition: " +
-                                 getName() + ", status " + getStatus());
+        if (tracing) {
+            env.dtEvent("getClassDefinition: " +
+                                     getName() + ", status " + getStatus());
+        }
         for(;;) {
             switch (status) {
                 case CS_UNDEFINED:
@@ -223,6 +227,7 @@ class ClassDeclaration implements Constants {
     /**
      * Equality
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof ClassDeclaration) {
             return type.equals(((ClassDeclaration)obj).type);
@@ -238,6 +243,7 @@ class ClassDeclaration implements Constants {
     /**
      * toString
      */
+    @Override
     public String toString() {
         String name = getName().toString();
         String type = "type ";

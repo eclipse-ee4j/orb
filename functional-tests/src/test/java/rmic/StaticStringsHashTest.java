@@ -153,6 +153,7 @@ public class StaticStringsHashTest extends Test {
         }
     }
 
+    @Override
     public void run() {
         JUnitReportHelper helper = new JUnitReportHelper(this.getClass().getName());
 

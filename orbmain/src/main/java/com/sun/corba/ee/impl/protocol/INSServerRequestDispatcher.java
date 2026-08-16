@@ -42,6 +42,7 @@ public class INSServerRequestDispatcher implements ServerRequestDispatcher {
     }
 
     // Need to signal one of OBJECT_HERE, OBJECT_FORWARD, OBJECT_NOT_EXIST.
+    @Override
     public IOR locate(ObjectKey okey) {
         // send a locate forward with the right IOR. If the insKey is not
         // registered then it will throw OBJECT_NOT_EXIST Exception
@@ -49,6 +50,7 @@ public class INSServerRequestDispatcher implements ServerRequestDispatcher {
         return getINSReference(insKey);
     }
 
+    @Override
     public void dispatch(MessageMediator request) {
         // send a locate forward with the right IOR. If the insKey is not
         // registered then it will throw OBJECT_NOT_EXIST Exception

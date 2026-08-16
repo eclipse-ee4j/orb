@@ -29,14 +29,16 @@ public class ReplaceSubClass extends ReplaceSuperClass {
         longValue = 92431;
     }
 
+    @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof ReplaceSubClass))
+        if (!(obj instanceof ReplaceSubClass)) {
             return false;
-        else {
+        } else {
             return super.equals(obj) && longValue == ((ReplaceSubClass) obj).longValue;
         }
     }
 
+    @Override
     public String toString() {
         StringBuilder sbuf = new StringBuilder();
         sbuf.append("ReplaceSubClass [longValue=");

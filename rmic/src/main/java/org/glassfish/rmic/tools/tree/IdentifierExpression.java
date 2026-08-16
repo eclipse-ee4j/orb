@@ -61,15 +61,18 @@ class IdentifierExpression extends Expression {
         this.field = field;
     }
 
+    @Override
     public Expression getImplementation() {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation;
+        }
         return this;
     }
 
     /**
      * Check if the expression is equal to a value
      */
+    @Override
     public boolean equals(Identifier id) {
         return this.id.equals(id);
     }
@@ -182,7 +185,9 @@ class IdentifierExpression extends Expression {
                     MemberDefinition f2 = ctx.getApparentField(env, id);
                     if (f2 != null && f2 != f) {
                         ClassDefinition c = ctx.findScope(env, fclass);
-                        if (c == null)  c = f.getClassDefinition();
+                        if (c == null) {
+                            c = f.getClassDefinition();
+                        }
                         if (f2.isLocal()) {
                             env.error(where, "inherited.hides.local",
                                       id, c.getClassDeclaration());
@@ -234,6 +239,7 @@ class IdentifierExpression extends Expression {
     /**
      * Check expression
      */
+    @Override
     public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         if (field != null) {
             // An internally pre-set field, such as an argument copying
@@ -243,8 +249,9 @@ class IdentifierExpression extends Expression {
         if (bind(env, ctx)) {
             vset = get(env, ctx, vset);
             ctx.field.getClassDefinition().addDependency(field.getClassDeclaration());
-            if (implementation != null)
+            if (implementation != null) {
                 vset = implementation.checkValue(env, ctx, vset, exp);
+            }
         }
         return vset;
     }
@@ -252,50 +259,61 @@ class IdentifierExpression extends Expression {
     /**
      * Check the expression if it appears on the LHS of an assignment
      */
+    @Override
     public Vset checkLHS(Environment env, Context ctx,
                          Vset vset, Hashtable<Object, Object> exp) {
-        if (!bind(env, ctx))
+        if (!bind(env, ctx)) {
             return vset;
+        }
         vset = assign(env, ctx, vset);
-        if (implementation != null)
+        if (implementation != null) {
             vset = implementation.checkValue(env, ctx, vset, exp);
+        }
         return vset;
     }
 
     /**
      * Check the expression if it appears on the LHS of an op= expression
      */
+    @Override
     public Vset checkAssignOp(Environment env, Context ctx,
                               Vset vset, Hashtable<Object, Object> exp, Expression outside) {
-        if (!bind(env, ctx))
+        if (!bind(env, ctx)) {
             return vset;
+        }
         vset = assign(env, ctx, get(env, ctx, vset));
-        if (implementation != null)
+        if (implementation != null) {
             vset = implementation.checkValue(env, ctx, vset, exp);
+        }
         return vset;
     }
 
     /**
      * Return an accessor if one is needed for assignments to this expression.
      */
+    @Override
     public FieldUpdater getAssigner(Environment env, Context ctx) {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation.getAssigner(env, ctx);
+        }
         return null;
     }
 
     /**
      * Return an updater if one is needed for assignments to this expression.
      */
+    @Override
     public FieldUpdater getUpdater(Environment env, Context ctx) {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation.getUpdater(env, ctx);
+        }
         return null;
     }
 
     /**
      * Check if the present name is part of a scoping prefix.
      */
+    @Override
     public Vset checkAmbigName(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp,
                                UnaryExpression loc) {
         try {
@@ -359,6 +377,7 @@ class IdentifierExpression extends Expression {
      * Convert an identifier to a type.
      * If one is not known, use the current package as a qualifier.
      */
+    @Override
     Type toType(Environment env, Context ctx) {
         ClassDefinition c = toResolvedType(env, ctx, false);
         if (c != null) {
@@ -390,9 +409,11 @@ class IdentifierExpression extends Expression {
     /**
      * Check if constant:  Will it inline away?
      */
+    @Override
     public boolean isConstant() {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation.isConstant();
+        }
         if (field != null) {
             return field.isConstant();
         }
@@ -402,12 +423,15 @@ class IdentifierExpression extends Expression {
     /**
      * Inline
      */
+    @Override
     public Expression inline(Environment env, Context ctx) {
         return null;
     }
+    @Override
     public Expression inlineValue(Environment env, Context ctx) {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation.inlineValue(env, ctx);
+        }
         if (field == null) {
             return this;
         }
@@ -424,15 +448,19 @@ class IdentifierExpression extends Expression {
             throw new CompilerError(e);
         }
     }
+    @Override
     public Expression inlineLHS(Environment env, Context ctx) {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation.inlineLHS(env, ctx);
+        }
         return this;
     }
 
+    @Override
     public Expression copyInline(Context ctx) {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation.copyInline(ctx);
+        }
         IdentifierExpression e =
             (IdentifierExpression)super.copyInline(ctx);
         if (field != null && field.isLocal()) {
@@ -441,27 +469,33 @@ class IdentifierExpression extends Expression {
         return e;
     }
 
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation.costInline(thresh, env, ctx);
+        }
         return super.costInline(thresh, env, ctx);
     }
 
     /**
      * Code local vars (object fields have been inlined away)
      */
+    @Override
     int codeLValue(Environment env, Context ctx, Assembler asm) {
         return 0;
     }
+    @Override
     void codeLoad(Environment env, Context ctx, Assembler asm) {
         asm.add(where, opc_iload + type.getTypeCodeOffset(),
                 ((LocalMember)field).number);
     }
+    @Override
     void codeStore(Environment env, Context ctx, Assembler asm) {
         LocalMember local = (LocalMember)field;
         asm.add(where, opc_istore + type.getTypeCodeOffset(),
                 new LocalVariable(local, local.number));
     }
+    @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         codeLValue(env, ctx, asm);
         codeLoad(env, ctx, asm);
@@ -470,6 +504,7 @@ class IdentifierExpression extends Expression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print(id + "#" + ((field != null) ? field.hashCode() : 0));
         if (implementation != null) {

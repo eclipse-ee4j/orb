@@ -27,10 +27,12 @@ import IORInterceptorTest.*; // for IDL
 public class SimpleServant extends simplePOA {
     private short x;
 
+    @Override
     public short x() {
         return x;
     }
 
+    @Override
     public void x(short newX) {
         this.x = newX;
     }

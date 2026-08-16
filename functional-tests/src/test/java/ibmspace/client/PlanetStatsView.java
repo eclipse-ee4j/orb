@@ -58,10 +58,12 @@ public class PlanetStatsView extends JComponent {
         repaint();
     }
 
+    @Override
     public void paint(Graphics g) {
         update(g);
     }
 
+    @Override
     public void update(Graphics g) {
         Rectangle bounds = getBounds();
 
@@ -86,8 +88,9 @@ public class PlanetStatsView extends JComponent {
             int height = fm.getHeight() + fm.getLeading();
             int width = fm.stringWidth(" Income: ");
 
-            if (height > maxHeight || width > maxWidth)
+            if (height > maxHeight || width > maxWidth) {
                 break;
+            }
 
             pointSize = pt;
         }

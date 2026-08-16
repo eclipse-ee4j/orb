@@ -23,6 +23,7 @@ import corba.framework.*;
 import java.util.*;
 
 public class GoodRepIdTest extends CORBATest {
+    @Override
     protected void doTest() throws Throwable {
         Controller server = createServer("corba.serialization.good.ShowRepid");
 

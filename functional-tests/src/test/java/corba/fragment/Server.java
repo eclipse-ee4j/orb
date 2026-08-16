@@ -64,13 +64,13 @@ public class Server {
             org.omg.CORBA.Object obj = rootPOA.id_to_reference(id);
 
             /*
-             * 
+             *
              * // get the root naming context org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
              * NamingContext ncRef = NamingContextHelper.narrow(objRef);
-             * 
+             *
              * // bind the Object Reference in Naming NameComponent nc = new NameComponent("FragmentTester", ""); NameComponent
              * path[] = {nc};
-             * 
+             *
              * ncRef.rebind(path, obj);
              */
 

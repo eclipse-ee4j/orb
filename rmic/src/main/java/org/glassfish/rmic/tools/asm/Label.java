@@ -101,10 +101,12 @@ class Label extends Instruction {
         return lbl;
     }
 
+    @Override
     public String toString() {
         String s = "$" + ID + ":";
-        if (value != null)
+        if (value != null) {
             s = s + " stack=" + value;
+        }
         return s;
     }
 }

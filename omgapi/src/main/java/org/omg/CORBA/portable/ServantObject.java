@@ -24,7 +24,7 @@ package org.omg.CORBA.portable;
  * clients and servers (i.e. clients and servers residing in the same Java VM). The local stub API is supported via
  * three additional methods on <code>ObjectImpl</code> and <code>Delegate</code>. ORB vendors may subclass this class to
  * return additional request state that may be required by their implementations.
- * 
+ *
  * @see ObjectImpl
  * @see Delegate
  */

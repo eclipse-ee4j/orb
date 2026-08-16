@@ -30,7 +30,7 @@ public abstract class RepositoryIdFactory {
 
     /**
      * Returns the latest version RepositoryIdStrings instance
-     * 
+     *
      * @return the delegate
      */
     public static RepositoryIdStrings getRepIdStringsFactory() {
@@ -39,7 +39,7 @@ public abstract class RepositoryIdFactory {
 
     /**
      * Checks the version of the ORB and returns the appropriate RepositoryIdStrings instance.
-     * 
+     *
      * @param orb ignored
      * @return the delegate
      */
@@ -49,7 +49,7 @@ public abstract class RepositoryIdFactory {
 
     /**
      * Returns the latest version RepositoryIdUtility instance
-     * 
+     *
      * @return the delegate
      */
     public static RepositoryIdUtility getRepIdUtility() {
@@ -58,7 +58,7 @@ public abstract class RepositoryIdFactory {
 
     /**
      * Checks the version of the ORB and returns the appropriate RepositoryIdUtility instance.
-     * 
+     *
      * @param orb ORB to get version
      * @return the delegate
      */

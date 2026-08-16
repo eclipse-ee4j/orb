@@ -27,7 +27,7 @@ import java.util.NoSuchElementException;
  * Simple unsynchronized queue implementation for ByteBuffer.
  */
 public class BufferQueue {
-    private LinkedList<ByteBuffer> list = new LinkedList<ByteBuffer>();
+    private LinkedList<ByteBuffer> list = new LinkedList<>();
 
     public void enqueue(ByteBuffer item) {
         list.addLast(item);

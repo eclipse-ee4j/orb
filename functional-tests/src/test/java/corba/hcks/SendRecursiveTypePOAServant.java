@@ -37,10 +37,12 @@ class SendRecursiveTypePOAServant extends sendRecursiveTypePOA {
         this.orb = orb;
     }
 
+    @Override
     public Any sendAsAny(Any x) {
         return x;
     }
 
+    @Override
     public recursiveType sendAsType(recursiveType x) {
         return x;
     }

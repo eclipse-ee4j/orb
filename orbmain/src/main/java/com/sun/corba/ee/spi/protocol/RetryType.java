@@ -17,7 +17,7 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.spi.protocol ;
+package com.sun.corba.ee.spi.protocol;
 
 // Introduce more information about WHY we are re-trying a request
 // so we can properly handle the two cases:
@@ -29,18 +29,15 @@ package com.sun.corba.ee.spi.protocol ;
 //   request sent to the server (from the response), or from the
 //   Client side receive_xxx interceptor point.
 public enum RetryType {
-    NONE( false ),
-    BEFORE_RESPONSE( true ),
-    AFTER_RESPONSE( true ) ;
+    NONE(false), BEFORE_RESPONSE(true), AFTER_RESPONSE(true);
 
-    private final boolean isRetry ;
+    private final boolean isRetry;
 
-    RetryType( boolean isRetry ) {
-        this.isRetry = isRetry ;
+    RetryType(boolean isRetry) {
+        this.isRetry = isRetry;
     }
 
     public boolean isRetry() {
-        return this.isRetry ;
+        return this.isRetry;
     }
-} ;
-
+}

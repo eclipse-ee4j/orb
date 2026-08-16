@@ -32,6 +32,7 @@ public class MyServantLocator extends org.omg.CORBA.LocalObject implements Serva
         this.orb = orb;
     }
 
+    @Override
     public Servant preinvoke(byte[] oid, POA poa, String operation, CookieHolder cookieHolder) {
         System.out.println("MyServantLocator.preinvoke called ");
 
@@ -46,6 +47,7 @@ public class MyServantLocator extends org.omg.CORBA.LocalObject implements Serva
         return null;
     }
 
+    @Override
     public void postinvoke(byte[] oid, POA poa, String operation, java.lang.Object cookie, Servant servant) {
         System.out.println("MyServantLocator.postinvoke called ");
 

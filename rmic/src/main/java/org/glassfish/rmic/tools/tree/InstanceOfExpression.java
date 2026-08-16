@@ -46,6 +46,7 @@ class InstanceOfExpression extends BinaryExpression {
     /**
      * Check the expression
      */
+    @Override
     public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         vset = left.checkValue(env, ctx, vset, exp);
         right = new TypeExpression(right.where, right.toType(env, ctx));
@@ -72,14 +73,17 @@ class InstanceOfExpression extends BinaryExpression {
     /**
      * Inline
      */
+    @Override
     public Expression inline(Environment env, Context ctx) {
         return left.inline(env, ctx);
     }
+    @Override
     public Expression inlineValue(Environment env, Context ctx) {
         left = left.inlineValue(env, ctx);
         return this;
     }
 
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
         if (ctx == null) {
             return 1 + left.costInline(thresh, env, ctx);
@@ -90,8 +94,9 @@ class InstanceOfExpression extends BinaryExpression {
             // We only allow the inlining if the current class can access
             // the "instance of" class
             if (right.type.isType(TC_ARRAY) ||
-                 sourceClass.permitInlinedAccess(env, env.getClassDeclaration(right.type)))
+                 sourceClass.permitInlinedAccess(env, env.getClassDeclaration(right.type))) {
                 return 1 + left.costInline(thresh, env, ctx);
+            }
         } catch (ClassNotFound e) {
         }
         return thresh;
@@ -103,6 +108,7 @@ class InstanceOfExpression extends BinaryExpression {
     /**
      * Code
      */
+    @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         left.codeValue(env, ctx, asm);
         if (right.type.isType(TC_CLASS)) {
@@ -111,10 +117,12 @@ class InstanceOfExpression extends BinaryExpression {
             asm.add(where, opc_instanceof, right.type);
         }
     }
+    @Override
     void codeBranch(Environment env, Context ctx, Assembler asm, Label lbl, boolean whenTrue) {
         codeValue(env, ctx, asm);
         asm.add(where, whenTrue ? opc_ifne : opc_ifeq, lbl, whenTrue);
     }
+    @Override
     public void code(Environment env, Context ctx, Assembler asm) {
         left.code(env, ctx, asm);
     }
@@ -122,6 +130,7 @@ class InstanceOfExpression extends BinaryExpression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print("(" + opNames[op] + " ");
         left.print(out);

@@ -33,6 +33,7 @@ public class counterImpl extends PortableRemoteObject implements counterIF {
         value = 0;
     }
 
+    @Override
     public synchronized long increment(long invalue) throws RemoteException {
         value += invalue;
 

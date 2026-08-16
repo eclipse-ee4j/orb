@@ -40,29 +40,35 @@ public class rmiiIServant extends
         super();
     }
 
+    @Override
     public String sayHello() {
         return C.helloWorld;
     }
 
+    @Override
     public int sendBytes(byte[] x) {
-        if (x == null)
+        if (x == null) {
             return -1;
+        }
         return x.length;
     }
 
+    @Override
     public Object sendOneObject(Object x) throws rmiiMyException {
         return x;
     }
 
+    @Override
     public Object sendTwoObjects(Object x, Object y) {
         return x;
     }
 
     // REVISIT
+    @Override
     public String makeColocatedCallFromServant() throws RemoteException {
         String result;
         try {
-            result = ((rmiiI) this.narrow(this, rmiiIServant.class)).colocatedCallFromServant("A");
+            result = ((rmiiI) PortableRemoteObject.narrow(this, rmiiIServant.class)).colocatedCallFromServant("A");
         } catch (Exception e) {
             U.sopUnexpectedException(baseMsg + C.makeColocatedCallFromServant, e);
             throw new INTERNAL(U.SHOULD_NOT_SEE_THIS);
@@ -71,15 +77,18 @@ public class rmiiIServant extends
     }
 
     // REVISIT
+    @Override
     public String colocatedCallFromServant(String a) throws RemoteException, Exception {
         return "B" + a;
     }
 
+    @Override
     public String throwThreadDeathInServant(String a) throws RemoteException, ThreadDeath {
         U.sop(U.servant(a));
         throw new ThreadDeath();
     }
 
+    @Override
     public Object returnObjectFromServer(boolean isSerializable) throws RemoteException {
         if (isSerializable) {
             return new SerializableObject();

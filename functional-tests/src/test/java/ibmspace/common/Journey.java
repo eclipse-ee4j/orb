@@ -21,6 +21,7 @@
 package ibmspace.common;
 
 public interface Journey extends Identifiable {
+    @Override
     ID getID(); // id of the journey
 
     Planet getOrigin(); // where is the fleet from?

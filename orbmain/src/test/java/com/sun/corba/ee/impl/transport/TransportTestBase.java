@@ -79,7 +79,7 @@ public class TransportTestBase {
     private AcceptorFake acceptor;
     private ConnectionImpl connection;
     private SocketFake socket = new SocketFake();
-    private List<MessageMediator> mediators = new ArrayList<MessageMediator>();
+    private List<MessageMediator> mediators = new ArrayList<>();
     private TcpTimeoutsFake tcpTimeouts = createStrictStub(TcpTimeoutsFake.class);
     private WaiterFake waiter = createStrictStub(WaiterFake.class);
     private TransportManagerFake transportManager = createStrictStub(TransportManagerFake.class);
@@ -121,9 +121,9 @@ public class TransportTestBase {
         @Override
         public void run() {
             while (numToProcess > 0) {
-                if (workQueue.items.isEmpty())
+                if (workQueue.items.isEmpty()) {
                     Thread.yield();
-                else {
+                } else {
                     numToProcess--;
                     Work work = workQueue.items.remove();
                     work.doWork();
@@ -318,7 +318,7 @@ public class TransportTestBase {
     }
 
     static abstract class SelectorFake extends AbstractSelector {
-        private Set<SelectionKey> selectedKeys = new HashSet<SelectionKey>();
+        private Set<SelectionKey> selectedKeys = new HashSet<>();
 
         public SelectorFake(SelectorProvider provider) {
             super(provider);
@@ -362,8 +362,8 @@ public class TransportTestBase {
         private byte[] dataWritten = new byte[0];
         private byte[] readableData;
         private int readPos;
-        private ArrayList<Integer> numBytesToWrite = new ArrayList<Integer>();
-        private ArrayList<Integer> numBytesToRead = new ArrayList<Integer>();
+        private ArrayList<Integer> numBytesToWrite = new ArrayList<>();
+        private ArrayList<Integer> numBytesToRead = new ArrayList<>();
         private Socket socket;
         private boolean failConfigureBlocking;
         private boolean endOfInput;
@@ -381,13 +381,15 @@ public class TransportTestBase {
         }
 
         protected void setNumBytesToWrite(int... numBytesToWrite) {
-            for (int i : numBytesToWrite)
+            for (int i : numBytesToWrite) {
                 this.numBytesToWrite.add(i);
+            }
         }
 
         public void setNumBytesToRead(int... numBytesToRead) {
-            for (int i : numBytesToRead)
+            for (int i : numBytesToRead) {
                 this.numBytesToRead.add(i);
+            }
         }
 
         protected void enqueData(byte... dataToBeRead) {
@@ -419,17 +421,20 @@ public class TransportTestBase {
 
         @Override
         protected void implConfigureBlocking(boolean block) throws IOException {
-            if (failConfigureBlocking)
+            if (failConfigureBlocking) {
                 throw new IOException("Test failure to configure blocking");
+            }
         }
 
         @Override
         public int read(ByteBuffer dst) throws IOException {
-            if (endOfInput)
+            if (endOfInput) {
                 return -1;
+            }
             int numBytesToRead = Math.min(getNumBytesToRead(), Math.min(dataSize(), bufferCapacity(dst)));
-            if (numBytesToRead == 0)
+            if (numBytesToRead == 0) {
                 return 0;
+            }
 
             dst.put(readableData, readPos, numBytesToRead);
             readPos += numBytesToRead;
@@ -498,13 +503,14 @@ public class TransportTestBase {
             this.selector = selector;
         }
 
+        @Override
         public SelectorFake selector() {
             return selector;
         }
     }
 
     static abstract class WorkQueueFake implements WorkQueue {
-        private Queue<Work> items = new ArrayDeque<Work>();
+        private Queue<Work> items = new ArrayDeque<>();
 
         @Override
         public void addWork(Work aWorkItem) {
@@ -536,8 +542,9 @@ public class TransportTestBase {
 
         @Override
         public void registerForEvent(EventHandler eventHandler) {
-            if (eventHandler instanceof Work)
+            if (eventHandler instanceof Work) {
                 workQueue.addWork((Work) eventHandler);
+            }
         }
 
         @Override
@@ -573,14 +580,17 @@ public class TransportTestBase {
         private InputStream inputStream = null;
         private OutputStream outputStream = null;
 
+        @Override
         public SocketChannel getChannel() {
             return socketChannel;
         }
 
+        @Override
         public InputStream getInputStream() throws IOException {
             return inputStream;
         }
 
+        @Override
         public OutputStream getOutputStream() throws IOException {
             return outputStream;
         }

@@ -30,24 +30,29 @@ final class LifespanPolicyImpl extends org.omg.CORBA.LocalObject implements Life
         this.value = value;
     }
 
+    @Override
     public LifespanPolicyValue value() {
         return value;
     }
 
+    @Override
     public int policy_type() {
         return LIFESPAN_POLICY_ID.value;
     }
 
+    @Override
     public Policy copy() {
         return new LifespanPolicyImpl(value);
     }
 
+    @Override
     public void destroy() {
         value = null;
     }
 
     private LifespanPolicyValue value;
 
+    @Override
     public String toString() {
         return "LifespanPolicy[" + ((value.value() == LifespanPolicyValue._TRANSIENT) ? "TRANSIENT" : "PERSISTENT" + "]");
     }

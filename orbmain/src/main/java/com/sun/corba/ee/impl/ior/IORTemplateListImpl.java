@@ -35,7 +35,7 @@ import org.omg.CORBA_2_3.portable.OutputStream;
 
 public class IORTemplateListImpl extends FreezableList<IORTemplate> implements IORTemplateList {
     public IORTemplateListImpl() {
-        super(new ArrayList<IORTemplate>());
+        super(new ArrayList<>());
     }
 
     public IORTemplateListImpl(InputStream is) {
@@ -55,6 +55,7 @@ public class IORTemplateListImpl extends FreezableList<IORTemplate> implements I
         super.makeImmutable();
     }
 
+    @Override
     public void write(OutputStream os) {
         os.write_long(size());
         for (IORTemplate iortemp : this) {
@@ -62,13 +63,16 @@ public class IORTemplateListImpl extends FreezableList<IORTemplate> implements I
         }
     }
 
+    @Override
     public IOR makeIOR(ORB orb, String typeid, ObjectId oid) {
         return new IORImpl(orb, typeid, this, oid);
     }
 
+    @Override
     public boolean isEquivalent(IORFactory other) {
-        if (!(other instanceof IORTemplateList))
+        if (!(other instanceof IORTemplateList)) {
             return false;
+        }
 
         IORTemplateList list = (IORTemplateList) other;
 
@@ -77,8 +81,9 @@ public class IORTemplateListImpl extends FreezableList<IORTemplate> implements I
         while (thisIterator.hasNext() && listIterator.hasNext()) {
             IORTemplate thisTemplate = thisIterator.next();
             IORTemplate listTemplate = listIterator.next();
-            if (!thisTemplate.isEquivalent(listTemplate))
+            if (!thisTemplate.isEquivalent(listTemplate)) {
                 return false;
+            }
         }
 
         return thisIterator.hasNext() == listIterator.hasNext();

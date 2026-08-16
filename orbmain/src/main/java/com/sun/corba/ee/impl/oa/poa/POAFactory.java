@@ -59,7 +59,7 @@ public class POAFactory implements ObjectAdapterFactory {
 
     // Maps servants to POAs for deactivating servants when unexportObject is called.
     // Maintained by POAs activate_object and deactivate_object.
-    private Map<Servant, POA> exportedServantsToPOA = new WeakHashMap<Servant, POA>();
+    private Map<Servant, POA> exportedServantsToPOA = new WeakHashMap<>();
 
     private java.util.concurrent.ConcurrentHashMap<POAManager, Boolean> poaManagers;
 
@@ -79,7 +79,7 @@ public class POAFactory implements ObjectAdapterFactory {
      * All object adapter factories must have a no-arg constructor.
      */
     public POAFactory() {
-        poaManagers = new java.util.concurrent.ConcurrentHashMap<POAManager, Boolean>(4);
+        poaManagers = new java.util.concurrent.ConcurrentHashMap<>(4);
         poaManagerId = 0;
         poaId = 0;
         rootPOA = null;
@@ -114,7 +114,7 @@ public class POAFactory implements ObjectAdapterFactory {
     @ManagedAttribute
     @Description("The servants managed by a particular POA")
     private synchronized List<ServantPOAPair> getExportedServants() {
-        List<ServantPOAPair> result = new ArrayList<ServantPOAPair>();
+        List<ServantPOAPair> result = new ArrayList<>();
         for (Map.Entry<Servant, POA> entry : exportedServantsToPOA.entrySet()) {
             POAImpl pimpl = (POAImpl) entry.getValue();
             result.add(new ServantPOAPair(entry.getKey(), pimpl));
@@ -125,7 +125,7 @@ public class POAFactory implements ObjectAdapterFactory {
     @ManagedAttribute
     @Description("The POAManagers")
     private synchronized Set<POAManager> getPOAManagers() {
-        return new HashSet<POAManager>(poaManagers.keySet());
+        return new HashSet<>(poaManagers.keySet());
     }
 
     @ManagedAttribute
@@ -160,6 +160,7 @@ public class POAFactory implements ObjectAdapterFactory {
 
 // Implementation of ObjectAdapterFactory interface
 
+    @Override
     public void init(ORB orb) {
         this.orb = orb;
         delegateImpl = new DelegateImpl(orb, this);
@@ -174,15 +175,13 @@ public class POAFactory implements ObjectAdapterFactory {
         }
     }
 
+    @Override
     public ObjectAdapter find(ObjectAdapterId oaid) {
         POA poa = null;
         try {
             boolean first = true;
-            Iterator iter = oaid.iterator();
             poa = getRootPOA();
-            while (iter.hasNext()) {
-                String name = (String) (iter.next());
-
+            for (String name : oaid) {
                 if (first) {
                     if (!name.equals(ORBConstants.ROOT_POA_NAME)) {
                         throw wrapper.makeFactoryNotPoa(name);
@@ -209,6 +208,7 @@ public class POAFactory implements ObjectAdapterFactory {
         return (ObjectAdapter) poa;
     }
 
+    @Override
     public void shutdown(boolean waitForCompletion) {
         // It is important to copy the list of POAManagers first because
         // pm.deactivate removes itself from poaManagers!
@@ -247,7 +247,8 @@ public class POAFactory implements ObjectAdapterFactory {
         // We delay the evaluation of makeRootPOA until
         // a call to resolve_initial_references( "RootPOA" ).
         // The Future guarantees that makeRootPOA is only called once.
-        NullaryFunction<org.omg.CORBA.Object> rpClosure = new NullaryFunction<org.omg.CORBA.Object>() {
+        NullaryFunction<org.omg.CORBA.Object> rpClosure = new NullaryFunction<>() {
+            @Override
             public org.omg.CORBA.Object evaluate() {
                 return POAImpl.makeRootPOA(orb);
             }
@@ -281,6 +282,7 @@ public class POAFactory implements ObjectAdapterFactory {
         return poaId++;
     }
 
+    @Override
     public ORB getORB() {
         return orb;
     }

@@ -56,13 +56,16 @@ public class IORInterceptor extends org.omg.CORBA.LocalObject implements org.omg
 
     public final String baseMsg = IORInterceptor.class.getName();
 
+    @Override
     public String name() {
         return baseMsg;
     }
 
+    @Override
     public void destroy() {
     }
 
+    @Override
     public void establish_components(IORInfo iorInfo) {
         try {
             IORInfoExt iorInfoExt = (IORInfoExt) iorInfo;

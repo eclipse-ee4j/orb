@@ -37,7 +37,7 @@ public class StockImpl extends Stock {
             current = 30.0f;
         } else {
             // generate random stock price between 20 and 60
-            current = (float) (random.nextInt(40) + 20);
+            current = random.nextInt(40) + 20;
         }
         // nk
     }
@@ -45,17 +45,20 @@ public class StockImpl extends Stock {
     StockImpl() {
     }
 
+    @Override
     public float update() {
         // nk
         float change = ((float) (random.nextGaussian() * 1.0));
-        if (symbol.equals("Sun") && current < MAX_VALUE - 5)
+        if (symbol.equals("Sun") && current < MAX_VALUE - 5) {
             change = Math.abs(change); // what did you expect?
+        }
 
         float newCurrent = current + change;
 
         // don't allow stock price to step outside range
-        if (newCurrent < 0 || newCurrent > MAX_VALUE)
+        if (newCurrent < 0 || newCurrent > MAX_VALUE) {
             change = 0;
+        }
 
         current += change;
 

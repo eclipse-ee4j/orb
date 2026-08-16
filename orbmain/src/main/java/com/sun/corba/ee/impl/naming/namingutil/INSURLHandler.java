@@ -46,9 +46,9 @@ public class INSURLHandler {
 
     public INSURL parseURL(String aUrl) {
         String url = aUrl;
-        if (url.startsWith("corbaloc:") == true) {
+        if (url.startsWith("corbaloc:")) {
             return new CorbalocURL(url.substring(CORBALOC_PREFIX_LENGTH));
-        } else if (url.startsWith("corbaname:") == true) {
+        } else if (url.startsWith("corbaname:")) {
             return new CorbanameURL(url.substring(CORBANAME_PREFIX_LENGTH));
         }
         return null;

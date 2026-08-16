@@ -36,14 +36,14 @@ public abstract class SystemException extends java.lang.RuntimeException {
 
     /**
      * The CORBA Exception minor code.
-     * 
+     *
      * @serial
      */
     public int minor;
 
     /**
      * The status of the operation that threw this exception.
-     * 
+     *
      * @serial
      */
     public CompletionStatus completed;
@@ -51,7 +51,7 @@ public abstract class SystemException extends java.lang.RuntimeException {
     /**
      * Constructs a <code>SystemException</code> exception with the specified detail message, minor code, and completion
      * status. A detail message is a String that describes this particular exception.
-     * 
+     *
      * @param reason the String containing a detail message
      * @param minor the minor code
      * @param completed the completion status
@@ -65,6 +65,7 @@ public abstract class SystemException extends java.lang.RuntimeException {
     /**
      * Converts this exception to a representative string.
      */
+    @Override
     public String toString() {
         // The fully qualified exception class name
         String result = super.toString();

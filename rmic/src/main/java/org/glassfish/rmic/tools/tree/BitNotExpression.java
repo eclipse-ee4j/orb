@@ -40,6 +40,7 @@ class BitNotExpression extends UnaryExpression {
     /**
      * Select the type of the expression
      */
+    @Override
     void selectType(Environment env, Context ctx, int tm) {
         if ((tm & TM_LONG) != 0) {
             type = Type.tLong;
@@ -52,9 +53,11 @@ class BitNotExpression extends UnaryExpression {
     /**
      * Evaluate
      */
+    @Override
     Expression eval(int a) {
         return new IntExpression(where, ~a);
     }
+    @Override
     Expression eval(long a) {
         return new LongExpression(where, ~a);
     }
@@ -62,6 +65,7 @@ class BitNotExpression extends UnaryExpression {
     /**
      * Simplify
      */
+    @Override
     Expression simplify() {
         if (right.op == BITNOT) {
             return ((BitNotExpression)right).right;
@@ -72,6 +76,7 @@ class BitNotExpression extends UnaryExpression {
     /**
      * Code
      */
+    @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         right.codeValue(env, ctx, asm);
         if (type.isType(TC_INT)) {

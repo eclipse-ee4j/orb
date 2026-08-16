@@ -44,6 +44,7 @@ public class ComplexTestObjectFour implements Externalizable {
         fTwo = new ComplexTestObjectTwo();
     }
 
+    @Override
     public boolean equals(Object o) {
         try {
             ComplexTestObjectFour ctbo = (ComplexTestObjectFour) o;
@@ -54,10 +55,12 @@ public class ComplexTestObjectFour implements Externalizable {
         }
     }
 
+    @Override
     public String toString() {
         return new String("fInt=" + fInt + "; fLong=" + fLong + "; fFloat=" + fFloat + "; fDouble=" + fDouble/* +"; fString="+fString */);
     }
 
+    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeInt(fInt);
         out.writeLong(fLong);
@@ -68,6 +71,7 @@ public class ComplexTestObjectFour implements Externalizable {
         out.writeObject(fTwo);
     }
 
+    @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         fInt = in.readInt();
         fLong = in.readLong();

@@ -40,6 +40,7 @@ class AssignBitAndExpression extends AssignOpExpression {
     /**
      * Code
      */
+    @Override
     void codeOperation(Environment env, Context ctx, Assembler asm) {
         asm.add(where, opc_iand + itype.getTypeCodeOffset());
     }

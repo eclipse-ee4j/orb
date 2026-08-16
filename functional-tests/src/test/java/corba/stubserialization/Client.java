@@ -121,8 +121,9 @@ public class Client {
             String fname = Constants.SERIALIZED_STUB_FILE_NAME + "2";
             serializeStub(fname, stub);
             String result = hello.sayHelloToStub(fname);
-            if (!result.equals(Constants.HELLO))
+            if (!result.equals(Constants.HELLO)) {
                 throw new Exception("Bad return value");
+            }
             System.out.println("Testing Remote Serialized Invocation: Complete");
         } catch (Throwable exc) {
             System.err.println("Exception in Remote Serialized Invocation Test :" + exc);
@@ -176,10 +177,12 @@ public class Client {
             System.exit(1);
         } finally {
             try {
-                if (oos != null)
+                if (oos != null) {
                     oos.close();
-                if (fos != null)
+                }
+                if (fos != null) {
                     fos.close();
+                }
             } catch (Exception exc) {
                 // ignore IOException on close.
             }
@@ -215,10 +218,12 @@ public class Client {
             System.exit(1);
         } finally {
             try {
-                if (ois != null)
+                if (ois != null) {
                     ois.close();
-                if (fis != null)
+                }
+                if (fis != null) {
                     fis.close();
+                }
             } catch (Exception exc) {
                 // ignore exception on close
             }

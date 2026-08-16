@@ -28,6 +28,7 @@ public class MixedOrbTest extends CORBATest {
 
     private static final String[] rmicClasses = { "corba.mixedorb.EchoImpl" };
 
+    @Override
     protected void doTest() throws Throwable {
         Options.setRMICClasses(rmicClasses);
         Options.addRMICArgs("-iiop -keep -g -poa");

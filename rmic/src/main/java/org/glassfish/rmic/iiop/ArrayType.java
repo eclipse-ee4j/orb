@@ -69,7 +69,9 @@ public class ArrayType extends Type {
             Type existing = getType(theType,stack);
             if (existing != null) {
 
-                if (!(existing instanceof ArrayType)) return null; // False hit.
+                if (!(existing instanceof ArrayType)) {
+                    return null; // False hit.
+                }
 
                                 // Yep, so return it...
 
@@ -104,6 +106,7 @@ public class ArrayType extends Type {
      * Return signature for this type  (e.g. com.acme.Dynamite
      * would return "com.acme.Dynamite", byte = "B")
      */
+    @Override
     public String getSignature() {
         return bracketsSig + type.getSignature();
     }
@@ -111,6 +114,7 @@ public class ArrayType extends Type {
     /**
      * Get element type. Returns null if not an array.
      */
+    @Override
     public Type getElementType () {
         return type;
     }
@@ -118,6 +122,7 @@ public class ArrayType extends Type {
     /**
      * Get array dimension. Returns zero if not an array.
      */
+    @Override
     public int getArrayDimension () {
         return arrayDimension;
     }
@@ -125,6 +130,7 @@ public class ArrayType extends Type {
     /**
      * Get brackets string. Returns "" if not an array.
      */
+    @Override
     public String getArrayBrackets () {
         return brackets;
     }
@@ -132,6 +138,7 @@ public class ArrayType extends Type {
     /**
      * Return a string representation of this type.
      */
+    @Override
     public String toString () {
         return getQualifiedName() + brackets;
     }
@@ -139,6 +146,7 @@ public class ArrayType extends Type {
     /**
      * Return a string describing this type.
      */
+    @Override
     public String getTypeDescription () {
         return "Array of " + type.getTypeDescription();
     }
@@ -150,6 +158,7 @@ public class ArrayType extends Type {
      * @param useIDLNames If true, print IDL names; otherwise, print java names.
      * @param globalIDLNames If true and useIDLNames true, prepends "::".
      */
+    @Override
     public String getTypeName ( boolean useQualifiedNames,
                                 boolean useIDLNames,
                                 boolean globalIDLNames) {
@@ -168,6 +177,7 @@ public class ArrayType extends Type {
     /**
      * Convert all invalid types to valid ones.
      */
+    @Override
     protected void swapInvalidTypes () {
         if (type.getStatus() != STATUS_VALID) {
             type = getValidType(type);
@@ -178,6 +188,7 @@ public class ArrayType extends Type {
      * Add matching types to list. Return true if this type has not
      * been previously checked, false otherwise.
      */
+    @Override
     protected boolean addTypes (int typeCodeFilter,
                                 HashSet checked,
                                 Vector matching) {
@@ -231,6 +242,7 @@ public class ArrayType extends Type {
     /*
      * Load a Class instance. Return null if fail.
      */
+    @Override
     protected Class loadClass() {
         Class result = null;
         Class elementClass = type.getClassInstance();
@@ -243,6 +255,7 @@ public class ArrayType extends Type {
     /**
      * Release all resources
      */
+    @Override
     protected void destroy () {
         super.destroy();
         if (type != null) {

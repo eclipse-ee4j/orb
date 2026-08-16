@@ -44,12 +44,14 @@ public class TestObjectSuperSub extends TestObjectSuper {
         return dataxss0 == 0 && dataxss1 == null;
     }
 
+    @Override
     public boolean equals(Object obj) {
         try {
             TestObjectSuperSub other = (TestObjectSuperSub) obj;
 
-            if (other == null)
+            if (other == null) {
                 return false;
+            }
 
             return (testObjectSuperSubHasStreamDefaults() || other.testObjectSuperSubHasStreamDefaults()
                     || (dataxss0 == other.dataxss0 && dataxss1.equals(other.dataxss1)))

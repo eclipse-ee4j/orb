@@ -35,6 +35,7 @@ import org.omg.PortableInterceptor.CurrentHelper;
 public class MyORBInitializer extends org.omg.CORBA.LocalObject implements org.omg.PortableInterceptor.ORBInitializer {
     public static final String baseMsg = MyORBInitializer.class.getName();
 
+    @Override
     public void pre_init(ORBInitInfo info) {
         try {
             MyInterceptor interceptor = new MyInterceptor();
@@ -46,11 +47,12 @@ public class MyORBInitializer extends org.omg.CORBA.LocalObject implements org.o
         }
     }
 
+    @Override
     public void post_init(ORBInitInfo info) {
         try {
             Current piCurrent = CurrentHelper.narrow(info.resolve_initial_references(U.PICurrent));
             NamingContext nameService = NamingContextHelper.narrow(info.resolve_initial_references(U.NameService));
-            ;
+            
 
             SsPicInterceptor.sPic1ASlotId = info.allocate_slot_id();
             SsPicInterceptor.sPic1BSlotId = info.allocate_slot_id();

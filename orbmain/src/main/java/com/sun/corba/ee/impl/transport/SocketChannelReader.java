@@ -35,7 +35,7 @@ public class SocketChannelReader {
 
     /**
      * Reads all currently available data from the socket channel, appending it to any data left from a previous read.
-     * 
+     *
      * @param channel the channel from which to read
      * @param previouslyReadData the old data to read; note: all data up to the limit is considered valid.
      * @param minNeeded the minimum number of bytes that should be present in the buffer before returning
@@ -54,8 +54,9 @@ public class SocketChannelReader {
         }
 
         while (numBytesRead > 0 && byteBuffer.position() < minNeeded) {
-            if (haveFilledBuffer(byteBuffer))
+            if (haveFilledBuffer(byteBuffer)) {
                 byteBuffer = expandBuffer(byteBuffer);
+            }
             numBytesRead = channel.read(byteBuffer);
         }
 

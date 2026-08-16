@@ -42,7 +42,7 @@ import org.omg.PortableServer.ServantRetentionPolicyValue;
  * org.omg.CosNaming::BindingIterator interfaces specfied by the OMG Common Object Services Specification.
  * <p>
  * The TransientNameService creates the initial NamingContext object.
- * 
+ *
  * @see NamingContextImpl
  * @see BindingIteratorImpl
  * @see TransientNamingContext
@@ -55,7 +55,7 @@ public class TransientNameService {
     /**
      * Constructs a new TransientNameService, and creates an initial NamingContext, whose object reference can be obtained
      * by the initialNamingContext method.
-     * 
+     *
      * @param orb The ORB object
      * @exception org.omg.CORBA.INITIALIZE Thrown if the TransientNameService cannot initialize.
      */
@@ -69,7 +69,7 @@ public class TransientNameService {
     /**
      * Constructs a new TransientNameService, and creates an initial NamingContext, whose object reference can be obtained
      * by the initialNamingContext method.
-     * 
+     *
      * @param orb The ORB object
      * @param serviceName Stringified key used for INS Service registry
      * @exception org.omg.CORBA.INITIALIZE Thrown if the TransientNameService cannot initialize.
@@ -115,7 +115,7 @@ public class TransientNameService {
 
     /**
      * Return the initial NamingContext.
-     * 
+     *
      * @return the object reference for the initial NamingContext.
      */
     public org.omg.CORBA.Object initialNamingContext() {

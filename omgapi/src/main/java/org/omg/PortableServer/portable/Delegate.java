@@ -31,7 +31,7 @@ import org.omg.PortableServer.Servant;
 public interface Delegate {
     /**
      * Convenience method that returns the instance of the ORB currently associated with the Servant.
-     * 
+     *
      * @param Self the servant.
      * @return ORB associated with the Servant.
      */
@@ -40,7 +40,7 @@ public interface Delegate {
     /**
      * This allows the servant to obtain the object reference for the target CORBA Object it is incarnating for that
      * request.
-     * 
+     *
      * @param Self the servant.
      * @return Object reference associated with the request.
      */
@@ -48,7 +48,7 @@ public interface Delegate {
 
     /**
      * The method _poa() is equivalent to calling PortableServer::Current:get_POA.
-     * 
+     *
      * @param Self the servant.
      * @return POA associated with the servant.
      */
@@ -56,7 +56,7 @@ public interface Delegate {
 
     /**
      * The method _object_id() is equivalent to calling PortableServer::Current::get_object_id.
-     * 
+     *
      * @param Self the servant.
      * @return ObjectId associated with this servant.
      */
@@ -64,7 +64,7 @@ public interface Delegate {
 
     /**
      * The default behavior of this function is to return the root POA from the ORB instance associated with the servant.
-     * 
+     *
      * @param Self the servant.
      * @return POA associated with the servant class.
      */
@@ -73,7 +73,7 @@ public interface Delegate {
     /**
      * This method checks to see if the specified repid is present on the list returned by _all_interfaces() or is the
      * repository id for the generic CORBA Object.
-     * 
+     *
      * @param Self the servant.
      * @param Repository_Id the repository_id to be checked in the repository list or against the id of generic CORBA
      * object.
@@ -83,7 +83,7 @@ public interface Delegate {
 
     /**
      * This operation is used to check for the existence of the Object.
-     * 
+     *
      * @param Self the servant.
      * @return boolean true to indicate that object does not exist, and false otherwise.
      */
@@ -94,7 +94,7 @@ public interface Delegate {
     /**
      * This operation returns an object in the Interface Repository which provides type information that may be useful to a
      * program.
-     * 
+     *
      * @param self the servant.
      * @return type information corresponding to the object.
      */

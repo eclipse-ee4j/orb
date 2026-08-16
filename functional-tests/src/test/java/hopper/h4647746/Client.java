@@ -94,25 +94,31 @@ public class Client {
     private void runTests() {
         java.applet.Applet applet = new java.applet.Applet();
         java.applet.AppletStub dummy = new java.applet.AppletStub() {
+            @Override
             public void appletResize(int width, int height) {
             }
 
+            @Override
             public java.applet.AppletContext getAppletContext() {
                 return null;
             }
 
+            @Override
             public java.net.URL getCodeBase() {
                 return null;
             }
 
+            @Override
             public java.net.URL getDocumentBase() {
                 return null;
             }
 
+            @Override
             public String getParameter(String name) {
                 return null;
             }
 
+            @Override
             public boolean isActive() {
                 return false;
             }
@@ -140,6 +146,7 @@ public class Client {
         }
 
         Servant servant = new Servant() {
+            @Override
             public String[] _all_interfaces(POA poa, byte[] objectId) {
                 return null;
             }

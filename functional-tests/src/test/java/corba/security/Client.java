@@ -149,11 +149,13 @@ public class Client {
         dumpProtectionDomainForClass(corba.security.Client.class);
 
         Class cls = getClass("com.sun.corba.ee.spi.copyobject.OptimizedCopyobjectDefaults");
-        if (cls != null)
+        if (cls != null) {
             dumpProtectionDomainForClass(cls);
+        }
 
         cls = getClass("com.sun.corba.ee.impl.copyobject.newreflect.ClassCopier");
-        if (cls != null)
+        if (cls != null) {
             dumpProtectionDomainForClass(cls);
+        }
     }
 }

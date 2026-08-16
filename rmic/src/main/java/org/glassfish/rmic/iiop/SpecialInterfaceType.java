@@ -59,7 +59,9 @@ public class SpecialInterfaceType extends InterfaceType {
     public static SpecialInterfaceType forSpecial ( ClassDefinition theClass,
                                                     ContextStack stack) {
 
-        if (stack.anyErrors()) return null;
+        if (stack.anyErrors()) {
+            return null;
+        }
 
         // Do we already have it?
 
@@ -68,7 +70,9 @@ public class SpecialInterfaceType extends InterfaceType {
 
         if (existing != null) {
 
-            if (!(existing instanceof SpecialInterfaceType)) return null; // False hit.
+            if (!(existing instanceof SpecialInterfaceType)) {
+                return null; // False hit.
+            }
 
             // Yep, so return it...
 
@@ -100,6 +104,7 @@ public class SpecialInterfaceType extends InterfaceType {
     /**
      * Return a string describing this type.
      */
+    @Override
     public String getTypeDescription () {
         return "Special interface";
     }
@@ -123,14 +128,17 @@ public class SpecialInterfaceType extends InterfaceType {
         if (type.isType(TC_CLASS)) {
             Identifier id = type.getClassName();
 
-            if (id.equals(idRemote)) return true;
-            if (id == idJavaIoSerializable) return true;
-            if (id == idJavaIoExternalizable) return true;
-            if (id == idCorbaObject) return true;
-            if (id == idIDLEntity) return true;
+            if (id.equals(idRemote) || (id == idJavaIoSerializable) || (id == idJavaIoExternalizable) || (id == idCorbaObject)) {
+                return true;
+            }
+            if (id == idIDLEntity) {
+                return true;
+            }
             BatchEnvironment env = stack.getEnv();
             try {
-                if (env.defCorbaObject.implementedBy(env,theClass.getClassDeclaration())) return true;
+                if (env.defCorbaObject.implementedBy(env,theClass.getClassDeclaration())) {
+                    return true;
+                }
             } catch (ClassNotFound e) {
                 classNotFound(stack,e);
             }

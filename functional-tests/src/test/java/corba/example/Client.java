@@ -71,8 +71,9 @@ public class Client implements Runnable {
             }
 
             // Wait for all threads to finish
-            for (int i = 0; i < NTHREADS; i++)
+            for (int i = 0; i < NTHREADS; i++) {
                 threads[i].join();
+            }
 
             // Perform a simple test on stub equality. ie., test two stubs
             // which point to the same object for equality.
@@ -83,7 +84,7 @@ public class Client implements Runnable {
 
             boolean result = helloRef.equals(helloRef2);
             System.out.println("equals: " + result);
-            if (result == false) {
+            if (!result) {
                 errorOccured = true;
             }
 
@@ -91,8 +92,9 @@ public class Client implements Runnable {
 
             System.out.println("All threads returned, client finished");
 
-            if (errorOccured)
+            if (errorOccured) {
                 System.exit(1);
+            }
 
         } catch (Exception e) {
             System.out.println("ERROR : " + e);
@@ -101,6 +103,7 @@ public class Client implements Runnable {
         }
     }
 
+    @Override
     public void run() {
         try {
             for (int i = 0; i < NITNS; i++) {

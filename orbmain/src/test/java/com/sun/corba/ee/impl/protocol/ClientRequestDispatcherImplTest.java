@@ -173,8 +173,9 @@ public class ClientRequestDispatcherImplTest {
 
         @Override
         public CDRInputObject waitForResponse() {
-            if (exception != null)
+            if (exception != null) {
                 throw exception;
+            }
             return null;
         }
     }

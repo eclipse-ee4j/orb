@@ -63,6 +63,7 @@ public class DSIRMILocalServer extends DSIRMIServer {
             server.syncObject = new java.lang.Object();
 
             new Thread() {
+                @Override
                 public void run() {
                     try {
                         server.run(System.getProperties(), arguments, System.out, System.err, null);
@@ -94,16 +95,19 @@ public class DSIRMILocalServer extends DSIRMIServer {
         }
     }
 
+    @Override
     public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         super.run(environment, args, out, err, extra);
     }
 
+    @Override
     void handshake() {
         synchronized (syncObject) {
             syncObject.notifyAll();
         }
     }
 
+    @Override
     void waitForClients() {
     }
 }

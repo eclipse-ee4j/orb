@@ -76,6 +76,7 @@ public class ClientTestInitializer extends LocalObject implements ORBInitializer
     /**
      * Called before all references are registered
      */
+    @Override
     public void pre_init(org.omg.PortableInterceptor.ORBInitInfo info) {
         if (firstInit) {
             firstInit = false;
@@ -116,6 +117,7 @@ public class ClientTestInitializer extends LocalObject implements ORBInitializer
     /**
      * Called after all references are registered
      */
+    @Override
     public void post_init(org.omg.PortableInterceptor.ORBInitInfo info) {
         out.println("  - ClientTestInitializer.post_init called");
 
@@ -197,11 +199,11 @@ public class ClientTestInitializer extends LocalObject implements ORBInitializer
                 // We know the arguments "abcd" and "efgh" must be present.
                 boolean abcdPresent = false;
                 boolean efghPresent = false;
-                for (int i = 0; i < args.length; i++) {
-                    if (args[i].equals("abcd")) {
+                for (String arg : args) {
+                    if (arg.equals("abcd")) {
                         abcdPresent = true;
                     }
-                    if (args[i].equals("efgh")) {
+                    if (arg.equals("efgh")) {
                         efghPresent = true;
                     }
                 }
@@ -262,8 +264,9 @@ public class ClientTestInitializer extends LocalObject implements ORBInitializer
                 // expected (ok).
             }
 
-            if (!preInitFailed)
+            if (!preInitFailed) {
                 out.println("ok");
+            }
         } else {
             out.print("    - Checking postInit validity: ");
             boolean postInitFailed = false;
@@ -286,8 +289,9 @@ public class ClientTestInitializer extends LocalObject implements ORBInitializer
                 postInitFailed = true;
             }
 
-            if (!postInitFailed)
+            if (!postInitFailed) {
                 out.println("ok");
+            }
         }
 
         // These are trickier to test and require actually doing something

@@ -46,7 +46,7 @@ public final class CodecFactoryImpl extends org.omg.CORBA.LocalObject implements
 
     /**
      * Creates a new CodecFactory implementation. Stores the ORB that created this factory, for later use by the Codec.
-     * 
+     *
      * @param orb ORB that created this factory
      */
     public CodecFactoryImpl(ORB orb) {
@@ -68,9 +68,11 @@ public final class CodecFactoryImpl extends org.omg.CORBA.LocalObject implements
      *
      * @exception UnknownEncoding Thrown if this factory cannot create a Codec of the given encoding.
      */
+    @Override
     public Codec create_codec(Encoding enc) throws UnknownEncoding {
-        if (enc == null)
+        if (enc == null) {
             nullParam();
+        }
 
         Codec result = null;
 

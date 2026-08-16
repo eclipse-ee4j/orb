@@ -128,7 +128,7 @@ public abstract class Common {
     public static Codec getCodec(ORB orb) {
         try {
             CodecFactory codecFactory = CodecFactoryHelper.narrow(orb.resolve_initial_references("CodecFactory"));
-            return codecFactory.create_codec(new Encoding((short) ENCODING_CDR_ENCAPS.value, (byte) 1, (byte) 2));
+            return codecFactory.create_codec(new Encoding(ENCODING_CDR_ENCAPS.value, (byte) 1, (byte) 2));
         } catch (Exception e) {
             System.out.println("Unexpected: " + e);
             System.exit(1);
@@ -141,12 +141,12 @@ public abstract class Common {
 
         int index = 0;
 
-        for (int i = 0; i < a1.length; ++i) {
-            result[index++] = a1[i];
+        for (String element : a1) {
+            result[index++] = element;
         }
 
-        for (int i = 0; i < a2.length; ++i) {
-            result[index++] = a2[i];
+        for (String element : a2) {
+            result[index++] = element;
         }
 
         /*
@@ -159,8 +159,8 @@ public abstract class Common {
 
     public static String formatStringArray(String[] a) {
         String result = "";
-        for (int i = 0; i < a.length; ++i) {
-            result += a[i] + " ";
+        for (String element : a) {
+            result += element + " ";
         }
         return result;
     }

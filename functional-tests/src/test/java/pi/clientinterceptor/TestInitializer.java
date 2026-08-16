@@ -52,12 +52,14 @@ public class TestInitializer extends org.omg.CORBA.LocalObject implements ORBIni
     /**
      * Called before all references are registered
      */
+    @Override
     public void pre_init(org.omg.PortableInterceptor.ORBInitInfo info) {
     }
 
     /**
      * Called after all references are registered
      */
+    @Override
     public void post_init(org.omg.PortableInterceptor.ORBInitInfo info) {
         ClientRequestInterceptor interceptor1;
         ClientRequestInterceptor interceptor2;

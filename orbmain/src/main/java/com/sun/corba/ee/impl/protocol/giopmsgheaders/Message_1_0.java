@@ -40,7 +40,7 @@ public class Message_1_0 extends com.sun.corba.ee.impl.protocol.giopmsgheaders.M
     GIOPVersion GIOP_version = null;
     boolean byte_order = false;
     byte message_type = (byte) 0;
-    int message_size = (int) 0;
+    int message_size = 0;
 
     // Constructor
 
@@ -57,28 +57,34 @@ public class Message_1_0 extends com.sun.corba.ee.impl.protocol.giopmsgheaders.M
 
     // Accessor methods
 
+    @Override
     public GIOPVersion getGIOPVersion() {
         return this.GIOP_version;
     }
 
+    @Override
     public int getType() {
         return this.message_type;
     }
 
+    @Override
     public int getSize() {
         return this.message_size;
     }
 
+    @Override
     public boolean isLittleEndian() {
         return this.byte_order;
     }
 
+    @Override
     public boolean moreFragmentsToFollow() {
         return false;
     }
 
     // Mutator methods
 
+    @Override
     public void setSize(ByteBuffer byteBuffer, int size) {
         this.message_size = size;
 
@@ -99,6 +105,7 @@ public class Message_1_0 extends com.sun.corba.ee.impl.protocol.giopmsgheaders.M
         }
     }
 
+    @Override
     public FragmentMessage createFragmentMessage() {
         throw wrapper.fragmentationDisallowed();
     }
@@ -109,6 +116,7 @@ public class Message_1_0 extends com.sun.corba.ee.impl.protocol.giopmsgheaders.M
     // is read off java.io.InputStream (not a CDRInputStream) by IIOPConnection
     // in order to choose the correct CDR Version, msg_type, and msg_size.
     // So, we would never need to read the Message Header off a CDRInputStream.
+    @Override
     public void read(org.omg.CORBA.portable.InputStream istream) {
         /*
          * this.magic = istream.read_long(); this.GIOP_version = (new GIOPVersion()).read(istream); this.byte_order =
@@ -116,6 +124,7 @@ public class Message_1_0 extends com.sun.corba.ee.impl.protocol.giopmsgheaders.M
          */
     }
 
+    @Override
     public void write(org.omg.CORBA.portable.OutputStream ostream) {
         ostream.write_long(this.magic);
         nullCheck(this.GIOP_version);

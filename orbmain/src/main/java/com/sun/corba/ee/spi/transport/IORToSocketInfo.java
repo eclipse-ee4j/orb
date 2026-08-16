@@ -27,6 +27,7 @@ import java.util.List;
 public interface IORToSocketInfo {
     /**
      * Used to extract socket address information from an IOR.
+     *
      * @param ior The ior from which the socket info is extracted.
      * @param previous The previous list, which may be reused if not null.
      * @return a list of SocketInfo.

@@ -37,6 +37,7 @@ class helloDSIServant extends org.omg.PortableServer.DynamicImplementation {
 
     public static String[] __ids = { "IDL:ServerRequestInterceptor/hello:1.0" };
 
+    @Override
     public String[] _all_interfaces(POA poa, byte[] oid) {
         return __ids;
     }
@@ -45,6 +46,7 @@ class helloDSIServant extends org.omg.PortableServer.DynamicImplementation {
         impl = new DSIImpl(orb, out, symbol);
     }
 
+    @Override
     public void invoke(ServerRequest r) {
         impl.invoke(r);
     }

@@ -50,6 +50,7 @@ class SwitchStatement extends Statement {
     /**
      * Check statement
      */
+    @Override
     Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         checkLabel(env, ctx);
         CheckContext newctx = new CheckContext(ctx, this);
@@ -64,9 +65,7 @@ class SwitchStatement extends Statement {
         // If the first substatement is not a case label, it is unreached.
         Vset vs = DEAD_END;
 
-        for (int i = 0 ; i < args.length ; i++) {
-            Statement s = args[i];
-
+        for (Statement s : args) {
             if (s.op == CASE) {
 
                 vs = s.check(env, newctx, vs.join(vset.copy()), exp);
@@ -131,14 +130,16 @@ class SwitchStatement extends Statement {
         if (!vs.isDeadEnd()) {
             newctx.vsBreak = newctx.vsBreak.join(vs);
         }
-        if (hasDefault)
+        if (hasDefault) {
             vset = newctx.vsBreak;
+        }
         return ctx.removeAdditionalVars(vset);
     }
 
     /**
      * Inline
      */
+    @Override
     public Statement inline(Environment env, Context ctx) {
         ctx = new Context(ctx, this);
         expr = expr.inlineValue(env, ctx);
@@ -153,6 +154,7 @@ class SwitchStatement extends Statement {
     /**
      * Create a copy of the statement for method inlining
      */
+    @Override
     public Statement copyInline(Context ctx, boolean valNeeded) {
         SwitchStatement s = (SwitchStatement)clone();
         s.expr = expr.copyInline(ctx);
@@ -168,6 +170,7 @@ class SwitchStatement extends Statement {
     /**
      * The cost of inlining this statement
      */
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
         int cost = expr.costInline(thresh, env, ctx);
         for (int i = 0 ; (i < args.length) && (cost < thresh) ; i++) {
@@ -181,6 +184,7 @@ class SwitchStatement extends Statement {
     /**
      * Code
      */
+    @Override
     public void code(Environment env, Context ctx, Assembler asm) {
         CodeContext newctx = new CodeContext(ctx, this);
 
@@ -189,8 +193,7 @@ class SwitchStatement extends Statement {
         SwitchData sw = new SwitchData();
         boolean hasDefault = false;
 
-        for (int i = 0 ; i < args.length ; i++) {
-            Statement s = args[i];
+        for (Statement s : args) {
             if ((s != null) && (s.op == CASE)) {
                 Expression e = ((CaseStatement)s).expr;
                 if (e != null) {
@@ -205,13 +208,13 @@ class SwitchStatement extends Statement {
         }
 
 // JCOV
-        if (env.coverage())
+        if (env.coverage()) {
             sw.initTableCase();
+        }
 // end JCOV
         asm.add(where, opc_tableswitch, sw);
 
-        for (int i = 0 ; i < args.length ; i++) {
-            Statement s = args[i];
+        for (Statement s : args) {
             if (s != null) {
                 if (s.op == CASE) {
                     Expression e = ((CaseStatement)s).expr;
@@ -242,15 +245,16 @@ class SwitchStatement extends Statement {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out, int indent) {
         super.print(out, indent);
         out.print("switch (");
         expr.print(out);
         out.print(") {\n");
-        for (int i = 0 ; i < args.length ; i++) {
-            if (args[i] != null) {
+        for (Statement arg : args) {
+            if (arg != null) {
                 printIndent(out, indent + 1);
-                args[i].print(out, indent + 1);
+                arg.print(out, indent + 1);
                 out.print("\n");
             }
         }

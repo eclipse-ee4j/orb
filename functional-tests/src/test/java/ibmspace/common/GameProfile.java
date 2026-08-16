@@ -33,6 +33,7 @@ public class GameProfile implements Identifiable, java.io.Serializable {
         fID = new ID();
     }
 
+    @Override
     public ID getID() {
         return fID;
     }

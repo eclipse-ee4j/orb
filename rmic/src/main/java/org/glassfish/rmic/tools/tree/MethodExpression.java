@@ -72,15 +72,18 @@ class MethodExpression extends NaryExpression {
         this.isSuper = forceSuper;
     }
 
+    @Override
     public Expression getImplementation() {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation;
+        }
         return this;
     }
 
     /**
      * Check expression type
      */
+    @Override
     public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         ClassDeclaration c = null;
         boolean isArray = false;
@@ -306,8 +309,9 @@ class MethodExpression extends NaryExpression {
 
                 if (field == null) {
                     if (id.equals(idInit)) {
-                        if (diagnoseMismatch(env, args, argTypes))
+                        if (diagnoseMismatch(env, args, argTypes)) {
                             return vset;
+                        }
                         String sig = clazz.getName().getName().toString();
                         sig = Type.tMethod(Type.tError, argTypes).typeString(sig, false, false);
                         env.error(where, "unmatched.constr", sig, c);
@@ -542,8 +546,9 @@ class MethodExpression extends NaryExpression {
             field.isConstructor() && (right != null) && (right.op == SUPER)) {
             Expression e = makeVarInits(env, ctx);
             if (e != null) {
-                if (implementation == null)
+                if (implementation == null) {
                     implementation = (Expression)this.clone();
+                }
                 implementation = new CommaExpression(where, implementation, e);
             }
         }
@@ -563,9 +568,9 @@ class MethodExpression extends NaryExpression {
                 }
             }
         }
-        for (int i = 0 ; i < exceptions.length ; i++) {
-            if (exp.get(exceptions[i]) == null) {
-                exp.put(exceptions[i], this);
+        for (ClassDeclaration exception : exceptions) {
+            if (exp.get(exception) == null) {
+                exp.put(exception, this);
             }
         }
 
@@ -590,6 +595,7 @@ class MethodExpression extends NaryExpression {
     /**
      * Check void expression
      */
+    @Override
     public Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         return checkValue(env, ctx, vset, exp);
     }
@@ -616,7 +622,9 @@ class MethodExpression extends NaryExpression {
                 env.error(where, "wrong.number.args", opName);
                 saidSomething = true;
             }
-            if (code < 0)  break;
+            if (code < 0) {
+                break;
+            }
             int i = code >> 2;
             boolean castOK = (code & 2) != 0;
             boolean ambig = (code & 1) != 0;
@@ -630,10 +638,11 @@ class MethodExpression extends NaryExpression {
             // argument types that also would match.  Hint at this:
             //if (ambig)  ttype = "{"+ttype+";...}";
 
-            if (castOK)
+            if (castOK) {
                 env.error(args[i].where, "explicit.cast.needed", opName, argTypes[i], ttype);
-            else
+            } else {
                 env.error(args[i].where, "incompatible.type", opName, argTypes[i], ttype);
+            }
             saidSomething = true;
             start = i+1;        // look for other bad arguments, too
         }
@@ -678,9 +687,11 @@ class MethodExpression extends NaryExpression {
         return valNeeded ? e.inlineValue(env, ctx) : e.inline(env, ctx);
     }
 
+    @Override
     public Expression inline(Environment env, Context ctx) {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation.inline(env, ctx);
+        }
         try {
             if (right != null) {
                 right = field.isStatic() ? right.inline(env, ctx) : right.inlineValue(env, ctx);
@@ -723,9 +734,11 @@ class MethodExpression extends NaryExpression {
         }
     }
 
+    @Override
     public Expression inlineValue(Environment env, Context ctx) {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation.inlineValue(env, ctx);
+        }
         try {
             if (right != null) {
                 right = field.isStatic() ? right.inline(env, ctx) : right.inlineValue(env, ctx);
@@ -772,15 +785,19 @@ class MethodExpression extends NaryExpression {
         }
     }
 
+    @Override
     public Expression copyInline(Context ctx) {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation.copyInline(ctx);
+        }
         return super.copyInline(ctx);
     }
 
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation.costInline(thresh, env, ctx);
+        }
 
         // for now, don't allow calls to super() to be inlined.  We may fix
         // this later
@@ -851,9 +868,11 @@ class MethodExpression extends NaryExpression {
     /**
      * Code
      */
+    @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
-        if (implementation != null)
+        if (implementation != null) {
             throw new CompilerError("codeValue");
+        }
         int i = 0;              // argument index
         if (field.isStatic()) {
             if (right != null) {
@@ -921,6 +940,7 @@ class MethodExpression extends NaryExpression {
     /**
      * Check if the first thing is a constructor invocation
      */
+    @Override
     public Expression firstConstructor() {
         return id.equals(idInit) ? this : null;
     }
@@ -928,6 +948,7 @@ class MethodExpression extends NaryExpression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print("(" + opNames[op]);
         if (right != null) {
@@ -935,10 +956,10 @@ class MethodExpression extends NaryExpression {
             right.print(out);
         }
         out.print(" " + ((id == null) ? idInit : id));
-        for (int i = 0 ; i < args.length ; i++) {
+        for (Expression arg : args) {
             out.print(" ");
-            if (args[i] != null) {
-                args[i].print(out);
+            if (arg != null) {
+                arg.print(out);
             } else {
                 out.print("<null>");
             }

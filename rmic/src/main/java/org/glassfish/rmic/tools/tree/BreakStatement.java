@@ -46,6 +46,7 @@ class BreakStatement extends Statement {
     /**
      * Check statement
      */
+    @Override
     Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         reach(env, vset);
         checkLabel(env, ctx);
@@ -72,6 +73,7 @@ class BreakStatement extends Statement {
     /**
      * The cost of inlining this statement
      */
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
         return 1;
     }
@@ -79,6 +81,7 @@ class BreakStatement extends Statement {
     /**
      * Code
      */
+    @Override
     public void code(Environment env, Context ctx, Assembler asm) {
         CodeContext newctx = new CodeContext(ctx, this);
         CodeContext destctx = (CodeContext)newctx.getBreakContext(lbl);
@@ -90,6 +93,7 @@ class BreakStatement extends Statement {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out, int indent) {
         super.print(out, indent);
         out.print("break");

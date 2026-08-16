@@ -68,6 +68,7 @@ public class Server implements InternalProcess {
         }
     }
 
+    @Override
     public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         try {
             this.out = out;
@@ -275,10 +276,10 @@ public class Server implements InternalProcess {
 
         // Check each found occurrence to make sure it contains the correct
         // data.
-        for (int i = 0; i < componentList.size(); i++) {
+        for (Object element : componentList) {
             GenericIdentifiable encaps = null;
             try {
-                encaps = (GenericIdentifiable) componentList.get(i);
+                encaps = (GenericIdentifiable) element;
             } catch (ClassCastException e) {
                 String failReason = "Component ID " + expectedId + ": One or more occurrences is not a " + "GenericIdentifiable.  FAIL.";
                 out.println("      - " + failReason);

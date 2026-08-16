@@ -54,7 +54,7 @@ public interface CSIv2SSLTaggedComponentHandler {
      * Extract is called on each invocation of the IOR, so that the security code can run properly. If the given IOR
      * contains CSIv2SSL host/port info that should be used for this invocation then extract should return a List of
      * SocketInfo. Otherwise it should return null.
-     * 
+     *
      * @param ior The target ior of the current invocation.
      * @return List of all SocketInfos found in the IOR.
      */

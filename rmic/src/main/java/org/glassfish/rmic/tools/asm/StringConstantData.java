@@ -45,6 +45,7 @@ class StringConstantData extends ConstantPoolData {
     /**
      * Write the constant to the output stream
      */
+    @Override
     void write(Environment env, DataOutputStream out, ConstantPool tab) throws IOException {
         out.writeByte(CONSTANT_UTF8);
         out.writeUTF(str);
@@ -53,6 +54,7 @@ class StringConstantData extends ConstantPoolData {
     /**
      * Return the order of the constant
      */
+    @Override
     int order() {
         return 4;
     }
@@ -60,6 +62,7 @@ class StringConstantData extends ConstantPoolData {
     /**
      * toString
      */
+    @Override
     public String toString() {
         return "StringConstantData[" + str + "]=" + str.hashCode();
     }

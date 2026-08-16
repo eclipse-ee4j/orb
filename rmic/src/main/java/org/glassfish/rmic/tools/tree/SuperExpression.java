@@ -56,6 +56,7 @@ class SuperExpression extends ThisExpression {
     /**
      * Check expression
      */
+    @Override
     public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         vset = checkCommon(env, ctx, vset, exp);
         if (type != Type.tError) {
@@ -68,6 +69,7 @@ class SuperExpression extends ThisExpression {
     /**
      * Check if the present name is part of a scoping prefix.
      */
+    @Override
     public Vset checkAmbigName(Environment env, Context ctx,
                                Vset vset, Hashtable<Object, Object> exp,
                                UnaryExpression loc) {

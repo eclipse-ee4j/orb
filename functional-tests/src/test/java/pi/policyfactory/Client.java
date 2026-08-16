@@ -50,6 +50,7 @@ public class Client implements Runnable {
         new Client().run();
     }
 
+    @Override
     public void run() {
         JUnitReportHelper helper = new JUnitReportHelper(this.getClass().getName());
         try {

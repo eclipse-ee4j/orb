@@ -48,6 +48,7 @@ class InlineMethodExpression extends Expression {
     /**
      * Inline
      */
+    @Override
     public Expression inline(Environment env, Context ctx) {
         body = body.inline(env, new Context(ctx, this));
         if (body == null) {
@@ -62,6 +63,7 @@ class InlineMethodExpression extends Expression {
             return this;
         }
     }
+    @Override
     public Expression inlineValue(Environment env, Context ctx) {
         // When this node was constructed, "copyInline" walked the body
         // with a "valNeeded" flag which made all returns either void
@@ -74,6 +76,7 @@ class InlineMethodExpression extends Expression {
     /**
      * Create a copy of the expression for method inlining
      */
+    @Override
     public Expression copyInline(Context ctx) {
         InlineMethodExpression e = (InlineMethodExpression)clone();
         if (body != null) {
@@ -85,10 +88,12 @@ class InlineMethodExpression extends Expression {
     /**
      * Code
      */
+    @Override
     public void code(Environment env, Context ctx, Assembler asm) {
         // pop the result if there is any (usually, type is already void)
         super.code(env, ctx, asm);
     }
+    @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         CodeContext newctx = new CodeContext(ctx, this);
         body.code(env, newctx, asm);
@@ -98,6 +103,7 @@ class InlineMethodExpression extends Expression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print("(" + opNames[op] + "\n");
         body.print(out, 1);

@@ -115,14 +115,16 @@ public class Arrow {
     }
 
     public int getLength() {
-        if (fCacheBlown)
+        if (fCacheBlown) {
             updateCache();
+        }
         return (int) fLen;
     }
 
     public void draw(Graphics g) {
-        if (fCacheBlown)
+        if (fCacheBlown) {
             updateCache();
+        }
 
         if (!fCacheBlown) {
             g.setColor(fColor);

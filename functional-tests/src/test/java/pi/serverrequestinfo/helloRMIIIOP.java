@@ -41,26 +41,32 @@ public class helloRMIIIOP extends PortableRemoteObject implements helloIF {
         this.delegate = new helloDelegate(out, symbol, clientCallback);
     }
 
+    @Override
     public String sayHello() {
         return delegate.sayHello();
     }
 
+    @Override
     public void sayOneway() {
         delegate.sayOneway();
     }
 
+    @Override
     public void saySystemException() {
         delegate.saySystemException();
     }
 
+    @Override
     public void sayUserException() throws ExampleException {
         delegate.sayUserException();
     }
 
+    @Override
     public String syncWithServer(boolean exceptionRaised) {
         return delegate.syncWithServer(exceptionRaised);
     }
 
+    @Override
     public void sayInvokeAgain(int n) {
         delegate.sayInvokeAgain(n);
     }

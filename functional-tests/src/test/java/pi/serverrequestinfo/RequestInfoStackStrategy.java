@@ -43,20 +43,23 @@ public class RequestInfoStackStrategy extends InterceptorStrategy {
     // 3 - saySystemException
     private int testNum = 0;
 
+    @Override
     public void receive_request_service_contexts(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) throws ForwardRequest {
         try {
             super.receive_request_service_contexts(interceptor, ri);
             log("rrsc(): count = " + count);
             log("rrsc(): count = " + count + " to " + (count + 1));
             count++;
-            if (count == 1)
+            if (count == 1) {
                 testNum++;
+            }
             checkOperationName("rrsc", ri.operation());
         } catch (Exception ex) {
             failException("rrsc", ex);
         }
     }
 
+    @Override
     public void receive_request(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) {
         try {
             super.receive_request(interceptor, ri);
@@ -67,6 +70,7 @@ public class RequestInfoStackStrategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void send_reply(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) {
         try {
             super.send_reply(interceptor, ri);
@@ -79,6 +83,7 @@ public class RequestInfoStackStrategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void send_exception(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) throws ForwardRequest {
         try {
             super.send_exception(interceptor, ri);
@@ -91,6 +96,7 @@ public class RequestInfoStackStrategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void send_other(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) throws ForwardRequest {
         try {
             super.send_other(interceptor, ri);

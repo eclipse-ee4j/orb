@@ -44,6 +44,7 @@ public class PropsClient extends ClientCommon {
         }
     }
 
+    @Override
     protected ORB createORB(String[] args) {
         // Initializer classes
         String invalidInitializer = "com.sun.nonexistent.intializer.Foo";

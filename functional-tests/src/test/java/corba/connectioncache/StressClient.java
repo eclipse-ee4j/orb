@@ -46,6 +46,7 @@ import java.util.Random;
 public class StressClient {
     // Ignore all of the LogRecord information except the message.
     public static class ReallySimpleFormatter extends Formatter {
+        @Override
         public synchronized String format(LogRecord record) {
             return record.getMessage() + "\n";
         }
@@ -174,14 +175,14 @@ public class StressClient {
         ibcache = ConnectionCacheFactory.<ConnectionImpl>makeBlockingInboundConnectionCache("BlockingInboundCache", HIGH_WATER_MARK,
                 NUMBER_TO_RECLAIM, TTL);
 
-        cinfos = new ArrayList<ContactInfoImpl>();
+        cinfos = new ArrayList<>();
         for (int ctr = 0; ctr < NUM_CONTACT_INFO; ctr++) {
             cinfos.add(ContactInfoImpl.get("ContactInfo:" + ctr, MIN_CREATE_CONNECTION_DELAY, MAX_CREATE_CONNECTION_DELAY));
         }
 
         operationDelay = new RandomDelay(MIN_OPERATION_DELAY, MAX_OPERATION_DELAY);
 
-        threads = new ArrayList<Thread>();
+        threads = new ArrayList<>();
     }
 
     @Test

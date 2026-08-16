@@ -29,7 +29,7 @@ import java.nio.channels.Selector;
 /**
  *
  * Encapsulates a temporary Selector and temporary Selector state
- * 
+ *
  * @author Charlie Hunt
  */
 public class TemporarySelector {
@@ -39,7 +39,7 @@ public class TemporarySelector {
 
     /**
      * Creates a new instance of TemporarySelector
-     * 
+     *
      * @param theSelectableChannel channel to select
      * @throws java.io.IOException If an I/O error occurs
      */
@@ -62,7 +62,7 @@ public class TemporarySelector {
      * close the Connection. An example of this potential scenario can be found in the "no connection cache" plug-in
      * implementation. To avoid this potential scenario, the "no connection cache" plug-in disables the read optimization to
      * always enter a blocking read.
-     * 
+     *
      * @see com.sun.corba.ee.impl.plugin.hwlb.NoConnectionCacheImpl NoConnectionCacheImpl to see how the 'always enter
      * blocking read' optimization is disabled.
      * @param theTimeout If positive, block for up to theTimeout milliseconds, more or less, while waiting for a
@@ -93,7 +93,7 @@ public class TemporarySelector {
      * connection cache" plug-in disables the read optimization to always enter a blocking read. See
      * com.sun.corba.ee.impl.plugin.hwlb.NoConnectionCacheImpl.java to see how the 'always enter blocking read' optimization
      * is disabled.
-     * 
+     *
      * @throws java.io.IOException If an I/O error occurs
      */
     synchronized public void close() throws IOException {

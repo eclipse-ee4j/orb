@@ -29,16 +29,20 @@ public abstract class ParserActionBase implements ParserAction {
     private Operation operation;
     private String fieldName;
 
+    @Override
     public int hashCode() {
         return propertyName.hashCode() ^ operation.hashCode() ^ fieldName.hashCode() ^ (prefix ? 0 : 1);
     }
 
+    @Override
     public boolean equals(Object obj) {
-        if (obj == this)
+        if (obj == this) {
             return true;
+        }
 
-        if (!(obj instanceof ParserActionBase))
+        if (!(obj instanceof ParserActionBase)) {
             return false;
+        }
 
         ParserActionBase other = (ParserActionBase) obj;
 
@@ -53,18 +57,22 @@ public abstract class ParserActionBase implements ParserAction {
         this.fieldName = fieldName;
     }
 
+    @Override
     public String getPropertyName() {
         return propertyName;
     }
 
+    @Override
     public boolean isPrefix() {
         return prefix;
     }
 
+    @Override
     public String getFieldName() {
         return fieldName;
     }
 
+    @Override
     public abstract Object apply(Properties props);
 
     protected Operation getOperation() {

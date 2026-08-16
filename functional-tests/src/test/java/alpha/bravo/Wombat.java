@@ -40,14 +40,19 @@ public interface Wombat extends java.rmi.Remote, omega.Wallaby {
 
     void buzz() throws java.rmi.RemoteException, omega.MammalOverload;
 
+    @Override
     int getFoo() throws java.rmi.RemoteException;
 
+    @Override
     void setFoo(int x) throws java.rmi.RemoteException;
 
+    @Override
     String getURL() throws java.rmi.RemoteException;
 
+    @Override
     boolean isBoo() throws java.rmi.RemoteException;
 
+    @Override
     void setBoo(boolean b) throws java.rmi.RemoteException;
 
     void passRemote() throws java.rmi.RemoteException;

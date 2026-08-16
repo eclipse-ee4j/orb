@@ -31,29 +31,36 @@ public class rmiiAttributesIServantPOA extends PortableRemoteObject implements r
     public rmiiAttributesIServantPOA() throws RemoteException {
     }
 
+    @Override
     public Integer getInteger() throws RemoteException {
         return null;
     }
 
+    @Override
     public void setInteger(Integer x) throws RemoteException {
     }
 
+    @Override
     public boolean isTrue() throws RemoteException {
         return true;
     }
 
+    @Override
     public boolean getTrue() throws RemoteException {
         return true;
     }
 
+    @Override
     public void setTrue(boolean x) throws RemoteException {
     }
 
     // Test that this is NOT a JavaBeans pattern.
+    @Override
     public Integer get() throws RemoteException {
         return null;
     }
 
+    @Override
     public void set(Integer x) throws RemoteException {
     }
 

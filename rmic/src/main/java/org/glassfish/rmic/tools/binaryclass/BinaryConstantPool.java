@@ -207,8 +207,9 @@ class BinaryConstantPool implements Constants {
                         Type field_type = field.getType();
                         if ((constant_type == CONSTANT_FIELD)
                             ? (field_type == type)
-                            : (field_type.equalArguments(type)))
+                            : (field_type.equalArguments(type))) {
                             return field;
+                        }
                     }
                 } catch (ClassNotFound e) {
                 }
@@ -245,12 +246,14 @@ class BinaryConstantPool implements Constants {
      * Find the index of an Object in the constant pool
      */
     public int indexObject(Object obj, Environment env) {
-        if (indexHashObject == null)
+        if (indexHashObject == null) {
             createIndexHash(env);
+        }
         Integer result = indexHashObject.get(obj);
-        if (result == null)
+        if (result == null) {
             throw new IndexOutOfBoundsException("Cannot find object " + obj + " of type " +
                                 obj.getClass() + " in constant pool");
+        }
         return result.intValue();
     }
 
@@ -259,11 +262,14 @@ class BinaryConstantPool implements Constants {
      * the constant pool, then add it at the end.
      */
     public int indexString(String string, Environment env) {
-        if (indexHashObject == null)
+        if (indexHashObject == null) {
             createIndexHash(env);
+        }
         Integer result = indexHashAscii.get(string);
         if (result == null) {
-            if (MoreStuff == null) MoreStuff = new Vector<>();
+            if (MoreStuff == null) {
+                MoreStuff = new Vector<>();
+            }
             result = cpool.length + MoreStuff.size();
             MoreStuff.addElement(string);
             indexHashAscii.put(string, result);
@@ -297,8 +303,9 @@ class BinaryConstantPool implements Constants {
      */
     public void write(DataOutputStream out, Environment env) throws IOException {
         int length = cpool.length;
-        if (MoreStuff != null)
+        if (MoreStuff != null) {
             length += MoreStuff.size();
+        }
         out.writeShort(length);
         for (int i = 1 ; i < cpool.length; i++) {
             int type = types[i];

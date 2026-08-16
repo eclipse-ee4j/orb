@@ -28,6 +28,7 @@ package javax.rmi.CORBA.serialization;
 public abstract class Date implements javax.rmi.CORBA.serialization.Cloneable, org.omg.CORBA.portable.CustomValue {
     private static String[] _truncatable_ids = { DateHelper.id() };
 
+    @Override
     public String[] _truncatable_ids() {
         return _truncatable_ids;
     }

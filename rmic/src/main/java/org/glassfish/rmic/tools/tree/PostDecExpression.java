@@ -39,9 +39,11 @@ class PostDecExpression extends IncDecExpression {
     /**
      * Code
      */
+    @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         codeIncDec(env, ctx, asm, false, false, true);
     }
+    @Override
     public void code(Environment env, Context ctx, Assembler asm) {
         codeIncDec(env, ctx, asm, false, false, false);
     }

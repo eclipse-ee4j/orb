@@ -237,17 +237,17 @@ public class ClassInfoCache {
     /*
      * Version using ConcurrentMap for testing ONLY (This would pin Classes (and thus ClassLoaders), leading to App server
      * deployment memory leaks.
-     * 
+     *
      * private static ConcurrentMap<Class,ClassInfo> classData = new ConcurrentHashMap<Class,ClassInfo>() ;
-     * 
+     *
      * public static ClassInfo get( Class cls ) { ClassInfo result = classData.get( cls ) ; if (result == null) { final
      * ClassInfo cinfo = new ClassInfo( cls ) ; final ClassInfo putResult = classData.putIfAbsent( cls, cinfo ) ; if
      * (putResult == null) { result = cinfo ; } else { result = putResult ; } }
-     * 
+     *
      * return result ; }
      */
 
-    private static Map<Class, ClassInfo> classData = new WeakHashMap<Class, ClassInfo>();
+    private static Map<Class, ClassInfo> classData = new WeakHashMap<>();
 
     public static synchronized ClassInfo get(Class<?> cls) {
         ClassInfo result = classData.get(cls);
@@ -261,7 +261,7 @@ public class ClassInfoCache {
 
     /**
      * Find the class that is an enum in the superclass chain starting at cls. cinfo MUST be the ClassInfo for cls.
-     * 
+     *
      * @param cinfo ClassInfo for cls
      * @param cls Class which may have java.lang.Enum in its superclass chain.
      * @return A class for which isEnum() is true, or null if no such class exists in the superclass chain of cls.

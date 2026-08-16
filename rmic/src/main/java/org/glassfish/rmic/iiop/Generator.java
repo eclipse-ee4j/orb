@@ -67,6 +67,7 @@ public abstract class Generator implements      org.glassfish.rmic.Generator,
      * @param main Report any errors using the main.error() methods.
      * @return true if no errors, false otherwise.
      */
+    @Override
     public boolean parseArgs(String argv[], Main main) {
         for (int i = 0; i < argv.length; i++) {
             if (argv[i] != null) {
@@ -239,6 +240,7 @@ public abstract class Generator implements      org.glassfish.rmic.Generator,
      * @param cdef      The definition for the implementation class or interface from
  *              which to generate output
      */
+    @Override
     public void generate(org.glassfish.rmic.BatchEnvironment env, File destDir, ClassDefinition cdef) {
 
         this.env = (BatchEnvironment) env;
@@ -297,7 +299,9 @@ public abstract class Generator implements      org.glassfish.rmic.Generator,
             File file = getFileFor(type, destDir);
 
             if (!requiresGeneration(file, type.getType())) {
-                if (env.verbose()) env.output(Main.getText("rmic.previously.generated", file.getPath()));
+                if (env.verbose()) {
+                    env.output(Main.getText("rmic.previously.generated", file.getPath()));
+                }
             } else {
                 // Now create an output stream and ask subclass to fill it up...
 

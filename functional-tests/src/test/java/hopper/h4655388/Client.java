@@ -125,18 +125,24 @@ public class Client {
         // ClassCastException.
         POA[] children = rpoa.the_children();
 
-        if (children.length != 2)
+        if (children.length != 2) {
             error("Should have exactly 2 children");
+        }
 
-        if (!children[0].the_name().equals("Child1"))
-            if (!children[0].the_name().equals("Child2"))
+        if (!children[0].the_name().equals("Child1")) {
+            if (!children[0].the_name().equals("Child2")) {
                 error("children[0] is incorrect");
+            }
+        }
 
-        if (!children[1].the_name().equals("Child1"))
-            if (!children[1].the_name().equals("Child2"))
+        if (!children[1].the_name().equals("Child1")) {
+            if (!children[1].the_name().equals("Child2")) {
                 error("children[1] is incorrect");
+            }
+        }
 
-        if (children[0].the_name().equals(children[1].the_name()))
+        if (children[0].the_name().equals(children[1].the_name())) {
             error("Both children have the same name");
+        }
     }
 }

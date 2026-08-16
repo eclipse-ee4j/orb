@@ -38,10 +38,12 @@ public class ClientInterceptor extends org.omg.CORBA.LocalObject implements Clie
     // Interceptor operations
     //
 
+    @Override
     public String name() {
         return baseMsg;
     }
 
+    @Override
     public void destroy() {
     }
 
@@ -49,25 +51,30 @@ public class ClientInterceptor extends org.omg.CORBA.LocalObject implements Clie
     // ClientRequestInterceptor operations
     //
 
+    @Override
     public void send_request(ClientRequestInfo ri) {
         sopCR(baseMsg, "send_request", ri);
         Client.requestConnection = ((RequestInfoExt) ri).connection();
     }
 
+    @Override
     public void send_poll(ClientRequestInfo ri) {
         sopCR(baseMsg, "send_poll", ri);
     }
 
+    @Override
     public void receive_reply(ClientRequestInfo ri) {
         sopCR(baseMsg, "receive_reply", ri);
         checkServiceContexts(ri);
     }
 
+    @Override
     public void receive_exception(ClientRequestInfo ri) {
         sopCR(baseMsg, "receive_exception", ri);
         checkServiceContexts(ri);
     }
 
+    @Override
     public void receive_other(ClientRequestInfo ri) {
         sopCR(baseMsg, "receive_other", ri);
         checkServiceContexts(ri);

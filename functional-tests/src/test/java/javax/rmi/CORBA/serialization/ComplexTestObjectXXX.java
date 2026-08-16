@@ -47,6 +47,7 @@ public class ComplexTestObjectXXX implements Serializable {
         fTwo = new ComplexTestObjectTwo();
     }
 
+    @Override
     public boolean equals(Object o) {
         try {
             ComplexTestObjectXXX ctbo = (ComplexTestObjectXXX) o;
@@ -58,6 +59,7 @@ public class ComplexTestObjectXXX implements Serializable {
         }
     }
 
+    @Override
     public String toString() {
         return new String("fInt=" + fInt + "; fLong=" + fLong + "; fFloat=" + fFloat + "; fDouble=" + fDouble/* +"; fString="+fString */);
     }

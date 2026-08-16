@@ -30,6 +30,7 @@ public class NullServantImpl implements NullServant {
         this.sysex = ex;
     }
 
+    @Override
     public SystemException getException() {
         return sysex;
     }

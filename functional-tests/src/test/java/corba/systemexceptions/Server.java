@@ -52,6 +52,7 @@ class rmiiIServantPOA extends PortableRemoteObject implements rmiiI {
         // DO NOT CALL SUPER - that would connect the object.
     }
 
+    @Override
     public void invoke(int excType) {
         Server.invoke(excType);
     }
@@ -59,6 +60,7 @@ class rmiiIServantPOA extends PortableRemoteObject implements rmiiI {
 
 class idlIServantPOA extends idlIPOA {
 
+    @Override
     public void invoke(int excType) {
         Server.invoke(excType);
     }
@@ -122,7 +124,7 @@ public class Server extends org.omg.CORBA.LocalObject {
 
             if (!ColocatedClientServer.isColocated) {
                 U.sop(main + " : creating ORB.");
-                orb = (ORB) ORB.init(av, null);
+                orb = (ORB) org.omg.CORBA.ORB.init(av, null);
                 U.sop(main + " : creating InitialContext.");
                 initialContext = C.createInitialContext(orb);
             }

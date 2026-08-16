@@ -43,10 +43,11 @@ public class ReplaceSuperClass implements Serializable {
         return sbuf.toString();
     }
 
+    @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof ReplaceSuperClass))
+        if (!(obj instanceof ReplaceSuperClass)) {
             return false;
-        else {
+        } else {
             return intValue == ((ReplaceSuperClass) obj).intValue && strValue.equals(((ReplaceSuperClass) obj).strValue);
         }
     }

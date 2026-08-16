@@ -43,7 +43,7 @@ interface Handler {
 
 /**
  * Singleton used to manufacture ObjectKey and ObjectKeyTemplate instances.
- * 
+ *
  * @author Ken Cavanaugh
  */
 public class ObjectKeyFactoryImpl implements ObjectKeyFactory {
@@ -106,6 +106,7 @@ public class ObjectKeyFactoryImpl implements ObjectKeyFactory {
      * This handler reads the full object key, both the oktemp and the ID.
      */
     private Handler fullKey = new Handler() {
+        @Override
         public ObjectKeyTemplate handle(int magic, int scid, InputStream is, OctetSeqHolder osh) {
             ObjectKeyTemplate oktemp = null;
 
@@ -131,6 +132,7 @@ public class ObjectKeyFactoryImpl implements ObjectKeyFactory {
      * This handler reads only the oktemp.
      */
     private Handler oktempOnly = new Handler() {
+        @Override
         public ObjectKeyTemplate handle(int magic, int scid, InputStream is, OctetSeqHolder osh) {
             ObjectKeyTemplate oktemp = null;
 
@@ -179,6 +181,7 @@ public class ObjectKeyFactoryImpl implements ObjectKeyFactory {
         return oktemp;
     }
 
+    @Override
     public ObjectKey create(byte[] key) {
 
         OctetSeqHolder osh = new OctetSeqHolder();
@@ -203,6 +206,7 @@ public class ObjectKeyFactoryImpl implements ObjectKeyFactory {
         return new ObjectKeyImpl(oktemp, oid);
     }
 
+    @Override
     public ObjectKeyTemplate createTemplate(InputStream is) {
         ObjectKeyTemplate oktemp = create(is, oktempOnly, null);
         if (oktemp == null) {

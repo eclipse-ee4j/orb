@@ -131,13 +131,13 @@ public class ClassEnumerator {
 
     /**
      * Return a class path constructed by concatenating the System Property values for:
-     * 
+     *
      * <pre>
      *    java.sys.class.path
      *    java.class.path
      *    env.class.path
      * </pre>
-     * 
+     *
      * in that order.
      */
     public static String getFullClassPath() {
@@ -220,14 +220,14 @@ public class ClassEnumerator {
         }
         // Trim class path to exact size
         ClassPathEntry[] result = new ClassPathEntry[n];
-        System.arraycopy((Object) path, 0, (Object) result, 0, n);
+        System.arraycopy(path, 0, result, 0, n);
         return result;
     }
 
     private static void addClasses(int rootLen, File dir, Vector list, Hashtable roots) {
         String[] files = dir.list();
-        for (int i = 0; i < files.length; i++) {
-            File file = new File(dir, files[i]);
+        for (String file2 : files) {
+            File file = new File(dir, file2);
             if (file.isDirectory()) {
 
                 // Does our list of roots contain this directory? Must
@@ -259,6 +259,7 @@ class ClassPathEntry {
 
 class StringComparator implements Comparator {
 
+    @Override
     public int compare(Object o1, Object o2) {
         String s1 = (String) o1;
         String s2 = (String) o2;

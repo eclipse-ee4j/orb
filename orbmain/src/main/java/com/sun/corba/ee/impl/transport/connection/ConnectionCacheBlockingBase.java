@@ -37,18 +37,22 @@ abstract class ConnectionCacheBlockingBase<C extends Connection> extends Connect
         this.reclaimableConnections = ConcurrentQueueFactory.<C>makeConcurrentQueue(ttl);
     }
 
+    @Override
     public synchronized long numberOfConnections() {
         return totalIdle + totalBusy;
     }
 
+    @Override
     public synchronized long numberOfIdleConnections() {
         return totalIdle;
     }
 
+    @Override
     public synchronized long numberOfBusyConnections() {
         return totalBusy;
     }
 
+    @Override
     public synchronized long numberOfReclaimableConnections() {
         return reclaimableConnections.size();
     }

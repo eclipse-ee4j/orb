@@ -55,7 +55,7 @@ public final class StringHolder implements Streamable {
     /**
      * Constructs a new <code>StringHolder</code> object with its <code>value</code> field initialized to the given
      * <code>String</code>.
-     * 
+     *
      * @param initial the <code>String</code> with which to initialize the <code>value</code> field of the newly-created
      * <code>StringHolder</code> object
      */
@@ -69,6 +69,7 @@ public final class StringHolder implements Streamable {
      *
      * @param input the InputStream containing CDR formatted data from the wire.
      */
+    @Override
     public void _read(InputStream input) {
         value = input.read_string();
     }
@@ -78,6 +79,7 @@ public final class StringHolder implements Streamable {
      *
      * @param output the OutputStream which will contain the CDR formatted data.
      */
+    @Override
     public void _write(OutputStream output) {
         output.write_string(value);
     }
@@ -88,6 +90,7 @@ public final class StringHolder implements Streamable {
      *
      * @return the type code of the value held in this <code>StringHolder</code> object
      */
+    @Override
     public org.omg.CORBA.TypeCode _type() {
         return ORB.init().get_primitive_tc(TCKind.tk_string);
     }

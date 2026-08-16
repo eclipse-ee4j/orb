@@ -24,8 +24,7 @@ import java.util.Iterator;
 /**
  * @author Harold Carr
  */
-public interface ClientInvocationInfo
-{
+public interface ClientInvocationInfo {
     public Iterator getContactInfoListIterator();
 
     public void setContactInfoListIterator(Iterator contactInfoListIterator);

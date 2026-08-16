@@ -29,15 +29,15 @@ public class HelloClient {
 
         try {
             if (args.length > 0) {
-                for (int i = 0; i < args.length; i++) {
+                for (String arg : args) {
 
                     // Get the client and narrow to our type...
 
-                    Hello ref = (Hello) PortableContext.lookup(args[i], Hello.class);
+                    Hello ref = (Hello) PortableContext.lookup(arg, Hello.class);
 
                     // Call it...
 
-                    System.out.println(ref.sayHello(args[i]));
+                    System.out.println(ref.sayHello(arg));
                 }
             } else {
                 System.out.println("usage: HelloClient rmi|iiop://[host][:port]/publishedName...");

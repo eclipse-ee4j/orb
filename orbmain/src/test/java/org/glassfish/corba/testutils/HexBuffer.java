@@ -26,8 +26,9 @@ public class HexBuffer {
     public static final int SPACES_PER_LINE = 2 * BYTES_PER_LINE + BYTES_PER_LINE / 4;
 
     public static void dumpBuffer(byte[] bytes) {
-        for (int i = 0; i < bytes.length; i += BYTES_PER_LINE)
+        for (int i = 0; i < bytes.length; i += BYTES_PER_LINE) {
             dumpLine(i, subBuffer(bytes, i, i + BYTES_PER_LINE));
+        }
     }
 
     private static void dumpLine(int start, byte[] bytes) {
@@ -41,8 +42,9 @@ public class HexBuffer {
                 width++;
             }
         }
-        while (width++ < SPACES_PER_LINE)
+        while (width++ < SPACES_PER_LINE) {
             sb.append(' ');
+        }
         sb.append(' ');
         for (byte aByte : bytes) {
             sb.append(aByte < ' ' ? ' ' : (char) aByte);

@@ -36,6 +36,7 @@ import com.sun.corba.ee.spi.misc.ORBConstants;
  * @author Harold Carr
  */
 public class RetryPluginTest extends CORBATest {
+    @Override
     protected void doTest() throws Exception {
         String thisPackage = RetryPluginTest.class.getPackage().getName();
 

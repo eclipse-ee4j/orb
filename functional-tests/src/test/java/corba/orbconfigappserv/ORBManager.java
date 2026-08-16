@@ -104,8 +104,9 @@ public class ORBManager {
     }
 
     public static org.omg.CORBA.ORB getORB() {
-        if (orb == null)
+        if (orb == null) {
             init(null, null);
+        }
         return orb;
     }
 
@@ -113,13 +114,15 @@ public class ORBManager {
      * This is called by the PEORBConfigurator only to get past JTS initialization. No one else should have to call this
      */
     public static synchronized void setORB(org.omg.CORBA.ORB theORB) {
-        if (orb == null)
+        if (orb == null) {
             orb = theORB;
+        }
     }
 
     public static int getORBInitialPort() {
-        if (orbInitialPort == -1)
+        if (orbInitialPort == -1) {
             checkORBInitialPort(new Properties());
+        }
         return orbInitialPort;
     }
 
@@ -167,8 +170,9 @@ public class ORBManager {
     private static String checkORBInitialHost(Properties props) {
         // Host setting in system properties always takes precedence.
         String orbInitialHost = System.getProperty(OMG_ORB_INIT_HOST_PROPERTY);
-        if (orbInitialHost == null)
+        if (orbInitialHost == null) {
             orbInitialHost = props.getProperty(OMG_ORB_INIT_HOST_PROPERTY);
+        }
         System.out.println("Found orb initial host: " + orbInitialHost);
         orbInitialHost = DEFAULT_ORB_INIT_HOST;
         System.setProperty(OMG_ORB_INIT_HOST_PROPERTY, orbInitialHost);
@@ -179,10 +183,12 @@ public class ORBManager {
     private static String checkORBInitialPort(Properties props) {
         // Port setting in system properties always takes precedence.
         String initialPort = System.getProperty(OMG_ORB_INIT_PORT_PROPERTY);
-        if (initialPort == null)
+        if (initialPort == null) {
             initialPort = props.getProperty(OMG_ORB_INIT_PORT_PROPERTY);
-        if (initialPort == null)
+        }
+        if (initialPort == null) {
             initialPort = DEFAULT_ORB_INIT_PORT;
+        }
         System.setProperty(OMG_ORB_INIT_PORT_PROPERTY, initialPort);
         orbInitialPort = new Integer(initialPort).intValue();
         System.out.println("Setting orb initial port to " + initialPort);
@@ -206,8 +212,9 @@ public class ORBManager {
             newArgs = new String[2];
         } else {
             newArgs = new String[args.length + 2];
-            for (; i < args.length; i++)
+            for (; i < args.length; i++) {
                 newArgs[i] = args[i];
+            }
         }
         newArgs[i++] = "-ORBInitRef";
         newArgs[i++] = "NameService=corbaloc:iiop:1.2@" + orbInitialHost + ":" + initialPort + "/NameService";

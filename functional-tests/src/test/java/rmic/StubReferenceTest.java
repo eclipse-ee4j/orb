@@ -41,6 +41,7 @@ public class StubReferenceTest extends StubTest {
     /**
      * Return an array of fully qualified class names for which generation should occur. Return empty array if none.
      */
+    @Override
     protected String[] getGenerationClasses() throws Throwable {
         initClasses();
         return shouldCompileClasses;
@@ -49,6 +50,7 @@ public class StubReferenceTest extends StubTest {
     /**
      * Perform the test.
      */
+    @Override
     protected void doTest() throws Throwable {
         JUnitReportHelper helper = new JUnitReportHelper(this.getClass().getName());
 
@@ -62,8 +64,8 @@ public class StubReferenceTest extends StubTest {
                     String[] output = targets[i].output;
 
                     try {
-                        for (int j = 0; j < output.length; j++) {
-                            compareResources(output[j], FILE_EXT, FILE_REF_EXT);
+                        for (String element : output) {
+                            compareResources(element, FILE_EXT, FILE_REF_EXT);
                         }
 
                         helper.pass();
@@ -121,6 +123,7 @@ public class StubReferenceTest extends StubTest {
      * Append additional (i.e. after -idl and before classes) rmic arguments to 'currentArgs'. This implementation will set
      * the output directory if the OUTPUT_DIRECTORY flag was passed on the command line.
      */
+    @Override
     protected String[] getAdditionalRMICArgs(String[] currentArgs) {
         return super.getAdditionalRMICArgs(ADDITIONAL_ARGS);
     }

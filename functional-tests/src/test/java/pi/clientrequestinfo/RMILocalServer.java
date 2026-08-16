@@ -93,6 +93,7 @@ public class RMILocalServer implements Observer {
         delegate.addObserver(this);
     }
 
+    @Override
     public void update(Observable o, java.lang.Object arg) {
         try {
             rebindObjects();

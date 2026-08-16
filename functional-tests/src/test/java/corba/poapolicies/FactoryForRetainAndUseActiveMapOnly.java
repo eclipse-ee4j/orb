@@ -28,6 +28,7 @@ import org.omg.PortableServer.ServantRetentionPolicyValue;
 
 public class FactoryForRetainAndUseActiveMapOnly implements POAFactory {
 
+    @Override
     public POA createPOA(POA parent) throws AdapterAlreadyExists, InvalidPolicy {
         Policy[] policies = new Policy[2];
 
@@ -48,6 +49,7 @@ public class FactoryForRetainAndUseActiveMapOnly implements POAFactory {
         return x;
     }
 
+    @Override
     public String getObjectFactoryName() {
         return "corba.poapolicies.BasicObjectFactoryImpl";
     }

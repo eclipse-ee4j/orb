@@ -86,6 +86,7 @@ public class InitialGroupInfoService {
         private void exceptionReport(Exception exc) {
         }
 
+        @Override
         @Folb
         public List<ClusterInstanceInfo> getClusterInstanceInfo() throws RemoteException {
 
@@ -111,7 +112,8 @@ public class InitialGroupInfoService {
                 wrapper.couldNotInitializeInitialGIS(exc);
             }
 
-            Tie tie = com.sun.corba.ee.spi.orb.ORB.class.cast(orb).getPresentationManager().getTie();
+            com.sun.corba.ee.spi.orb.ORB.class.cast(orb);
+            Tie tie = com.sun.corba.ee.spi.orb.ORB.getPresentationManager().getTie();
             tie.setTarget(impl);
             servant = Servant.class.cast(tie);
         }
@@ -120,10 +122,12 @@ public class InitialGroupInfoService {
             return servant._all_interfaces(null, null)[0];
         }
 
+        @Override
         public synchronized Servant preinvoke(byte[] oid, POA adapter, String operation, CookieHolder the_cookie) throws ForwardRequest {
             return servant;
         }
 
+        @Override
         public void postinvoke(byte[] oid, POA adapter, String operation, Object the_cookie, Servant the_servant) {
         }
     }

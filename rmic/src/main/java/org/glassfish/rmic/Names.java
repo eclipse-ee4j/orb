@@ -62,8 +62,9 @@ public class Names {
      * itself because it is package protected.
      */
     static final public Identifier mangleClass(Identifier className) {
-        if (!className.isInner())
+        if (!className.isInner()) {
             return className;
+        }
 
         /*
          * Get '.' qualified inner class name (with outer class
@@ -73,8 +74,9 @@ public class Names {
         Identifier mangled = Identifier.lookup(
                                                className.getFlatName().toString()
                                                .replace('.', org.glassfish.rmic.tools.java.Constants.SIGC_INNERCLASS));
-        if (mangled.isInner())
+        if (mangled.isInner()) {
             throw new Error("failed to mangle inner class name");
+        }
 
         // prepend package qualifier back for returned identifier
         return Identifier.lookup(className.getQualifier(), mangled);

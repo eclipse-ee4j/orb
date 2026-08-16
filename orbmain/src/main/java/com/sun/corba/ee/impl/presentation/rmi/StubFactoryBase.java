@@ -31,6 +31,7 @@ public abstract class StubFactoryBase implements PresentationManager.StubFactory
         this.classData = classData;
     }
 
+    @Override
     public synchronized String[] getTypeIds() {
         if (typeIds == null) {
             if (classData == null) {

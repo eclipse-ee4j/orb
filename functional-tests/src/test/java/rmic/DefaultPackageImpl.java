@@ -24,6 +24,7 @@ public class DefaultPackageImpl implements DefaultPackage {
     public DefaultPackageImpl() throws java.rmi.RemoteException {
     }
 
+    @Override
     public void doSomething() throws java.rmi.RemoteException {
     }
 }

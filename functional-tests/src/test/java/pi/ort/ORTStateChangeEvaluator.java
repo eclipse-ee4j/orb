@@ -60,8 +60,8 @@ public class ORTStateChangeEvaluator {
             poasWhoseStateChangesAreReported[i] = adapterNames[adapterNames.length - 1];
             System.out.println("\t- POAs Whose State Change Is Reported : " + poasWhoseStateChangesAreReported[i]);
             System.out.println("\t  - POA Parent to Child list..");
-            for (int j = 0; j < adapterNames.length; j++) {
-                System.out.println("\t\t + " + adapterNames[j]);
+            for (String adapterName : adapterNames) {
+                System.out.println("\t\t + " + adapterName);
                 System.out.flush();
             }
             System.out.flush();

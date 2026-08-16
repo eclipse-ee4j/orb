@@ -39,34 +39,42 @@ public class helloServant extends helloPOA {
         delegate = new helloDelegate(out);
     }
 
+    @Override
     public String sayHello() {
         return delegate.sayHello();
     }
 
+    @Override
     public String saySystemException() {
         return delegate.saySystemException();
     }
 
+    @Override
     public void sayUserException() throws ExampleException {
         delegate.sayUserException();
     }
 
+    @Override
     public void sayOneway() {
         delegate.sayOneway();
     }
 
+    @Override
     public String sayArguments(String arg1, int arg2, boolean arg3) {
         return delegate.sayArguments(arg1, arg2, arg3);
     }
 
+    @Override
     public void clearInvoked() {
         delegate.clearInvoked();
     }
 
+    @Override
     public boolean wasInvoked() {
         return delegate.wasInvoked();
     }
 
+    @Override
     public void resetServant() {
         delegate.resetServant();
     }

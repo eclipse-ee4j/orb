@@ -97,13 +97,14 @@ public abstract class ClientBase {
             dprint("--------------------------------------------------");
             dprint("ORB.init");
             dprint("--------------------------------------------------");
-            orb = (ORB) ORB.init((String[]) null, props);
+            orb = (ORB) org.omg.CORBA.ORB.init((String[]) null, props);
 
             dprint("--------------------------------------------------");
             dprint("Lookup GIS and addObserver for IORUpdates");
             dprint("--------------------------------------------------");
             gis = (GroupInfoService) orb.resolve_initial_references(ORBConstants.FOLB_CLIENT_GROUP_INFO_SERVICE);
             gis.addObserver(new GroupInfoServiceObserver() {
+                @Override
                 public void membershipChange() {
                     dprint(".membershipChange->:");
                     dprint(".membershipChange: " + gis.getClusterInstanceInfo((String[]) null));

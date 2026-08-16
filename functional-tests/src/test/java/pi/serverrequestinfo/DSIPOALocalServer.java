@@ -69,6 +69,7 @@ public class DSIPOALocalServer extends POAServer {
             System.out.println("+ Starting Server...");
             server.syncObject = new java.lang.Object();
             new Thread() {
+                @Override
                 public void run() {
                     try {
                         server.run(System.getProperties(), arguments, System.out, System.err, null);
@@ -100,10 +101,12 @@ public class DSIPOALocalServer extends POAServer {
         }
     }
 
+    @Override
     public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         super.run(environment, args, out, err, extra);
     }
 
+    @Override
     void handshake() {
         // notify main that client can launch now:
         synchronized (syncObject) {
@@ -111,6 +114,7 @@ public class DSIPOALocalServer extends POAServer {
         }
     }
 
+    @Override
     void waitForClients() {
         // NOP for this test.
     }

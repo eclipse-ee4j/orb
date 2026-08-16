@@ -58,23 +58,27 @@ class helloDelegate implements helloIF {
         this.clientCallback = callback;
     }
 
+    @Override
     public String sayHello() {
         out.println("    - helloDelegate: sayHello() invoked");
         SampleServerRequestInterceptor.methodOrder += symbol;
         return "Hello, world!";
     }
 
+    @Override
     public void sayOneway() {
         out.println("    - helloDelegate: sayOneway() invoked");
         SampleServerRequestInterceptor.methodOrder += symbol;
     }
 
+    @Override
     public void saySystemException() {
         out.println("    - helloDelegate: saySystemException() invoked");
         SampleServerRequestInterceptor.methodOrder += symbol;
         throw new IMP_LIMIT(SampleServerRequestInterceptor.VALID_MESSAGE);
     }
 
+    @Override
     public void sayUserException() throws ExampleException {
         out.println("    - helloDelegate: sayUserException() invoked");
         SampleServerRequestInterceptor.methodOrder += symbol;
@@ -90,6 +94,7 @@ class helloDelegate implements helloIF {
     //
     // @param exceptionRaised true if the last invocation resulted in
     // an exception on the client side.
+    @Override
     public String syncWithServer(boolean exceptionRaised) {
         out.println("    - helloDelegate: syncWithServer() invoked");
         // Notify the test case that the client is waiting for
@@ -114,6 +119,7 @@ class helloDelegate implements helloIF {
     /**
      * If n is 0, sayHello is invoked. If n is 1, saySystemException is invoked.
      */
+    @Override
     public void sayInvokeAgain(int n) {
         out.println("    - helloDelegate: sayInvokeAgain( " + n + " ) invoked");
         SampleServerRequestInterceptor.methodOrder += symbol;

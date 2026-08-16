@@ -85,17 +85,19 @@ class SwitchData {
 
 // JCOV
     public void initTableCase() {
-        whereCaseTab = new Hashtable<Integer, Long>();
+        whereCaseTab = new Hashtable<>();
     }
     public void addTableCase(int index, long where) {
-        if (whereCaseTab != null)
+        if (whereCaseTab != null) {
             whereCaseTab.put(Integer.valueOf(index), Long.valueOf(where));
+        }
     }
     // this puts String key into Hashtable<Integer, Long>
     @SuppressWarnings("unchecked")
     public void addTableDefault(long where) {
-        if (whereCaseTab != null)
+        if (whereCaseTab != null) {
             ((Hashtable)whereCaseTab).put("default", Long.valueOf(where));
+        }
     }
     public long whereCase(Object key) {
         Long i = whereCaseTab.get(key);
@@ -129,6 +131,7 @@ class SwitchDataEnumeration implements Enumeration<Integer> {
     /**
      * Are there more keys to return?
      */
+    @Override
     public boolean hasMoreElements() {
         return current_index < table.length;
     }
@@ -136,6 +139,7 @@ class SwitchDataEnumeration implements Enumeration<Integer> {
     /**
      * Return the next key.
      */
+    @Override
     public Integer nextElement() {
         return table[current_index++];
     }

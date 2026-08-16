@@ -55,6 +55,7 @@ class TryStatement extends Statement {
     /**
      * Check statement
      */
+    @Override
     Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         checkLabel(env, ctx);
         try {
@@ -74,10 +75,10 @@ class TryStatement extends Statement {
             // anywhere within the try block.
             Vset cvs = Vset.firstDAandSecondDU(vset, vs.copy().join(newctx.vsTryExit));
 
-            for (int i = 0 ; i < args.length ; i++) {
+            for (Statement arg : args) {
                 // A variable is DA (DU) after a try statement if
                 // it is DA (DU) after every catch block.
-                vs = vs.join(args[i].check(env, newctx, cvs.copy(), exp));
+                vs = vs.join(arg.check(env, newctx, cvs.copy(), exp));
             }
 
             // Check that catch statements are actually reached
@@ -107,8 +108,8 @@ class TryStatement extends Statement {
             ClassDeclaration ignore2 = env.getClassDeclaration(idJavaLangRuntimeException);
 
             // Make sure the exception is actually throw in that part of the code
-            for (int i = 0 ; i < args.length ; i++) {
-                CatchStatement cs = (CatchStatement)args[i];
+            for (Statement arg : args) {
+                CatchStatement cs = (CatchStatement)arg;
                 if (cs.field == null) {
                     continue;
                 }
@@ -151,14 +152,15 @@ class TryStatement extends Statement {
                 ClassDeclaration c = (ClassDeclaration)e.nextElement();
                 ClassDefinition def = c.getClassDefinition(env);
                 boolean add = true;
-                for (int i = 0 ; i < args.length ; i++) {
-                    CatchStatement cs = (CatchStatement)args[i];
+                for (Statement arg : args) {
+                    CatchStatement cs = (CatchStatement)arg;
                     if (cs.field == null) {
                         continue;
                     }
                     Type type = cs.field.getType();
-                    if (type.isType(TC_ERROR))
+                    if (type.isType(TC_ERROR)) {
                         continue;
+                    }
                     if (def.subClassOf(env, env.getClassDeclaration(type))) {
                         add = false;
                         break;
@@ -186,6 +188,7 @@ class TryStatement extends Statement {
     /**
      * Inline
      */
+    @Override
     public Statement inline(Environment env, Context ctx) {
         if (body != null) {
             body = body.inline(env, new Context(ctx, this));
@@ -204,6 +207,7 @@ class TryStatement extends Statement {
     /**
      * Create a copy of the statement for method inlining
      */
+    @Override
     public Statement copyInline(Context ctx, boolean valNeeded) {
         TryStatement s = (TryStatement)clone();
         if (body != null) {
@@ -221,6 +225,7 @@ class TryStatement extends Statement {
     /**
      * Compute cost of inlining this statement
      */
+    @Override
     public int costInline(int thresh, Environment env, Context ctx){
 
         // Don't inline methods containing try statements.
@@ -266,12 +271,13 @@ class TryStatement extends Statement {
     /**
      * Code
      */
+    @Override
     public void code(Environment env, Context ctx, Assembler asm) {
         CodeContext newctx = new CodeContext(ctx, this);
 
         TryData td = new TryData();
-        for (int i = 0 ; i < args.length ; i++) {
-            Type t = ((CatchStatement)args[i]).field.getType();
+        for (Statement arg : args) {
+            Type t = ((CatchStatement)arg).field.getType();
             if (t.isType(TC_CLASS)) {
                 td.add(env.getClassDeclaration(t));
             } else {
@@ -299,6 +305,7 @@ class TryStatement extends Statement {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out, int indent) {
         super.print(out, indent);
         out.print("try ");
@@ -307,9 +314,9 @@ class TryStatement extends Statement {
         } else {
             out.print("<empty>");
         }
-        for (int i = 0 ; i < args.length ; i++) {
+        for (Statement arg : args) {
             out.print(" ");
-            args[i].print(out, indent);
+            arg.print(out, indent);
         }
     }
 }

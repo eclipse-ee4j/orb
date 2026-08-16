@@ -29,6 +29,7 @@ import org.omg.CORBA.*;
  * COPIED FROM iorinterceptor test.
  */
 public class PolicyFactoryHundred extends LocalObject implements org.omg.PortableInterceptor.PolicyFactory {
+    @Override
     public Policy create_policy(int type, Any val) {
         System.out.println("PolicyFactoryHundred.create_policy called...");
         System.out.flush();

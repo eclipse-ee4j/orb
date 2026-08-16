@@ -92,6 +92,7 @@ public abstract class LocalClientRequestDispatcherBase implements LocalClientReq
         return objectId;
     }
 
+    @Override
     @IsLocal
     public boolean is_local(org.omg.CORBA.Object self) {
         return false;
@@ -105,6 +106,7 @@ public abstract class LocalClientRequestDispatcherBase implements LocalClientReq
      * invocation proceeds normally) servant_postinvoke is called
      *
      */
+    @Override
     @IsLocal
     public boolean useLocalInvocation(org.omg.CORBA.Object self) {
         if (isNextCallValid.get() == Boolean.TRUE) {
@@ -123,7 +125,7 @@ public abstract class LocalClientRequestDispatcherBase implements LocalClientReq
     /**
      * Check that the servant in info (which must not be null) is an instance of the expectedType. If not, set the thread
      * local flag and return false.
-     * 
+     *
      * @param so Servant to check
      * @param expectedType Type to check against
      * @return If the servant is an instance of the expected type
@@ -177,6 +179,7 @@ public abstract class LocalClientRequestDispatcherBase implements LocalClientReq
 
     // servant_preinvoke is here to contain the exception handling
     // logic that is common to all POA based servant_preinvoke implementations.
+    @Override
     @Subcontract
     public ServantObject servant_preinvoke(org.omg.CORBA.Object self, String operation, Class expectedType) {
 
@@ -241,8 +244,9 @@ public abstract class LocalClientRequestDispatcherBase implements LocalClientReq
             } catch (Throwable t) {
                 display("Caught Throwable");
 
-                if (t instanceof SystemException)
+                if (t instanceof SystemException) {
                     throw (SystemException) t;
+                }
 
                 throw poaWrapper.localServantLookup(t);
             }

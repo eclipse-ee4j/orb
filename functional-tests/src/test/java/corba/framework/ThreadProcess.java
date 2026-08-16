@@ -51,6 +51,7 @@ public abstract class ThreadProcess implements InternalProcess, Runnable {
     /**
      * Saves the parameters, and starts in its own thread (so override the Runnable run() method).
      */
+    @Override
     public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) {
         this.environment = environment;
         this.args = args;
@@ -118,16 +119,18 @@ public abstract class ThreadProcess implements InternalProcess, Runnable {
 
     public int waitFor(long timeout) throws Exception {
         synchronized (lockObj) {
-            if (!finished())
+            if (!finished()) {
                 lockObj.wait(timeout);
+            }
             return exitValue;
         }
     }
 
     public int exitValue() throws IllegalThreadStateException {
         synchronized (lockObj) {
-            if (exitValue == ExternalExec.INVALID_STATE)
+            if (exitValue == ExternalExec.INVALID_STATE) {
                 throw new IllegalThreadStateException("exit value wasn't set");
+            }
 
             return exitValue;
         }
@@ -139,8 +142,9 @@ public abstract class ThreadProcess implements InternalProcess, Runnable {
      */
     protected void setExitValue(int value) {
         synchronized (lockObj) {
-            if (!stopped())
+            if (!stopped()) {
                 exitValue = value;
+            }
         }
     }
 }

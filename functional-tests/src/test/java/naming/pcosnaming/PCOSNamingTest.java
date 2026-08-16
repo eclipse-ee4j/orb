@@ -28,6 +28,7 @@ public class PCOSNamingTest extends CORBATest {
 
     public static String[] javaFiles = { "helloClient.java", "helloServer.java" };
 
+    @Override
     protected Controller newServerController() {
         return new InternalExec();
     }
@@ -39,6 +40,7 @@ public class PCOSNamingTest extends CORBATest {
     // separate process. It is passed the Controller objects for ORBD and
     // the client, so it can start them and stop them at the appropriate
     // times.
+    @Override
     protected void doTest() throws Throwable {
         Options.addIDLCompilerArg("-fall");
         Options.addIDLCompilerArg("-oldImplBase");

@@ -58,6 +58,7 @@ public class ShipListPanel extends JScrollPane {
     public void removeItem(String item) {
     }
 
+    @Override
     public void removeAll() {
         fLabels = new Vector();
         fFleets = new Vector();
@@ -67,8 +68,9 @@ public class ShipListPanel extends JScrollPane {
     public Fleet[] getSelection() {
         Object[] sel = fList.getSelectedValues();
 
-        if (sel == null && Array.getLength(sel) == 0)
+        if (sel == null && Array.getLength(sel) == 0) {
             return null;
+        }
 
         Fleet[] fleets = new Fleet[Array.getLength(sel)];
         int fleet = 0;

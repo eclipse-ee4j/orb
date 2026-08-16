@@ -45,10 +45,12 @@ public class ResearchLab implements Investment, java.io.Serializable {
         fTechBudget.addBudgetItem(new BudgetItem(fMini, 20));
     }
 
+    @Override
     public String getName() {
         return "Technology";
     }
 
+    @Override
     public void invest(long investment) {
         fTechBudget.invest(investment);
     }

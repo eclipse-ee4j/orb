@@ -62,9 +62,11 @@ public class TestIDLNameTranslator extends TestCase {
             InvalidRemotes.InvalidRemote16.class, InvalidRemotes.InvalidRemote17.class, InvalidRemotes.InvalidRemote18.class,
             InvalidRemotes.InvalidRemote19.class };
 
+    @Override
     protected void setUp() {
     }
 
+    @Override
     protected void tearDown() {
     }
 
@@ -176,7 +178,7 @@ public class TestIDLNameTranslator extends TestCase {
 
     private void doIDLNameTranslationTest(String[] expectedIdlNames, IDLNameTranslator nameTranslator, Method[] sortedMethods) {
         for (int i = 0; i < sortedMethods.length; i++) {
-            Method m = (Method) sortedMethods[i];
+            Method m = sortedMethods[i];
             String expected = expectedIdlNames[i];
             String translatedName = nameTranslator.getIDLName(m);
             String msg = "expected '" + expected + "'" + " got '" + translatedName + "' " + ":" + m;
@@ -210,11 +212,10 @@ public class TestIDLNameTranslator extends TestCase {
     private Method[] getSortedMethods(Class[] classes) {
         SortedSet sortedMethods = new TreeSet(new MethodComparator());
 
-        for (int classCtr = 0; classCtr < classes.length; classCtr++) {
-            Method[] methods = classes[classCtr].getMethods();
+        for (Class class1 : classes) {
+            Method[] methods = class1.getMethods();
 
-            for (int methodCtr = 0; methodCtr < methods.length; methodCtr++) {
-                Method next = methods[methodCtr];
+            for (Method next : methods) {
                 sortedMethods.add(next);
             }
         }
@@ -225,7 +226,7 @@ public class TestIDLNameTranslator extends TestCase {
 
         /**
          * Uncomment to print method order. Useful when debugging interfaces with multiple methods that have complex signatures
-         * 
+         *
          * System.out.println(sortedMethodArray.length + " sorted methods : "); for(int i = 0; i < sortedMethodArray.length;
          * i++) { System.out.println(sortedMethodArray[i]); }
          */
@@ -241,6 +242,7 @@ public class TestIDLNameTranslator extends TestCase {
     //
     //
     private static class MethodComparator implements java.util.Comparator {
+        @Override
         public int compare(Object o1, Object o2) {
             String m1 = getMethodString((Method) o1);
             String m2 = getMethodString((Method) o2);

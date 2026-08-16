@@ -83,6 +83,7 @@ class ServerThread extends Thread {
         this.av = av;
     }
 
+    @Override
     public void run() {
         try {
             // Start server.
@@ -96,6 +97,7 @@ class ServerThread extends Thread {
 }
 
 class IServantConnect extends _IImplBase {
+    @Override
     public void dummy() {
     }
 }

@@ -46,6 +46,7 @@ public class DynArrayImpl extends DynAnyCollectionImpl implements DynArray {
 
     // Initializes components and anys representation
     // from the Any representation
+    @Override
     protected boolean initializeComponentsFromAny() {
         int length = getBound();
         TypeCode contentType = getContentType();
@@ -77,6 +78,7 @@ public class DynArrayImpl extends DynAnyCollectionImpl implements DynArray {
     // from the internal TypeCode information with default values.
     // This is not done recursively, only one level.
     // More levels are initialized lazily, on demand.
+    @Override
     protected boolean initializeComponentsFromTypeCode() {
         int length = getBound();
         TypeCode contentType = getContentType();
@@ -109,6 +111,7 @@ public class DynArrayImpl extends DynAnyCollectionImpl implements DynArray {
     // Utility methods
     //
 
+    @Override
     protected void checkValue(Object[] value) throws org.omg.DynamicAny.DynAnyPackage.InvalidValue {
         if (value == null || value.length != getBound()) {
             throw new InvalidValue();

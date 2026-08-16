@@ -555,6 +555,7 @@ public abstract class Type implements org.glassfish.rmic.iiop.Constants, Context
     /**
      * Return context element name.
      */
+    @Override
     public String getElementName() {
         return getQualifiedName();
     }
@@ -817,7 +818,9 @@ public abstract class Type implements org.glassfish.rmic.iiop.Constants, Context
     protected static void classNotFound(boolean quiet,
                                         ContextStack stack,
                                         ClassNotFound e) {
-        if (!quiet) stack.getEnv().error(0, "rmic.class.not.found", e.name);
+        if (!quiet) {
+            stack.getEnv().error(0, "rmic.class.not.found", e.name);
+        }
         stack.traceCallStack();
     }
 

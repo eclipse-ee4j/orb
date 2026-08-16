@@ -72,22 +72,25 @@ public class RogueClient implements Runnable {
     }
 
     private void start(String name, int ctr) {
-        if (useHelper)
+        if (useHelper) {
             helper.start(name + ctr);
+        }
 
         print("RogueClient." + name + "()");
     }
 
     private void start(String name) {
-        if (useHelper)
+        if (useHelper) {
             helper.start(name);
+        }
 
         print("RogueClient." + name + "()");
     }
 
     private void handlePass() {
-        if (useHelper)
+        if (useHelper) {
             helper.pass();
+        }
 
         print("PASS");
     }
@@ -126,11 +129,13 @@ public class RogueClient implements Runnable {
                 // by a space.
                 while (j < 16 && j + i < byteBuffer.position()) {
                     int k = byteBuffer.get(i + j);
-                    if (k < 0)
+                    if (k < 0) {
                         k = 256 + k;
+                    }
                     String hex = Integer.toHexString(k);
-                    if (hex.length() == 1)
+                    if (hex.length() == 1) {
                         hex = "0" + hex;
+                    }
                     System.out.print(hex + " ");
                     j++;
                 }
@@ -147,10 +152,11 @@ public class RogueClient implements Runnable {
                 // characters are shown as periods.
                 int x = 0;
                 while (x < 16 && x + i < byteBuffer.position()) {
-                    if (ORBUtility.isPrintable((char) byteBuffer.get(i + x)))
+                    if (ORBUtility.isPrintable((char) byteBuffer.get(i + x))) {
                         charBuf[x] = (char) byteBuffer.get(i + x);
-                    else
+                    } else {
                         charBuf[x] = '.';
+                    }
                     x++;
                 }
                 print(new String(charBuf, 0, x));
@@ -420,10 +426,11 @@ public class RogueClient implements Runnable {
 
             print("PASSED");
         } finally {
-            if (numFailures.get() == 0)
+            if (numFailures.get() == 0) {
                 helper.pass();
-            else
+            } else {
                 helper.fail("Failed with " + numFailures.get() + " errors");
+            }
         }
     }
 
@@ -494,8 +501,9 @@ public class RogueClient implements Runnable {
         }
 
         int failures = numFailures.get();
-        if (failures == 0)
+        if (failures == 0) {
             System.out.println("Test finished successfully...");
+        }
 
         System.exit(numFailures.get());
     }

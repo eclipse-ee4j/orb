@@ -24,6 +24,7 @@ import java.util.Enumeration;
 import test.Test;
 
 public class ReflectiveExec extends ExternalExec {
+    @Override
     protected String[] buildCommand() {
         // Command line array:
 
@@ -46,8 +47,9 @@ public class ReflectiveExec extends ExternalExec {
         cmd[idx++] = Options.getJavaExec();
 
         // Arguments to the java executable
-        for (int i = 0; i < VMArgs.length; i++)
-            cmd[idx++] = VMArgs[i];
+        for (String vmArg : VMArgs) {
+            cmd[idx++] = vmArg;
+        }
 
         // -D environment variables
         Enumeration names = environment.propertyNames();
@@ -57,8 +59,9 @@ public class ReflectiveExec extends ExternalExec {
         }
 
         // Debugging arguments, if any
-        for (int i = 0; i < debugArgs.length; i++)
-            cmd[idx++] = debugArgs[i];
+        for (String debugArg : debugArgs) {
+            cmd[idx++] = debugArg;
+        }
 
         cmd[idx++] = "corba.framework.ReflectiveWrapper";
 
@@ -66,12 +69,14 @@ public class ReflectiveExec extends ExternalExec {
         cmd[idx++] = className;
 
         // Arguments to the program
-        for (int i = 0; i < programArgs.length; i++)
-            cmd[idx++] = programArgs[i];
+        for (String programArg : programArgs) {
+            cmd[idx++] = programArg;
+        }
 
         Test.dprint("--------");
-        for (int i = 0; i < cmd.length; i++)
+        for (int i = 0; i < cmd.length; i++) {
             Test.dprint("" + i + ": " + cmd[i]);
+        }
         Test.dprint("--------");
 
         return cmd;

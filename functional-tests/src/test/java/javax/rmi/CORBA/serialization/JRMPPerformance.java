@@ -37,6 +37,7 @@ import java.io.*;
 
 public class JRMPPerformance extends test.Test {
 
+    @Override
     public void run() {
 
         try {
@@ -139,109 +140,124 @@ public class JRMPPerformance extends test.Test {
             TestOBV2 _tobv2 = (TestOBV2) sis.readObject();
 
             Exception _exception = (Exception) sis.readObject();
-            if (!_exception.getMessage().equals("Test Exception"))
+            if (!_exception.getMessage().equals("Test Exception")) {
                 throw new Error("Test Exception failed!");
+            }
 
             Float _f = (Float) sis.readObject();
-            if (!f.equals(_f))
+            if (!f.equals(_f)) {
                 throw new Error("Test Float failed!");
+            }
 
             javax.rmi.CORBA.serialization.ComplexTestObjectOne _test1 = (javax.rmi.CORBA.serialization.ComplexTestObjectOne) sis
                     .readObject();
 
-            if (test1.equals(_test1))
-                ;
-            else
+            if (test1.equals(_test1)) {
+                
+            } else {
                 throw new Error("FAILURE!  Test1 Failed");
+            }
 
             javax.rmi.CORBA.serialization.ComplexTestObjectTwo _test2 = (javax.rmi.CORBA.serialization.ComplexTestObjectTwo) sis
                     .readObject();
 
-            if (test2.equals(_test2))
-                ;
-            else
+            if (test2.equals(_test2)) {
+                
+            } else {
                 throw new Error("FAILURE!  Test2 Failed");
+            }
 
             javax.rmi.CORBA.serialization.ComplexTestObjectTwoSubclass _test2subclass = (javax.rmi.CORBA.serialization.ComplexTestObjectTwoSubclass) sis
                     .readObject();
 
-            if (test2subclass.equals(_test2subclass))
-                ;
-            else
+            if (test2subclass.equals(_test2subclass)) {
+                
+            } else {
                 throw new Error("FAILURE!  Test2subclass Failed");
+            }
 
             javax.rmi.CORBA.serialization.ComplexTestObjectTwoSubclassDefaults _test2subclassDefaults = (javax.rmi.CORBA.serialization.ComplexTestObjectTwoSubclassDefaults) sis
                     .readObject();
 
-            if (test2subclassDefaults.equals(_test2subclassDefaults))
-                ;
-            else
+            if (test2subclassDefaults.equals(_test2subclassDefaults)) {
+                
+            } else {
                 throw new Error("FAILURE!  Test2subclassDefaults Failed");
+            }
 
             javax.rmi.CORBA.serialization.EmptyTestObject _testEmptyA = (javax.rmi.CORBA.serialization.EmptyTestObject) sis.readObject();
 
-            if (testEmptyA.equals(_testEmptyA))
-                ;
-            else
+            if (testEmptyA.equals(_testEmptyA)) {
+                
+            } else {
                 throw new Error("FAILURE!  TestEmptyA Failed");
+            }
 
             javax.rmi.CORBA.serialization.EmptyTestObject _testEmptyB = (javax.rmi.CORBA.serialization.EmptyTestObject) sis.readObject();
 
-            if (testEmptyB.equals(_testEmptyB))
-                ;
-            else
+            if (testEmptyB.equals(_testEmptyB)) {
+                
+            } else {
                 throw new Error("FAILURE!  TestEmptyB Failed");
+            }
 
             javax.rmi.CORBA.serialization.ComplexTestObjectOne _test1b = (javax.rmi.CORBA.serialization.ComplexTestObjectOne) sis
                     .readObject();
 
-            if (test1b.equals(_test1b))
-                ;
-            else
+            if (test1b.equals(_test1b)) {
+                
+            } else {
                 throw new Error("FAILURE!  Test1b Failed");
+            }
 
             Double _d = (Double) sis.readObject();
 
-            if (d.equals(_d))
-                ;
-            else
+            if (d.equals(_d)) {
+                
+            } else {
                 throw new Error("FAILURE!  d Failed");
+            }
 
             javax.rmi.CORBA.serialization.ComplexTestObjectThree _test3 = (javax.rmi.CORBA.serialization.ComplexTestObjectThree) sis
                     .readObject();
 
-            if (test3.equals(_test3))
-                ;
-            else
+            if (test3.equals(_test3)) {
+                
+            } else {
                 throw new Error("FAILURE!  Test3 Failed");
+            }
 
             javax.rmi.CORBA.serialization.ComplexTestObjectFour _test4 = (javax.rmi.CORBA.serialization.ComplexTestObjectFour) sis
                     .readObject();
 
-            if (test4.equals(_test4))
-                ;
-            else
+            if (test4.equals(_test4)) {
+                
+            } else {
                 throw new Error("FAILURE!  Test4 Failed");
+            }
 
             java.util.Properties _props = (java.util.Properties) sis.readObject();
-            if (_props.toString().equals(props.toString()))
-                ;
-            else
+            if (_props.toString().equals(props.toString())) {
+                
+            } else {
                 throw new Error("FAILURE!  props Failed");
+            }
 
             int _anIntArray[] = (int[]) sis.readObject();
 
-            if ((_anIntArray[0] == anIntArray[0]) && (_anIntArray[1] == anIntArray[1]) && (_anIntArray[2] == anIntArray[2]))
-                ;
-            else
+            if ((_anIntArray[0] == anIntArray[0]) && (_anIntArray[1] == anIntArray[1]) && (_anIntArray[2] == anIntArray[2])) {
+                
+            } else {
                 throw new Error("FAILURE!  anIntArray Failed");
+            }
 
             Object _aSharedRefsArray[] = (Object[]) sis.readObject();
 
-            if ((_aSharedRefsArray[0] == _testEmptyA) && (_aSharedRefsArray[1] == _test1b) && (_aSharedRefsArray[2] == _anIntArray))
-                ;
-            else
+            if ((_aSharedRefsArray[0] == _testEmptyA) && (_aSharedRefsArray[1] == _test1b) && (_aSharedRefsArray[2] == _anIntArray)) {
+                
+            } else {
                 throw new Error("FAILURE!  aSharedRefsArray[] == Failed");
+            }
 
             int[] array1Echo = (int[]) sis.readObject();
 
@@ -264,15 +280,16 @@ public class JRMPPerformance extends test.Test {
             // Recursive array references
             Object recursiveArrayEcho[] = (Object[]) sis.readObject();
             if ((recursiveArrayEcho[0] != recursiveArrayEcho) || (recursiveArrayEcho[2] != recursiveArrayEcho)
-                    || (recursiveArrayEcho[3] != recursiveArrayEcho) || (!((String) recursiveArrayEcho[1]).equals("Hello")))
+                    || (recursiveArrayEcho[3] != recursiveArrayEcho) || (!((String) recursiveArrayEcho[1]).equals("Hello"))) {
                 throw new Exception("RecursiveArray test failed!");
+            }
 
             short[][][] dim3Echo = (short[][][]) sis.readObject();
 
-            for (int i = 0; i < dim3.length; i++) {
-                for (int j = 0; j < dim3[i].length; j++) {
-                    for (int k = 0; k < dim3[i][j].length; k++) {
-                        if (dim3[i][j][k] != dim3[i][j][k]) {
+            for (short[][] element : dim3) {
+                for (int j = 0; j < element.length; j++) {
+                    for (int k = 0; k < element[j].length; k++) {
+                        if (element[j][k] != element[j][k]) {
                             throw new Exception("HelloTest: echoArray (short[][][]) failed");
                         }
                     }

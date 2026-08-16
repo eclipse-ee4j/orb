@@ -100,10 +100,12 @@ public class PieControl extends JComponent implements MouseMotionListener
     // Painting
     //
 
+    @Override
     public void paint(Graphics g) {
         update(g);
     }
 
+    @Override
     public void update(Graphics g) {
         Insets insets = getInsets();
         int x = insets.left; // bounds.x;
@@ -131,12 +133,14 @@ public class PieControl extends JComponent implements MouseMotionListener
     // Mouse Input Handling
     //
 
+    @Override
     public void mouseDragged(MouseEvent e) {
         fSecondPercentage = computePercentage(e.getPoint());
         fFirstPercentage = 1 - fSecondPercentage;
         repaint();
     }
 
+    @Override
     public void mouseMoved(MouseEvent e) {
     }
 
@@ -157,8 +161,8 @@ public class PieControl extends JComponent implements MouseMotionListener
             if (p.y < center.y) {
                 // first quadrant 0 - 98
 
-                double o = (double) (center.y - p.y);
-                double a = (double) (p.x - center.x);
+                double o = center.y - p.y;
+                double a = p.x - center.x;
                 double h = Math.sqrt(o * o + a * a);
                 double sine = o / h;
 
@@ -167,8 +171,8 @@ public class PieControl extends JComponent implements MouseMotionListener
             } else {
                 // second quadrant 90 - 179
 
-                double o = (double) (p.y - center.y);
-                double a = (double) (p.x - center.x);
+                double o = p.y - center.y;
+                double a = p.x - center.x;
                 double h = Math.sqrt(o * o + a * a);
                 double sine = o / h;
 
@@ -178,8 +182,8 @@ public class PieControl extends JComponent implements MouseMotionListener
             if (p.y > center.y) {
                 // third quadrant 180 - 269
 
-                double o = (double) (p.y - center.y);
-                double a = (double) (center.x - p.x);
+                double o = p.y - center.y;
+                double a = center.x - p.x;
                 double h = Math.sqrt(o * o + a * a);
                 double sine = o / h;
 
@@ -187,8 +191,8 @@ public class PieControl extends JComponent implements MouseMotionListener
             } else {
                 // fourth quadrant 270 - 359
 
-                double o = (double) (center.y - p.y);
-                double a = (double) (center.x - p.x);
+                double o = center.y - p.y;
+                double a = center.x - p.x;
                 double h = Math.sqrt(o * o + a * a);
                 double sine = o / h;
 

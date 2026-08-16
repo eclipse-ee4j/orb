@@ -40,6 +40,7 @@ class NegativeExpression extends UnaryExpression {
     /**
      * Select the type of the expression
      */
+    @Override
     void selectType(Environment env, Context ctx, int tm) {
         if ((tm & TM_DOUBLE) != 0) {
             type = Type.tDouble;
@@ -56,15 +57,19 @@ class NegativeExpression extends UnaryExpression {
     /**
      * Evaluate
      */
+    @Override
     Expression eval(int a) {
         return new IntExpression(where, -a);
     }
+    @Override
     Expression eval(long a) {
         return new LongExpression(where, -a);
     }
+    @Override
     Expression eval(float a) {
         return new FloatExpression(where, -a);
     }
+    @Override
     Expression eval(double a) {
         return new DoubleExpression(where, -a);
     }
@@ -72,6 +77,7 @@ class NegativeExpression extends UnaryExpression {
     /**
      * Simplify
      */
+    @Override
     Expression simplify() {
         if (right.op == NEG) {
             return ((NegativeExpression)right).right;
@@ -82,6 +88,7 @@ class NegativeExpression extends UnaryExpression {
     /**
      * Code
      */
+    @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         right.codeValue(env, ctx, asm);
         asm.add(where, opc_ineg + type.getTypeCodeOffset());

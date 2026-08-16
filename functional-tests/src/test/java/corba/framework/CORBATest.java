@@ -156,6 +156,7 @@ public abstract class CORBATest extends test.RemoteTest {
      * @see test.ServantContext
      * @see test.RemoteTestExample
      */
+    @Override
     protected void doTest(ServantContext context) throws Throwable {
         doTest();
     }
@@ -225,6 +226,7 @@ public abstract class CORBATest extends test.RemoteTest {
      *
      * @return Array of class names to go through RMIC
      */
+    @Override
     protected String[] getRemoteServantClasses() {
         return new String[0];
     }
@@ -280,6 +282,7 @@ public abstract class CORBATest extends test.RemoteTest {
     private void getGenJavaFilesHelper(Vector files, File dir) {
         // Create a filter that accepts directory names and .java files
         FileFilter dotJavaFilter = new FileFilter() {
+            @Override
             public boolean accept(File pathname) {
                 return ((pathname.isFile() && pathname.toString().endsWith(".java")) || (pathname.isDirectory()));
             }
@@ -293,9 +296,9 @@ public abstract class CORBATest extends test.RemoteTest {
 
         // Recurse down through any directories, gathering absolute paths
         // of all .java files
-        for (int i = 0; i < fileArray.length; i++) {
-            if (fileArray[i].isDirectory()) {
-                getGenJavaFilesHelper(files, new File(fileArray[i].getAbsolutePath()));
+        for (File element : fileArray) {
+            if (element.isDirectory()) {
+                getGenJavaFilesHelper(files, new File(element.getAbsolutePath()));
             } else {
 
                 // Add the absolute path of this .java file unless
@@ -303,14 +306,14 @@ public abstract class CORBATest extends test.RemoteTest {
                 // modified more recently. (Assumes they are in the
                 // same directory -- they should be for generated files.)
 
-                String path = fileArray[i].getAbsolutePath();
+                String path = element.getAbsolutePath();
                 String dotClassName = path.substring(0, path.indexOf(".java")) + ".class";
 
                 File dotClassFile = new File(dotClassName);
 
-                if (!dotClassFile.exists() || fileArray[i].lastModified() > dotClassFile.lastModified()) {
+                if (!dotClassFile.exists() || element.lastModified() > dotClassFile.lastModified()) {
 
-                    files.add(fileArray[i].getAbsolutePath());
+                    files.add(element.getAbsolutePath());
                 }
             }
         }
@@ -372,7 +375,7 @@ public abstract class CORBATest extends test.RemoteTest {
 
     private enum ControllerKind {
         CLIENT, SERVER, ORBD
-    };
+    }
 
     private Controller createProcess(String className, ControllerKind kind, String name, Properties props, Vector args, Hashtable extra)
             throws Exception {
@@ -735,5 +738,5 @@ public abstract class CORBATest extends test.RemoteTest {
      */
     protected Map traceMap = new HashMap();
 
-    protected List<Controller> controllers = new ArrayList<Controller>();
+    protected List<Controller> controllers = new ArrayList<>();
 }

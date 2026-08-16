@@ -39,8 +39,9 @@ public class MarkResetTester implements Serializable {
 
         System.out.println("Writing " + numLongs + " longs");
 
-        for (int i = 0; i < numLongs; i++)
-            out.writeLong((long) i);
+        for (int i = 0; i < numLongs; i++) {
+            out.writeLong(i);
+        }
 
         // Do the same thing but with Longs
         out.writeInt(numLongs);
@@ -50,10 +51,11 @@ public class MarkResetTester implements Serializable {
         // Intermix indirected and new instances with the same value
         Long indirectedLong = new Long(TESTVALUE);
         for (int i = 0; i < numLongs; i++) {
-            if (i % 3 == 0)
+            if (i % 3 == 0) {
                 out.writeObject(indirectedLong);
-            else
+            } else {
                 out.writeObject(new Long(TESTVALUE));
+            }
         }
 
         // Try arrays to test special chunking code
@@ -66,13 +68,14 @@ public class MarkResetTester implements Serializable {
         out.writeInt(arraySize);
 
         int indirectedArray[] = new int[arraySize];
-        for (int i = 0; i < indirectedArray.length; i++)
+        for (int i = 0; i < indirectedArray.length; i++) {
             indirectedArray[i] = i + 111;
+        }
 
         for (int i = 0; i < numArrays; i++) {
-            if (i % 4 == 0)
+            if (i % 4 == 0) {
                 out.writeObject(indirectedArray);
-            else {
+            } else {
                 int newArray[] = new int[arraySize];
                 System.arraycopy(indirectedArray, 0, newArray, 0, arraySize);
                 out.writeObject(newArray);
@@ -90,9 +93,10 @@ public class MarkResetTester implements Serializable {
 
         System.out.println("Reading " + numLongs + " longs");
 
-        if (numLongs != (int) (FRAGMENT_SIZE_MULTIPLIER * Math.floor(fragmentSize / 8.0)))
+        if (numLongs != (int) (FRAGMENT_SIZE_MULTIPLIER * Math.floor(fragmentSize / 8.0))) {
             throw new IOException(
                     "Incorrect number of longs: " + numLongs + " expected " + (FRAGMENT_SIZE_MULTIPLIER * Math.floor(fragmentSize / 8.0)));
+        }
 
         System.out.println("Testing all possible mark/resets");
         for (int markedLong = 0; markedLong < numLongs; markedLong++) {
@@ -149,8 +153,9 @@ public class MarkResetTester implements Serializable {
             in.mark(100);
             Object obj1b = in.readObject();
             in.reset();
-            if (obj1a != obj1b)
+            if (obj1a != obj1b) {
                 throw new IOException("markSupported returned true, but violated contract");
+            }
         }
 
         System.out.println("Testing Longs...");
@@ -184,8 +189,9 @@ public class MarkResetTester implements Serializable {
         System.out.println("Number of arrays: " + numArrays);
 
         int expectedArray[] = new int[arraySize];
-        for (int i = 0; i < expectedArray.length; i++)
+        for (int i = 0; i < expectedArray.length; i++) {
             expectedArray[i] = i + 111;
+        }
 
         for (int markedArray = 0; markedArray < numArrays; markedArray++) {
             for (int arraysToRead = 1; arraysToRead <= numArrays - markedArray; arraysToRead++) {

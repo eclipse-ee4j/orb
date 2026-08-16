@@ -42,6 +42,7 @@ class TypeExpression extends Expression {
     /**
      * Convert to a type
      */
+    @Override
     Type toType(Environment env, Context ctx) {
         return type;
     }
@@ -49,17 +50,20 @@ class TypeExpression extends Expression {
     /**
      * Check an expression
      */
+    @Override
     public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         env.error(where, "invalid.term");
         type = Type.tError;
         return vset;
     }
 
+    @Override
     public Vset checkAmbigName(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp,
                                UnaryExpression loc) {
         return vset;
     }
 
+    @Override
     public Expression inline(Environment env, Context ctx) {
         return null;
     }
@@ -67,6 +71,7 @@ class TypeExpression extends Expression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print(type.toString());
     }

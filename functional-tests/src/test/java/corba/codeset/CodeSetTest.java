@@ -29,6 +29,7 @@ import org.omg.CORBA.*;
  * Simple tests in GIOP 1.1 and 1.2 of chars and wstrings.
  */
 public class CodeSetTest extends CORBATest {
+    @Override
     protected void doTest() throws Throwable {
         // Now GIOP 1.1.
         Controller orbd = createORBD();

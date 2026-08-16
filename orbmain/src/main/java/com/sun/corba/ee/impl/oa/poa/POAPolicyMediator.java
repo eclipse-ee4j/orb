@@ -43,7 +43,7 @@ import org.omg.PortableServer.POAPackage.WrongPolicy;
 public interface POAPolicyMediator {
     /**
      * Return the policies object that was used to create this POAPolicyMediator.
-     * 
+     *
      * @return The policies of this POA
      */
     @ManagedAttribute
@@ -54,7 +54,7 @@ public interface POAPolicyMediator {
      * Return the subcontract ID to use in the IIOP profile in IORs created by this POAPolicyMediator's POA. This is
      * initialized according to the policies and the POA used to construct this POAPolicyMediator in the
      * POAPolicyMediatorFactory.
-     * 
+     *
      * @return This POA's subcontract ID.
      */
     @ManagedAttribute
@@ -64,7 +64,7 @@ public interface POAPolicyMediator {
     /**
      * Return the server ID to use in the IIOP profile in IORs created by this POAPolicyMediator's POA. This is initialized
      * according to the policies and the POA used to construct this POAPolicyMediator in the POAPolicyMediatorFactory.
-     * 
+     *
      * @return This POA's server ID.
      */
     @ManagedAttribute
@@ -73,7 +73,7 @@ public interface POAPolicyMediator {
 
     /**
      * Get the servant to use for an invocation with the given id and operation.
-     * 
+     *
      * @param id the object ID for which we are requesting a servant
      * @param operation the name of the operation to be performed on the servant
      * @return the resulting Servant.
@@ -98,7 +98,7 @@ public interface POAPolicyMediator {
 
     /**
      * Return the servant manager. Will throw WrongPolicy if the request processing policy is not USE_SERVANT_MANAGER.
-     * 
+     *
      * @return The current ServantManager
      * @throws WrongPolicy If the request processing policy is not USE_SERVANT_MANAGER
      */
@@ -106,7 +106,7 @@ public interface POAPolicyMediator {
 
     /**
      * Set the servant manager. Will throw WrongPolicy if the request processing policy is not USE_SERVANT_MANAGER.
-     * 
+     *
      * @param servantManager The ServantManager
      * @throws WrongPolicy if the request processing policy is not USE_SERVANT_MANAGER.
      */
@@ -114,7 +114,7 @@ public interface POAPolicyMediator {
 
     /**
      * Return the default servant. Will throw WrongPolicy if the request processing policy is not USE_DEFAULT_SERVANT.
-     * 
+     *
      * @return the default Servant
      * @throws NoServant if no Servant has been set
      * @throws WrongPolicy if the policy is not USE_DEFAULT_SERVANT
@@ -123,7 +123,7 @@ public interface POAPolicyMediator {
 
     /**
      * Set the default servant. Will throw WrongPolicy if the request processing policy is not USE_DEFAULT_SERVANT.
-     * 
+     *
      * @param servant The default Servant
      * @throws WrongPolicy if the request processing policy is not USE_DEFAULT_SERVANT.
      */
@@ -133,7 +133,7 @@ public interface POAPolicyMediator {
 
     /**
      * Deactivate the object that is associated with the given id. Returns the servant for id.
-     * 
+     *
      * @param id ID of the object to deactivate
      * @return Servant for the ID
      * @throws ObjectNotActive if the object was not active
@@ -143,7 +143,7 @@ public interface POAPolicyMediator {
 
     /**
      * Allocate a new, unique system ID. Requires the ID assignment policy to be SYSTEM.
-     * 
+     *
      * @return the new system ID
      * @throws WrongPolicy if the ID assignment policy is not SYSTEM
      */

@@ -44,10 +44,12 @@ public class RemoteService extends PortableRemoteObject implements RemoteInterfa
         this.stats = new ConnectionStatistics(orb);
     }
 
+    @Override
     public Struct[] method(Struct[] in) throws RemoteException {
         return in;
     }
 
+    @Override
     public void block() throws RemoteException {
         synchronized (blocker) {
             try {
@@ -57,12 +59,14 @@ public class RemoteService extends PortableRemoteObject implements RemoteInterfa
         }
     }
 
+    @Override
     public void resume() throws RemoteException {
         synchronized (blocker) {
             blocker.notifyAll();
         }
     }
 
+    @Override
     public String testMonitoring() throws RemoteException {
         return stats.outbound(serverName, orb) + stats.inbound(serverName, orb);
     }

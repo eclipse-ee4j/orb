@@ -70,8 +70,9 @@ public class ServerTool {
                 // get the command
                 int cmdLen = args.length - i - 1;
                 cmd = new String[cmdLen];
-                for (int j = 0; j < cmdLen; j++)
+                for (int j = 0; j < cmdLen; j++) {
                     cmd[j] = args[++i];
+                }
 
                 break;
             }
@@ -81,12 +82,12 @@ public class ServerTool {
             // create the POA ORB
             Properties props = System.getProperties();
             props.put("org.omg.CORBA.ORBClass", "com.sun.corba.ee.impl.orb.ORBImpl");
-            orb = (ORB) ORB.init(args, props);
+            orb = ORB.init(args, props);
 
             // if command specified in the args, process it
-            if (cmd != null)
+            if (cmd != null) {
                 executeCommand(cmd);
-            else { // process commands interactively
+            } else { // process commands interactively
 
                 // create a buffered reader to read commands from standard in
                 BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -97,10 +98,11 @@ public class ServerTool {
                 // process commands until user quits
                 while (true) {
                     cmd = readCommand(in);
-                    if (cmd != null)
+                    if (cmd != null) {
                         executeCommand(cmd);
-                    else
+                    } else {
                         printAvailableCommands();
+                    }
                 }
             }
         } catch (Exception ex) {
@@ -128,8 +130,9 @@ public class ServerTool {
                 StringTokenizer st = new StringTokenizer(cmdLine);
                 if (st.countTokens() != 0) {
                     cmd = new String[st.countTokens()];
-                    while (st.hasMoreTokens())
+                    while (st.hasMoreTokens()) {
                         cmd[i++] = st.nextToken();
+                    }
                 }
             }
 
@@ -149,8 +152,9 @@ public class ServerTool {
 
         for (CommandHandler handler : handlers) {
             System.out.print("\t" + handler.getCommandName());
-            for (int j = handler.getCommandName().length(); j < maxNameLen; j++)
+            for (int j = handler.getCommandName().length(); j < maxNameLen; j++) {
                 System.out.print(" ");
+            }
             System.out.print(" - ");
             handler.printCommandHelp(System.out, CommandHandler.shortHelp);
         }
@@ -163,9 +167,9 @@ public class ServerTool {
 
         // handle the help command
         if (cmd[0].equals(helpCommand)) {
-            if (cmd.length == 1)
+            if (cmd.length == 1) {
                 printAvailableCommands();
-            else {
+            } else {
                 // print long help for a specific command
                 for (CommandHandler handler : handlers) {
                     if (handler.getCommandName().equals(cmd[1])) {
@@ -183,8 +187,9 @@ public class ServerTool {
                 String[] cmdArgs = new String[cmd.length - 1];
 
                 // construct args to the command
-                for (int j = 0; j < cmdArgs.length; j++)
+                for (int j = 0; j < cmdArgs.length; j++) {
                     cmdArgs[j] = cmd[j + 1];
+                }
 
                 // execute the command
                 try {
@@ -217,7 +222,7 @@ public class ServerTool {
     static int maxNameLen;
 
     static {
-        handlers = new ArrayList<CommandHandler>();
+        handlers = new ArrayList<>();
         handlers.add(new RegisterServer());
         handlers.add(new UnRegisterServer());
         handlers.add(new GetServerID());
@@ -236,17 +241,20 @@ public class ServerTool {
         maxNameLen = 0;
         for (CommandHandler handler : handlers) {
             int cmdNameLen = handler.getCommandName().length();
-            if (cmdNameLen > maxNameLen)
+            if (cmdNameLen > maxNameLen) {
                 maxNameLen = cmdNameLen;
+            }
         }
     }
 }
 
 class RegisterServer implements CommandHandler {
+    @Override
     public String getCommandName() {
         return "register";
     }
 
+    @Override
     public void printCommandHelp(PrintStream out, boolean helpType) {
         if (helpType == longHelp) {
             out.println(CorbaResourceUtil.getText("servertool.register"));
@@ -255,6 +263,7 @@ class RegisterServer implements CommandHandler {
         }
     }
 
+    @Override
     public boolean processCommand(String[] cmdArgs, ORB orb, PrintStream out) {
         int i = 0;
         String applicationName = "";
@@ -271,41 +280,48 @@ class RegisterServer implements CommandHandler {
             arg = cmdArgs[i++];
 
             if (arg.equals("-server")) {
-                if (i < cmdArgs.length)
+                if (i < cmdArgs.length) {
                     name = cmdArgs[i++];
-                else
+                } else {
                     return parseError;
+                }
             } else if (arg.equals("-applicationName")) {
-                if (i < cmdArgs.length)
+                if (i < cmdArgs.length) {
                     applicationName = cmdArgs[i++];
-                else
+                } else {
                     return parseError;
+                }
             } else if (arg.equals("-classpath")) {
-                if (i < cmdArgs.length)
+                if (i < cmdArgs.length) {
                     classpath = cmdArgs[i++];
-                else
+                } else {
                     return parseError;
+                }
             } else if (arg.equals("-args")) {
                 while ((i < cmdArgs.length) && !cmdArgs[i].equals("-vmargs")) {
                     args = args.equals("") ? cmdArgs[i] : args + " " + cmdArgs[i];
                     i++;
                 }
-                if (args.equals(""))
+                if (args.equals("")) {
                     return parseError;
+                }
             } else if (arg.equals("-vmargs")) {
                 while ((i < cmdArgs.length) && !cmdArgs[i].equals("-args")) {
                     vmargs = vmargs.equals("") ? cmdArgs[i] : vmargs + " " + cmdArgs[i];
                     i++;
                 }
-                if (vmargs.equals(""))
+                if (vmargs.equals("")) {
                     return parseError;
-            } else
+                }
+            } else {
                 return parseError;
+            }
         }
 
         // minimally the server class name has to be specified
-        if (name.equals(""))
+        if (name.equals("")) {
             return parseError;
+        }
 
         // register server and activate it
         try {
@@ -339,10 +355,12 @@ class RegisterServer implements CommandHandler {
 }
 
 class UnRegisterServer implements CommandHandler {
+    @Override
     public String getCommandName() {
         return "unregister";
     }
 
+    @Override
     public void printCommandHelp(PrintStream out, boolean helpType) {
         if (helpType == longHelp) {
             out.println(CorbaResourceUtil.getText("servertool.unregister"));
@@ -353,20 +371,23 @@ class UnRegisterServer implements CommandHandler {
 
     final static int illegalServerId = -1;
 
+    @Override
     public boolean processCommand(String[] cmdArgs, ORB orb, PrintStream out) {
         int serverId = illegalServerId;
 
         try {
             if (cmdArgs.length == 2) {
-                if (cmdArgs[0].equals("-serverid"))
+                if (cmdArgs[0].equals("-serverid")) {
                     serverId = (Integer.valueOf(cmdArgs[1])).intValue();
-                else if (cmdArgs[0].equals("-applicationName"))
+                } else if (cmdArgs[0].equals("-applicationName")) {
                     serverId = ServerTool.getServerIdForAlias(orb, cmdArgs[1]);
+                }
             }
 
             // the server id has to be specified
-            if (serverId == illegalServerId)
+            if (serverId == illegalServerId) {
                 return parseError;
+            }
 
             // deactivate server, hold it down and and unregister it
             // deactivate the server
@@ -393,10 +414,12 @@ class UnRegisterServer implements CommandHandler {
 }
 
 class LocateServer implements CommandHandler {
+    @Override
     public String getCommandName() {
         return "locate";
     }
 
+    @Override
     public void printCommandHelp(PrintStream out, boolean helpType) {
         if (helpType == longHelp) {
             out.println(CorbaResourceUtil.getText("servertool.locate"));
@@ -407,6 +430,7 @@ class LocateServer implements CommandHandler {
 
     final static int illegalServerId = -1;
 
+    @Override
     public boolean processCommand(String[] cmdArgs, ORB orb, PrintStream out) {
         int serverId = illegalServerId;
 
@@ -421,24 +445,28 @@ class LocateServer implements CommandHandler {
                 arg = cmdArgs[i++];
 
                 if (arg.equals("-serverid")) {
-                    if (i < cmdArgs.length)
+                    if (i < cmdArgs.length) {
                         serverId = (Integer.valueOf(cmdArgs[i++])).intValue();
-                    else
+                    } else {
                         return parseError;
+                    }
                 } else if (arg.equals("-applicationName")) {
-                    if (i < cmdArgs.length)
+                    if (i < cmdArgs.length) {
                         serverId = ServerTool.getServerIdForAlias(orb, cmdArgs[i++]);
-                    else
+                    } else {
                         return parseError;
+                    }
                 } else if (arg.equals("-endpointType")) {
-                    if (i < cmdArgs.length)
+                    if (i < cmdArgs.length) {
                         endPointType = cmdArgs[i++];
+                    }
                 }
             }
 
             // the server id has to be specified
-            if (serverId == illegalServerId)
+            if (serverId == illegalServerId) {
                 return parseError;
+            }
 
             // locate the server
             // deactivate the server
@@ -467,10 +495,12 @@ class LocateServer implements CommandHandler {
 }
 
 class LocateServerForORB implements CommandHandler {
+    @Override
     public String getCommandName() {
         return "locateperorb";
     }
 
+    @Override
     public void printCommandHelp(PrintStream out, boolean helpType) {
         if (helpType == longHelp) {
             out.println(CorbaResourceUtil.getText("servertool.locateorb"));
@@ -481,6 +511,7 @@ class LocateServerForORB implements CommandHandler {
 
     final static int illegalServerId = -1;
 
+    @Override
     public boolean processCommand(String[] cmdArgs, ORB orb, PrintStream out) {
         int serverId = illegalServerId;
 
@@ -495,24 +526,28 @@ class LocateServerForORB implements CommandHandler {
                 arg = cmdArgs[i++];
 
                 if (arg.equals("-serverid")) {
-                    if (i < cmdArgs.length)
+                    if (i < cmdArgs.length) {
                         serverId = (Integer.valueOf(cmdArgs[i++])).intValue();
-                    else
+                    } else {
                         return parseError;
+                    }
                 } else if (arg.equals("-applicationName")) {
-                    if (i < cmdArgs.length)
+                    if (i < cmdArgs.length) {
                         serverId = ServerTool.getServerIdForAlias(orb, cmdArgs[i++]);
-                    else
+                    } else {
                         return parseError;
+                    }
                 } else if (arg.equals("-orbid")) {
-                    if (i < cmdArgs.length)
+                    if (i < cmdArgs.length) {
                         orbId = cmdArgs[i++];
+                    }
                 }
             }
 
             // the server id has to be specified
-            if (serverId == illegalServerId)
+            if (serverId == illegalServerId) {
                 return parseError;
+            }
 
             // locate the server
             // deactivate the server
@@ -542,10 +577,12 @@ class LocateServerForORB implements CommandHandler {
 }
 
 class GetServerID implements CommandHandler {
+    @Override
     public String getCommandName() {
         return "getserverid";
     }
 
+    @Override
     public void printCommandHelp(PrintStream out, boolean helpType) {
         if (helpType == longHelp) {
             out.println(CorbaResourceUtil.getText("servertool.getserverid"));
@@ -554,9 +591,10 @@ class GetServerID implements CommandHandler {
         }
     }
 
+    @Override
     public boolean processCommand(String[] cmdArgs, ORB orb, PrintStream out) {
         if ((cmdArgs.length == 2) && cmdArgs[0].equals("-applicationName")) {
-            String str = (String) cmdArgs[1];
+            String str = cmdArgs[1];
 
             try {
                 Repository repository = RepositoryHelper.narrow(orb.resolve_initial_references(ORBConstants.SERVER_REPOSITORY_NAME));
@@ -574,16 +612,19 @@ class GetServerID implements CommandHandler {
             }
 
             return commandDone;
-        } else
+        } else {
             return parseError;
+        }
     }
 }
 
 class ListServers implements CommandHandler {
+    @Override
     public String getCommandName() {
         return "list";
     }
 
+    @Override
     public void printCommandHelp(PrintStream out, boolean helpType) {
         if (helpType == longHelp) {
             out.println(CorbaResourceUtil.getText("servertool.list"));
@@ -594,6 +635,7 @@ class ListServers implements CommandHandler {
 
     final static int illegalServerId = -1;
 
+    @Override
     public boolean processCommand(String[] cmdArgs, ORB orb, PrintStream out) {
         int serverId = illegalServerId;
         boolean listOneServer = false;
@@ -601,11 +643,13 @@ class ListServers implements CommandHandler {
 
         // determine if list single server or all servers
         listOneServer = (cmdArgs.length != 0);
-        if ((cmdArgs.length == 2) && cmdArgs[0].equals("-serverid"))
+        if ((cmdArgs.length == 2) && cmdArgs[0].equals("-serverid")) {
             serverId = (Integer.valueOf(cmdArgs[1])).intValue();
+        }
 
-        if ((serverId == illegalServerId) && listOneServer)
+        if ((serverId == illegalServerId) && listOneServer) {
             return parseError;
+        }
 
         // process the list server command
         try {
@@ -627,10 +671,10 @@ class ListServers implements CommandHandler {
                 out.println(CorbaResourceUtil.getText("servertool.list2"));
 
                 sortServers(servers);
-                for (int i = 0; i < servers.length; i++) {
+                for (int server : servers) {
                     try {
-                        serverDef = repository.getServer(servers[i]);
-                        out.println("\t   " + servers[i] + "\t\t" + serverDef.serverName + "\t\t" + serverDef.applicationName);
+                        serverDef = repository.getServer(server);
+                        out.println("\t   " + server + "\t\t" + serverDef.serverName + "\t\t" + serverDef.applicationName);
                     } catch (ServerNotRegistered e) {
                     }
                 }
@@ -664,8 +708,9 @@ class ListServers implements CommandHandler {
             lowest = i;
 
             for (int j = i + 1; j < size; j++) {
-                if (serverIds[j] < serverIds[lowest])
+                if (serverIds[j] < serverIds[lowest]) {
                     lowest = j;
+                }
             }
 
             if (lowest != i) {
@@ -678,10 +723,12 @@ class ListServers implements CommandHandler {
 }
 
 class ListActiveServers implements CommandHandler {
+    @Override
     public String getCommandName() {
         return "listactive";
     }
 
+    @Override
     public void printCommandHelp(PrintStream out, boolean helpType) {
         if (helpType == longHelp) {
             out.println(CorbaResourceUtil.getText("servertool.listactive"));
@@ -690,6 +737,7 @@ class ListActiveServers implements CommandHandler {
         }
     }
 
+    @Override
     public boolean processCommand(String[] cmdArgs, ORB orb, PrintStream out) {
         ServerDef serverDef;
 
@@ -704,10 +752,10 @@ class ListActiveServers implements CommandHandler {
             out.println(CorbaResourceUtil.getText("servertool.list2"));
 
             ListServers.sortServers(servers);
-            for (int i = 0; i < servers.length; i++) {
+            for (int server : servers) {
                 try {
-                    serverDef = repository.getServer(servers[i]);
-                    out.println("\t   " + servers[i] + "\t\t" + serverDef.serverName + "\t\t" + serverDef.applicationName);
+                    serverDef = repository.getServer(server);
+                    out.println("\t   " + server + "\t\t" + serverDef.serverName + "\t\t" + serverDef.applicationName);
                 } catch (ServerNotRegistered e) {
                 }
             }
@@ -720,10 +768,12 @@ class ListActiveServers implements CommandHandler {
 }
 
 class ListAliases implements CommandHandler {
+    @Override
     public String getCommandName() {
         return "listappnames";
     }
 
+    @Override
     public void printCommandHelp(PrintStream out, boolean helpType) {
         if (helpType == longHelp) {
             out.println(CorbaResourceUtil.getText("servertool.listappnames"));
@@ -732,6 +782,7 @@ class ListAliases implements CommandHandler {
         }
     }
 
+    @Override
     public boolean processCommand(String[] cmdArgs, ORB orb, PrintStream out) {
         try {
             Repository repository = RepositoryHelper.narrow(orb.resolve_initial_references(ORBConstants.SERVER_REPOSITORY_NAME));
@@ -740,8 +791,9 @@ class ListAliases implements CommandHandler {
 
             out.println(CorbaResourceUtil.getText("servertool.listappnames2"));
             out.println();
-            for (int i = 0; i < applicationNames.length; i++)
-                out.println("\t" + applicationNames[i]);
+            for (String applicationName : applicationNames) {
+                out.println("\t" + applicationName);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -751,10 +803,12 @@ class ListAliases implements CommandHandler {
 }
 
 class ShutdownServer implements CommandHandler {
+    @Override
     public String getCommandName() {
         return "shutdown";
     }
 
+    @Override
     public void printCommandHelp(PrintStream out, boolean helpType) {
         if (helpType == longHelp) {
             out.println(CorbaResourceUtil.getText("servertool.shutdown"));
@@ -765,19 +819,23 @@ class ShutdownServer implements CommandHandler {
 
     final static int illegalServerId = -1;
 
+    @Override
     public boolean processCommand(String[] cmdArgs, ORB orb, PrintStream out) {
         int serverId = illegalServerId;
 
         try {
             // determine the server id
-            if (cmdArgs.length == 2)
-                if (cmdArgs[0].equals("-serverid"))
+            if (cmdArgs.length == 2) {
+                if (cmdArgs[0].equals("-serverid")) {
                     serverId = (Integer.valueOf(cmdArgs[1])).intValue();
-                else if (cmdArgs[0].equals("-applicationName"))
+                } else if (cmdArgs[0].equals("-applicationName")) {
                     serverId = ServerTool.getServerIdForAlias(orb, cmdArgs[1]);
+                }
+            }
 
-            if (serverId == illegalServerId)
+            if (serverId == illegalServerId) {
                 return parseError;
+            }
 
             // shutdown the server
             Activator activator = ActivatorHelper.narrow(orb.resolve_initial_references(ORBConstants.SERVER_ACTIVATOR_NAME));
@@ -797,10 +855,12 @@ class ShutdownServer implements CommandHandler {
 }
 
 class StartServer implements CommandHandler {
+    @Override
     public String getCommandName() {
         return "startup";
     }
 
+    @Override
     public void printCommandHelp(PrintStream out, boolean helpType) {
         if (helpType == longHelp) {
             out.println(CorbaResourceUtil.getText("servertool.startserver"));
@@ -811,19 +871,23 @@ class StartServer implements CommandHandler {
 
     final static int illegalServerId = -1;
 
+    @Override
     public boolean processCommand(String[] cmdArgs, ORB orb, PrintStream out) {
         int serverId = illegalServerId;
 
         try {
             // determine the server id
-            if (cmdArgs.length == 2)
-                if (cmdArgs[0].equals("-serverid"))
+            if (cmdArgs.length == 2) {
+                if (cmdArgs[0].equals("-serverid")) {
                     serverId = (Integer.valueOf(cmdArgs[1])).intValue();
-                else if (cmdArgs[0].equals("-applicationName"))
+                } else if (cmdArgs[0].equals("-applicationName")) {
                     serverId = ServerTool.getServerIdForAlias(orb, cmdArgs[1]);
+                }
+            }
 
-            if (serverId == illegalServerId)
+            if (serverId == illegalServerId) {
                 return parseError;
+            }
 
             // startup the server
             Activator activator = ActivatorHelper.narrow(orb.resolve_initial_references(ORBConstants.SERVER_ACTIVATOR_NAME));
@@ -844,10 +908,12 @@ class StartServer implements CommandHandler {
 }
 
 class Quit implements CommandHandler {
+    @Override
     public String getCommandName() {
         return "quit";
     }
 
+    @Override
     public void printCommandHelp(PrintStream out, boolean helpType) {
         if (helpType == longHelp) {
             out.println(CorbaResourceUtil.getText("servertool.quit"));
@@ -856,6 +922,7 @@ class Quit implements CommandHandler {
         }
     }
 
+    @Override
     public boolean processCommand(String[] cmdArgs, ORB orb, PrintStream out) {
         System.exit(0);
 
@@ -864,10 +931,12 @@ class Quit implements CommandHandler {
 }
 
 class Help implements CommandHandler {
+    @Override
     public String getCommandName() {
         return "help";
     }
 
+    @Override
     public void printCommandHelp(PrintStream out, boolean helpType) {
         if (helpType == longHelp) {
             out.println(CorbaResourceUtil.getText("servertool.help"));
@@ -876,16 +945,19 @@ class Help implements CommandHandler {
         }
     }
 
+    @Override
     public boolean processCommand(String[] cmdArgs, ORB orb, PrintStream out) {
         return commandDone;
     }
 }
 
 class ListORBs implements CommandHandler {
+    @Override
     public String getCommandName() {
         return "orblist";
     }
 
+    @Override
     public void printCommandHelp(PrintStream out, boolean helpType) {
         if (helpType == longHelp) {
             out.println(CorbaResourceUtil.getText("servertool.orbidmap"));
@@ -896,21 +968,24 @@ class ListORBs implements CommandHandler {
 
     final static int illegalServerId = -1;
 
+    @Override
     public boolean processCommand(String[] cmdArgs, ORB orb, PrintStream out) {
 
         int serverId = illegalServerId;
 
         try {
             if (cmdArgs.length == 2) {
-                if (cmdArgs[0].equals("-serverid"))
+                if (cmdArgs[0].equals("-serverid")) {
                     serverId = (Integer.valueOf(cmdArgs[1])).intValue();
-                else if (cmdArgs[0].equals("-applicationName"))
+                } else if (cmdArgs[0].equals("-applicationName")) {
                     serverId = ServerTool.getServerIdForAlias(orb, cmdArgs[1]);
+                }
             }
 
             // the server id has to be specified
-            if (serverId == illegalServerId)
+            if (serverId == illegalServerId) {
                 return parseError;
+            }
             // activate the server
             Activator activator = ActivatorHelper.narrow(orb.resolve_initial_references(ORBConstants.SERVER_ACTIVATOR_NAME));
 
@@ -918,8 +993,8 @@ class ListORBs implements CommandHandler {
 
             out.println(CorbaResourceUtil.getText("servertool.orbidmap2"));
 
-            for (int i = 0; i < orbList.length; i++) {
-                out.println("\t " + orbList[i]);
+            for (String element : orbList) {
+                out.println("\t " + element);
             }
         } catch (ServerNotRegistered ex) {
             out.println("\tno such server found.");

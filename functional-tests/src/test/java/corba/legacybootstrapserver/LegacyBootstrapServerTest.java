@@ -30,6 +30,7 @@ import corba.framework.Options;
 
 public class LegacyBootstrapServerTest extends CORBATest {
 
+    @Override
     protected void doTest() throws Throwable {
         // Options.setOutputDirectory((String)getArgs().get(test.Test.OUTPUT_DIRECTORY));
 

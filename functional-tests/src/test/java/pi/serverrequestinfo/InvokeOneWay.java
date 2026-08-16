@@ -27,6 +27,7 @@ import org.omg.CORBA.*;
  * Invocation strategy in which two requests are sent, one that is not oneway and one that is oneway, in that order.
  */
 public class InvokeOneWay extends InvokeStrategy {
+    @Override
     public void invoke() throws Exception {
         super.invoke();
 

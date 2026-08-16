@@ -31,9 +31,11 @@ public class IsSerializable extends NotSerializable implements java.io.Serializa
         helloString = mssg;
     }
 
+    @Override
     public boolean equals(Object o) {
-        if (!(o instanceof IsSerializable))
+        if (!(o instanceof IsSerializable)) {
             return false;
+        }
         return helloString.equals(((IsSerializable) o).helloString);
     }
 }

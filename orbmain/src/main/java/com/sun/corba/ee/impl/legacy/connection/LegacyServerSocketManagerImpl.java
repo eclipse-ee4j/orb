@@ -44,11 +44,13 @@ public class LegacyServerSocketManagerImpl implements LegacyServerSocketManager 
     //
 
     // Only used in ServerManagerImpl.
+    @Override
     public int legacyGetTransientServerPort(String type) {
         return legacyGetServerPort(type, false);
     }
 
     // Only used by POAPolicyMediatorBase.
+    @Override
     public synchronized int legacyGetPersistentServerPort(String socketType) {
         if (orb.getORBData().getServerIsORBActivated()) {
             // this server is activated by orbd
@@ -62,6 +64,7 @@ public class LegacyServerSocketManagerImpl implements LegacyServerSocketManager 
     }
 
     // Only used by PI IORInfoImpl.
+    @Override
     public synchronized int legacyGetTransientOrPersistentServerPort(String socketType) {
         return legacyGetServerPort(socketType, orb.getORBData().getServerIsORBActivated());
     }
@@ -69,6 +72,7 @@ public class LegacyServerSocketManagerImpl implements LegacyServerSocketManager 
     // Used in RepositoryImpl, ServerManagerImpl, POAImpl,
     // POAPolicyMediatorBase, TOAImpl.
     // To get either default or bootnaming endpoint.
+    @Override
     public synchronized LegacyServerSocketEndPointInfo legacyGetEndpoint(String name) {
         Iterator iterator = getAcceptorIterator();
         while (iterator.hasNext()) {
@@ -82,6 +86,7 @@ public class LegacyServerSocketManagerImpl implements LegacyServerSocketManager 
 
     // Check to see if the given port is equal to any of the ORB Server Ports.
     // Used in IIOPProfileImpl, ORBImpl.
+    @Override
     public boolean legacyIsLocalServerPort(int port) {
         // If port is 0 (which signifies in CSIv2 that clear text
         // communication is not allowed), we must return true, because

@@ -26,7 +26,7 @@ package com.sun.corba.ee.impl.protocol.giopmsgheaders;
  */
 
 public final class IORAddressingInfo implements org.omg.CORBA.portable.IDLEntity {
-    public int selected_profile_index = (int) 0;
+    public int selected_profile_index = 0;
     public org.omg.IOP.IOR ior = null;
 
     public IORAddressingInfo() {

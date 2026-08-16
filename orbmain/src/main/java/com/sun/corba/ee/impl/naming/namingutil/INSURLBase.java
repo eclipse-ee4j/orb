@@ -41,7 +41,7 @@ public abstract class INSURLBase implements INSURL {
 
     /**
      * A Utility method to throw BAD_PARAM exception to signal malformed INS URL.
-     * 
+     *
      * @param name Invalid name of the URL
      */
     protected void badAddress(String name) {
@@ -52,31 +52,37 @@ public abstract class INSURLBase implements INSURL {
         throw wrapper.soBadAddress(e, name);
     }
 
+    @Override
     public boolean getRIRFlag() {
         return rirFlag;
     }
 
+    @Override
     public java.util.List getEndpointInfo() {
         return theEndpointInfo;
     }
 
+    @Override
     public String getKeyString() {
         return theKeyString;
     }
 
+    @Override
     public String getStringifiedName() {
         return theStringifiedName;
     }
 
+    @Override
     public abstract boolean isCorbanameURL();
 
+    @Override
     public void dPrint() {
         System.out.println("URL Dump...");
         System.out.println("Key String = " + getKeyString());
         System.out.println("RIR Flag = " + getRIRFlag());
         System.out.println("isCorbanameURL = " + isCorbanameURL());
-        for (int i = 0; i < theEndpointInfo.size(); i++) {
-            ((IIOPEndpointInfo) theEndpointInfo.get(i)).dump();
+        for (Object element : theEndpointInfo) {
+            ((IIOPEndpointInfo) element).dump();
         }
         if (isCorbanameURL()) {
             System.out.println("Stringified Name = " + getStringifiedName());

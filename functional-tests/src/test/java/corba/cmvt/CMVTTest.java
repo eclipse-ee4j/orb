@@ -93,6 +93,7 @@ public class CMVTTest extends CORBATest {
         server.stop();
     }
 
+    @Override
     protected void doTest() throws Throwable {
         int errors = 0;
 
@@ -119,8 +120,9 @@ public class CMVTTest extends CORBATest {
 
         System.out.print("      Test result : ");
 
-        if (errors > 0)
+        if (errors > 0) {
             throw new Exception("Errors detected");
+        }
 
     }
 }

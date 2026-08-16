@@ -22,10 +22,12 @@ package javax.rmi.test1;
 
 public class RemoteInterface2Impl implements RemoteInterface2 {
 
+    @Override
     public String EchoRemoteInterface1() throws java.rmi.RemoteException {
         return "EchoRemoteInterface1";
     }
 
+    @Override
     public String EchoRemoteInterface2() throws java.rmi.RemoteException {
         return "EchoRemoteInterface2";
     }

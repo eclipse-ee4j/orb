@@ -33,6 +33,7 @@ public class ComplexTestObjectTwoSubclassDefaults extends ComplexTestObjectTwo {
         fLong2 = r.nextLong();
     }
 
+    @Override
     public boolean equals(Object o) {
         try {
             ComplexTestObjectTwoSubclassDefaults ctbo = (ComplexTestObjectTwoSubclassDefaults) o;
@@ -61,8 +62,9 @@ public class ComplexTestObjectTwoSubclassDefaults extends ComplexTestObjectTwo {
         try {
             s.defaultReadObject();
             double d = s.readDouble();
-            if (d != 55.5)
+            if (d != 55.5) {
                 throw new IOException("ComplexTestObjectTwoSubclassDefaults  - Read after defaultReadObject Failed!");
+            }
         } catch (IOException e) {
             throw e;
         }

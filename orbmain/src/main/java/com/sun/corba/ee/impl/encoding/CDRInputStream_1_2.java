@@ -76,7 +76,7 @@ public class CDRInputStream_1_2 extends CDRInputStream_1_1 {
         // inserted during the earlier write operation by the sender. The
         // padding ensures that the body is aligned on an 8-octet boundary,
         // for GIOP versions 1.2 and beyond.
-        if (headerPadding == true) {
+        if (headerPadding) {
             headerPadding = false;
             alignOnBoundary(ORBConstants.GIOP_12_MSG_BODY_ALIGNMENT);
         }
@@ -123,8 +123,9 @@ public class CDRInputStream_1_2 extends CDRInputStream_1_1 {
         // character? This may come up as more unicode values are
         // assigned, and a single 16 bit Java char isn't enough.
         // Better to use strings for i18n purposes.
-        if (getWCharConverter().getNumChars() > 1)
+        if (getWCharConverter().getNumChars() > 1) {
             throw wrapper.btcResultMoreThanOneChar();
+        }
 
         return result[0];
     }
@@ -138,8 +139,9 @@ public class CDRInputStream_1_2 extends CDRInputStream_1_1 {
 
         int len = read_long();
 
-        if (len == 0)
+        if (len == 0) {
             return newEmptyString();
+        }
 
         checkForNegativeLength(len);
 

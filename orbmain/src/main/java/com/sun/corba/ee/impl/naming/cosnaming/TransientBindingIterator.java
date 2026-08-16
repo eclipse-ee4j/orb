@@ -38,7 +38,7 @@ import org.omg.PortableServer.POA;
  * Class TransientBindingIterator implements the abstract methods defined by BindingIteratorImpl, to use with the
  * TransientNamingContext implementation of the NamingContextImpl. The TransientBindingIterator implementation receives
  * a hash table of InternalBindingValues, and uses an Enumeration to iterate over the contents of the hash table.
- * 
+ *
  * @see BindingIteratorImpl
  * @see TransientNamingContext
  */
@@ -49,7 +49,7 @@ public class TransientBindingIterator extends BindingIteratorImpl {
 
     /**
      * Constructs a new TransientBindingIterator object.
-     * 
+     *
      * @param orb a org.omg.CORBA.ORB object.
      * @param aTable A hashtable containing InternalBindingValues which is the content of the TransientNamingContext.
      * @param thePOA the POA to use.
@@ -66,10 +66,11 @@ public class TransientBindingIterator extends BindingIteratorImpl {
     /**
      * Returns the next binding in the NamingContext. Uses the enumeration object to determine if there are more bindings
      * and if so, returns the next binding from the InternalBindingValue.
-     * 
+     *
      * @param b The Binding as an out parameter.
      * @return true if there were more bindings.
      */
+    @Override
     final public boolean nextOneImpl(org.omg.CosNaming.BindingHolder b) {
         // If there are more elements get the next element
         boolean hasMore = bindingIterator.hasNext();
@@ -85,9 +86,10 @@ public class TransientBindingIterator extends BindingIteratorImpl {
 
     /**
      * Destroys this BindingIterator by disconnecting from the ORB
-     * 
+     *
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA system exceptions.
      */
+    @Override
     final public void destroyImpl() {
         // Remove the object from the Active Object Map.
         try {
@@ -103,9 +105,10 @@ public class TransientBindingIterator extends BindingIteratorImpl {
 
     /**
      * Returns the remaining number of elements in the iterator.
-     * 
+     *
      * @return the remaining number of elements in the iterator.
      */
+    @Override
     public final int remainingElementsImpl() {
         return currentSize;
     }

@@ -32,8 +32,9 @@ public class Client {
 
         String result = tester.process(multibyte);
 
-        if (!multibyte.equals(result))
+        if (!multibyte.equals(result)) {
             throw new Exception("Not equal: " + result);
+        }
 
         System.out.println("PASSED");
     }

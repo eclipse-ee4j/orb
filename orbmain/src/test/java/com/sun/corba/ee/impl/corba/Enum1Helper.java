@@ -48,8 +48,9 @@ public class Enum1Helper {
     private static String[] _members = { "zeroth", "first", "second", "third" };
 
     synchronized public static org.omg.CORBA.TypeCode type() {
-        if (_tc == null)
+        if (_tc == null) {
             _tc = org.omg.CORBA.ORB.init().create_enum_tc(id(), "enum1", _members);
+        }
         return _tc;
     }
 

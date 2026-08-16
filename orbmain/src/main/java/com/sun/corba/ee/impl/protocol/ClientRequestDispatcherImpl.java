@@ -83,7 +83,7 @@ public class ClientRequestDispatcherImpl implements ClientRequestDispatcher {
 
     private MaxStreamFormatVersionServiceContext msfvc = ServiceContextDefaults.getMaxStreamFormatVersionServiceContext();
 
-    private ConcurrentMap<ContactInfo, Object> locks = new ConcurrentHashMap<ContactInfo, Object>();
+    private ConcurrentMap<ContactInfo, Object> locks = new ConcurrentHashMap<>();
 
     @InfoMethod
     private void usingCachedConnection(Connection conn) {
@@ -173,6 +173,7 @@ public class ClientRequestDispatcherImpl implements ClientRequestDispatcher {
     private void exit_requestAddServiceContexts() {
     }
 
+    @Override
     @Subcontract
     public CDROutputObject beginRequest(Object self, String opName, boolean isOneWay, ContactInfo contactInfo) {
 
@@ -335,6 +336,7 @@ public class ClientRequestDispatcherImpl implements ClientRequestDispatcher {
     private void operationAndId(String op, int rid) {
     }
 
+    @Override
     @Subcontract
     public CDRInputObject marshalingComplete(java.lang.Object self, CDROutputObject outputObject)
             throws ApplicationException, org.omg.CORBA.portable.RemarshalException {
@@ -547,14 +549,14 @@ public class ClientRequestDispatcherImpl implements ClientRequestDispatcher {
                 Exception newException = null;
 
                 if (messageMediator.isDIIRequest()) {
-                    exception = messageMediator.unmarshalDIIUserException(exceptionRepoId, (InputStream) inputObject);
+                    exception = messageMediator.unmarshalDIIUserException(exceptionRepoId, inputObject);
                     newException = orb.getPIHandler().invokeClientPIEndingPoint(ReplyMessage.USER_EXCEPTION, exception);
                     messageMediator.setDIIException(newException);
 
                     receivedUserExceptionDII(exception, newException);
                 } else {
                     ApplicationException appException = new ApplicationException(exceptionRepoId,
-                            (org.omg.CORBA.portable.InputStream) inputObject);
+                            inputObject);
 
                     exception = appException;
 
@@ -624,7 +626,7 @@ public class ClientRequestDispatcherImpl implements ClientRequestDispatcher {
 
                 getContactInfoListIterator(orb).reportSuccess(messageMediator.getContactInfo());
 
-                messageMediator.handleDIIReply((InputStream) inputObject);
+                messageMediator.handleDIIReply(inputObject);
 
                 // Invoke Portable Interceptors with receive_reply:
                 exception = orb.getPIHandler().invokeClientPIEndingPoint(ReplyMessage.NO_EXCEPTION, null);
@@ -805,6 +807,7 @@ public class ClientRequestDispatcherImpl implements ClientRequestDispatcher {
         messageMediator.setReplyExceptionDetailMessage(msg);
     }
 
+    @Override
     @Subcontract
     public void endRequest(ORB orb, Object self, CDRInputObject inputObject) {
         try {

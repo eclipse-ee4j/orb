@@ -98,7 +98,7 @@ public class Client {
         if (socketFactory == null) {
             if (factoryName.equals(defaultFactoryClassName)) {
                 // OK - default does not use socket factory any longer.
-                ;
+                
             } else {
                 // Not the default - so expect a socket factory.
                 throw new Exception(baseMsg + "unexpected null socketFactory");
@@ -145,8 +145,8 @@ public class Client {
         System.out.println("BEGIN: " + msg + " list_initial_references.");
 
         String services[] = orb.list_initial_services();
-        for (int i = 0; i < services.length; i++) {
-            System.out.print(" " + services[i]);
+        for (String element : services) {
+            System.out.print(" " + element);
         }
         System.out.println();
 

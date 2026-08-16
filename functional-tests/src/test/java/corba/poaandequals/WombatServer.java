@@ -46,6 +46,7 @@ public class WombatServer implements InternalProcess {
         outstr.writeBytes(orb.object_to_string(ref));
     }
 
+    @Override
     public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         this.out = out;
         this.err = err;

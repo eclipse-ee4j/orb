@@ -52,20 +52,21 @@ public class LocalStubTest extends RemoteTest {
      * Return an array of fully qualified remote servant class names for which ties/skels need to be generated. Return empty
      * array if none.
      */
+    @Override
     protected String[] getRemoteServantClasses() {
         /*
-         * 
+         *
          * // If we can, delete the rmic.LocalHello and // rmic.LocalHelloServant class files so that // rmic will compile them.
          * This will ensure that // real argument names will be used and tests // that the generated variable names will not //
          * clash...
-         * 
+         *
          * ClassPath path = null; try { path = ParseTest.createClassPath(); for (int i = 0; i < 2; i++) { ClassFile cls =
          * path.getFile(compileEm[i].replace('.',File.separatorChar) + ".class"); if (cls != null && !cls.isZipped()) { File
          * file = new File(cls.getPath()); File newName = new File(cls.getPath()+"X"); if (file.renameTo(newName)) {
          * classFiles[i] = newName; } } }
-         * 
+         *
          * path.close(); } catch (Exception e) {}
-         * 
+         *
          */
 
         return compileEm;
@@ -75,6 +76,7 @@ public class LocalStubTest extends RemoteTest {
      * Append additional (i.e. after -iiop and before classes) rmic arguments to 'currentArgs'. This implementation will set
      * the output directory if the OUTPUT_DIRECTORY flag was passed on the command line.
      */
+    @Override
     protected String[] getAdditionalRMICArgs(String[] currentArgs) {
         if (iiop) {
             String[] ourArgs = { "-always", "-keep" };
@@ -92,19 +94,21 @@ public class LocalStubTest extends RemoteTest {
     }
 
     private void newTest(String name) {
-        if (first)
+        if (first) {
             first = false;
-        else
+        } else {
             helper.pass();
+        }
 
         helper.start(name);
     }
 
     /**
      * Perform the test.
-     * 
+     *
      * @param context The context returned by getServantContext().
      */
+    @Override
     public void doTest(ServantContext context) throws Throwable {
         String currentCodebase = JDKBridge.getLocalCodebase();
 
@@ -265,8 +269,9 @@ public class LocalStubTest extends RemoteTest {
                 throw new Exception("servant_preinvoke() did not return null");
             }
 
-            if (!first)
+            if (!first) {
                 helper.pass();
+            }
         } catch (Throwable thr) {
             helper.fail(thr);
         } finally {

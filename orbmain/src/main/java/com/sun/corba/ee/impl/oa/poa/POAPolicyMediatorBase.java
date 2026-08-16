@@ -51,14 +51,17 @@ public abstract class POAPolicyMediatorBase implements POAPolicyMediator {
     protected boolean isUnique;
     protected boolean isSystemId;
 
+    @Override
     public final Policies getPolicies() {
         return policies;
     }
 
+    @Override
     public final int getScid() {
         return scid;
     }
 
+    @Override
     public final int getServerId() {
         return serverid;
     }
@@ -104,6 +107,7 @@ public abstract class POAPolicyMediatorBase implements POAPolicyMediator {
         sysIdCounter = 0;
     }
 
+    @Override
     public final java.lang.Object getInvocationServant(byte[] id, String operation) throws ForwardRequest {
         java.lang.Object result = internalGetServant(id, operation);
 
@@ -119,6 +123,7 @@ public abstract class POAPolicyMediatorBase implements POAPolicyMediator {
         servant._set_delegate(delegateImpl);
     }
 
+    @Override
     public synchronized byte[] newSystemId() throws WrongPolicy {
         if (!isSystemId) {
             throw new WrongPolicy();

@@ -128,6 +128,7 @@ public class RemoteClass implements org.glassfish.rmic.RMIConstants {
      * Return string representation of this object, consisting of
      * the string "remote class " followed by the class name.
      */
+    @Override
     public String toString() {
         return "remote class " + implClassDef.getName().toString();
     }
@@ -200,21 +201,21 @@ public class RemoteClass implements org.glassfish.rmic.RMIConstants {
          * somehow extends Remote to a list.
          */
         Vector<ClassDefinition> remotesImplemented = // list of remote interfaces found
-            new Vector<ClassDefinition>();
+            new Vector<>();
         for (ClassDefinition classDef = implClassDef;
              classDef != null;)
             {
                 try {
                     ClassDeclaration[] interfaces = classDef.getInterfaces();
-                    for (int i = 0; i < interfaces.length; i++) {
+                    for (ClassDeclaration element : interfaces) {
                         ClassDefinition interfaceDef =
-                            interfaces[i].getClassDefinition(env);
+                            element.getClassDefinition(env);
                         /*
                          * Add interface to the list if it extends Remote and
                          * it is not already there.
                          */
                         if (!remotesImplemented.contains(interfaceDef) &&
-                            defRemote.implementedBy(env, interfaces[i]))
+                            defRemote.implementedBy(env, element))
                             {
                                 remotesImplemented.addElement(interfaceDef);
                                 /***** <DEBUG> */
@@ -302,18 +303,16 @@ public class RemoteClass implements org.glassfish.rmic.RMIConstants {
          * Now we collect the methods from all of the remote interfaces
          * into a hashtable.
          */
-        Hashtable<String, Method> methods = new Hashtable<String, Method>();
+        Hashtable<String, Method> methods = new Hashtable<>();
         boolean errors = false;
-        for (Enumeration<ClassDefinition> enumeration
-                 = remotesImplemented.elements();
-             enumeration.hasMoreElements();)
-            {
-                ClassDefinition interfaceDef = enumeration.nextElement();
-                if (!collectRemoteMethods(interfaceDef, methods))
-                    errors = true;
+        for (ClassDefinition interfaceDef : remotesImplemented) {
+            if (!collectRemoteMethods(interfaceDef, methods)) {
+                errors = true;
             }
-        if (errors)
+        }
+        if (errors) {
             return false;
+        }
 
         /*
          * Convert vector of remote interfaces to an array
@@ -355,11 +354,13 @@ public class RemoteClass implements org.glassfish.rmic.RMIConstants {
                                  remoteMethods[i].getOperationString());
                 ClassDeclaration[] exceptions =
                     remoteMethods[i].getExceptions();
-                if (exceptions.length > 0)
+                if (exceptions.length > 0) {
                     System.out.print(" throws ");
+                }
                 for (int j = 0; j < exceptions.length; j++) {
-                    if (j > 0)
+                    if (j > 0) {
                         System.out.print(", ");
+                    }
                     System.out.print(exceptions[j].getName());
                 }
                 System.out.println("]");
@@ -432,7 +433,7 @@ public class RemoteClass implements org.glassfish.rmic.RMIConstants {
                          */
                         ClassDeclaration[] exceptions = member.getExceptions(env);
                         boolean hasRemoteException = false;
-                        for (int i = 0; i < exceptions.length; i++) {
+                        for (ClassDeclaration exception : exceptions) {
                             /*
                              * rmic used to enforce that a remote method had to
                              * explicitly list RemoteException in its "throws"
@@ -452,7 +453,7 @@ public class RemoteClass implements org.glassfish.rmic.RMIConstants {
                              */
                             try {
                                 if (defRemoteException.subClassOf(
-                                                                  env, exceptions[i]))
+                                                                  env, exception))
                                     {
                                         hasRemoteException = true;
                                         break;
@@ -486,13 +487,13 @@ public class RemoteClass implements org.glassfish.rmic.RMIConstants {
                                                                                   env, member.getName(), member.getType());
                             if (implMethod != null) {           // should not be null
                                 exceptions = implMethod.getExceptions(env);
-                                for (int i = 0; i < exceptions.length; i++) {
+                                for (ClassDeclaration exception : exceptions) {
                                     if (!defException.superClassOf(
-                                                                   env, exceptions[i]))
+                                                                   env, exception))
                                         {
                                             env.error(0, "rmic.must.only.throw.exception",
                                                       implMethod.toString(),
-                                                      exceptions[i].getName());
+                                                      exception.getName());
                                             errors = true;
                                             continue nextMember;
                                         }
@@ -541,11 +542,12 @@ public class RemoteClass implements org.glassfish.rmic.RMIConstants {
          */
         try {
             ClassDeclaration[] superDefs = interfaceDef.getInterfaces();
-            for (int i = 0; i < superDefs.length; i++) {
+            for (ClassDeclaration superDef2 : superDefs) {
                 ClassDefinition superDef =
-                    superDefs[i].getClassDefinition(env);
-                if (!collectRemoteMethods(superDef, table))
+                    superDef2.getClassDefinition(env);
+                if (!collectRemoteMethods(superDef, table)) {
                     errors = true;
+                }
             }
         } catch (ClassNotFound e) {
             env.error(0, "class.not.found", e.name, interfaceDef.getName());
@@ -580,8 +582,8 @@ public class RemoteClass implements org.glassfish.rmic.RMIConstants {
                                                         new DigestOutputStream(sink, md));
 
             out.writeInt(INTERFACE_HASH_STUB_VERSION);
-            for (int i = 0; i < remoteMethods.length; i++) {
-                MemberDefinition m = remoteMethods[i].getMemberDefinition();
+            for (Method remoteMethod : remoteMethods) {
+                MemberDefinition m = remoteMethod.getMemberDefinition();
                 Identifier name = m.getName();
                 Type type = m.getType();
 
@@ -591,9 +593,9 @@ public class RemoteClass implements org.glassfish.rmic.RMIConstants {
 
                 ClassDeclaration exceptions[] = m.getExceptions(env);
                 sortClassDeclarations(exceptions);
-                for (int j = 0; j < exceptions.length; j++) {
+                for (ClassDeclaration exception : exceptions) {
                     out.writeUTF(Names.mangleClass(
-                                                   exceptions[j].getName()).toString());
+                                                   exception.getName()).toString());
                 }
             }
             out.flush();
@@ -693,6 +695,7 @@ public class RemoteClass implements org.glassfish.rmic.RMIConstants {
         /**
          * Return the string representation of this method.
          */
+        @Override
         public String toString() {
             return memberDef.toString();
         }
@@ -758,6 +761,7 @@ public class RemoteClass implements org.glassfish.rmic.RMIConstants {
         /**
          * Cloning is supported by returning a shallow copy of this object.
          */
+        @Override
         protected Object clone() {
             try {
                 return super.clone();
@@ -785,7 +789,7 @@ public class RemoteClass implements org.glassfish.rmic.RMIConstants {
                 }
 
             Vector<ClassDeclaration> legalExceptions
-                = new Vector<ClassDeclaration>();
+                = new Vector<>();
             try {
                 collectCompatibleExceptions(
                                             other.exceptions, exceptions, legalExceptions);
@@ -813,12 +817,12 @@ public class RemoteClass implements org.glassfish.rmic.RMIConstants {
                                                  Vector<ClassDeclaration> list)
             throws ClassNotFound
         {
-            for (int i = 0; i < from.length; i++) {
-                ClassDefinition exceptionDef = from[i].getClassDefinition(env);
-                if (!list.contains(from[i])) {
-                    for (int j = 0; j < with.length; j++) {
-                        if (exceptionDef.subClassOf(env, with[j])) {
-                            list.addElement(from[i]);
+            for (ClassDeclaration element : from) {
+                ClassDefinition exceptionDef = element.getClassDefinition(env);
+                if (!list.contains(element)) {
+                    for (ClassDeclaration element2 : with) {
+                        if (exceptionDef.subClassOf(env, element2)) {
+                            list.addElement(element);
                             break;
                         }
                     }

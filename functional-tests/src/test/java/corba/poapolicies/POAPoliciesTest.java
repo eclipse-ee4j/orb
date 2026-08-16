@@ -47,6 +47,7 @@ public class POAPoliciesTest extends CORBATest {
         server.stop();
     }
 
+    @Override
     protected void doTest() throws Throwable {
         String prefix = "corba.poapolicies.";
         testWithFactory(prefix + "FactoryForRetainAndUseActiveMapOnly");

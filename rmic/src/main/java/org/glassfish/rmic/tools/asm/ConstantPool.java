@@ -96,8 +96,8 @@ class ConstantPool implements RuntimeConstants {
         }
 
         // Assign an index to each constant pool item
-        for (int n = 0 ; n < list.length ; n++) {
-            ConstantPoolData data = list[n];
+        for (ConstantPoolData element : list) {
+            ConstantPoolData data = element;
             data.index = index;
             index += data.width();
         }
@@ -117,23 +117,30 @@ class ConstantPool implements RuntimeConstants {
             Number num = ((NumberConstantData)f).num;
             String str = num.toString();
             int key = 3;
-            if (num instanceof Integer)  key = 0;
-            else if (num instanceof Float)  key = 1;
-            else if (num instanceof Long)  key = 2;
+            if (num instanceof Integer) {
+                key = 0;
+            } else if (num instanceof Float) {
+                key = 1;
+            } else if (num instanceof Long) {
+                key = 2;
+            }
             return "\0" + (char)(str.length() + key<<8) + str;
         }
-        if (f instanceof StringExpressionConstantData)
+        if (f instanceof StringExpressionConstantData) {
             return (String)((StringExpressionConstantData)f).str.getValue();
+        }
         if (f instanceof FieldConstantData) {
             MemberDefinition fd = ((FieldConstantData)f).field;
             return fd.getName()+" "+fd.getType().getTypeSignature()
                 +" "+fd.getClassDeclaration().getName();
         }
-        if (f instanceof NameAndTypeConstantData)
+        if (f instanceof NameAndTypeConstantData) {
             return  ((NameAndTypeConstantData)f).name+
                 " "+((NameAndTypeConstantData)f).type;
-        if (f instanceof ClassConstantData)
+        }
+        if (f instanceof ClassConstantData) {
             return ((ClassConstantData)f).name;
+        }
         return ((StringConstantData)f).str;
     }
 
@@ -143,16 +150,19 @@ class ConstantPool implements RuntimeConstants {
      */
     private
     static void xsort(ConstantPoolData ff[], String ss[], int left, int right) {
-        if (left >= right)
+        if (left >= right) {
             return;
+        }
         String pivot = ss[left];
         int l = left;
         int r = right;
         while (l < r) {
-            while (l <= right && ss[l].compareTo(pivot) <= 0)
+            while (l <= right && ss[l].compareTo(pivot) <= 0) {
                 l++;
-            while (r >= left && ss[r].compareTo(pivot) > 0)
+            }
+            while (r >= left && ss[r].compareTo(pivot) > 0) {
                 r--;
+            }
             if (l < r) {
                 // swap items at l and at r
                 ConstantPoolData def = ff[l];

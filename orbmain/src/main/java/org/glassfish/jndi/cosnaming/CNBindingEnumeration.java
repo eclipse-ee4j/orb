@@ -33,35 +33,33 @@ import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContextPackage.CannotProceed;
 
 /**
-  * Implements the JNDI NamingEnumeration interface for COS
-  * Naming. Gets hold of a list of bindings from the COS Naming Server
-  * and allows the client to iterate through them.
-  *
-  * @author Raj Krishnamurthy
-  * @author Rosanna Lee
-  */
+ * Implements the JNDI NamingEnumeration interface for COS Naming. Gets hold of a list of bindings from the COS Naming
+ * Server and allows the client to iterate through them.
+ *
+ * @author Raj Krishnamurthy
+ * @author Rosanna Lee
+ */
 
-final class CNBindingEnumeration
-        implements NamingEnumeration<javax.naming.Binding> {
+final class CNBindingEnumeration implements NamingEnumeration<javax.naming.Binding> {
 
     private static final int DEFAULT_BATCHSIZE = 100;
     private BindingListHolder _bindingList; // list of bindings
-    private BindingIterator _bindingIter;   // iterator for getting list of bindings
-    private int counter;                    // pointer in _bindingList
-    private int batchsize = DEFAULT_BATCHSIZE;  // how many to ask for each time
-    private CNCtx _ctx;                     // ctx to list
-    private Hashtable<?,?> _env;            // environment for getObjectInstance
-    private boolean more = false;           // iterator done?
-    private boolean isLookedUpCtx = false;  // iterating on a context beneath this context ?
+    private BindingIterator _bindingIter; // iterator for getting list of bindings
+    private int counter; // pointer in _bindingList
+    private int batchsize = DEFAULT_BATCHSIZE; // how many to ask for each time
+    private CNCtx _ctx; // ctx to list
+    private Hashtable<?, ?> _env; // environment for getObjectInstance
+    private boolean more = false; // iterator done?
+    private boolean isLookedUpCtx = false; // iterating on a context beneath this context ?
 
     /**
      * Creates a CNBindingEnumeration object.
+     *
      * @param ctx Context to enumerate
      */
-    CNBindingEnumeration(CNCtx ctx, boolean isLookedUpCtx, Hashtable<?,?> env) {
+    CNBindingEnumeration(CNCtx ctx, boolean isLookedUpCtx, Hashtable<?, ?> env) {
         // Get batch size to use
-        String batch = (env != null ?
-            (String)env.get(javax.naming.Context.BATCHSIZE) : null);
+        String batch = (env != null ? (String) env.get(javax.naming.Context.BATCHSIZE) : null);
         if (batch != null) {
             try {
                 batchsize = Integer.parseInt(batch);
@@ -93,9 +91,11 @@ final class CNBindingEnumeration
 
     /**
      * Returns the next binding in the list.
+     *
      * @exception NamingException any naming exception.
      */
 
+    @Override
     public javax.naming.Binding next() throws NamingException {
         if (more && counter >= _bindingList.value.length) {
             getMore();
@@ -109,12 +109,13 @@ final class CNBindingEnumeration
         }
     }
 
-
     /**
-    * Returns true or false depending on whether there are more bindings.
-    * @return boolean value
-    */
+     * Returns true or false depending on whether there are more bindings.
+     *
+     * @return boolean value
+     */
 
+    @Override
     public boolean hasMore() throws NamingException {
         // If there's more, check whether current bindingList has been exhausted,
         // and if so, try to get more.
@@ -123,11 +124,13 @@ final class CNBindingEnumeration
     }
 
     /**
-     * Returns true or false depending on whether there are more bindings.
-     * Need to define this to satisfy the Enumeration api requirement.
+     * Returns true or false depending on whether there are more bindings. Need to define this to satisfy the Enumeration
+     * api requirement.
+     *
      * @return boolean value
      */
 
+    @Override
     public boolean hasMoreElements() {
         try {
             return hasMore();
@@ -137,11 +140,12 @@ final class CNBindingEnumeration
     }
 
     /**
-    * Returns the next binding in the list.
-    * @exception NoSuchElementException Thrown when the end of the
-    * list is reached.
-    */
+     * Returns the next binding in the list.
+     *
+     * @exception NoSuchElementException Thrown when the end of the list is reached.
+     */
 
+    @Override
     public javax.naming.Binding nextElement() {
         try {
             return next();
@@ -150,6 +154,7 @@ final class CNBindingEnumeration
         }
     }
 
+    @Override
     public void close() throws NamingException {
         more = false;
         if (_bindingIter != null) {
@@ -160,8 +165,8 @@ final class CNBindingEnumeration
             _ctx.decEnumCount();
 
             /**
-             * context was obtained by CNCtx, the user doesn't have a handle to
-             * it, close it as we are done enumerating through the context
+             * context was obtained by CNCtx, the user doesn't have a handle to it, close it as we are done enumerating through the
+             * context
              */
             if (isLookedUpCtx) {
                 _ctx.close();
@@ -170,6 +175,7 @@ final class CNBindingEnumeration
         }
     }
 
+    @Override
     protected void finalize() {
         try {
             close();
@@ -187,8 +193,7 @@ final class CNBindingEnumeration
             counter = 0; // reset
         } catch (Exception e) {
             more = false;
-            NamingException ne = new NamingException(
-                "Problem getting binding list");
+            NamingException ne = new NamingException("Problem getting binding list");
             ne.setRootCause(e);
             throw ne;
         }
@@ -196,16 +201,15 @@ final class CNBindingEnumeration
     }
 
     /**
-    * Constructs a JNDI Binding object from the COS Naming binding
-    * object.
-    * @exception NameNotFound No objects under the name.
-    * @exception CannotProceed Unable to obtain a continuation context
-    * @exception InvalidName Name not understood.
-    * @exception NamingException One of the above.
-    */
+     * Constructs a JNDI Binding object from the COS Naming binding object.
+     *
+     * @exception NameNotFound No objects under the name.
+     * @exception CannotProceed Unable to obtain a continuation context
+     * @exception InvalidName Name not understood.
+     * @exception NamingException One of the above.
+     */
 
-    private javax.naming.Binding mapBinding(org.omg.CosNaming.Binding bndg)
-                throws NamingException {
+    private javax.naming.Binding mapBinding(org.omg.CosNaming.Binding bndg) throws NamingException {
         java.lang.Object obj = _ctx.callResolve(bndg.binding_name);
 
         Name cname = CNNameParser.cosNameToName(bndg.binding_name);
@@ -215,8 +219,7 @@ final class CNBindingEnumeration
         } catch (NamingException e) {
             throw e;
         } catch (Exception e) {
-            NamingException ne = new NamingException(
-                        "problem generating object using object factory");
+            NamingException ne = new NamingException("problem generating object using object factory");
             ne.setRootCause(e);
             throw ne;
         }

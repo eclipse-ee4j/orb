@@ -41,18 +41,21 @@ public class counterClient implements InternalProcess {
         // call the counter server objects and print results
         long value = counterRef1.increment(1);
         out.println("Counter1 value = " + value);
-        if (++counterValue != value)
+        if (++counterValue != value) {
             throw new Exception("Invalid counter1: " + value + " but should be " + counterValue);
+        }
 
         for (int i = 0; i < 2; i++) {
             value = counterRef2.increment(1);
             out.println("Counter2 value = " + value);
-            if (++counterValue != value)
+            if (++counterValue != value) {
                 throw new Exception("Invalid counter2: " + value + " but should be " + counterValue);
+            }
         }
 
     }
 
+    @Override
     public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         environment.list(out);
 

@@ -30,6 +30,7 @@ import java.util.*;
 public class ForwardDeclTest extends CORBATest {
     // This is the main method defining the test. All tests
     // should have this.
+    @Override
     protected void doTest() throws Throwable {
         // Create client controller using the given
         // class. You can also specify names for these (for instance,

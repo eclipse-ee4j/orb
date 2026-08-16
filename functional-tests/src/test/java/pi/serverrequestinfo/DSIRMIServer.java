@@ -41,6 +41,7 @@ import javax.naming.*;
 public abstract class DSIRMIServer extends ServerCommon implements helloDelegate.ClientCallback {
     InitialContext initialNamingContext;
 
+    @Override
     public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         try {
             out.println("+ Creating Initial naming context...");
@@ -91,6 +92,7 @@ public abstract class DSIRMIServer extends ServerCommon implements helloDelegate
     /**
      * One-way test not applicable for RMI case. Override it.
      */
+    @Override
     protected void testOneWay() throws Exception {
         out.println("+ OneWay test not applicable for RMI.  Skipping...");
     }
@@ -98,12 +100,14 @@ public abstract class DSIRMIServer extends ServerCommon implements helloDelegate
     /**
      * Passes in the appropriate valid and invalid repository ids for RMI
      */
+    @Override
     protected void testAttributesValid() throws Exception {
         testAttributesValid("IDL:ServerRequestInfo/hello:1.0", "IDL:ServerRequestInfo/goodbye:1.0");
     }
 
     // ClientCallback interface
 
+    @Override
     public String sayHello() {
         String result = "";
 
@@ -119,6 +123,7 @@ public abstract class DSIRMIServer extends ServerCommon implements helloDelegate
         return result;
     }
 
+    @Override
     public void saySystemException() {
         out.println("    + ClientCallback: resolving and invoking " + "saySystemException()...");
         try {
@@ -138,7 +143,7 @@ public abstract class DSIRMIServer extends ServerCommon implements helloDelegate
      */
     hello resolve(String name) throws Exception {
         java.lang.Object obj = initialNamingContext.lookup(name);
-        hello helloRef = (hello) helloHelper.narrow((org.omg.CORBA.Object) obj);
+        hello helloRef = helloHelper.narrow((org.omg.CORBA.Object) obj);
 
         return helloRef;
     }

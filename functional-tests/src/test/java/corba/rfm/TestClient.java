@@ -152,6 +152,7 @@ public class TestClient {
             System.out.println(sbuff.toString());
         }
 
+        @Override
         public void createAnObject(int threadId) throws RemoteException {
             byte[] key = { (byte) 1, (byte) 2, (byte) 3 };
 
@@ -159,6 +160,7 @@ public class TestClient {
             cacheFactory.createReference(key);
         }
 
+        @Override
         public int echo(Test remoteSelf, int threadId, int value) throws RemoteException {
             remoteSelf.createAnObject(threadId);
 
@@ -166,6 +168,7 @@ public class TestClient {
             return value;
         }
 
+        @Override
         public int delay(Test remoteSelf, int threadId, int value, int delay) throws RemoteException {
             log(threadId, "Delay sleeps for " + delay + " milliseconds");
             remoteSelf.createAnObject(threadId);
@@ -188,6 +191,7 @@ public class TestClient {
         private boolean useEcho;
         private int callDelay;
 
+        @Override
         public String toString() {
             return "Client[" + threadId + "]";
         }
@@ -236,14 +240,16 @@ public class TestClient {
             this.interrupt();
         }
 
+        @Override
         public void run() {
             Thread.currentThread().setName("Client_" + threadId);
             log("Thread " + threadId + " started");
 
             while (true) {
                 synchronized (runningLock) {
-                    if (!running)
+                    if (!running) {
                         break;
+                    }
                 }
 
                 try {
@@ -251,13 +257,15 @@ public class TestClient {
                     sleep(delay);
                     int result;
                     logStart();
-                    if (useEcho)
+                    if (useEcho) {
                         result = testref.echo(testref, threadId, value);
-                    else
+                    } else {
                         result = testref.delay(testref, threadId, value, callDelay);
+                    }
                     logComplete(result);
-                    if (result != value)
+                    if (result != value) {
                         throw new Exception("value and result do not match");
+                    }
                     value++;
                 } catch (InterruptedException exc) {
                     log("Thread " + threadId + " interrupted");
@@ -272,7 +280,7 @@ public class TestClient {
         }
     }
 
-    private static List<Client> clients = new ArrayList<Client>();
+    private static List<Client> clients = new ArrayList<>();
 
     private static final String PORT_NUM = "3074";
     private static ORB clientORB;
@@ -292,8 +300,9 @@ public class TestClient {
     private static TestServantLocator locator;
 
     private static void cleanUp() {
-        for (Client cl : clients)
+        for (Client cl : clients) {
             cl.halt();
+        }
 
         for (Client cl : clients) {
             try {
@@ -366,7 +375,8 @@ public class TestClient {
                 fatal("Exception in creating servant: " + exc, exc);
             }
 
-            Tie tie = com.sun.corba.ee.spi.orb.ORB.class.cast(orb).getPresentationManager().getTie();
+            com.sun.corba.ee.spi.orb.ORB.class.cast(orb);
+            Tie tie = com.sun.corba.ee.spi.orb.ORB.getPresentationManager().getTie();
             tie.setTarget(impl);
             servant = Servant.class.cast(tie);
         }
@@ -375,21 +385,25 @@ public class TestClient {
             isActive = false;
         }
 
+        @Override
         public synchronized Servant preinvoke(byte[] oid, POA adapter, String operation, CookieHolder the_cookie) throws ForwardRequest {
-            if (!isActive)
+            if (!isActive) {
                 throw new BAD_OPERATION("Attempt to use deactivated ServantLocator");
+            }
 
             int delay = oid[0];
 
             log("ServantLocator.preinvoke for " + operation + " with delay " + delay);
 
-            if (delay > 0)
+            if (delay > 0) {
                 sleep(delay);
+            }
             log("ServantLocator.preinvoke for " + operation + " returning servant");
 
             return servant;
         }
 
+        @Override
         public void postinvoke(byte[] oid, POA adapter, String operation, Object the_cookie, Servant the_servant) {
             log("ServantLocator.postinvoke for " + operation + " called");
         }
@@ -455,10 +469,11 @@ public class TestClient {
             if (ctr < name.length - 1) {
                 try {
                     org.omg.CORBA.Object ref = current.resolve(arr);
-                    if (ref._is_a(NamingContextHelper.id()))
+                    if (ref._is_a(NamingContextHelper.id())) {
                         current = NamingContextHelper.narrow(ref);
-                    else
+                    } else {
                         throw new BAD_OPERATION("Name is bound to a non-context object reference");
+                    }
                 } catch (NotFound exc) {
                     current = current.bind_new_context(arr);
                 }
@@ -521,7 +536,7 @@ public class TestClient {
         locator = new TestServantLocator(serverORB, rfm);
 
         // update ReferenceFactoryManager with map giving new ServantLocators
-        Map<String, Pair<ServantLocator, List<Policy>>> map = new HashMap<String, Pair<ServantLocator, List<Policy>>>();
+        Map<String, Pair<ServantLocator, List<Policy>>> map = new HashMap<>();
         map.put(nocacheFactoryName, new Pair(locator, nocacheFactoryPolicies));
         map.put(cacheFactoryName, new Pair(locator, cacheFactoryPolicies));
         rfm.restartFactories(map);

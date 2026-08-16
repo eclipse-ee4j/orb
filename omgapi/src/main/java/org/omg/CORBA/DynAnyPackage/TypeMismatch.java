@@ -35,7 +35,7 @@ public final class TypeMismatch extends org.omg.CORBA.UserException {
 
     /**
      * Constructs a <code>TypeMismatch</code> object.
-     * 
+     *
      * @param reason a <code>String</code> giving more information regarding the exception.
      */
     public TypeMismatch(String reason) {

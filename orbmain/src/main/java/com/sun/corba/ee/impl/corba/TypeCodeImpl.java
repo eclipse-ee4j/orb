@@ -174,10 +174,7 @@ public final class TypeCodeImpl extends TypeCode {
         // _REVISIT_ We should make this constructor private
         if (tc instanceof TypeCodeImpl) {
             TypeCodeImpl tci = (TypeCodeImpl) tc;
-            if (tci._kind == tk_indirect) {
-                throw wrapper.badRemoteTypecode();
-            }
-            if (tci._kind == TCKind._tk_sequence && tci._contentType == null) {
+            if ((tci._kind == tk_indirect) || (tci._kind == TCKind._tk_sequence && tci._contentType == null)) {
                 throw wrapper.badRemoteTypecode();
             }
         }
@@ -641,6 +638,7 @@ public final class TypeCodeImpl extends TypeCode {
     ///////////////////////////////////////////////////////////////////////////
     // TypeCode operations
 
+    @Override
     @DynamicType
     public final boolean equal(TypeCode tc) {
         if (tc == this) {
@@ -686,15 +684,7 @@ public final class TypeCodeImpl extends TypeCode {
 
                         case TCKind._tk_objref: {
                             // check for logical id.
-                            if (_id.compareTo(tc.id()) == 0) {
-                                return true;
-                            }
-
-                            if (_id.compareTo((_orb.get_primitive_tc(_kind)).id()) == 0) {
-                                return true;
-                            }
-
-                            if (tc.id().compareTo((_orb.get_primitive_tc(_kind)).id()) == 0) {
+                            if ((_id.compareTo(tc.id()) == 0) || (_id.compareTo((_orb.get_primitive_tc(_kind)).id()) == 0) || (tc.id().compareTo((_orb.get_primitive_tc(_kind)).id()) == 0)) {
                                 return true;
                             }
 
@@ -715,11 +705,8 @@ public final class TypeCodeImpl extends TypeCode {
                         case TCKind._tk_struct:
                         case TCKind._tk_except: {
                             // check for member count
-                            if (_memberCount != tc.member_count()) {
-                                return false;
-                            }
                             // check for repository id
-                            if (_id.compareTo(tc.id()) != 0) {
+                            if ((_memberCount != tc.member_count()) || (_id.compareTo(tc.id()) != 0)) {
                                 return false;
                             }
                             // check for member types.
@@ -734,19 +721,12 @@ public final class TypeCodeImpl extends TypeCode {
 
                         case TCKind._tk_union: {
                             // check for member count
-                            if (_memberCount != tc.member_count()) {
-                                return false;
-                            }
+                            
                             // check for repository id
-                            if (_id.compareTo(tc.id()) != 0) {
-                                return false;
-                            }
+                            
                             // check for default index
-                            if (_defaultIndex != tc.default_index()) {
-                                return false;
-                            }
                             // check for discriminator type
-                            if (!_discriminator.equal(tc.discriminator_type())) {
+                            if ((_memberCount != tc.member_count()) || (_id.compareTo(tc.id()) != 0) || (_defaultIndex != tc.default_index()) || !_discriminator.equal(tc.discriminator_type())) {
                                 return false;
                             }
                             // check for label types and values
@@ -767,11 +747,8 @@ public final class TypeCodeImpl extends TypeCode {
 
                         case TCKind._tk_enum: {
                             // check for repository id
-                            if (_id.compareTo(tc.id()) != 0) {
-                                return false;
-                            }
                             // check member count
-                            if (_memberCount != tc.member_count()) {
+                            if ((_id.compareTo(tc.id()) != 0) || (_memberCount != tc.member_count())) {
                                 return false;
                             }
                             // ignore names since those are optional.
@@ -781,11 +758,8 @@ public final class TypeCodeImpl extends TypeCode {
                         case TCKind._tk_sequence:
                         case TCKind._tk_array: {
                             // check bound/length
-                            if (_length != tc.length()) {
-                                return false;
-                            }
                             // check content type
-                            if (!lazy_content_type().equal(tc.content_type())) {
+                            if ((_length != tc.length()) || !lazy_content_type().equal(tc.content_type())) {
                                 return false;
                             }
                             // ignore id and name since those are optional.
@@ -794,12 +768,8 @@ public final class TypeCodeImpl extends TypeCode {
 
                         case TCKind._tk_value: {
                             // check for member count
-                            if (_memberCount != tc.member_count()) {
-                                return false;
-                            }
-
                             // check for repository id
-                            if (_id.compareTo(tc.id()) != 0) {
+                            if ((_memberCount != tc.member_count()) || (_id.compareTo(tc.id()) != 0)) {
                                 return false;
                             }
 
@@ -851,6 +821,7 @@ public final class TypeCodeImpl extends TypeCode {
     /**
      * The equivalent operation is used by the ORB when determining type equivalence for values stored in an IDL any.
      */
+    @Override
     @DynamicType
     public boolean equivalent(TypeCode tc) {
         if (tc == this) {
@@ -950,6 +921,7 @@ public final class TypeCodeImpl extends TypeCode {
         return true;
     }
 
+    @Override
     public TypeCode get_compact_typecode() {
         // _REVISIT_ It isn't clear whether this method should operate on this or a copy.
         // For now just return this unmodified because the name and member_name fields
@@ -957,6 +929,7 @@ public final class TypeCodeImpl extends TypeCode {
         return this;
     }
 
+    @Override
     public TCKind kind() {
         if (_kind == tk_indirect) {
             return indirectType().kind();
@@ -970,6 +943,7 @@ public final class TypeCodeImpl extends TypeCode {
         return (_kind == tk_indirect);
     }
 
+    @Override
     public String id() throws BadKind {
         switch (_kind) {
             case tk_indirect:
@@ -993,6 +967,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
+    @Override
     public String name() throws BadKind {
         switch (_kind) {
             case tk_indirect:
@@ -1013,6 +988,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
+    @Override
     public int member_count() throws BadKind {
         switch (_kind) {
             case tk_indirect:
@@ -1028,6 +1004,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
+    @Override
     public String member_name(int index) throws BadKind, org.omg.CORBA.TypeCodePackage.Bounds {
         switch (_kind) {
             case tk_indirect:
@@ -1047,6 +1024,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
+    @Override
     public TypeCode member_type(int index) throws BadKind, org.omg.CORBA.TypeCodePackage.Bounds {
         switch (_kind) {
             case tk_indirect:
@@ -1065,6 +1043,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
+    @Override
     public Any member_label(int index) throws BadKind, org.omg.CORBA.TypeCodePackage.Bounds {
         switch (_kind) {
             case tk_indirect:
@@ -1081,6 +1060,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
+    @Override
     public TypeCode discriminator_type() throws BadKind {
         switch (_kind) {
             case tk_indirect:
@@ -1092,6 +1072,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
+    @Override
     public int default_index() throws BadKind {
         switch (_kind) {
             case tk_indirect:
@@ -1103,6 +1084,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
+    @Override
     public int length() throws BadKind {
         switch (_kind) {
             case tk_indirect:
@@ -1117,6 +1099,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
+    @Override
     public TypeCode content_type() throws BadKind {
         switch (_kind) {
             case tk_indirect:
@@ -1132,6 +1115,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
+    @Override
     public short fixed_digits() throws BadKind {
         switch (_kind) {
             case TCKind._tk_fixed:
@@ -1141,6 +1125,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
+    @Override
     public short fixed_scale() throws BadKind {
         switch (_kind) {
             case TCKind._tk_fixed:
@@ -1150,6 +1135,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
+    @Override
     public short member_visibility(int index) throws BadKind, org.omg.CORBA.TypeCodePackage.Bounds {
         switch (_kind) {
             case tk_indirect:
@@ -1165,6 +1151,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
+    @Override
     public short type_modifier() throws BadKind {
         switch (_kind) {
             case tk_indirect:
@@ -1176,6 +1163,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
+    @Override
     public TypeCode concrete_base_type() throws BadKind {
         switch (_kind) {
             case tk_indirect:
@@ -1718,7 +1706,7 @@ public final class TypeCodeImpl extends TypeCode {
      * This is not a copy of the TypeCodeImpl objects, but instead it copies the value this type code is representing. See
      * AnyImpl read_value and write_value for usage. The state of this TypeCodeImpl instance isn't changed, only used by the
      * Any to do the correct copy.
-     * 
+     *
      * @param src InputStream to copy.
      * @param dst target for copy.
      */
@@ -1831,8 +1819,8 @@ public final class TypeCodeImpl extends TypeCode {
             case TCKind._tk_value:
             case TCKind._tk_struct:
                 // copy each element, using the corresponding member type
-                for (int i = 0; i < _memberTypes.length; i++) {
-                    _memberTypes[i].copy(src, dst);
+                for (TypeCodeImpl _memberType : _memberTypes) {
+                    _memberType.copy(src, dst);
                 }
                 break;
 
@@ -2163,7 +2151,7 @@ public final class TypeCodeImpl extends TypeCode {
 
     protected void setCaching(boolean enableCaching) {
         cachingEnabled = enableCaching;
-        if (enableCaching == false) {
+        if (!enableCaching) {
             outBuffer = null;
         }
     }

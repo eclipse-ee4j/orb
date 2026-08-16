@@ -106,8 +106,9 @@ public class CDROutputStream_1_1 extends CDROutputStream_1_0 {
 
         converter.convert(x);
 
-        if (converter.getNumBytes() != 2)
+        if (converter.getNumBytes() != 2) {
             throw wrapper.badGiop11Ctb();
+        }
 
         alignAndReserve(converter.getAlignment(), converter.getNumBytes());
 

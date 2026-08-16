@@ -180,7 +180,9 @@ public class BatchEnvironment extends org.glassfish.rmic.BatchEnvironment implem
             type.destroy();
         }
 
-        if (contextStack != null) contextStack.clear();
+        if (contextStack != null) {
+            contextStack.clear();
+        }
 
         // Remove and clear all NameContexts in the
         // nameContexts cache...

@@ -60,12 +60,13 @@ abstract public class CurrentHelper {
     }
 
     public static org.omg.CORBA.Current narrow(org.omg.CORBA.Object obj) {
-        if (obj == null)
+        if (obj == null) {
             return null;
-        else if (obj instanceof org.omg.CORBA.Current)
+        } else if (obj instanceof org.omg.CORBA.Current) {
             return (org.omg.CORBA.Current) obj;
-        else
+        } else {
             throw new org.omg.CORBA.BAD_PARAM();
+        }
     }
 
 }

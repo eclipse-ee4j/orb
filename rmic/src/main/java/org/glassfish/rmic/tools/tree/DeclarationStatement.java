@@ -51,10 +51,12 @@ class DeclarationStatement extends Statement {
      * Check statement
      * Report an error unless the call is checkBlockStatement.
      */
+    @Override
     Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         env.error(where, "invalid.decl");
         return checkBlockStatement(env, ctx, vset, exp);
     }
+    @Override
     Vset checkBlockStatement(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         if (labels != null) {
             env.error(where, "declaration.with.label", labels[0]);
@@ -62,8 +64,8 @@ class DeclarationStatement extends Statement {
         vset = reach(env, vset);
         Type t = type.toType(env, ctx);
 
-        for (int i = 0 ; i < args.length ; i++) {
-            vset = args[i].checkDeclaration(env, ctx, vset, mod, t, exp);
+        for (Statement arg : args) {
+            vset = arg.checkDeclaration(env, ctx, vset, mod, t, exp);
         }
 
         return vset;
@@ -72,6 +74,7 @@ class DeclarationStatement extends Statement {
     /**
      * Inline
      */
+    @Override
     public Statement inline(Environment env, Context ctx) {
         int n = 0;
         for (int i = 0 ; i < args.length ; i++) {
@@ -85,6 +88,7 @@ class DeclarationStatement extends Statement {
     /**
      * Create a copy of the statement for method inlining
      */
+    @Override
     public Statement copyInline(Context ctx, boolean valNeeded) {
         DeclarationStatement s = (DeclarationStatement)clone();
         if (type != null) {
@@ -102,11 +106,12 @@ class DeclarationStatement extends Statement {
     /**
      * The cost of inlining this statement
      */
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
         int cost = 1;
-        for (int i = 0; i < args.length; i++){
-            if (args[i] != null){
-                cost += args[i].costInline(thresh, env, ctx);
+        for (Statement arg : args) {
+            if (arg != null){
+                cost += arg.costInline(thresh, env, ctx);
             }
         }
         return cost;
@@ -116,10 +121,11 @@ class DeclarationStatement extends Statement {
     /**
      * Code
      */
+    @Override
     public void code(Environment env, Context ctx, Assembler asm) {
-        for (int i = 0 ; i < args.length ; i++) {
-            if (args[i] != null) {
-                args[i].code(env, ctx, asm);
+        for (Statement arg : args) {
+            if (arg != null) {
+                arg.code(env, ctx, asm);
             }
         }
     }
@@ -127,6 +133,7 @@ class DeclarationStatement extends Statement {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out, int indent) {
         out.print("declare ");
         super.print(out, indent);

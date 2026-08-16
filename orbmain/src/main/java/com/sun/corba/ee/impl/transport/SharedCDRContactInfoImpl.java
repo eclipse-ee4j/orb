@@ -50,35 +50,43 @@ public class SharedCDRContactInfoImpl extends ContactInfoBase {
         this.addressingDisposition = addressingDisposition;
     }
 
+    @Override
     public String getType() {
         throw wrapper.undefinedSocketinfoOperation();
     }
 
+    @Override
     public String getHost() {
         throw wrapper.undefinedSocketinfoOperation();
     }
 
+    @Override
     public int getPort() {
         throw wrapper.undefinedSocketinfoOperation();
     }
 
+    @Override
     public ClientRequestDispatcher getClientRequestDispatcher() {
         // REVISIT - use registry
         return new SharedCDRClientRequestDispatcherImpl();
     }
 
+    @Override
     public boolean isConnectionBased() {
         return false;
     }
 
+    @Override
     public boolean shouldCacheConnection() {
         return false;
     }
 
+    @Override
     public String getConnectionCacheType() {
         throw wrapper.methodShouldNotBeCalled();
     }
 
+    @Override
     public Connection createConnection() {
         throw wrapper.methodShouldNotBeCalled();
     }
@@ -91,15 +99,16 @@ public class SharedCDRContactInfoImpl extends ContactInfoBase {
             throw wrapper.connectionNotNullInCreateMessageMediator(connection);
         }
 
-        MessageMediator messageMediator = new MessageMediatorImpl((ORB) broker, (ContactInfo) contactInfo, null, // Connection;
-                GIOPVersion.chooseRequestVersion((ORB) broker, effectiveTargetIOR), effectiveTargetIOR, requestId++, // Fake RequestId
+        MessageMediator messageMediator = new MessageMediatorImpl(broker, contactInfo, null, // Connection;
+                GIOPVersion.chooseRequestVersion(broker, effectiveTargetIOR), effectiveTargetIOR, requestId++, // Fake RequestId
                 getAddressingDisposition(), methodName, isOneWay);
 
         return messageMediator;
     }
 
+    @Override
     public CDROutputObject createOutputObject(MessageMediator messageMediator) {
-        MessageMediator corbaMessageMediator = (MessageMediator) messageMediator;
+        MessageMediator corbaMessageMediator = messageMediator;
         // NOTE: GROW.
         CDROutputObject outputObject = OutputStreamFactory.newCDROutputObject(orb, messageMediator, corbaMessageMediator.getRequestHeader(),
                 corbaMessageMediator.getStreamFormatVersion(), BufferManagerFactory.GROW);
@@ -112,6 +121,7 @@ public class SharedCDRContactInfoImpl extends ContactInfoBase {
     // spi.transport.CorbaContactInfo
     //
 
+    @Override
     public String getMonitoringName() {
         throw wrapper.methodShouldNotBeCalled();
     }
@@ -127,14 +137,17 @@ public class SharedCDRContactInfoImpl extends ContactInfoBase {
     // This calculation must be identical to SocketOrChannelContactInfoImpl.
     private int hashCode = SocketInfo.IIOP_CLEAR_TEXT.hashCode() + "localhost".hashCode() ^ -1;
 
+    @Override
     public int hashCode() {
         return hashCode;
     }
 
+    @Override
     public boolean equals(Object obj) {
         return obj instanceof SharedCDRContactInfoImpl;
     }
 
+    @Override
     public String toString() {
         return "SharedCDRContactInfoImpl[" + "]";
     }

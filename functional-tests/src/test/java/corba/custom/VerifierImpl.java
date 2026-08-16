@@ -27,6 +27,7 @@ public class VerifierImpl extends PortableRemoteObject implements Verifier {
         super();
     }
 
+    @Override
     public Object verifyTransmission(Object input) {
         return input;
     }

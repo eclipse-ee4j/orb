@@ -111,19 +111,22 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
         Type t = ot.getType();
         String fName = ot.getName();
 
-        if ( id == idJavaLangClass )                 //java.lang.Class and array of
-            if ( t.isArray() )
-                return Identifier.lookup(
-                                         "org.omg.boxedRMI.javax.rmi.CORBA." + fName  );
-            else return idClassDesc;
+        if ( id == idJavaLangClass ) { //java.lang.Class and array of
+        	if ( t.isArray() )
+        	return Identifier.lookup(
+        	"org.omg.boxedRMI.javax.rmi.CORBA." + fName  );
+        	else return idClassDesc;
+        }
 
         if ( id == idJavaLangString &&                  //array of java.lang.String
-             t.isArray() )
+             t.isArray() ) {
             return Identifier.lookup( "org.omg.boxedRMI.CORBA." + fName );
+        }
 
         if ( "org.omg.CORBA.Object".equals( t.getQualifiedName() ) &&
-             t.isArray() )                          //array of org.omg.CORBA.Object
-            return Identifier.lookup( "org.omg.boxedRMI." + fName );
+             t.isArray() ) { //array of org.omg.CORBA.Object
+        	return Identifier.lookup( "org.omg.boxedRMI." + fName );
+        }
 
         if ( t.isArray()) {                                                 //array
             ArrayType at = (ArrayType)t;
@@ -131,8 +134,9 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
             if ( et.isCompound() ) {
                 CompoundType ct = (CompoundType)et;
                 String qName = ct.getQualifiedName();
-                if ( ct.isIDLEntity() )
+                if ( ct.isIDLEntity() ) {
                     return Identifier.lookup( getQualifiedName( at ) );
+                }
             }
             return Identifier.lookup( idBoxedRMI,id );
         }
@@ -140,8 +144,9 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
         if ( t.isCompound() ) {                                   //boxed IDLEntity
             CompoundType ct = (CompoundType)t;
             String qName = ct.getQualifiedName();
-            if ( ct.isBoxed() )
+            if ( ct.isBoxed() ) {
                 return Identifier.lookup( getQualifiedName( ct ) );
+            }
         }
 
         return id;
@@ -320,8 +325,9 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
             while ( e2.hasMoreElements() ) {                   //eliminate duplicates
                 ArrayType at2 = e2.nextElement();
                 if ( et == at2.getElementType() &&                //same element type &
-                     dim < at2.getArrayDimension() )               //smaller dimension?
-                    continue nextSequence;                              //ignore this one
+                     dim < at2.getArrayDimension() ) { //smaller dimension?
+                	continue nextSequence;                              //ignore this one
+                }
             }
             outVec.addElement( at );
         }
@@ -360,8 +366,9 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
         Enumeration<CompoundType> refElements = refHash.elements();
         while ( refElements.hasMoreElements() ) {
             CompoundType t = refElements.nextElement();
-            if ( !isIDLGeneratedFor( t ) )              //remove if no IDL generation
-                refHash.remove( t.getQualifiedName() );
+            if ( !isIDLGeneratedFor( t ) ) { //remove if no IDL generation
+            	refHash.remove( t.getQualifiedName() );
+            }
     }
     }
 
@@ -574,7 +581,9 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
         writeProlog( t,refHash,spcHash,arrHash,excHash,inhHash,p );
         writeModule1( t,p );
         p.pln();p.pI();
-        if ( t.getTypeCode() == TYPE_ABSTRACT ) p.p( "abstract " );
+        if ( t.getTypeCode() == TYPE_ABSTRACT ) {
+            p.p( "abstract " );
+        }
         p.p( "interface " + t.getIDLName() );
         writeInherits( inhHash,!forValuetype,p );
 
@@ -626,27 +635,33 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
         writeProlog( type,refHash,spcHash,arrHash,excHash,inhHash,outputStream );
         writeModule1( type,outputStream );
         outputStream.pln();outputStream.pI();
-        if ( type.isCustom() ) outputStream.p( "custom " );
+        if ( type.isCustom() ) {
+            outputStream.p( "custom " );
+        }
         outputStream.p( "valuetype " + type.getIDLName() );
         writeInherits( inhHash,forValuetype,outputStream );
 
         outputStream.pln( " {" );
         if ( conVec.size() + datVec.size() + mthVec.size() > 0 ) {   //any content?
             outputStream.pln();outputStream.pI();
-            for ( int i1 = 0; i1 < conVec.size(); i1++ )            //write constants
-                writeConstant(conVec.elementAt( i1 ),outputStream );
+            for ( int i1 = 0; i1 < conVec.size(); i1++ ) { //write constants
+            	writeConstant(conVec.elementAt( i1 ),outputStream );
+            }
             for ( int i1 = 0; i1 < datVec.size(); i1++ ) {
                 CompoundType.Member mem = datVec.elementAt( i1 );
-                if ( mem.getType().isPrimitive() )
+                if ( mem.getType().isPrimitive() ) {
                     writeData( mem,outputStream );                            //write primitive data
+                }
             }
             for ( int i1 = 0; i1 < datVec.size(); i1++ ) {
                 CompoundType.Member mem = datVec.elementAt( i1 );
-                if ( !mem.getType().isPrimitive() )
+                if ( !mem.getType().isPrimitive() ) {
                     writeData( mem,outputStream );                        //write non-primitive data
+                }
             }
-            for (int i1 = 0; i1 < mthVec.size(); i1++)              //write methods
-                writeMethod(mthVec.elementAt(i1), outputStream);
+            for (int i1 = 0; i1 < mthVec.size(); i1++) { //write methods
+            	writeMethod(mthVec.elementAt(i1), outputStream);
+            }
             outputStream.pO();
             outputStream.pln();
         }
@@ -719,7 +734,7 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
                                 IndentingWriter p )
         throws IOException {
         String spcName = t.getQualifiedName();
-        if ( null != spcName )
+        if ( null != spcName ) {
             switch (spcName) {
             case "java.io.Serializable":
                 writeJavaIoSerializable( t,p );
@@ -738,6 +753,7 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
                 break;
             default:
                 break;
+        }
         }
     }
 
@@ -865,12 +881,14 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
                 case TYPE_VALUE:                                   //filter for classes
                     if ( "java.io.Externalizable".equals( inhName ) ||
                             "java.io.Serializable".equals( inhName ) ||
-                            "org.omg.CORBA.portable.IDLEntity".equals( inhName ) )
+                            "org.omg.CORBA.portable.IDLEntity".equals( inhName ) ) {
                         continue;
+                    }
                     break;
                 default:                                        //filter for all others
-                    if ( "java.rmi.Remote".equals( inhName ) )
+                    if ( "java.rmi.Remote".equals( inhName ) ) {
                         continue;
+                    }
                     break;
             }
             inhHash.put(inhName, inf); //add this one
@@ -885,13 +903,16 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      */
     protected void getInheritance(CompoundType ct, Hashtable<String, CompoundType> inhHash ) {
         ClassType par = ct.getSuperclass();                            //get parent
-        if ( par == null ) return;
+        if ( par == null ) {
+            return;
+        }
         String parName = par.getQualifiedName();
         switch ( ct.getTypeCode() ) {
         case TYPE_NC_CLASS:
         case TYPE_VALUE:
-            if ( "java.lang.Object".equals( parName ) )          //this is implicit
-                return;
+            if ( "java.lang.Object".equals( parName ) ) { //this is implicit
+            	return;
+            }
             break;
         default: return;                                     //ignore other types
         }
@@ -970,15 +991,18 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
             refHash.put( rName, (CompoundType) ref );
             return;
         case TYPE_CORBA_OBJECT:
-            if ( "org.omg.CORBA.Object".equals( rName ) ) return;      //don't want
+            if ( "org.omg.CORBA.Object".equals( rName ) ) {
+                return;      //don't want
+            }
             refHash.put(rName, (CompoundType) ref);
             return;
         case TYPE_ARRAY:                                                 //array?
             arrHash.put(rName + ref.getArrayDimension(), (ArrayType) ref);
             return;
         default:
-            if ( isSpecialReference( ref ) )                 //special IDL typedef?
-                spcHash.put(rName, (CompoundType) ref);
+            if ( isSpecialReference( ref ) ) { //special IDL typedef?
+            	spcHash.put(rName, (CompoundType) ref);
+            }
         }
     }
 
@@ -996,11 +1020,12 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
     protected boolean isSpecialReference(
                                          Type ref ) {
         String rName = ref.getQualifiedName();
-        if ( "java.io.Serializable".equals( rName ) ) return true;
-        if ( "java.io.Externalizable".equals( rName ) ) return true;
-        if ( "java.lang.Object".equals( rName) ) return true;
-        if ( "java.rmi.Remote".equals( rName) ) return true;
-        if ( "org.omg.CORBA.portable.IDLEntity".equals( rName) ) return true;
+        if ( "java.io.Serializable".equals( rName ) || "java.io.Externalizable".equals( rName ) || "java.lang.Object".equals( rName) || "java.rmi.Remote".equals( rName) ) {
+            return true;
+        }
+        if ( "org.omg.CORBA.portable.IDLEntity".equals( rName) ) {
+            return true;
+        }
         return false;
     }
 
@@ -1037,7 +1062,9 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
         case TYPE_REMOTE:       break;
         case TYPE_NC_CLASS:
         case TYPE_NC_INTERFACE:
-        case TYPE_VALUE:        if ( valueMethods ) break;
+        case TYPE_VALUE:        if ( valueMethods ) {
+            break;
+        }
         default: return vec;
         }
         Identifier ctId = ct.getIdentifier();
@@ -1054,8 +1081,9 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
                 if ( "readObject"  .equals( mthName ) ||
                         "writeObject" .equals( mthName ) ||
                         "readExternal".equals( mthName ) ||
-                        "writeExternal".equals( mthName ) )
+                        "writeExternal".equals( mthName ) ) {
                     continue;                                //ignore this one
+                }
             }
             if (( ctType == TYPE_NC_CLASS ||
                     ctType == TYPE_NC_INTERFACE ) && mth.isConstructor()) {
@@ -1100,7 +1128,9 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      */
     protected Vector<CompoundType.Member> getData(CompoundType t ) {
         Vector<CompoundType.Member> vec = new Vector<>();
-        if ( t.getTypeCode() != TYPE_VALUE ) return vec;
+        if ( t.getTypeCode() != TYPE_VALUE ) {
+            return vec;
+        }
         ValueType vt = (ValueType)t;
         CompoundType.Member[] mems = vt.getMembers();
         boolean notCust = !vt.isCustom();
@@ -1110,7 +1140,9 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
                 String memName = mem.getName();
                 for ( i2 = 0; i2 < vec.size(); i2++ ) {      //insert in java lex order
                     CompoundType.Member aMem = vec.elementAt(i2);
-                    if ( memName.compareTo( aMem.getName() ) < 0 ) break;
+                    if ( memName.compareTo( aMem.getName() ) < 0 ) {
+                        break;
+                    }
                 }
                 vec.insertElementAt(mem, i2); //insert this one
             }
@@ -1129,11 +1161,12 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
         throws IOException {
         Enumeration<CompoundType> refEnum = refHash.elements();
         while ( refEnum.hasMoreElements() ) {
-            Type t = (Type)refEnum.nextElement();
+            Type t = refEnum.nextElement();
             if ( t.isCompound() ) {
                 CompoundType ct = (CompoundType)t;
-                if ( ct.isIDLEntity() )
+                if ( ct.isIDLEntity() ) {
                     continue;                  //ignore IDLEntity reference
+                }
             }
             writeForwardReference( t,p );
         }
@@ -1150,8 +1183,11 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
                                          IndentingWriter p )
         throws IOException {
         String qName = t.getQualifiedName();
-        if ( "java.lang.String".equals( qName ) ) ;
-        else if ( "org.omg.CORBA.Object".equals( qName ) ) return ;    //no fwd dcl
+        if ( "java.lang.String".equals( qName ) ) {
+            
+        } else if ( "org.omg.CORBA.Object".equals( qName ) ) {
+            return ;    //no fwd dcl
+        }
 
         writeIfndef( t,0,!isException,isForward,p );
             writeModule1( t,p );
@@ -1224,7 +1260,7 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
         throws IOException {
         Enumeration<CompoundType> refEnum = refHash.elements();
         while ( refEnum.hasMoreElements() ) {
-            Type t = (Type)refEnum.nextElement();
+            Type t = refEnum.nextElement();
             if ( t.isCompound() ) {
                 CompoundType ct = (CompoundType)t;
                 if ( ct.isIDLEntity() ) {                          //select IDLEntities
@@ -1274,8 +1310,9 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
             while ( e2.hasMoreElements() ) {                   //eliminate duplicates
                 ArrayType at2 = e2.nextElement();
                 if ( et == at2.getElementType() &&                //same element type &
-                     dim < at2.getArrayDimension() )               //smaller dimension?
-                    continue nextSequence;                              //ignore this one
+                     dim < at2.getArrayDimension() ) { //smaller dimension?
+                	continue nextSequence;                              //ignore this one
+                }
         }
             writeInclude( at,dim,!isThrown,p );
     }
@@ -1319,19 +1356,27 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
                 writeIncOrb( p );                         //#include orb.idl for String
                 return;
             }
-            if ( "org.omg.CORBA.Object".equals( qName ) )
+            if ( "org.omg.CORBA.Object".equals( qName ) ) {
                 return;                                 //Object treated like primitive
+            }
             modNames = getIDLModuleNames( ct );                   //module name array
             tName = unEsc( ct.getIDLName() );                     //file name default
 
-            if ( ct.isException() )
-                if ( ct.isIDLEntityException() )
-                    if ( ct.isCORBAUserException() )
-                        if ( isThrown ) tName = unEsc( ct.getIDLExceptionName() );
-                        else ;
-                    else tName = ct.getName();                    //use original IDL name
-                else if ( isThrown )
+            if ( ct.isException() ) {
+                if ( ct.isIDLEntityException() ) {
+                    if ( ct.isCORBAUserException() ) {
+                        if ( isThrown ) {
+                            tName = unEsc( ct.getIDLExceptionName() );
+                        } else {
+                            
+                        }
+                    } else {
+                        tName = ct.getName();                    //use original IDL name
+                    }
+                } else if ( isThrown ) {
                     tName = unEsc( ct.getIDLExceptionName() );
+                }
+            }
             }
         else if ( t.isArray() ) {
             Type et = t.getElementType();                    //file name for sequence
@@ -1340,15 +1385,18 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
                 tName = "seq" + dim + "_" + unEsc( et.getIDLName().replace( ' ','_' ) );
             }
             else{                                                  //#include element
-                if ( !et.isCompound() ) return;       //no include needed for primitive
+                if ( !et.isCompound() ) {
+                    return;       //no include needed for primitive
+                }
                 ct = (CompoundType) et;
                 modNames = getIDLModuleNames( ct );           //no boxedRMI for element
                 tName = unEsc( ct.getIDLName() );
                 writeInclude( ct,modNames,tName,p );
                 return;
             }
+        } else {
+            return;                              //no include needed for primitive
         }
-        else return;                              //no include needed for primitive
         writeInclude( t,modNames,tName,p );
     }
 
@@ -1385,8 +1433,11 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
                 }
             }
         }
-        else if ( t.isArray() ) ;        //no -idlFile translation needed for array
-        else return;                             //no #include needed for primitive
+        else if ( t.isArray() ) {
+                    //no -idlFile translation needed for array
+        } else {
+            return;                             //no #include needed for primitive
+        }
 
         p.p( "#include \"" );                    //no -idlFile translation required
         for (String modName : modNames) {
@@ -1423,11 +1474,10 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * @return Array containing the original module nesting.
      */
     protected String getQualifiedIDLName(Type t) {
-        if ( t.isPrimitive() )
+        if ( t.isPrimitive() || (!t.isArray() &&
+             "org.omg.CORBA.Object".equals( t.getQualifiedName() )) ) {
             return t.getIDLName();
-        if ( !t.isArray() &&
-             "org.omg.CORBA.Object".equals( t.getQualifiedName() ) )
-            return t.getIDLName();
+        }
 
         String[] modNames = getIDLModuleNames( t );
         int len = modNames.length;
@@ -1458,28 +1508,31 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
         CompoundType ct;
         if ( t.isCompound() ) {
             ct = (CompoundType)t;
-            if ( !ct.isIDLEntity ) return modNames;     //normal (non-IDLEntity) case
-            if ( "org.omg.CORBA.portable.IDLEntity"
-                 .equals( t.getQualifiedName() ) )
+            if ( !ct.isIDLEntity || "org.omg.CORBA.portable.IDLEntity"
+                 .equals( t.getQualifiedName() ) ) {
                 return modNames;
+            }
         }
         else if ( t.isArray() ) {
             Type et = t.getElementType();
             if ( et.isCompound() ) {
                 ct = (CompoundType)et;
-                if ( !ct.isIDLEntity ) return modNames;   //normal (non-IDLEntity) case
-                if ( "org.omg.CORBA.portable.IDLEntity"
-                     .equals( t.getQualifiedName() ) )
+                if ( !ct.isIDLEntity || "org.omg.CORBA.portable.IDLEntity"
+                     .equals( t.getQualifiedName() ) ) {
                     return modNames;
+                }
+            } else {
+                return modNames;
             }
-            else return modNames;
+        } else {
+            return modNames;              //no preprocessing needed for primitives
         }
-        else return modNames;              //no preprocessing needed for primitives
 
         //it's an IDLEntity or an array of...
         Vector<String> mVec = new Vector<>();
-        if ( !translateJavaPackage( ct,mVec ) )      //apply -idlModule translation
-            stripJavaPackage( ct,mVec );             //..or strip prefixes (not both)
+        if ( !translateJavaPackage( ct,mVec ) ) { //apply -idlModule translation
+        	stripJavaPackage( ct,mVec );             //..or strip prefixes (not both)
+        }
 
         if ( ct.isBoxed() ) {                            //add boxedIDL if required
             mVec.insertElementAt( "org",0 );
@@ -1511,10 +1564,14 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
         vec.removeAllElements();
         boolean ret = false;
         String fc = null;
-        if ( ! ct.isIDLEntity() ) return ret;
+        if ( ! ct.isIDLEntity() ) {
+            return ret;
+        }
 
         String pName = ct.getPackageName();         //start from Java package names
-        if ( pName == null ) return ret;
+        if ( pName == null ) {
+            return ret;
+        }
         StringTokenizer pt = new StringTokenizer( pName,"." );
         while (pt.hasMoreTokens()) {
             vec.addElement(pt.nextToken());
@@ -1529,33 +1586,41 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
                 StringTokenizer ft = new StringTokenizer( from,"." );
                 int vecLen = vec.size();
                 int ifr;
-                for ( ifr = 0; ifr < vecLen && ft.hasMoreTokens(); ifr++ )
-                    if ( ! vec.elementAt(ifr).equals( ft.nextToken() ) )
+                for ( ifr = 0; ifr < vecLen && ft.hasMoreTokens(); ifr++ ) {
+                    if ( ! vec.elementAt(ifr).equals( ft.nextToken() ) ) {
                         continue nextModule;                                  //..no match
+                    }
+                }
 
                 if ( ft.hasMoreTokens() ) {                          //matched so far..
                     fc = ft.nextToken();                         //a 'from' token remains
                     if ( ! ct.getName().equals( fc ) ||             //matches class name?
-                         ft.hasMoreTokens() )
+                         ft.hasMoreTokens() ) {
                         continue nextModule;                                   //..no match
+                    }
                 }
 
                 ret = true;                                             //found a match
-                for ( int i4 = 0; i4 < ifr; i4++ )
+                for ( int i4 = 0; i4 < ifr; i4++ ) {
                     vec.removeElementAt( 0 );                     //remove 'from' package
+                }
 
                 String to = imHash.get( from );                   //..to String
                 StringTokenizer tt = new StringTokenizer( to,IDL_NAME_SEPARATOR );
 
                 int itoco = tt.countTokens();
                 int ito = 0;
-                if ( fc != null ) itoco--;               //user may have given IDL type
-                for ( ito = 0; ito < itoco; ito++ )
+                if ( fc != null ) {
+                    itoco--;               //user may have given IDL type
+                }
+                for ( ito = 0; ito < itoco; ito++ ) {
                     vec.insertElementAt( tt.nextToken(),ito );      //insert 'to' modules
+                }
                 if ( fc != null ) {
                     String tc = tt.nextToken();
-                    if ( ! ct.getName().equals( tc ) )           //not the IDL type, so..
-                        vec.insertElementAt( tc,ito );           //insert final 'to' module
+                    if ( ! ct.getName().equals( tc ) ) { //not the IDL type, so..
+                    	vec.insertElementAt( tc,ito );           //insert final 'to' module
+                    }
                 }
             }
         }
@@ -1574,18 +1639,25 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      */
     protected void stripJavaPackage(CompoundType ct, Vector<String> vec ) {
         vec.removeAllElements();
-        if ( ! ct.isIDLEntity() ) return;
+        if ( ! ct.isIDLEntity() ) {
+            return;
+        }
 
         String repID = ct.getRepositoryID().substring( 4 );
         StringTokenizer rept = new StringTokenizer( repID,"/" );
-        if ( rept.countTokens() < 2 ) return;
+        if ( rept.countTokens() < 2 ) {
+            return;
+        }
 
-        while ( rept.hasMoreTokens() )
+        while ( rept.hasMoreTokens() ) {
             vec.addElement( rept.nextToken() );
+        }
         vec.removeElementAt( vec.size() - 1 );
 
         String pName = ct.getPackageName();         //start from Java package names
-        if ( pName == null ) return;
+        if ( pName == null ) {
+            return;
+        }
         Vector<String> pVec = new Vector<>();
         StringTokenizer pt = new StringTokenizer( pName,"." );
         while (pt.hasMoreTokens()) {
@@ -1597,11 +1669,14 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
         while ( i1 >= 0 && i2 >= 0 ) {                      //go R->L till mismatch
             String rep = vec.elementAt( i1 );
             String pkg = pVec.elementAt( i2 );
-            if ( ! pkg.equals( rep ) ) break;
+            if ( ! pkg.equals( rep ) ) {
+                break;
+            }
             i1--; i2--;
         }
-        for ( int i3 = 0; i3 <= i1; i3++ )
+        for ( int i3 = 0; i3 <= i1; i3++ ) {
             vec.removeElementAt( 0 );                                  //strip prefix
+        }
     }
 
 
@@ -1632,7 +1707,9 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
             StringBuffer rid = new StringBuffer(
                                             repID.substring( 0,rix1 ) +
                                             repID.substring( rix2 ) );
-        for ( int i1 = 0; i1 < dim; i1++ ) rid.insert( rix1,'[' );
+        for ( int i1 = 0; i1 < dim; i1++ ) {
+            rid.insert( rix1,'[' );
+        }
 
         String vtName = "seq" + dim + "_" + idlName;
         boolean isFromIDL = false;
@@ -1649,20 +1726,25 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
             !"java.lang.String".equals(qName);
 
         writeBanner( at,dim,!isException,p );
-        if ( dim == 1 && "java.lang.String".equals(qName) )          //special case
-            writeIncOrb( p );
-        if ( dim == 1 && "org.omg.CORBA.Object".equals(qName) ) ;
-        else if ( isSpecialReference( et ) || dim > 1 || isFromIDL )
+        if ( dim == 1 && "java.lang.String".equals(qName) ) { //special case
+        	writeIncOrb( p );
+        }
+        if ( dim == 1 && "org.omg.CORBA.Object".equals(qName) ) {
+            
+        } else if ( isSpecialReference( et ) || dim > 1 || isFromIDL ) {
             writeInclude( at,dim-1,!isThrown,p );               //"trivial" include
+        }
         writeIfndef( at,dim,!isException,!isForward,p );
-        if ( isForwardInclude )
+        if ( isForwardInclude ) {
             writeForwardReference( at,dim-1,p );                    //forward declare
+        }
         writeModule1( at,p );
                 p.pln();p.pI();
                 p.p( "valuetype " + vtName );
                 p.p( " sequence<" );
-        if ( dim == 1 ) p.p( qIdlName );
-                else {
+        if ( dim == 1 ) {
+            p.p( qIdlName );
+        } else {
             p.p( "seq" + ( dim - 1 ) + "_"  );
                     p.p( idlName );
                 }
@@ -1671,8 +1753,9 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
                 p.pln( "#pragma ID " + vtName + " \"" + rid + "\"" );
                 p.pln();
         writeModule2( at,p );
-        if ( isForwardInclude )
+        if ( isForwardInclude ) {
             writeInclude( at,dim-1,!isThrown,p );      //#include for forward declare
+        }
                 writeEndif( p );
             }
 
@@ -1689,7 +1772,9 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
         String[] boxNames = getIDLModuleNames( t );
         int len = boxNames.length;
         String[] modNames = new String[len - 3];               //remove box modules
-        for ( int i1 = 0; i1 < len - 3; i1++ ) modNames[i1] = boxNames[i1 + 3];
+        for ( int i1 = 0; i1 < len - 3; i1++ ) {
+            modNames[i1] = boxNames[i1 + 3];
+        }
         String tName = unEsc( t.getIDLName() );
 
         writeBanner( t,0,!isException,p );
@@ -1752,8 +1837,9 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
         String repid = t.getRepositoryID();
         if ( t.isCompound() ) {
             CompoundType ct = (CompoundType)t;
-            if ( ct.isBoxed() )
+            if ( ct.isBoxed() ) {
                 repid = ct.getBoxedRepositoryID();
+            }
         }
 
         p.pln( "#pragma ID " + t.getIDLName() + " \"" +
@@ -1864,11 +1950,15 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
                              CompoundType.Member data,
                              IndentingWriter p )
         throws IOException {
-        if ( data.isInnerClassDeclaration() ) return;                      //ignore
+        if ( data.isInnerClassDeclaration() ) {
+            return;                      //ignore
+        }
         Type t = data.getType();
-        if ( data.isPublic() )
+        if ( data.isPublic() ) {
             p.p( "public " );
-        else p.p( "private " );
+        } else {
+            p.p( "private " );
+        }
         p.pln( getQualifiedIDLName( t ) +  " " +
                data.getIDLName() + ";" );
     }
@@ -1884,9 +1974,13 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
                                   CompoundType.Method attr,
                                   IndentingWriter p )
         throws IOException {
-        if ( attr.getAttributeKind() == ATTRIBUTE_SET ) return;  //use getters only
+        if ( attr.getAttributeKind() == ATTRIBUTE_SET ) {
+            return;  //use getters only
+        }
         Type t = attr.getReturnType();
-        if ( !attr.isReadWriteAttribute() ) p.p( "readonly " );
+        if ( !attr.isReadWriteAttribute() ) {
+            p.p( "readonly " );
+        }
         p.p( "attribute " + getQualifiedIDLName( t ) + " " );
         p.pln( attr.getAttributeName() + ";" );
     }
@@ -1912,18 +2006,24 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
         Hashtable<String, CompoundType> excHash = new Hashtable<>();
         getExceptions( method,excHash );
 
-        if ( method.isConstructor() )
-            if ( factory ) p.p( "factory " + method.getIDLName() + "(" );
-            else p.p( "init(" );                                    //IDL initializer
-        else {
+        if ( method.isConstructor() ) {
+            if ( factory ) {
+                p.p( "factory " + method.getIDLName() + "(" );
+            } else {
+                p.p( "init(" );                                    //IDL initializer
+            }
+        } else {
             p.p( getQualifiedIDLName( rt ) );
             p.p( " " + method.getIDLName() + "(" );
         }
         p.pI();
 
         for ( int i=0; i < pts.length; i++ ) {
-            if ( i > 0 ) p.pln( "," );               //delimit with comma and newline
-            else p.pln();
+            if ( i > 0 ) {
+                p.pln( "," );               //delimit with comma and newline
+            } else {
+                p.pln();
+            }
             p.p( "in " );
             p.p( getQualifiedIDLName( pts[i] ) );
             p.p( " " + paramNames[i] );
@@ -1971,8 +2071,11 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      */
     protected String unEsc(
                            String name ) {
-        if ( name.startsWith( "_" ) ) return name.substring( 1 );
-        else return name;
+        if ( name.startsWith( "_" ) ) {
+            return name.substring( 1 );
+        } else {
+            return name;
+        }
     }
 
 

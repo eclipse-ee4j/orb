@@ -46,7 +46,7 @@ public class PICurrent extends org.omg.CORBA.LocalObject implements Current {
 
     // ThreadLocal contains a stack of SlotTable which are used
     // for resolve_initial_references( "PICurrent" );
-    private transient ThreadLocal<SlotTableStack> threadLocalSlotTable = new ThreadLocal<SlotTableStack>() {
+    private transient ThreadLocal<SlotTableStack> threadLocalSlotTable = new ThreadLocal<>() {
         @Override
         protected SlotTableStack initialValue() {
             return new SlotTableStack(myORB, PICurrent.this);
@@ -110,6 +110,7 @@ public class PICurrent extends org.omg.CORBA.LocalObject implements Current {
      * This method sets the slot data at the given slot id (index) in the Slot Table which is on the top of the
      * SlotTableStack.
      */
+    @Override
     public void set_slot(int id, Any data) throws InvalidSlot {
         if (orbInitializing) {
             // As per ptc/00-08-06 if the ORB is still initializing, disallow
@@ -125,6 +126,7 @@ public class PICurrent extends org.omg.CORBA.LocalObject implements Current {
      * This method gets the slot data at the given slot id (index) from the Slot Table which is on the top of the
      * SlotTableStack.
      */
+    @Override
     public Any get_slot(int id) throws InvalidSlot {
         if (orbInitializing) {
             // As per ptc/00-08-06 if the ORB is still initializing, disallow

@@ -23,6 +23,7 @@ import corba.framework.*;
 import java.util.*;
 
 public class OneWayTest extends CORBATest {
+    @Override
     protected void doTest() throws Throwable {
         Controller orbd = createORBD();
 

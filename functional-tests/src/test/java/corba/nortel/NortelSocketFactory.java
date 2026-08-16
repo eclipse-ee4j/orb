@@ -41,6 +41,7 @@ public class NortelSocketFactory extends DefaultSocketFactoryImpl {
         }
     }
 
+    @Override
     public ServerSocket createServerSocket(String type, InetSocketAddress in) throws IOException {
         if (transportDown) {
             msg("Simulating transport failure...");
@@ -54,6 +55,7 @@ public class NortelSocketFactory extends DefaultSocketFactoryImpl {
         return serverSocket;
     }
 
+    @Override
     public Socket createSocket(String type, InetSocketAddress in) throws IOException {
         msg("In method createSocket, type:" + type + ", InetSocketAddress:" + in);
         if (transportDown) {

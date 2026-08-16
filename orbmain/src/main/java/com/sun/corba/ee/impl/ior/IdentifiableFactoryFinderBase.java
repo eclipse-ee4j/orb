@@ -37,7 +37,7 @@ public abstract class IdentifiableFactoryFinderBase<E extends Identifiable> impl
     private Map<Integer, IdentifiableFactory<E>> map;
 
     protected IdentifiableFactoryFinderBase(ORB orb) {
-        map = new HashMap<Integer, IdentifiableFactory<E>>();
+        map = new HashMap<>();
         this.orb = orb;
     }
 
@@ -47,6 +47,7 @@ public abstract class IdentifiableFactoryFinderBase<E extends Identifiable> impl
 
     public abstract E handleMissingFactory(int id, InputStream is);
 
+    @Override
     public E create(int id, InputStream is) {
         IdentifiableFactory<E> factory = getFactory(id);
 
@@ -57,6 +58,7 @@ public abstract class IdentifiableFactoryFinderBase<E extends Identifiable> impl
         }
     }
 
+    @Override
     public void registerFactory(IdentifiableFactory<E> factory) {
         map.put(factory.getId(), factory);
     }

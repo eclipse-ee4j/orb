@@ -37,8 +37,9 @@ class TypeFactory {
 
     private static Type[] toTypeArray(org.objectweb.asm.Type[] argumentTypes) {
         Type[] result = new Type[argumentTypes.length];
-        for (int i = 0; i < result.length; i++)
+        for (int i = 0; i < result.length; i++) {
             result[i] = toRmicType(argumentTypes[i]);
+        }
         return result;
     }
 
@@ -71,8 +72,9 @@ class TypeFactory {
 
     private static Type toArrayType(org.objectweb.asm.Type asmType) {
         Type type = toRmicType(asmType.getElementType());
-        for (int i = 0; i < asmType.getDimensions(); i++)
+        for (int i = 0; i < asmType.getDimensions(); i++) {
             type = Type.tArray(type);
+        }
         return type;
     }
 }

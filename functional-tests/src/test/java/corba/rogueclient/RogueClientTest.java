@@ -38,6 +38,7 @@ public class RogueClientTest extends CORBATest {
 
     private final static int CLIENT_TIMEOUT = 250000;
 
+    @Override
     protected void doTest() throws Throwable {
         Controller orbd = createORBD();
         orbd.start();

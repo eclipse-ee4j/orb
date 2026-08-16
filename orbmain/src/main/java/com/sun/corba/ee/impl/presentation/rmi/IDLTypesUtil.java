@@ -72,8 +72,7 @@ public final class IDLTypesUtil {
         // Get all methods, including super-interface methods.
         Method[] methods = c.getMethods();
 
-        for (int i = 0; i < methods.length; i++) {
-            Method next = methods[i];
+        for (Method next : methods) {
             validateExceptions(next);
         }
 
@@ -86,7 +85,7 @@ public final class IDLTypesUtil {
 
     /**
      * Checks if a class if a valid Java RMI/IIOP interface
-     * 
+     *
      * @param c Class to check
      * @return If it is a remote interface
      */
@@ -103,7 +102,7 @@ public final class IDLTypesUtil {
 
     /**
      * Section 1.2.2 Primitive Types Checks if a class is a primitive type
-     * 
+     *
      * @param c Class to check
      * @return If the class is a primitive type.
      * @see Class#isPrimitive()
@@ -118,7 +117,7 @@ public final class IDLTypesUtil {
 
     /**
      * Section 1.2.4 Checks if a class is a {@link Serializable} value
-     * 
+     *
      * @param c class to check
      * @return if the class is Serializable
      */
@@ -134,7 +133,7 @@ public final class IDLTypesUtil {
      * Section 1.2.5 Checks if a class is an array of a primitive, Remote Interface,
      * {@link org.omg.CORBA.portable.IDLEntity}, {@link Exception}, {@link Serializable} value or CORBA
      * {@link org.omg.CORBA.Object}.
-     * 
+     *
      * @param c Class to check
      * @return If the class is an array
      */
@@ -156,7 +155,7 @@ public final class IDLTypesUtil {
 
     /**
      * Section 1.2.6 Checks if a class is an {@link Exception}
-     * 
+     *
      * @param c Class to check if it is an exception.
      * @return True if a subclass of {@link Exception}
      */
@@ -188,7 +187,7 @@ public final class IDLTypesUtil {
 
     /**
      * Section 1.2.7 If the class is a CORBA {@link org.omg.CORBA.Object}
-     * 
+     *
      * @param c class to check if it is a CORBA Object
      * @return if it is an object.
      */
@@ -202,7 +201,7 @@ public final class IDLTypesUtil {
 
     /**
      * Section 1.2.8 Checks if a class is assignable to {@link org.omg.CORBA.portable.IDLEntity}
-     * 
+     *
      * @param c Class to check if it is an entity
      * @return if the class is an entity.
      */
@@ -217,7 +216,7 @@ public final class IDLTypesUtil {
 
     /**
      * Return true if given method is legal property accessor as defined in Section 1.3.4.3 of Java2IDL spec.
-     * 
+     *
      * @param method Method to check
      * @param clazz Class containing method
      * @return If method if a legal accessor.
@@ -280,8 +279,9 @@ public final class IDLTypesUtil {
     }
 
     private boolean readHasCorrespondingIsProperty(Method readProperty, Class c) {
-        if (FOLLOW_RMIC)
+        if (FOLLOW_RMIC) {
             return false;
+        }
 
         String readPropertyMethodName = readProperty.getName();
         boolean foundIsProperty = false;
@@ -299,8 +299,9 @@ public final class IDLTypesUtil {
     }
 
     private boolean isHasCorrespondingReadProperty(Method readProperty, Class c) {
-        if (!FOLLOW_RMIC)
+        if (!FOLLOW_RMIC) {
             return false;
+        }
 
         String readPropertyMethodName = readProperty.getName();
         boolean foundIsProperty = false;
@@ -346,7 +347,7 @@ public final class IDLTypesUtil {
     /**
      * Return IDL Type name for primitive types as defined in Section 1.3.3 of Java2IDL spec or null if not a primitive
      * type.
-     * 
+     *
      * @param c the class to get the mapping for
      * @return the IDLType of the primitive, or {@code null} if the class is not a primitive.
      */
@@ -384,7 +385,7 @@ public final class IDLTypesUtil {
     /**
      * Return IDL Type name for special case type mappings as defined in Table 1-1 of Java2IDL spec or null if given class
      * is not a special type.
-     * 
+     *
      * @param c class to get special case mapping for
      * @return The IDLType for the special case, or {@code null} if it is not a special case.
      */
@@ -423,8 +424,7 @@ public final class IDLTypesUtil {
         boolean declaresRemoteExceptionOrSuperClass = false;
 
         // Section 1.2.3, #2
-        for (int eIndex = 0; eIndex < exceptions.length; eIndex++) {
-            Class exception = exceptions[eIndex];
+        for (Class exception : exceptions) {
             if (isRemoteExceptionOrSuperClass(exception)) {
                 declaresRemoteExceptionOrSuperClass = true;
                 break;
@@ -441,9 +441,7 @@ public final class IDLTypesUtil {
         // See also bug 4972402
         // For all exceptions E in exceptions,
         // (isCheckedException(E) => (isValue(E) || RemoteException.isAssignableFrom( E ) )
-        for (int eIndex = 0; eIndex < exceptions.length; eIndex++) {
-            Class exception = exceptions[eIndex];
-
+        for (Class exception : exceptions) {
             if (isCheckedException(exception) && !isValue(exception) && !isRemoteException(exception)) {
                 String msg = "Exception '" + exception + "' on method '" + method + "' is not a allowed RMI/IIOP exception type";
                 throw new IDLTypeException(msg);
@@ -461,11 +459,10 @@ public final class IDLTypesUtil {
     private boolean validPropertyExceptions(Method method) {
         Class[] exceptions = method.getExceptionTypes();
 
-        for (int eIndex = 0; eIndex < exceptions.length; eIndex++) {
-            Class exception = exceptions[eIndex];
-
-            if (isCheckedException(exception) && !isRemoteException(exception))
+        for (Class exception : exceptions) {
+            if (isCheckedException(exception) && !isRemoteException(exception)) {
                 return false;
+            }
         }
 
         return true;
@@ -493,16 +490,15 @@ public final class IDLTypesUtil {
         Set allMethodNames = new HashSet();
         Set currentMethodNames = new HashSet();
 
-        for (int i = 0; i < directInterfaces.length; i++) {
-            Class next = directInterfaces[i];
+        for (Class next : directInterfaces) {
             Method[] methods = next.getMethods();
 
             // Comparison is based on method names only. First collect
             // all methods from current interface, eliminating duplicate
             // names.
             currentMethodNames.clear();
-            for (int m = 0; m < methods.length; m++) {
-                currentMethodNames.add(methods[m].getName());
+            for (Method method : methods) {
+                currentMethodNames.add(method.getName());
             }
 
             // Now check each method against list of all unique method
@@ -536,8 +532,7 @@ public final class IDLTypesUtil {
             throw ite;
         }
 
-        for (int i = 0; i < fields.length; i++) {
-            Field next = fields[i];
+        for (Field next : fields) {
             Class fieldType = next.getType();
             if ((fieldType != java.lang.String.class) && !isPrimitive(fieldType)) {
                 String msg = "Constant field '" + next.getName() + "' in class '" + next.getDeclaringClass().getName()

@@ -55,11 +55,13 @@ public class IDLType {
         StringBuilder sbuff = new StringBuilder();
         for (int ctr = 0; ctr < modules_.length; ctr++) {
             String mod = modules_[ctr];
-            if (ctr > 0)
+            if (ctr > 0) {
                 sbuff.append(separator);
+            }
 
-            if (fixIDLKeywords && IDLNameTranslatorImpl.isIDLKeyword(mod))
+            if (fixIDLKeywords && IDLNameTranslatorImpl.isIDLKeyword(mod)) {
                 mod = IDLNameTranslatorImpl.mangleIDLKeywordClash(mod);
+            }
 
             sbuff.append(mod);
         }
@@ -96,10 +98,11 @@ public class IDLType {
         // See bug 4989312: we must always add the Ex.
         excName += "Ex";
 
-        if (modName.length() == 0)
+        if (modName.length() == 0) {
             return "IDL:" + excName + ":1.0";
-        else
+        } else {
             return "IDL:" + modName + '/' + excName + ":1.0";
+        }
     }
 
     public String getMemberName() {
@@ -109,7 +112,7 @@ public class IDLType {
     /**
      * True if this type doesn't have a containing module. This would be true of a java type defined in the default package
      * or a primitive.
-     * 
+     *
      * @return if there is a contained module.
      */
     public boolean hasModule() {

@@ -40,14 +40,14 @@ package org.omg.CORBA;
  * <P>
  * The class <code>NamedValue</code> has three methods, which access its fields. The following code fragment
  * demonstrates creating a <code>NamedValue</code> object and then accessing its fields:
- * 
+ *
  * <PRE>
  * ORB orb = ORB.init(args, null);
  * String s = "argument_1";
  * org.omg.CORBA.Any myAny = orb.create_any();
  * myAny.insert_long(12345);
  * int in = org.omg.CORBA.ARG_IN.value;
- * 
+ *
  * org.omg.CORBA.NamedValue nv = orb.create_named_value(s, myAny, in);
  * System.out.println("This nv name is " + nv.name());
  * try {
@@ -60,7 +60,7 @@ package org.omg.CORBA;
  *
  * <P>
  * If this code fragment were put into a <code>main</code> method, the output would be something like the following:
- * 
+ *
  * <PRE>
  *    This nv name is argument_1
  *    This nv value is 12345

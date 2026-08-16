@@ -31,6 +31,7 @@ public class InvokeVisitAllForward extends InvokeStrategy {
     public InvokeVisitAllForward() {
     }
 
+    @Override
     public void invoke() throws Exception {
         super.invoke();
 

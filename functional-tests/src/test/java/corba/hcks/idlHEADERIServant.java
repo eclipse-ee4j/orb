@@ -33,6 +33,7 @@ class idlHEADERIServant extends idlHEADERIPOA {
         this.orb = orb;
     }
 
+    @Override
     public void HEADER(String message) {
         U.HEADER(message);
     }

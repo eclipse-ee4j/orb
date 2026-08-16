@@ -37,6 +37,7 @@ public class NameServiceStartThread extends java.lang.Thread {
         dbDir = theDir;
     }
 
+    @Override
     public void run() {
         try {
             // start Name Service

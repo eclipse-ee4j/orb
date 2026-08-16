@@ -39,6 +39,7 @@ public class GameViewServer extends GameViewImpl implements RemoteGameView {
         PortableRemoteObject.exportObject(this);
     }
 
+    @Override
     public void quit() throws RemoteException {
         super.quit();
         PortableRemoteObject.unexportObject(this);

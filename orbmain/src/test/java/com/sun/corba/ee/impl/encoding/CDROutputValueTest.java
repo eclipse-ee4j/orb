@@ -66,7 +66,7 @@ public class CDROutputValueTest extends ValueTestBase {
     /**
      * ArrayLists always use chunking because they have custom marshalling. The Value1 type does not, normally. When a
      * Value1 instance is contained in an ArrayList, it must use chunking to comply with the CORBA spec.
-     * 
+     *
      * @throws IOException
      */
     @Test
@@ -91,7 +91,7 @@ public class CDROutputValueTest extends ValueTestBase {
         endChunk();
         writeEndTag(-1);
 
-        ArrayList<Value1> value = new ArrayList<Value1>(1);
+        ArrayList<Value1> value = new ArrayList<>(1);
         value.add(new Value1('x', 3));
         getOutputObject().write_value(value);
 
@@ -102,7 +102,7 @@ public class CDROutputValueTest extends ValueTestBase {
     /**
      * A ComplexValue does not need chunking; however, it contains an ArrayList which does. The next field is a Value1,
      * which should not use chunking.
-     * 
+     *
      * @throws IOException
      */
     @Test
@@ -373,65 +373,65 @@ public class CDROutputValueTest extends ValueTestBase {
         expectByteArray(getGeneratedBody());
     }
     /*
-     * 
+     *
      * // write codebase
-     * 
+     *
      * @Test public void canReadSerializedValueWithContinuationChunk() throws IOException { writeValueTag(ONE_REPID_ID |
      * USE_CHUNKING); writeRepId(Value1.REPID);
-     * 
+     *
      * startChunk(); writeWchar_1_2('x'); endChunk();
-     * 
+     *
      * startChunk(); writeInt(3); endChunk(); writeEndTag(-1);
-     * 
+     *
      * setMessageBody( getGeneratedBody() );
-     * 
+     *
      * Object object = getInputObject().read_value(); assertTrue(object instanceof Value1); Value1 value1 = (Value1) object;
      * assertEquals('x', value1.aChar); assertEquals(3, value1.anInt); }
-     * 
+     *
      * @Test public void canReadSerializedValueWithNestedValue() throws IOException { writeValueTag(ONE_REPID_ID |
      * USE_CHUNKING); writeRepId(Value2.REPID);
-     * 
+     *
      * startChunk(); writeLong(750); endChunk();
-     * 
+     *
      * writeValueTag(ONE_REPID_ID | USE_CHUNKING); writeRepId(Value1.REPID); startChunk(); writeWchar_1_2('x'); writeInt(3);
      * endChunk(); writeEndTag(-1);
-     * 
+     *
      * setMessageBody( getGeneratedBody() );
-     * 
+     *
      * Object object = getInputObject().read_value(); assertTrue(object instanceof Value2); Value2 value2 = (Value2) object;
      * assertEquals(750,value2.aLong); assertEquals('x', value2.aValue.aChar); assertEquals(3, value2.aValue.anInt); }
-     * 
+     *
      * @Test public void canReadSerializedValueUsingDefaultFactory() throws IOException { writeValueTag(ONE_REPID_ID |
      * USE_CODEBASE); writeCodebase("http://localhost/myClasses"); writeRepId(Value1.REPID);
-     * 
+     *
      * writeWchar_1_2('x');
-     * 
+     *
      * setMessageBody( getGeneratedBody() );
-     * 
+     *
      * Object object = getInputObject().read_value(Value1.REPID); assertTrue(object instanceof Value1); Value1 value1 =
      * (Value1) object; assertEquals('x', value1.aChar); assertEquals('x', value1.anInt); }
-     * 
+     *
      * @Test public void canReadNullValueUsingDefaultFactory() throws IOException { writeNull(); setMessageBody(
      * getGeneratedBody() );
-     * 
+     *
      * assertNull(getInputObject().read_value(Value1.REPID)); }
-     * 
+     *
      * @Test(expected = IndirectionException.class) public void
      * whenIndirectionHasNoAntecedent_throwExceptionWhenUsingRepId() throws IOException { writeIndirectionTo(0);
      * setMessageBody( getGeneratedBody() ); getInputObject().read_value(Value1.REPID); }
-     * 
+     *
      * @Test public void canReadSerializedValueUsingDefaultFactoryAndIndirection() throws IOException { int location =
      * getCurrentLocation();
-     * 
+     *
      * writeValueTag(ONE_REPID_ID | USE_CHUNKING); writeRepId(Value1.REPID); startChunk(); writeWchar_1_2('x'); endChunk();
      * writeEndTag(-1);
-     * 
+     *
      * writeIndirectionTo(location);
-     * 
+     *
      * setMessageBody( getGeneratedBody() );
-     * 
+     *
      * Object object1 = getInputObject().read_value(Value1.REPID); Object object2 =
      * getInputObject().read_value(Value1.REPID); assertSame(object1, object2); }
-     * 
+     *
      */
 }

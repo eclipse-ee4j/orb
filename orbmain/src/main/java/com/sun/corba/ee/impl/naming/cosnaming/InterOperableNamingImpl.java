@@ -228,7 +228,7 @@ public class InterOperableNamingImpl {
                 kind = theStringifiedNameComponent.substring(index + 1);
             } else {
                 boolean kindfound = false;
-                while ((index < theStringifiedNameComponent.length()) && (kindfound != true)) {
+                while ((index < theStringifiedNameComponent.length()) && !kindfound) {
                     index = theStringifiedNameComponent.indexOf('.', index + 1);
                     if (index > 0) {
                         if (theStringifiedNameComponent.charAt(index - 1) != '\\') {
@@ -239,7 +239,7 @@ public class InterOperableNamingImpl {
                         index = theStringifiedNameComponent.length();
                     }
                 }
-                if (kindfound == true) {
+                if (kindfound) {
                     id = theStringifiedNameComponent.substring(0, index);
                     kind = theStringifiedNameComponent.substring(index + 1);
                 } else {
@@ -330,7 +330,7 @@ public class InterOperableNamingImpl {
             } else {
                 // Add escape
                 theStringAfterEscape.write('%');
-                String hexString = Integer.toHexString((int) c);
+                String hexString = Integer.toHexString(c);
                 theStringAfterEscape.write(hexString);
             }
         }

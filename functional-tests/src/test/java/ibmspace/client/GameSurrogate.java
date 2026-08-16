@@ -95,8 +95,9 @@ public class GameSurrogate {
 
         try {
             fGameView = fSpaceConquest.joinGame(fName);
-            if (fGameView != null)
+            if (fGameView != null) {
                 fGameView.test();
+            }
             updatePlanetMap();
         } catch (RemoteException e) {
             System.out.println("Problem joining game!");
@@ -109,8 +110,9 @@ public class GameSurrogate {
     }
 
     public void updatePlanetMap() {
-        if (fSpaceConquest == null || fGameView == null)
+        if (fSpaceConquest == null || fGameView == null) {
             return;
+        }
 
         int i = 0;
         int numPlanets = 0;
@@ -154,14 +156,16 @@ public class GameSurrogate {
     }
 
     public int getNumberOfPlanets() {
-        if (fGameView == null)
+        if (fGameView == null) {
             return 0;
+        }
         return Array.getLength(fPlanets);
     }
 
     public void takeTurn() {
-        if (fGameView == null)
+        if (fGameView == null) {
             return;
+        }
 
         try {
             fMessages = fGameView.takeTurn();
@@ -182,8 +186,9 @@ public class GameSurrogate {
     //
 
     public ID getHome() {
-        if (fGameView == null)
+        if (fGameView == null) {
             return null;
+        }
 
         try {
             return fGameView.getHome();
@@ -194,22 +199,25 @@ public class GameSurrogate {
     }
 
     public PlanetView getPlanet(int i) {
-        if (fGameView == null)
+        if (fGameView == null) {
             return null;
+        }
         return fPlanetViews[i];
     }
 
     public PlanetView getPlanet(ID planetID) {
         int index = getPlanetIndex(planetID);
-        if (index != -1)
+        if (index != -1) {
             return fPlanetViews[index];
-        else
+        } else {
             return null;
+        }
     }
 
     public BudgetSummary getMainBudget() {
-        if (fGameView == null)
+        if (fGameView == null) {
             return null;
+        }
 
         try {
             return fGameView.getMainBudget();
@@ -220,8 +228,9 @@ public class GameSurrogate {
     }
 
     public BudgetSummary getTechBudget() {
-        if (fGameView == null)
+        if (fGameView == null) {
             return null;
+        }
 
         try {
             return fGameView.getTechBudget();
@@ -233,16 +242,18 @@ public class GameSurrogate {
 
     public BudgetSummary getPlanetBudget(ID planetID) {
         int index = getPlanetIndex(planetID);
-        if (index != -1)
+        if (index != -1) {
             return fPlanetBudgets[index];
-        else
+        } else {
             return null;
+        }
     }
 
     public void setPlanetBudget(ID planetID, BudgetSummary budget) {
         int index = getPlanetIndex(planetID);
-        if (index != -1)
+        if (index != -1) {
             fPlanetBudgets[index] = budget;
+        }
     }
 
     public void pushPlanetBudgetData() {
@@ -260,8 +271,9 @@ public class GameSurrogate {
     }
 
     public void setMainBudget(BudgetSummary budget) {
-        if (fGameView == null)
+        if (fGameView == null) {
             return;
+        }
 
         try {
             fGameView.setMainBudget(budget);
@@ -272,8 +284,9 @@ public class GameSurrogate {
     }
 
     public void setTechBudget(BudgetSummary budget) {
-        if (fGameView == null)
+        if (fGameView == null) {
             return;
+        }
 
         try {
             fGameView.setTechBudget(budget);
@@ -284,8 +297,9 @@ public class GameSurrogate {
     }
 
     public TechProfile getTechProfile() {
-        if (fGameView == null)
+        if (fGameView == null) {
             return null;
+        }
 
         try {
             return fGameView.getTechProfile();
@@ -296,8 +310,9 @@ public class GameSurrogate {
     }
 
     public long getShipSavings() {
-        if (fGameView == null)
+        if (fGameView == null) {
             return 0;
+        }
 
         try {
             return fGameView.getShipSavings();
@@ -308,8 +323,9 @@ public class GameSurrogate {
     }
 
     public long getShipMetal() {
-        if (fGameView == null)
+        if (fGameView == null) {
             return 0;
+        }
 
         try {
             return fGameView.getShipMetal();
@@ -320,8 +336,9 @@ public class GameSurrogate {
     }
 
     public long getIncome() {
-        if (fGameView == null)
+        if (fGameView == null) {
             return 0;
+        }
 
         try {
             return fGameView.getIncome();
@@ -332,8 +349,9 @@ public class GameSurrogate {
     }
 
     public long getCalls() {
-        if (fGameView == null)
+        if (fGameView == null) {
             return 0;
+        }
 
         try {
             return fGameView.getCalls();
@@ -344,21 +362,18 @@ public class GameSurrogate {
     }
 
     private boolean isNewerTechnology() {
-        if (fLatestDesign == null)
+        if (fLatestDesign == null) {
             return true;
+        }
 
         TechProfile current = getTechProfile();
         TechProfile shipTech = fLatestDesign.getTechProfile();
-        if (current.getRange() > shipTech.getRange())
+        if ((current.getRange() > shipTech.getRange()) || (current.getSpeed() > shipTech.getSpeed()) || (current.getWeapons() > shipTech.getWeapons()) || (current.getShields() > shipTech.getShields())) {
             return true;
-        if (current.getSpeed() > shipTech.getSpeed())
+        }
+        if (current.getMini() > shipTech.getMini()) {
             return true;
-        if (current.getWeapons() > shipTech.getWeapons())
-            return true;
-        if (current.getShields() > shipTech.getShields())
-            return true;
-        if (current.getMini() > shipTech.getMini())
-            return true;
+        }
         return false;
     }
 
@@ -406,16 +421,19 @@ public class GameSurrogate {
 
     public void updateJourneys() {
         try {
-            if (fJournies == null)
+            if (fJournies == null) {
                 System.out.println("fJournies is null");
-            if (fGameView == null)
+            }
+            if (fGameView == null) {
                 System.out.println("fGameView is null");
+            }
             fJournies.removeAllElements();
             ID[] journies = fGameView.getAllJournies();
             if (journies != null) {
                 for (int i = 0; i < Array.getLength(journies); i++) {
-                    if (journies[i] == null)
+                    if (journies[i] == null) {
                         System.out.println("journies[i] is null");
+                    }
                     System.out.println("getting journey");
                     Journey journey = fGameView.getJourney(journies[i]);
                     fJournies.addElement(journey);

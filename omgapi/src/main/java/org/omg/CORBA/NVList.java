@@ -39,11 +39,11 @@ package org.omg.CORBA;
  * An <code>NVList</code> object may be created using one of the following <code>ORB</code> methods:
  * <OL>
  * <LI><code>org.omg.CORBA.ORB.create_list</code>
- * 
+ *
  * <PRE>
  * org.omg.CORBA.NVList nv = orb.create_list(3);
  * </PRE>
- * 
+ *
  * The variable <code>nv</code> represents a newly-created <code>NVList</code> object. The argument is a
  * memory-management hint to the orb and does not imply the actual length of the list. If, for example, you want to use
  * an <code>NVList</code> object in a request, and the method being invoked takes three parameters, you might optimize
@@ -52,11 +52,11 @@ package org.omg.CORBA;
  * <code>NamedValue</code> objects to this list regardless of its original length.
  *
  * <LI><code>org.omg.CORBA.ORB.create_operation_list</code>
- * 
+ *
  * <PRE>
  * org.omg.CORBA.NVList nv = orb.create_operation_list(myOperationDef);
  * </PRE>
- * 
+ *
  * The variable <code>nv</code> represents a newly-created <code>NVList</code> object that contains descriptions of the
  * arguments to the method described in the given <code>OperationDef</code> object.
  * </OL>
@@ -66,7 +66,7 @@ package org.omg.CORBA;
  * objects in the list, a method for retrieving a <code>NamedValue</code> object at a given index, and a method for
  * removing a <code>NamedValue</code> object at a given index.
  * </p>
- * 
+ *
  * @see org.omg.CORBA.Request
  * @see org.omg.CORBA.ServerRequest
  * @see org.omg.CORBA.NamedValue

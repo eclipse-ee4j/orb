@@ -38,9 +38,10 @@ public class ComplexTestObjectOne implements Serializable {
         fFloat = 3;// r.nextFloat();
         fDouble = 4;// r.nextDouble();
         fString = new String(fInt + "" + fLong + "" + fFloat + "" + fDouble);
-        fMarshalAsAny = (Object) new Character('S');
+        fMarshalAsAny = new Character('S');
     }
 
+    @Override
     public boolean equals(Object o) {
         try {
             ComplexTestObjectOne ctbo = (ComplexTestObjectOne) o;
@@ -51,6 +52,7 @@ public class ComplexTestObjectOne implements Serializable {
         }
     }
 
+    @Override
     public String toString() {
         return new String("fInt=" + fInt + "; fLong=" + fLong + "; fFloat=" + fFloat + "; fDouble=" + fDouble + "; fString=" + fString);
     }

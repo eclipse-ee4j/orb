@@ -320,8 +320,9 @@ public class RmicGenerationTest {
 
     private String[] toClassFilePaths(String[] sourceFilePaths) {
         String[] result = new String[sourceFilePaths.length];
-        for (int i = 0; i < sourceFilePaths.length; i++)
+        for (int i = 0; i < sourceFilePaths.length; i++) {
             result[i] = sourceFilePaths[i].replace(".java", ".class");
+        }
         return result;
     }
 
@@ -335,11 +336,13 @@ public class RmicGenerationTest {
 
     @SuppressWarnings("ConstantConditions")
     private void appendFiles(ArrayList<String> files, File currentDir, int rootDirLength, String suffix) {
-        for (File file : currentDir.listFiles())
-            if (file.isDirectory())
+        for (File file : currentDir.listFiles()) {
+            if (file.isDirectory()) {
                 appendFiles(files, file, rootDirLength, suffix);
-            else if (file.getName().endsWith(suffix))
+            } else if (file.getName().endsWith(suffix)) {
                 files.add(getRelativePath(file, rootDirLength));
+            }
+        }
     }
 
     private String getRelativePath(File file, int rootDirLength) {
@@ -347,8 +350,9 @@ public class RmicGenerationTest {
     }
 
     private void compareGeneratedFiles(File expectedDir, File actualDir, String... generatedFileNames) throws IOException {
-        for (String filePath : generatedFileNames)
+        for (String filePath : generatedFileNames) {
             compareFiles(filePath, expectedDir, actualDir);
+        }
     }
 
     private void compareFiles(String filePath, File masterDirectory, File generationDirectory) throws IOException {
@@ -369,16 +373,19 @@ public class RmicGenerationTest {
             actualLine = actual.readLine();
         }
 
-        if (expectedLine == null && actualLine == null) return;
+        if (expectedLine == null && actualLine == null) {
+            return;
+        }
 
-        if (expectedLine == null)
+        if (expectedLine == null) {
             fail("Unexpected line in generated file at " + actual.getLineNumber() + ": " + actualLine);
-        else if (actualLine == null)
+        } else if (actualLine == null) {
             fail("Actual file ends unexpectedly at line " + expected.getLineNumber());
-        else
+        } else {
             fail("Generated file mismatch at line " + actual.getLineNumber() +
                     "\nshould be <" + expectedLine + "> " +
                     "\nbut found <" + actualLine + ">");
+        }
 
     }
 
@@ -415,19 +422,25 @@ public class RmicGenerationTest {
         }
 
         private void generate() throws IOException {
-            if (argList.contains("-iiop") && !COMPILE_GENERATED) addArgs("-Xnocompile");
-            for (String name : classNames)
+            if (argList.contains("-iiop") && !COMPILE_GENERATED) {
+                addArgs("-Xnocompile");
+            }
+            for (String name : classNames) {
                 addArgs(name);
+            }
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             Main compiler = new Main(out, "rmic");
             String[] argv = argList.toArray(new String[0]);
-            if (!compiler.compile(argv))
+            if (!compiler.compile(argv)) {
                 throw createException(out);
+            }
         }
 
         private AssertionError createException(ByteArrayOutputStream out) throws IOException {
             String message = toMessage(out);
-            if (message == null) message = "No error message reported";
+            if (message == null) {
+                message = "No error message reported";
+            }
             return new AssertionError(message);
         }
 
@@ -438,12 +451,13 @@ public class RmicGenerationTest {
 
             StringBuilder sb;
             String line = reader.readLine();
-            if (line == null)
+            if (line == null) {
                 return null;
-            else {
+            } else {
                 sb = new StringBuilder(line);
-                while ((line = reader.readLine()) != null && !line.startsWith("Usage:"))
+                while ((line = reader.readLine()) != null && !line.startsWith("Usage:")) {
                     sb.append("/n").append(line);
+                }
                 return sb.toString();
             }
         }
@@ -451,8 +465,9 @@ public class RmicGenerationTest {
 
     private static String[] toNameList(Class<?>[] classes) {
         String[] nameList = new String[classes.length];
-        for (int i = 0; i < classes.length; i++)
+        for (int i = 0; i < classes.length; i++) {
             nameList[i] = classes[i].getName();
+        }
         return nameList;
     }
 }

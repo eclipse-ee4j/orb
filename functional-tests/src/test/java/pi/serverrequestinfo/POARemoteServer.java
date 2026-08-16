@@ -45,6 +45,7 @@ public class POARemoteServer extends POAServer {
         }
     }
 
+    @Override
     public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         TestInitializer.out = out;
         this.out = out;
@@ -62,11 +63,13 @@ public class POARemoteServer extends POAServer {
 
     }
 
+    @Override
     void handshake() {
         out.println("Server is ready.");
         out.flush();
     }
 
+    @Override
     void waitForClients() {
         // wait for invocations from clients
         java.lang.Object sync = new java.lang.Object();

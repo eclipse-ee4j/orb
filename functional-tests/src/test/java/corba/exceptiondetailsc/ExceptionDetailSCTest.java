@@ -30,6 +30,7 @@ import corba.framework.CORBATest;
 public class ExceptionDetailSCTest extends CORBATest {
     public static final String thisPackage = ExceptionDetailSCTest.class.getPackage().getName();
 
+    @Override
     protected void doTest() throws Throwable {
         Controller orbd = createORBD();
         orbd.start();

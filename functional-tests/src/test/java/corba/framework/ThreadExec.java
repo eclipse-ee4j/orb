@@ -26,39 +26,50 @@ import java.io.*;
  * only needs to implement the InternalProcess interface (as long as it starts itself in its own thread).
  */
 public class ThreadExec extends InternalExec {
+    @Override
     public void stop() {
-        if (process != null)
+        if (process != null) {
             process.stop();
+        }
     }
 
+    @Override
     public int waitFor() throws Exception {
-        if (process == null)
+        if (process == null) {
             throw new IllegalThreadStateException(processName + " was never started");
+        }
 
         return process.waitFor();
     }
 
+    @Override
     public int waitFor(long timeout) throws Exception {
-        if (process == null)
+        if (process == null) {
             throw new IllegalThreadStateException(processName + " was never started");
+        }
 
         return process.waitFor(timeout);
     }
 
+    @Override
     public int exitValue() throws IllegalThreadStateException {
-        if (process == null)
+        if (process == null) {
             throw new IllegalThreadStateException(processName + " was never started");
-        else
+        } else {
             return process.exitValue();
+        }
     }
 
+    @Override
     public boolean finished() throws IllegalThreadStateException {
-        if (process == null)
+        if (process == null) {
             throw new IllegalThreadStateException(processName + " was never started");
+        }
 
         return process.finished();
     }
 
+    @Override
     protected void activateObject(Object obj) {
         process = (ThreadProcess) obj;
 

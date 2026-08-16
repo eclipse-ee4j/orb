@@ -97,6 +97,7 @@ public class POAPolicyMediatorImpl_R_USM extends POAPolicyMediatorBase_R {
     private void servantAlreadyAssignedToID() {
     }
 
+    @Override
     @Poa
     protected java.lang.Object internalGetServant(byte[] id, String operation) throws ForwardRequest {
 
@@ -200,6 +201,7 @@ public class POAPolicyMediatorImpl_R_USM extends POAPolicyMediatorBase_R {
         }
     }
 
+    @Override
     @Poa
     public void etherealizeAll() {
         if (activator != null) {
@@ -239,10 +241,12 @@ public class POAPolicyMediatorImpl_R_USM extends POAPolicyMediatorBase_R {
         }
     }
 
+    @Override
     public ServantManager getServantManager() throws WrongPolicy {
         return activator;
     }
 
+    @Override
     @Poa
     public void setServantManager(ServantManager servantManager) throws WrongPolicy {
 
@@ -257,10 +261,12 @@ public class POAPolicyMediatorImpl_R_USM extends POAPolicyMediatorBase_R {
         }
     }
 
+    @Override
     public Servant getDefaultServant() throws NoServant, WrongPolicy {
         throw new WrongPolicy();
     }
 
+    @Override
     public void setDefaultServant(Servant servant) throws WrongPolicy {
         throw new WrongPolicy();
     }
@@ -320,6 +326,7 @@ public class POAPolicyMediatorImpl_R_USM extends POAPolicyMediatorBase_R {
         entry.startEtherealize(eth);
     }
 
+    @Override
     @Poa
     public Servant idToServant(byte[] id) throws WrongPolicy, ObjectNotActive {
         ActiveObjectMap.Key key = new ActiveObjectMap.Key(id);

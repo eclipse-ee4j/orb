@@ -26,6 +26,7 @@ public class EchoImpl extends PortableRemoteObject implements Echo {
     public EchoImpl() throws RemoteException {
     }
 
+    @Override
     public Object echo(Object invalue) throws RemoteException {
         return invalue;
     }

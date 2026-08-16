@@ -29,12 +29,14 @@ import org.omg.PortableServer.*;
  * Servant implementation
  */
 class HelloServant extends HelloPOA {
+    @Override
     public String sayHello() {
         return "Hello world!";
     }
 }
 
 class ByeServant extends ByePOA {
+    @Override
     public String sayBye() {
         return "Bye world!";
     }

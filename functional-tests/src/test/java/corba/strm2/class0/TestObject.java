@@ -39,11 +39,13 @@ public class TestObject implements Testable {
         desc = "class0";
     }
 
+    @Override
     public boolean equals(Object obj) {
         try {
             TestObject other = (TestObject) obj;
-            if (other == null)
+            if (other == null) {
                 return false;
+            }
 
             return data0.equals(other.data0) && data1 == other.data1 && data2.equals(other.data2);
         } catch (ClassCastException cce) {
@@ -51,10 +53,12 @@ public class TestObject implements Testable {
         }
     }
 
+    @Override
     public String getDescription() {
         return desc;
     }
 
+    @Override
     public String toString() {
         return (super.getClass().equals(Object.class) ? "" : super.toString()) + " [TestObject desc=" + desc + ", data0=" + data0
                 + ", data1=" + data1 + ", data2= " + data2 + "]";

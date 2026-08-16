@@ -88,6 +88,7 @@ public final class ORBInitInfoImpl extends org.omg.CORBA.LocalObject implements 
     /**
      * Return the ORB behind this ORBInitInfo. This is defined in the ORBInitInfoExt interface.
      */
+    @Override
     public ORB getORB() {
         return orb;
     }
@@ -117,6 +118,7 @@ public final class ORBInitInfoImpl extends org.omg.CORBA.LocalObject implements 
     /**
      * This attribute contains the arguments passed to ORB_init. They may or may not contain the ORB's arguments
      */
+    @Override
     public String[] arguments() {
         checkStage();
         return args.clone();
@@ -125,6 +127,7 @@ public final class ORBInitInfoImpl extends org.omg.CORBA.LocalObject implements 
     /**
      * This attribute is the ID of the ORB being initialized
      */
+    @Override
     public String orb_id() {
         checkStage();
         return orbId;
@@ -136,6 +139,7 @@ public final class ORBInitInfoImpl extends org.omg.CORBA.LocalObject implements 
      * particularly when processing service contexts, will require a Codec, a means of obtaining a Codec is necessary during
      * ORB intialization.
      */
+    @Override
     public CodecFactory codec_factory() {
         checkStage();
         return codecFactory;
@@ -149,10 +153,12 @@ public final class ORBInitInfoImpl extends org.omg.CORBA.LocalObject implements 
      * <p>
      * This method may not be called during post_init.
      */
+    @Override
     public void register_initial_reference(String id, org.omg.CORBA.Object obj) throws InvalidName {
         checkStage();
-        if (id == null)
+        if (id == null) {
             nullParam();
+        }
 
         // As per CORBA 3.0 section 21.8.1,
         // if null is passed as the obj parameter,
@@ -184,10 +190,12 @@ public final class ORBInitInfoImpl extends org.omg.CORBA.LocalObject implements 
      * <p>
      * This method may not be called during pre_init.
      */
+    @Override
     public org.omg.CORBA.Object resolve_initial_references(String id) throws InvalidName {
         checkStage();
-        if (id == null)
+        if (id == null) {
             nullParam();
+        }
 
         if (stage == STAGE_PRE_INIT) {
             // Initializer is not allowed to invoke this method during
@@ -221,10 +229,12 @@ public final class ORBInitInfoImpl extends org.omg.CORBA.LocalObject implements 
      * If a client-side request Interceptor has already been registered with this Interceptor's name, DuplicateName is
      * raised.
      */
+    @Override
     public void add_client_request_interceptor(ClientRequestInterceptor interceptor) throws DuplicateName {
         checkStage();
-        if (interceptor == null)
+        if (interceptor == null) {
             nullParam();
+        }
 
         orb.getPIHandler().register_interceptor(interceptor, InterceptorList.INTERCEPTOR_TYPE_CLIENT);
     }
@@ -241,10 +251,12 @@ public final class ORBInitInfoImpl extends org.omg.CORBA.LocalObject implements 
      * If a server-side request Interceptor has already been registered with this Interceptor's name, DuplicateName is
      * raised.
      */
+    @Override
     public void add_server_request_interceptor(ServerRequestInterceptor interceptor) throws DuplicateName {
         checkStage();
-        if (interceptor == null)
+        if (interceptor == null) {
             nullParam();
+        }
 
         orb.getPIHandler().register_interceptor(interceptor, InterceptorList.INTERCEPTOR_TYPE_SERVER);
     }
@@ -259,10 +271,12 @@ public final class ORBInitInfoImpl extends org.omg.CORBA.LocalObject implements 
      * <p>
      * If an IOR Interceptor has already been registered with this Interceptor's name, DuplicateName is raised.
      */
+    @Override
     public void add_ior_interceptor(IORInterceptor interceptor) throws DuplicateName {
         checkStage();
-        if (interceptor == null)
+        if (interceptor == null) {
             nullParam();
+        }
 
         orb.getPIHandler().register_interceptor(interceptor, InterceptorList.INTERCEPTOR_TYPE_IOR);
     }
@@ -272,6 +286,7 @@ public final class ORBInitInfoImpl extends org.omg.CORBA.LocalObject implements 
      *
      * @return The index to the slot which has been allocated.
      */
+    @Override
     public int allocate_slot_id() {
         checkStage();
 
@@ -284,10 +299,12 @@ public final class ORBInitInfoImpl extends org.omg.CORBA.LocalObject implements 
      * <p>
      * If a PolicyFactory already exists for the given PolicyType, BAD_INV_ORDER is raised with a minor code of TBD_BIO+2.
      */
+    @Override
     public void register_policy_factory(int type, PolicyFactory policy_factory) {
         checkStage();
-        if (policy_factory == null)
+        if (policy_factory == null) {
             nullParam();
+        }
         orb.getPIHandler().registerPolicyFactory(type, policy_factory);
     }
 

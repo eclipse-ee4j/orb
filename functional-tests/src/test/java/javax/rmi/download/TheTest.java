@@ -41,6 +41,7 @@ public class TheTest extends test.Test {
     // This test runs its own NameServer on Util.DOWNLOAD_NAME_SERVER_PORT.
     private static String[] myArgs = new String[] { "-ORBInitialPort", Util.DOWNLOAD_NAME_SERVER_PORT };
 
+    @Override
     public void run() {
         JUnitReportHelper helper = new JUnitReportHelper(this.getClass().getName());
 
@@ -75,10 +76,11 @@ public class TheTest extends test.Test {
             // Create user.dir property (this is how the server knows
             // where the test value is but we (this client) does not).
             Vector properties = new Vector();
-            properties.addElement("-Djava.rmi.server.codebase=" + (String) System.getProperty("java.rmi.server.codebase"));
-            String testPolicy = (String) System.getProperty("java.security.policy");
-            if (testPolicy != null)
+            properties.addElement("-Djava.rmi.server.codebase=" + System.getProperty("java.rmi.server.codebase"));
+            String testPolicy = System.getProperty("java.security.policy");
+            if (testPolicy != null) {
                 properties.addElement("-Djava.security.policy=" + testPolicy);
+            }
 
             // Class c = java.rmi.server.RMIClassLoader.loadClass(new java.net.URL(System.getProperty("java.rmi.server.codebase")),
             // "javax.rmi.download.values.TheValueImpl");
@@ -167,13 +169,14 @@ public class TheTest extends test.Test {
                 nameServer.destroy();
             }
 
-            if (webServer != null)
+            if (webServer != null) {
                 webServer.quit();
+            }
 
             helper.done();
         }
 
-        if (testPassed == true) {
+        if (testPassed) {
             status = null;
         } else {
             status = new Error("PortableRemoteObject.narrow Test Failed");

@@ -25,18 +25,22 @@ public class SampleObjectImpl extends _SampleObjectImplBase {
     private short _x;
     private short _y;
 
+    @Override
     public short x() {
         return _x;
     }
 
+    @Override
     public void x(short newX) {
         this._x = newX;
     }
 
+    @Override
     public short y() {
         return _y;
     }
 
+    @Override
     public void y(short newY) {
         this._y = newY;
     }

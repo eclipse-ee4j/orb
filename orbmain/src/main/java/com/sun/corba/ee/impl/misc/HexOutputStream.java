@@ -36,7 +36,7 @@ public class HexOutputStream extends OutputStream {
 
     /**
      * Creates a new HexOutputStream.
-     * 
+     *
      * @param w The underlying StringWriter.
      */
     public HexOutputStream(StringWriter w) {
@@ -45,18 +45,21 @@ public class HexOutputStream extends OutputStream {
 
     /**
      * Writes a byte. Will block until the byte is actually written. param b The byte to write out.
-     * 
+     *
      * @exception java.io.IOException I/O error occurred.
      */
+    @Override
     public synchronized void write(int b) throws IOException {
         writer.write(hex[((b >> 4) & 0xF)]);
         writer.write(hex[((b >> 0) & 0xF)]);
     }
 
+    @Override
     public synchronized void write(byte[] b) throws IOException {
         write(b, 0, b.length);
     }
 
+    @Override
     public synchronized void write(byte[] b, int off, int len) throws IOException {
         for (int i = 0; i < len; i++) {
             write(b[off + i]);

@@ -330,8 +330,9 @@ class Scanner implements Constants {
         // We rely on this in the code below.
 
         // Consume any number of stars.
-        while ((c = in.read()) == '*')
-            ;
+        while ((c = in.read()) == '*') {
+            
+        }
 
         // Is the comment of the form /**/, /***/, /****/, etc.?
         if (c == '/') {
@@ -518,8 +519,9 @@ class Scanner implements Constants {
         for (;;) {
             switch (ch = in.read()) {
               case '.':
-                if (radix == 16)
+                if (radix == 16) {
                     break numberLoop; // an illegal character
+                }
                 scanReal();
                 return;
 
@@ -554,8 +556,9 @@ class Scanner implements Constants {
               case 'a': case 'A': case 'b': case 'B': case 'c': case 'C':
                 seenDigit = true;
                 putc(ch);
-                if (radix != 16)
+                if (radix != 16) {
                     break numberLoop; // an illegal character
+                }
                 overflow = overflow || (value >>> 60) != 0;
                 value = (value << 4) + 10 +
                          Character.toLowerCase((char)ch) - 'a';
@@ -602,7 +605,7 @@ class Scanner implements Constants {
             intValue = 0;
             token = INTVAL;
             env.error(pos, "invalid.octal.number");
-        } else if (radix == 16 && seenDigit == false) {
+        } else if (radix == 16 && !seenDigit) {
             // A hex literal with no digits, 0xL, for example.
             intValue = 0;
             token = INTVAL;
@@ -683,16 +686,18 @@ class Scanner implements Constants {
                     break;
 
                 case 'e': case 'E':
-                    if (seenExponent)
+                    if (seenExponent) {
                         break numberLoop; // we'll get a format error
+                    }
                     putc(ch);
                     seenExponent = true;
                     break;
 
                 case '+': case '-':
                     lastChar = buffer[count - 1];
-                    if (lastChar != 'e' && lastChar != 'E')
+                    if (lastChar != 'e' && lastChar != 'E') {
                         break numberLoop; // this isn't an error, though!
+                    }
                     putc(ch);
                     break;
 
@@ -1015,7 +1020,9 @@ class Scanner implements Constants {
                 switch (ch = in.read()) {
                   case '/':
                     // Parse a // comment
-                    while (((ch = in.read()) != EOF) && (ch != '\n'));
+                    while (((ch = in.read()) != EOF) && (ch != '\n')) {
+                        
+                    }
                     if (scanComments) {
                         token = COMMENT;
                         return retPos;

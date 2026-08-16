@@ -36,15 +36,18 @@ public class TestObject extends TestObjectSuper implements Testable {
         desc = "class3";
     }
 
+    @Override
     public String toString() {
         return super.toString() + " [TestObject desc=" + desc + ", data0=" + data0 + ", data1=" + data1 + ", data2= " + data2 + "]";
     }
 
+    @Override
     public boolean equals(Object obj) {
         try {
             TestObject other = (TestObject) obj;
-            if (other == null)
+            if (other == null) {
                 return false;
+            }
 
             return data0.equals(other.data0) && data1 == other.data1 && data2.equals(other.data2) && super.equals(other);
         } catch (ClassCastException cce) {
@@ -60,6 +63,7 @@ public class TestObject extends TestObjectSuper implements Testable {
         out.defaultWriteObject();
     }
 
+    @Override
     public String getDescription() {
         return desc;
     }

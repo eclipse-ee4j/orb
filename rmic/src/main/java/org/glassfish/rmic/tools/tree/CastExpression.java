@@ -44,16 +44,12 @@ class CastExpression extends BinaryExpression {
     /**
      * Check the expression
      */
+    @Override
     public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         type = left.toType(env, ctx);
         vset = right.checkValue(env, ctx, vset, exp);
 
-        if (type.isType(TC_ERROR) || right.type.isType(TC_ERROR)) {
-            // An error was already reported
-            return vset;
-        }
-
-        if (type.equals(right.type)) {
+        if (type.isType(TC_ERROR) || right.type.isType(TC_ERROR) || type.equals(right.type)) {
             // The types are already the same
             return vset;
         }
@@ -75,6 +71,7 @@ class CastExpression extends BinaryExpression {
     /**
      * Check if constant
      */
+    @Override
     public boolean isConstant() {
         if (type.inMask(TM_REFERENCE) && !type.equals(Type.tString)) {
             // must be a primitive type, or String
@@ -86,14 +83,17 @@ class CastExpression extends BinaryExpression {
     /**
      * Inline
      */
+    @Override
     public Expression inline(Environment env, Context ctx) {
         return right.inline(env, ctx);
     }
+    @Override
     public Expression inlineValue(Environment env, Context ctx) {
         return right.inlineValue(env, ctx);
     }
 
 
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
         if (ctx == null) {
             return 1 + right.costInline(thresh, env, ctx);
@@ -105,8 +105,9 @@ class CastExpression extends BinaryExpression {
             // the casting class
             if (left.type.isType(TC_ARRAY) ||
                  sourceClass.permitInlinedAccess(env,
-                                  env.getClassDeclaration(left.type)))
+                                  env.getClassDeclaration(left.type))) {
                 return 1 + right.costInline(thresh, env, ctx);
+            }
         } catch (ClassNotFound e) {
         }
         return thresh;
@@ -117,6 +118,7 @@ class CastExpression extends BinaryExpression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print("(" + opNames[op] + " ");
         if (type.isType(TC_ERROR)) {

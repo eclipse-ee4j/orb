@@ -55,28 +55,29 @@ public class InternalBindingKey {
             kindLen = this.name.kind.length();
         }
         hashVal = 0;
-        if (idLen > 0)
+        if (idLen > 0) {
             hashVal += this.name.id.hashCode();
-        if (kindLen > 0)
+        }
+        if (kindLen > 0) {
             hashVal += this.name.kind.hashCode();
+        }
     }
 
     // Compare the keys by comparing name's id and kind
+    @Override
     public boolean equals(java.lang.Object o) {
-        if (o == null)
+        if (o == null) {
             return false;
+        }
         if (o instanceof InternalBindingKey) {
             InternalBindingKey that = (InternalBindingKey) o;
             // Both lengths must match
-            if (this.idLen != that.idLen || this.kindLen != that.kindLen) {
-                return false;
-            }
             // If id is set is must be equal
-            if (this.idLen > 0 && this.name.id.equals(that.name.id) == false) {
+            if (this.idLen != that.idLen || this.kindLen != that.kindLen || (this.idLen > 0 && !this.name.id.equals(that.name.id))) {
                 return false;
             }
             // If kind is set it must be equal
-            if (this.kindLen > 0 && this.name.kind.equals(that.name.kind) == false) {
+            if (this.kindLen > 0 && !this.name.kind.equals(that.name.kind)) {
                 return false;
             }
             // Must be the same
@@ -87,6 +88,7 @@ public class InternalBindingKey {
     }
 
     // Return precomputed value
+    @Override
     public int hashCode() {
         return this.hashVal;
     }

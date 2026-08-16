@@ -35,11 +35,9 @@ public class FreezableList<E> extends AbstractList<E> {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null)
+        if ((obj == null) || !(obj instanceof FreezableList)) {
             return false;
-
-        if (!(obj instanceof FreezableList))
-            return false;
+        }
 
         FreezableList other = FreezableList.class.cast(obj);
 
@@ -79,34 +77,39 @@ public class FreezableList<E> extends AbstractList<E> {
 
     // Methods overridden from AbstractList
 
+    @Override
     public int size() {
         return delegate.size();
     }
 
+    @Override
     public E get(int index) {
         return delegate.get(index);
     }
 
     @Override
     public E set(int index, E element) {
-        if (immutable)
+        if (immutable) {
             throw new UnsupportedOperationException();
+        }
 
         return delegate.set(index, element);
     }
 
     @Override
     public void add(int index, E element) {
-        if (immutable)
+        if (immutable) {
             throw new UnsupportedOperationException();
+        }
 
         delegate.add(index, element);
     }
 
     @Override
     public E remove(int index) {
-        if (immutable)
+        if (immutable) {
             throw new UnsupportedOperationException();
+        }
 
         return delegate.remove(index);
     }
@@ -115,7 +118,7 @@ public class FreezableList<E> extends AbstractList<E> {
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
         List<E> list = delegate.subList(fromIndex, toIndex);
-        List<E> result = new FreezableList<E>(list, immutable);
+        List<E> result = new FreezableList<>(list, immutable);
         return result;
     }
 }

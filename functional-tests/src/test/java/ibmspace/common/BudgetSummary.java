@@ -52,6 +52,7 @@ public class BudgetSummary implements java.io.Serializable {
         }
     }
 
+    @Override
     public String toString() {
         String s = "(";
         int num = Array.getLength(fNames);

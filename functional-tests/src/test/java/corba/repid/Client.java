@@ -39,7 +39,7 @@ public class Client {
 
             com.sun.corba.ee.spi.orb.ORB ourORB = (com.sun.corba.ee.spi.orb.ORB) orb;
 
-            if (ourORB.getORBData().useRepId() != false) {
+            if (ourORB.getORBData().useRepId()) {
                 throw new RuntimeException("ORB.useRepId flag is not false");
             }
 

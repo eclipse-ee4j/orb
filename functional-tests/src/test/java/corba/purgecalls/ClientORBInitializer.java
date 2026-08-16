@@ -31,6 +31,7 @@ import org.omg.PortableInterceptor.ORBInitInfo;
 public class ClientORBInitializer extends org.omg.CORBA.LocalObject implements org.omg.PortableInterceptor.ORBInitializer {
     public static final String baseMsg = ClientORBInitializer.class.getName();
 
+    @Override
     public void pre_init(ORBInitInfo info) {
         try {
             ClientInterceptor interceptor = new ClientInterceptor();
@@ -41,6 +42,7 @@ public class ClientORBInitializer extends org.omg.CORBA.LocalObject implements o
         }
     }
 
+    @Override
     public void post_init(ORBInitInfo info) {
     }
 

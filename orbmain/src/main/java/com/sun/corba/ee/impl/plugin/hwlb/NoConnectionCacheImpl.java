@@ -67,18 +67,22 @@ public class NoConnectionCacheImpl extends LocalObject implements ORBConfigurato
             super(orb, "Dummy", "Dummy");
         }
 
+        @Override
         public Collection values() {
             return store.values();
         }
 
+        @Override
         protected Object backingStore() {
             return store;
         }
 
+        @Override
         public Connection get(ContactInfo contactInfo) {
             return connection;
         }
 
+        @Override
         @Transport
         public void put(ContactInfo contactInfo, Connection conn) {
             remove(contactInfo);
@@ -93,6 +97,7 @@ public class NoConnectionCacheImpl extends LocalObject implements ORBConfigurato
         private void connectionIsNull() {
         }
 
+        @Override
         @Transport
         public void remove(ContactInfo contactInfo) {
             if (connection != null) {
@@ -197,11 +202,14 @@ public class NoConnectionCacheImpl extends LocalObject implements ORBConfigurato
         }
     }
 
+    @Override
     public void configure(DataCollector dc, final ORB orb) {
         ContactInfoListFactory factory = new ContactInfoListFactory() {
+            @Override
             public void setORB(ORB orb) {
             }
 
+            @Override
             public ContactInfoList create(IOR ior) {
                 return new NCCContactInfoListImpl(orb, ior);
             }

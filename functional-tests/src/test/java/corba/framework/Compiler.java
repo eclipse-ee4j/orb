@@ -77,8 +77,9 @@ public abstract class Compiler {
             throw e;
         }
 
-        if (result != Controller.SUCCESS)
+        if (result != Controller.SUCCESS) {
             throw new Exception(compilerName + " compile failed with result: " + result);
+        }
 
         exec.stop();
     }

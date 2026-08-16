@@ -49,8 +49,8 @@ public class CommandLine {
         throws IOException
     {
         ArrayList<String> newArgs = new ArrayList<>(args.length);
-        for (int i = 0; i < args.length; i++) {
-            String arg = args[i];
+        for (String arg2 : args) {
+            String arg = arg2;
             if (arg.length() > 1 && arg.charAt(0) == '@') {
                 arg = arg.substring(1);
                 if (arg.charAt(0) == '@') {

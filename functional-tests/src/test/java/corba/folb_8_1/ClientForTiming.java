@@ -87,8 +87,7 @@ public class ClientForTiming {
             boolean failover = false;
             boolean cache = false;
 
-            for (int i = 0; i < av.length; ++i) {
-                String x = av[i];
+            for (String x : av) {
                 System.out.print(x + " ");
                 if (x.equals(Common.FAILOVER_SUPPORT)) {
                     failoverSupport = true;
@@ -306,13 +305,13 @@ public class ClientForTiming {
         }
 
         Client.setProperties(props);
-        orb = (ORB) ORB.init(av, props);
+        orb = (ORB) org.omg.CORBA.ORB.init(av, props);
         /*
          * tm = orb.makeTimerManager( TimingPoints.class ) ; tf = tm.factory() ; tp = tm.points() ;
-         * 
+         *
          * // Set up the log event handler. controller = tm.controller() ; log = tf.makeLogEventHandler( "TestLogger" ) ;
          * controller.register( log ) ;
-         * 
+         *
          * // Create the extra timers for this test totalTestTime = tf.makeTimer( "totalTestTime", "Total Test Execution Time" )
          * ; clientInvoke = tf.makeTimer( "clientInvoke", "Execution Time of Client Invoke" ) ;
          */

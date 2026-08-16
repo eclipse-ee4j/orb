@@ -55,13 +55,16 @@ public class NPEIORInterceptor extends LocalObject implements IORInterceptor {
         registered = true;
     }
 
+    @Override
     public String name() {
         return name;
     }
 
+    @Override
     public void destroy() {
     }
 
+    @Override
     public void establish_components(IORInfo info) {
         out.println("    - NPEIORInterceptor: establish_components called.");
         establishComponentsCalled = true;

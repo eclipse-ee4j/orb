@@ -59,6 +59,7 @@ public abstract class ServerRequest {
      * @return the name of the operation to be invoked
      * @deprecated use operation()
      */
+    @Deprecated
     public String op_name() {
         return operation();
     }
@@ -96,6 +97,7 @@ public abstract class ServerRequest {
      * @param params the arguments of the method, in the form of an <code>NVList</code> object
      * @deprecated use the method <code>arguments</code>
      */
+    @Deprecated
     public void params(NVList params) {
         arguments(params);
     }
@@ -137,6 +139,7 @@ public abstract class ServerRequest {
      * @param any an <code>Any</code> object containing the return value to be set
      * @deprecated use the method <code>set_result</code>
      */
+    @Deprecated
     public void result(Any any) {
         set_result(any);
     }
@@ -171,6 +174,7 @@ public abstract class ServerRequest {
      * @param any the <code>Any</code> object containing the exception
      * @deprecated use set_exception()
      */
+    @Deprecated
     public void except(Any any) {
         set_exception(any);
     }

@@ -64,6 +64,7 @@ class CompoundStatement extends Statement {
     /**
      * Check statement
      */
+    @Override
     Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         checkLabel(env, ctx);
         if (args.length > 0) {
@@ -71,8 +72,8 @@ class CompoundStatement extends Statement {
             CheckContext newctx = new CheckContext(ctx, this);
             // In this environment, 'resolveName' will look for local classes.
             Environment newenv = Context.newEnvironment(env, newctx);
-            for (int i = 0 ; i < args.length ; i++) {
-                vset = args[i].checkBlockStatement(newenv, newctx, vset, exp);
+            for (Statement arg : args) {
+                vset = arg.checkBlockStatement(newenv, newctx, vset, exp);
             }
             vset = vset.join(newctx.vsBreak);
         }
@@ -82,6 +83,7 @@ class CompoundStatement extends Statement {
     /**
      * Inline
      */
+    @Override
     public Statement inline(Environment env, Context ctx) {
         ctx = new Context(ctx, this);
         boolean expand = false;
@@ -135,6 +137,7 @@ class CompoundStatement extends Statement {
     /**
      * Create a copy of the statement for method inlining
      */
+    @Override
     public Statement copyInline(Context ctx, boolean valNeeded) {
         CompoundStatement s = (CompoundStatement)clone();
         s.args = new Statement[args.length];
@@ -147,6 +150,7 @@ class CompoundStatement extends Statement {
     /**
      * The cost of inlining this statement
      */
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
         int cost = 0;
         for (int i = 0 ; (i < args.length) && (cost < thresh) ; i++) {
@@ -158,10 +162,11 @@ class CompoundStatement extends Statement {
     /**
      * Code
      */
+    @Override
     public void code(Environment env, Context ctx, Assembler asm) {
         CodeContext newctx = new CodeContext(ctx, this);
-        for (int i = 0 ; i < args.length ; i++) {
-            args[i].code(env, newctx, asm);
+        for (Statement arg : args) {
+            arg.code(env, newctx, asm);
         }
         asm.add(newctx.breakLabel);
     }
@@ -169,6 +174,7 @@ class CompoundStatement extends Statement {
     /**
      * Check if the first thing is a constructor invocation
      */
+    @Override
     public Expression firstConstructor() {
         return (args.length > 0) ? args[0].firstConstructor() : null;
     }
@@ -176,13 +182,14 @@ class CompoundStatement extends Statement {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out, int indent) {
         super.print(out, indent);
         out.print("{\n");
-        for (int i = 0 ; i < args.length ; i++) {
+        for (Statement arg : args) {
             printIndent(out, indent+1);
-            if (args[i] != null) {
-                args[i].print(out, indent + 1);
+            if (arg != null) {
+                arg.print(out, indent + 1);
             } else {
                 out.print("<empty>");
             }

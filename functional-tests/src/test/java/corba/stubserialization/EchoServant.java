@@ -28,6 +28,7 @@ public class EchoServant extends PortableRemoteObject implements Echo {
         super();
     }
 
+    @Override
     public String echo(String arg) {
         return arg;
     }

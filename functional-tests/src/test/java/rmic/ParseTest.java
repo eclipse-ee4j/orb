@@ -44,11 +44,13 @@ public class ParseTest extends test.Test implements Constants {
         return org.glassfish.rmic.BatchEnvironment.createClassPath(path, null);
     }
 
+    @Override
     public void run() {
         TestngRunner runner = new TestngRunner();
         runner.registerClass(TestExecutor.class);
         runner.run();
-        if (runner.hasFailure())
+        if (runner.hasFailure()) {
             status = new Error("test failed");
+        }
     }
 }

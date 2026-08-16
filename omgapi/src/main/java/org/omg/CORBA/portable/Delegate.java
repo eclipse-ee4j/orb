@@ -41,7 +41,7 @@ public abstract class Delegate {
 
     /**
      * Return an InterfaceDef for the object reference provided.
-     * 
+     *
      * @param self The object reference whose InterfaceDef needs to be returned
      * @return the InterfaceDef
      */
@@ -49,7 +49,7 @@ public abstract class Delegate {
 
     /**
      * Returns a duplicate of the object reference provided.
-     * 
+     *
      * @param obj The object reference whose duplicate needs to be returned
      * @return the duplicate object reference
      */
@@ -57,14 +57,14 @@ public abstract class Delegate {
 
     /**
      * Releases resources associated with the object reference provided.
-     * 
+     *
      * @param obj The object reference whose resources need to be released
      */
     public abstract void release(org.omg.CORBA.Object obj);
 
     /**
      * Checks if the object reference is an instance of the given interface.
-     * 
+     *
      * @param obj The object reference to be checked.
      * @param repository_id The repository identifier of the interface to check against.
      * @return true if the object reference supports the interface
@@ -73,7 +73,7 @@ public abstract class Delegate {
 
     /**
      * Determines whether the server object for the object reference has been destroyed.
-     * 
+     *
      * @param obj The object reference which delegated to this delegate.
      * @return true if the ORB knows authoritatively that the server object does not exist, false otherwise
      */
@@ -81,7 +81,7 @@ public abstract class Delegate {
 
     /**
      * Determines if the two object references are equivalent.
-     * 
+     *
      * @param obj The object reference which delegated to this delegate.
      * @param other The object reference to check equivalence against.
      * @return true if the objects are CORBA-equivalent.
@@ -90,7 +90,7 @@ public abstract class Delegate {
 
     /**
      * Returns an ORB-internal identifier (hashcode) for this object reference.
-     * 
+     *
      * @param obj The object reference which delegated to this delegate.
      * @param max specifies an upper bound on the hash value returned by the ORB.
      * @return ORB-internal hash identifier for object reference
@@ -99,7 +99,7 @@ public abstract class Delegate {
 
     /**
      * Creates a Request instance for use in the Dynamic Invocation Interface.
-     * 
+     *
      * @param obj The object reference which delegated to this delegate.
      * @param operation The name of the operation to be invoked using the Request instance.
      * @return the created Request instance

@@ -36,6 +36,7 @@ public class ServerInterceptorTest extends CORBATest {
 
     Controller orbd;
 
+    @Override
     protected void doTest() throws Throwable {
         startORBD();
         System.out.println();

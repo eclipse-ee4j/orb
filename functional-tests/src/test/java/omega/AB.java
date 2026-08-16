@@ -22,9 +22,11 @@ package omega;
 
 public class AB implements A, B {
 
+    @Override
     public void a() {
     }
 
+    @Override
     public void b() {
     }
 

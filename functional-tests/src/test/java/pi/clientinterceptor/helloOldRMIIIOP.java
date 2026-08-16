@@ -44,26 +44,32 @@ public class helloOldRMIIIOP extends _helloImplBase {
         return delegate;
     }
 
+    @Override
     public String sayHello() {
         return delegate.sayHello();
     }
 
+    @Override
     public String saySystemException() {
         return delegate.saySystemException();
     }
 
+    @Override
     public void sayOneway() {
         delegate.sayOneway();
     }
 
+    @Override
     public void clearInvoked() {
         delegate.clearInvoked();
     }
 
+    @Override
     public boolean wasInvoked() {
         return delegate.wasInvoked();
     }
 
+    @Override
     public void resetServant() {
         delegate.resetServant();
     }

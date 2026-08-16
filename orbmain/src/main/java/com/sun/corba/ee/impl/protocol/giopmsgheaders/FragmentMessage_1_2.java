@@ -70,10 +70,12 @@ public final class FragmentMessage_1_2 extends Message_1_2 implements FragmentMe
 
     // Accessor methods
 
+    @Override
     public int getRequestId() {
         return this.request_id;
     }
 
+    @Override
     public int getHeaderLength() {
         return GIOPMessageHeaderLength + 4;
     }
@@ -84,16 +86,19 @@ public final class FragmentMessage_1_2 extends Message_1_2 implements FragmentMe
      * This will never be called, since we do not currently read the request_id from an CDRInputStream. Instead we use the
      * readGIOP_1_2_requestId to read the requestId from a byte buffer.
      */
+    @Override
     public void read(org.omg.CORBA.portable.InputStream istream) {
         super.read(istream);
         this.request_id = istream.read_ulong();
     }
 
+    @Override
     public void write(org.omg.CORBA.portable.OutputStream ostream) {
         super.write(ostream);
         ostream.write_ulong(this.request_id);
     }
 
+    @Override
     public void callback(MessageHandler handler) throws java.io.IOException {
         handler.handleInput(this);
     }

@@ -90,10 +90,12 @@ class idlPOAServant extends idlIPOA {
         this.orb = (com.sun.corba.ee.spi.orb.ORB) orb;
     }
 
+    @Override
     public String syncOK(String arg1) {
         return baseMsg + " " + arg1;
     }
 
+    @Override
     public synchronized void asyncOK(byte[] data) {
         try {
             U.sop(new String(data, C.UTF8));
@@ -102,36 +104,45 @@ class idlPOAServant extends idlIPOA {
         }
     }
 
+    @Override
     public void throwUserException() throws idlExampleException {
         C.throwUserException(from_idlPOAServant);
     }
 
+    @Override
     public void throwSystemException() {
         C.throwSystemException(from_idlPOAServant);
     }
 
+    @Override
     public void throwUnknownException() {
         C.throwUnknownException(from_idlPOAServant);
     }
 
+    @Override
     public void throwUNKNOWN() {
         C.throwUNKNOWN(from_idlPOAServant);
     }
 
+    @Override
     public void raiseSystemExceptionInSendReply() {
     }
 
+    @Override
     public void testEffectiveTarget1() {
     }
 
+    @Override
     public void testEffectiveTarget2() {
     }
 
+    @Override
     public idlValueTypeA sendValue(idlValueTypeA a, idlValueTypeB b, idlValueTypeC c, idlValueTypeD d, idlValueTypeE e, int[] f, byte[] g) {
         U.sop(d);
         return b;
     }
 
+    @Override
     public org.omg.CORBA.Object getAndSaveUnknownORBVersionIOR() {
         // This is modified from corba.ior.Client test - around line 754.
 
@@ -158,6 +169,7 @@ class idlPOAServant extends idlIPOA {
         return savedObject;
     }
 
+    @Override
     public boolean isIdenticalWithSavedIOR(org.omg.CORBA.Object o) {
         return savedObject._is_equivalent(o);
     }

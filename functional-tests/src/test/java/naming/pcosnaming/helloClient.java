@@ -56,14 +56,14 @@ public class helloClient {
             System.out.flush();
             helloRef.sayHello();
             /*
-             * 
+             *
              * NameComponent path2[] = {nc2, nc3}; helloRef = helloHelper.narrow(ncRef.resolve(path2)); System.out.println(
              * "helloRef is resolved" ); System.out.flush( ); helloRef.sayHello();
-             * 
+             *
              * // resolve the Object Reference (Little Complex Case -Three Level ) NameComponent nc4 = new
              * NameComponent("HelloContext2", ""); NameComponent nc5 = new NameComponent("HelloObj3", ""); NameComponent path3[] = {
              * nc2, nc4, nc5}; helloRef = helloHelper.narrow(ncRef.resolve(path3)); helloRef.sayHello();
-             * 
+             *
              */
             // orb.shutdown(true);
 

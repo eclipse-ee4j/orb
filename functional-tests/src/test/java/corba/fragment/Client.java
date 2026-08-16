@@ -50,15 +50,19 @@ public class Client {
 
         byte result[] = tester.verifyTransmission(array);
 
-        if (result == null)
+        if (result == null) {
             throw new BadArrayException("result was null!");
+        }
 
-        if (array.length != result.length)
+        if (array.length != result.length) {
             throw new BadArrayException("result length incorrect: " + result.length);
+        }
 
-        for (i = 0; i < array.length; i++)
-            if (array[i] != result[i])
+        for (i = 0; i < array.length; i++) {
+            if (array[i] != result[i]) {
                 throw new BadArrayException("result mismatch at index: " + i);
+            }
+        }
 
         System.out.println("testByteArray completed normally");
     }
@@ -90,9 +94,9 @@ public class Client {
             /*
              * org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService"); NamingContext ncRef =
              * NamingContextHelper.narrow(objRef);
-             * 
+             *
              * NameComponent nc = new NameComponent("FragmentTester", ""); NameComponent path[] = {nc};
-             * 
+             *
              * org.omg.CORBA.Object obj = ncRef.resolve(path);
              */
 

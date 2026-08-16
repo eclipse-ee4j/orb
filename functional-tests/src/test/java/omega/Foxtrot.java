@@ -26,9 +26,9 @@ package omega;
  */
 
 public final class Foxtrot implements org.omg.CORBA.portable.IDLEntity {
-    public int tango = (int) 0;
-    public int uniform = (int) 0;
-    public int quickstep = (int) 0;
+    public int tango = 0;
+    public int uniform = 0;
+    public int quickstep = 0;
 
     public Foxtrot() {
     } // ctor

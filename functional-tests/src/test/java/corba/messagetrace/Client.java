@@ -95,18 +95,22 @@ public class Client extends TestCase {
             super();
         }
 
+        @Override
         public TypeCode testit(byte[] pad, TypeCode tc) throws RemoteException {
             return tc;
         }
 
+        @Override
         public Object echo(byte[] pad, Object obj) throws RemoteException {
             return obj;
         }
 
+        @Override
         public int twoArrays(byte[] one, byte[] two) throws RemoteException {
             return one.length + two.length;
         }
 
+        @Override
         public void setAttribute(ObjectName on, Attribute at) throws RemoteException {
         }
     }
@@ -120,6 +124,7 @@ public class Client extends TestCase {
             super(test);
         }
 
+        @Override
         public void setUp() {
             // Use dynamic RMI-IIOP so we don't need a separate rmic run
             System.setProperty("com.sun.corba.ee.ORBUseDynamicStub", "true");
@@ -146,10 +151,10 @@ public class Client extends TestCase {
             props.setProperty("com.sun.corba.ee.transport.ORBDisableDirectByteBufferUse", "true");
             props.setProperty("com.sun.corba.ee.transport.ORBAcceptorSocketType", "Socket");
             props.setProperty("com.sun.corba.ee.transport.ORBConnectionSocketType", "Socket");
-            serverORB = (ORB) ORB.init(new String[0], props);
+            serverORB = (ORB) org.omg.CORBA.ORB.init(new String[0], props);
             // props.setProperty( "com.sun.corba.ee.ORBDebug",
             // "giop" ) ;
-            clientORB = (ORB) ORB.init(new String[0], props);
+            clientORB = (ORB) org.omg.CORBA.ORB.init(new String[0], props);
 
             // Connect the tie to the serverORB, which also connects the stub.
             tie.orb(serverORB);
@@ -170,9 +175,11 @@ public class Client extends TestCase {
             tester = (TestInterface) PortableRemoteObject.narrow(clientObj, TestInterface.class);
         }
 
+        @Override
         public void tearDown() {
-            if (debug)
+            if (debug) {
                 System.out.println("Destroying ORBs");
+            }
 
             clientORB.destroy();
             serverORB.destroy();
@@ -190,26 +197,27 @@ public class Client extends TestCase {
     /**
      * private TypeCode makeValueTypeCode( ORB orb ) { String repoID =
      * "RMI:weblogic.management.WebLogicObjectName:6488C1A74F9FA9EA:66076A3E2CDE" ;
-     * 
+     *
      * String name = "weblogic.management.WebLogicObjectName" ;
-     * 
+     *
      * TypeCode recursiveTypeCode = orb.create_recursive_tc( repoID ) ; TypeCode nullTypeCode = orb.get_primitive_tc(
      * TCKind.tk_null ) ; TypeCode booleanTypeCode = orb.get_primitive_tc( TCKind.tk_boolean ) ; TypeCode longTypeCode =
      * orb.get_primitive_tc( TCKind.tk_long ) ;
-     * 
+     *
      * ValueMember[] members = new ValueMember[] { makeValueMember( "hashCode", longTypeCode, false ), makeValueMember(
      * "isAdmin", booleanTypeCode, false ), makeValueMember( "isConfig", booleanTypeCode, false ), makeValueMember(
      * "isRuntime", booleanTypeCode, false ), makeValueMember( "parent", recursiveTypeCode, false ) } ;
-     * 
+     *
      * TypeCode result = orb.create_value_tc( repoID, name, VM_NONE.value, nullTypeCode, members ) ;
-     * 
+     *
      * return result ; }
      **/
 
     private byte[] makeBytes(int size) {
         byte[] result = new byte[size];
-        for (int ctr = 0; ctr < size; ctr++)
+        for (int ctr = 0; ctr < size; ctr++) {
             result[ctr] = 0;
+        }
         return result;
     }
 
@@ -217,15 +225,16 @@ public class Client extends TestCase {
         debug = (args.length > 0) && args[0].equals("-debug");
 
         Client root = new Client();
-        TestResult result = junit.textui.TestRunner.run(root.suite());
+        TestResult result = junit.textui.TestRunner.run(Client.suite());
 
         // reportTiming( System.out, root.timedTests ) ;
 
         if (result.errorCount() + result.failureCount() > 0) {
             System.out.println("Error: failures or errrors in JUnit test");
             System.exit(1);
-        } else
+        } else {
             System.exit(0);
+        }
     }
 
     public Client() {
@@ -261,13 +270,15 @@ public class Client extends TestCase {
         while (ctr < buffer.length) {
             int ctr2 = 0;
             while (ctr2 < pattern.length) {
-                if (buffer[ctr + ctr2] != pattern[ctr2])
+                if (buffer[ctr + ctr2] != pattern[ctr2]) {
                     break;
+                }
                 ctr2++;
             }
 
-            if (ctr2 == pattern.length)
+            if (ctr2 == pattern.length) {
                 return ctr;
+            }
 
             ctr++;
         }
@@ -276,10 +287,10 @@ public class Client extends TestCase {
     }
 
     private int getInt(byte[] buffer, int offset) {
-        int b1 = (int) buffer[offset] & 0xFF;
-        int b2 = (int) buffer[offset + 1] & 0xFF;
-        int b3 = (int) buffer[offset + 2] & 0xFF;
-        int b4 = (int) buffer[offset + 3] & 0xFF;
+        int b1 = buffer[offset] & 0xFF;
+        int b2 = buffer[offset + 1] & 0xFF;
+        int b3 = buffer[offset + 2] & 0xFF;
+        int b4 = buffer[offset + 3] & 0xFF;
         return (b1 << 24) | (b2 << 16) | (b3 << 8) | b4;
     }
 
@@ -291,8 +302,9 @@ public class Client extends TestCase {
         // Copy the first byte[] and all but the first 16 bytes of
         // each subsequent byte[] into the result.
         int size = 0;
-        for (int ctr = 0; ctr < data.length; ctr++)
-            size += data[ctr].length;
+        for (byte[] element : data) {
+            size += element.length;
+        }
 
         // Now adjust the size for the fragment headers
         size -= HEADER_LENGTH * (data.length - 1);
@@ -304,9 +316,9 @@ public class Client extends TestCase {
         // in all subsequent messages.
         int resOffset = 0;
         int srcOffset = 0;
-        for (int ctr = 0; ctr < data.length; ctr++) {
-            int copyLength = data[ctr].length - srcOffset;
-            System.arraycopy(data[ctr], srcOffset, result, resOffset, copyLength);
+        for (byte[] element : data) {
+            int copyLength = element.length - srcOffset;
+            System.arraycopy(element, srcOffset, result, resOffset, copyLength);
 
             srcOffset = HEADER_LENGTH;
             resOffset += copyLength;
@@ -333,59 +345,59 @@ public class Client extends TestCase {
     /**
      * public void testWebLogic() { try { WebLogicObjectName won = new WebLogicObjectName( "WTCServerClient", "WTCServer",
      * "mydomain"); WebLogicAttribute attr = new WebLogicAttribute( "targets", new WebLogicObjectName[] { won });
-     * 
+     *
      * paddedEchoTest( "Testing WebLogicObjectName", attr, 0, 50 ) ;
-     * 
+     *
      * // Do this once because the first time is special: // it sends the FVD. tester.setAttribute( won, attr ) ;
-     * 
+     *
      * CorbaTransportManager ctm = clientORB.getCorbaTransportManager() ; MessageTraceManager mtm =
      * ctm.getMessageTraceManager() ;
-     * 
+     *
      * mtm.clear() ; mtm.enable( true ) ;
-     * 
+     *
      * // if (debug) // clientORB.setDebugFlag( "giop" ) ;
-     * 
+     *
      * tester.setAttribute( won, attr ) ;
-     * 
+     *
      * byte[][] dataSent = mtm.getDataSent() ; byte[][] dataReceived = mtm.getDataReceived() ;
-     * 
+     *
      * if (debug) { displayData( "dataSent", dataSent ) ; displayData( "dataReceived", dataSent ) ; //
      * clientORB.clearDebugFlag( "giop" ) ; }
-     * 
+     *
      * mtm.clear() ; mtm.enable( false ) ;
-     * 
+     *
      * byte[] buffer = makeSingleStream( dataSent ) ; if (debug) ORBUtility.printBuffer( "----- Contents of merged request
      * buffer -----", ByteBuffer.wrap( buffer ), System.out ) ;
-     * 
+     *
      * // Search for the offset at which 0x001d occurs: this is // the tk_value for the typecode of the value type. byte[]
      * firstp = new byte[] { 0x00, 0x00, 0x00, 0x1d } ; int firstIndex = findPattern( buffer, 0, firstp ) ; assertTrue(
      * "Could not find start of typecode", firstIndex >= 0 ) ; if (debug) System.out.println( "firstIndex = " + firstIndex )
      * ;
-     * 
+     *
      * // Search for 0xffffffffffff (the start of the indirection) after // the typecode. byte[] secondp = new byte[] {
      * (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff } ; int secondIndex = findPattern( buffer,
      * firstIndex, secondp ) ; assertTrue( "Could not find start of indirection", secondIndex >= 0 ) ; if (debug)
      * System.out.println( "secondIndex = " + secondIndex ) ;
-     * 
+     *
      * // Make sure that the offset is the difference // between the index of the first pattern and the start // of the
      * offset in the second pattern. int offset = getInt( buffer, secondIndex + 4 ) ; if (debug) System.out.println( "offset
      * = " + offset ) ;
-     * 
+     *
      * assertEquals( "Incorrect offset", firstIndex, secondIndex + 4 + offset ) ; } catch (Exception exc) { fail( "WebLogic
      * test failed: " + exc ) ; exc.printStackTrace() ; } }
-     * 
+     *
      * private void paddedEchoTest( String testMsg, Object data, int startSize, int endSize ) { if (debug)
      * System.out.println( testMsg ) ;
-     * 
+     *
      * for (int ctr=startSize; ctr<=endSize; ctr++) { byte[] pad = makeBytes( ctr ) ; Object result = null ;
-     * 
+     *
      * try { result = tester.echo( pad, data ) ; } catch (Exception exc) { fail( "\tTest failed: " + exc + "with pad size =
      * " + ctr ) ; exc.printStackTrace() ; } } }
-     * 
+     *
      * public void testTypeCode() { TypeCode valueTypeCode = makeValueTypeCode( clientORB ) ;
-     * 
+     *
      * paddedEchoTest( "Testing TypeCode", valueTypeCode, 700, 800 ) ;
-     * 
+     *
      * // Now invoke testit with a variable size pad, to try and force // alignment problems in the TypeCode indirection. //
      * With a GIOP fragment size of 1024, this test fails at // pad sizes 749-752 + n*1024. It fails because the typecode //
      * is marshalled inside a boxed value type using a chunked // representation, and certain offsets force the last chunk
@@ -396,11 +408,11 @@ public class Client extends TestCase {
      * other typecode problem. final int lowerBound = 747 ; final int upperBound = 749 ; // set this to a larger value to //
      * reproduce bug. for (int ctr=lowerBound; ctr<upperBound; ctr++) { byte[] pad = makeBytes( ctr ) ; TypeCode
      * resultTypeCode = null ;
-     * 
+     *
      * try { resultTypeCode = tester.testit( pad, valueTypeCode ) ; if (debug) System.out.println( "TypeCode marshalling
      * succeeded with a pad size of " + ctr ) ; } catch (Exception exc) { fail( "TypeCode marshalling failed with a pad size
      * of " + ctr ) ; if (debug) exc.printStackTrace() ; }
-     * 
+     *
      * //if (!resultTypeCode.equals( valueTypeCode )) //System.out.println( "Typecodes are not equal with a pad size of "
      * //+ ctr ) ; } }
      */
@@ -415,8 +427,9 @@ public class Client extends TestCase {
         }
 
         private void initByteArray(byte[] data, byte value) {
-            for (int ctr = 0; ctr < data.length; ctr++)
+            for (int ctr = 0; ctr < data.length; ctr++) {
                 data[ctr] = value;
+            }
         }
 
         // Expected data
@@ -475,8 +488,9 @@ public class Client extends TestCase {
         }
 
         private void checkMessages(Message[] msgs, int firstMessageType) {
-            for (int ctr = 0; ctr < msgs.length; ctr++)
+            for (int ctr = 0; ctr < msgs.length; ctr++) {
                 checkMessage(msgs[ctr], ctr == 0 ? firstMessageType : Message.GIOPFragment, ctr, msgs.length);
+            }
         }
 
         private void checkMessage(Message msg, int msgType, int msgNum, int numMsgs) {
@@ -488,16 +502,20 @@ public class Client extends TestCase {
         }
 
         private boolean equalArrays(byte[] arr1, byte[] arr2) {
-            if ((arr1 == null) || (arr2 == null))
+            if ((arr1 == null) || (arr2 == null)) {
                 return arr1 == arr2;
+            }
 
             int len = arr1.length;
-            if (len != arr2.length)
+            if (len != arr2.length) {
                 return false;
+            }
 
-            for (int ctr = 0; ctr < len; ctr++)
-                if (arr1[ctr] != arr2[ctr])
+            for (int ctr = 0; ctr < len; ctr++) {
+                if (arr1[ctr] != arr2[ctr]) {
                     return false;
+                }
+            }
 
             return true;
         }

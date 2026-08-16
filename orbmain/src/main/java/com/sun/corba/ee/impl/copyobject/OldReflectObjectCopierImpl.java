@@ -108,10 +108,11 @@ public class OldReflectObjectCopierImpl implements ObjectCopier {
             } else if (name.equals("java.sql.Date")) {
                 isSQLDate = true;
             } else {
-                if (Externalizable.class.isAssignableFrom(cls))
+                if (Externalizable.class.isAssignableFrom(cls)) {
                     constr = getExternalizableConstructor(cls);
-                else if (Serializable.class.isAssignableFrom(cls))
+                } else if (Serializable.class.isAssignableFrom(cls)) {
                     constr = getSerializableConstructor(cls);
+                }
                 if (constr != null) {
                     constr.setAccessible(true);
                 }
@@ -120,7 +121,7 @@ public class OldReflectObjectCopierImpl implements ObjectCopier {
                 superClass = cls.getSuperclass();
             }
         }
-    };
+    }
 
     /**
      * Bridge is used to access the reflection factory for obtaining serialization constructors. This must be carefully
@@ -343,8 +344,9 @@ public class OldReflectObjectCopierImpl implements ObjectCopier {
             throws RemoteException, InstantiationException, IllegalAccessException, InvocationTargetException {
         // regular object, so copy the fields over
         Constructor cons = attrs.constr;
-        if (cons == null)
+        if (cons == null) {
             throw new IllegalArgumentException("Class " + attrs.thisClass + " is not Serializable");
+        }
 
         Object copy = cons.newInstance();
 
@@ -370,8 +372,9 @@ public class OldReflectObjectCopierImpl implements ObjectCopier {
     private Object reflectCopy(Object obj)
             throws RemoteException, InstantiationException, IllegalAccessException, InvocationTargetException {
         // Always check for nulls here, so we don't need to check in other places.
-        if (obj == null)
+        if (obj == null) {
             return null;
+        }
 
         Class cls = obj.getClass();
         ReflectAttrs attrs = getClassAttrs(cls);

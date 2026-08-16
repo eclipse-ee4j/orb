@@ -39,6 +39,7 @@ public class POACurrent extends org.omg.CORBA.portable.ObjectImpl implements org
         this.orb = orb;
     }
 
+    @Override
     public String[] _ids() {
         String[] ids = new String[1];
         ids[0] = "IDL:omg.org/PortableServer/Current:1.0";
@@ -49,12 +50,14 @@ public class POACurrent extends org.omg.CORBA.portable.ObjectImpl implements org
     // Standard OMG operations.
     //
 
+    @Override
     public POA get_POA() throws NoContext {
         POA poa = (POA) (peekThrowNoContext().oa());
         throwNoContextIfNull(poa);
         return poa;
     }
 
+    @Override
     public byte[] get_object_id() throws NoContext {
         byte[] objectid = peekThrowNoContext().id();
         throwNoContextIfNull(objectid);

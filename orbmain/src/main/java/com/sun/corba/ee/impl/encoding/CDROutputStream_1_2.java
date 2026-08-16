@@ -190,7 +190,7 @@ public class CDROutputStream_1_2 extends CDROutputStream_1_1 {
         // method call, that would in turn add the appropriate header padding,
         // such that the body is aligned on a 8-octet boundary. The padding
         // is required for GIOP versions 1.2 and above, only if body is present.
-        if (headerPadding == true) {
+        if (headerPadding) {
             headerPadding = false;
             alignOnBoundary(ORBConstants.GIOP_12_MSG_BODY_ALIGNMENT);
         }
@@ -204,8 +204,9 @@ public class CDROutputStream_1_2 extends CDROutputStream_1_1 {
 
         byteBuffer.position(byteBuffer.position() + computeAlignment(align));
 
-        if (byteBuffer.position() + n > byteBuffer.limit())
+        if (byteBuffer.position() + n > byteBuffer.limit()) {
             grow(align, n);
+        }
     }
 
     @InfoMethod
@@ -258,8 +259,9 @@ public class CDROutputStream_1_2 extends CDROutputStream_1_1 {
 
             // We just fragmented, and need to signal that we should
             // start a new chunk after writing the primitive.
-            if (handleChunk)
+            if (handleChunk) {
                 primitiveAcrossFragmentedChunk = true;
+            }
         }
     }
 

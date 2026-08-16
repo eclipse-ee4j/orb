@@ -30,14 +30,17 @@ public class UserInfo implements Serializable {
         lastName = lname;
     }
 
+    @Override
     public String toString() {
         return firstName + " " + lastName;
     }
 
+    @Override
     public int hashCode() {
         return toString().hashCode();
     }
 
+    @Override
     public boolean equals(Object obj) {
         return toString().equals(obj.toString());
     }

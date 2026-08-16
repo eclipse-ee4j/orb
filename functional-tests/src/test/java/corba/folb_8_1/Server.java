@@ -126,6 +126,7 @@ class I2Servant extends I2POA {
         this.orb = (com.sun.corba.ee.spi.orb.ORB) orb;
     }
 
+    @Override
     public int m(String x) {
         int result = new Integer(x).intValue();
         System.out.println("I2Servant.m result: " + result);
@@ -133,10 +134,12 @@ class I2Servant extends I2POA {
         return result;
     }
 
+    @Override
     public org.omg.CORBA.Object n(String x) {
         return Server.ref;
     }
 
+    @Override
     public int foo(int x) {
         return x;
     }
@@ -149,22 +152,27 @@ class IServant extends IPOA {
         this.orb = (com.sun.corba.ee.spi.orb.ORB) orb;
     }
 
+    @Override
     public String m(String x) {
         return "IServant echoes: " + x;
     }
 
+    @Override
     public int n(String x) {
         return 101;
     }
 
+    @Override
     public int throwRuntimeException(int x) {
         return 1 / x;
     }
 
+    @Override
     public boolean unregister(String socketType) {
         return U.unregisterAcceptorAndCloseConnections(socketType, orb);
     }
 
+    @Override
     public boolean register(String socketType) {
         return U.registerAcceptor(socketType, ((Integer) Common.socketTypeToPort.get(socketType)).intValue(), orb);
     }

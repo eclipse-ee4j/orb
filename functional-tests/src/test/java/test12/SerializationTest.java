@@ -24,6 +24,7 @@ import java.util.Properties;
 import org.glassfish.pfl.test.JUnitReportHelper;
 
 public class SerializationTest extends test.Test {
+    @Override
     public void run() {
         JUnitReportHelper helper = new JUnitReportHelper(SerializationTest.class.getName());
 
@@ -44,8 +45,9 @@ public class SerializationTest extends test.Test {
             org.omg.CORBA_2_3.portable.InputStream sis = (org.omg.CORBA_2_3.portable.InputStream) sos.create_input_stream();
 
             ARectangle _rect = (ARectangle) sis.read_value();
-            if (!rect.equals(_rect))
+            if (!rect.equals(_rect)) {
                 throw new Error("ARectangle test failed!");
+            }
 
             helper.pass();
         } catch (Throwable e) {

@@ -50,9 +50,10 @@ public class _PolicyStub extends org.omg.CORBA.portable.ObjectImpl implements or
      * allocated by the OMG. New values for PolicyType should be obtained from the OMG by sending mail to request@omg.org.
      * In general the constant values that are allocated are defined in conjunction with the definition of the corresponding
      * policy object.
-     * 
+     *
      * @return the constant value that corresponds to the type of the policy object.
      */
+    @Override
     public int policy_type() {
         org.omg.CORBA.portable.InputStream _in = null;
         try {
@@ -73,9 +74,10 @@ public class _PolicyStub extends org.omg.CORBA.portable.ObjectImpl implements or
 
     /**
      * Copies the policy object. The copy does not retain any relationships that the policy had with any domain or object.
-     * 
+     *
      * @return the copy of the policy object.
      */
+    @Override
     public org.omg.CORBA.Policy copy() {
         org.omg.CORBA.portable.InputStream _in = null;
         try {
@@ -97,6 +99,7 @@ public class _PolicyStub extends org.omg.CORBA.portable.ObjectImpl implements or
     /**
      * Destroys the policy object. It is the responsibility of the policy object to determine whether it can be destroyed.
      */
+    @Override
     public void destroy() {
         org.omg.CORBA.portable.InputStream _in = null;
         try {
@@ -116,8 +119,9 @@ public class _PolicyStub extends org.omg.CORBA.portable.ObjectImpl implements or
     // Type-specific CORBA::Object operations
     private static String[] __ids = { "IDL:omg.org/CORBA/Policy:1.0" };
 
+    @Override
     public String[] _ids() {
-        return (String[]) __ids.clone();
+        return __ids.clone();
     }
 
     private void readObject(java.io.ObjectInputStream s) {

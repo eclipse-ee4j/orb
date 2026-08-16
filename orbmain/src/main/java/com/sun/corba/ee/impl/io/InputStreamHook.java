@@ -54,6 +54,7 @@ public abstract class InputStreamHook extends ObjectInputStream {
          *
          * REVISIT! This doesn't work since we have our own ObjectStreamClass.
          */
+        @Override
         public java.io.ObjectStreamClass getObjectStreamClass() {
             return null;
         }
@@ -61,6 +62,7 @@ public abstract class InputStreamHook extends ObjectInputStream {
         /**
          * Return true if the named field is defaulted and has no value in this stream.
          */
+        @Override
         public boolean defaulted(String name) throws IOException, IllegalArgumentException {
             return (!fields.containsKey(name));
         }
@@ -68,6 +70,7 @@ public abstract class InputStreamHook extends ObjectInputStream {
         /**
          * Get the value of the named boolean field from the persistent field.
          */
+        @Override
         public boolean get(String name, boolean defvalue) throws IOException, IllegalArgumentException {
             if (defaulted(name)) {
                 return defvalue;
@@ -79,6 +82,7 @@ public abstract class InputStreamHook extends ObjectInputStream {
         /**
          * Get the value of the named char field from the persistent fields.
          */
+        @Override
         public char get(String name, char defvalue) throws IOException, IllegalArgumentException {
             if (defaulted(name)) {
                 return defvalue;
@@ -91,6 +95,7 @@ public abstract class InputStreamHook extends ObjectInputStream {
         /**
          * Get the value of the named byte field from the persistent fields.
          */
+        @Override
         public byte get(String name, byte defvalue) throws IOException, IllegalArgumentException {
             if (defaulted(name)) {
                 return defvalue;
@@ -103,6 +108,7 @@ public abstract class InputStreamHook extends ObjectInputStream {
         /**
          * Get the value of the named short field from the persistent fields.
          */
+        @Override
         public short get(String name, short defvalue) throws IOException, IllegalArgumentException {
             if (defaulted(name)) {
                 return defvalue;
@@ -115,6 +121,7 @@ public abstract class InputStreamHook extends ObjectInputStream {
         /**
          * Get the value of the named int field from the persistent fields.
          */
+        @Override
         public int get(String name, int defvalue) throws IOException, IllegalArgumentException {
             if (defaulted(name)) {
                 return defvalue;
@@ -126,6 +133,7 @@ public abstract class InputStreamHook extends ObjectInputStream {
         /**
          * Get the value of the named long field from the persistent fields.
          */
+        @Override
         public long get(String name, long defvalue) throws IOException, IllegalArgumentException {
             if (defaulted(name)) {
                 return defvalue;
@@ -137,6 +145,7 @@ public abstract class InputStreamHook extends ObjectInputStream {
         /**
          * Get the value of the named float field from the persistent fields.
          */
+        @Override
         public float get(String name, float defvalue) throws IOException, IllegalArgumentException {
             if (defaulted(name)) {
                 return defvalue;
@@ -148,6 +157,7 @@ public abstract class InputStreamHook extends ObjectInputStream {
         /**
          * Get the value of the named double field from the persistent field.
          */
+        @Override
         public double get(String name, double defvalue) throws IOException, IllegalArgumentException {
             if (defaulted(name)) {
                 return defvalue;
@@ -159,6 +169,7 @@ public abstract class InputStreamHook extends ObjectInputStream {
         /**
          * Get the value of the named Object field from the persistent field.
          */
+        @Override
         public Object get(String name, Object defvalue) throws IOException, IllegalArgumentException {
             if (defaulted(name)) {
                 return defvalue;
@@ -199,7 +210,7 @@ public abstract class InputStreamHook extends ObjectInputStream {
     @Override
     public ObjectInputStream.GetField readFields() throws IOException, ClassNotFoundException, NotActiveException {
 
-        Map<String, Object> fieldValueMap = new HashMap<String, Object>();
+        Map<String, Object> fieldValueMap = new HashMap<>();
 
         // We were treating readFields same as defaultReadObject. It is
         // incorrect if the state is readOptionalData. If this line

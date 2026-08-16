@@ -63,7 +63,7 @@ public class FVDBuilder {
     /**
      * Initializes this class for a new unit test. This clears any existing FVDs and specifies the ORB to be used to create
      * new ones.
-     * 
+     *
      * @param orb an ORB used to create TypeCodes.
      */
     static void initialize(ORB orb) {
@@ -73,7 +73,7 @@ public class FVDBuilder {
 
     /**
      * Obtains the FVD for the specified repository ID.
-     * 
+     *
      * @param repositoryID the repository ID to look up
      * @throws RuntimeException if a FVD has not been defined for the repository ID
      * @return the matching FVD
@@ -84,7 +84,7 @@ public class FVDBuilder {
 
     /**
      * Creates a builder for a FVD, specifying the CORBA repository ID
-     * 
+     *
      * @param repId the respository ID
      * @return the new builder
      */
@@ -94,7 +94,7 @@ public class FVDBuilder {
 
     /**
      * Modifies this builder to set the is_custom flag of the FVD it will create.
-     * 
+     *
      * @return this object
      */
     FVDBuilder withCustomMarshalling() {
@@ -105,7 +105,7 @@ public class FVDBuilder {
     /**
      * Modifies this builder to specify a base class, using its repository iD. This will set the baseValue flag of the
      * create FVD.
-     * 
+     *
      * @param repId the repository ID of the base class
      * @return this object
      */
@@ -117,15 +117,16 @@ public class FVDBuilder {
     /**
      * Modifies this builder to add a primitive or String member field. This will add an entry to the members entry of the
      * created FVD.
-     * 
+     *
      * @param fieldName the name of the field
      * @param fieldClass the class that will be used to select a repository ID for the member
      * @return this object
      */
     FVDBuilder withMember(String fieldName, Class<?> fieldClass) {
-        if (!fieldClass.equals(String.class) && !fieldClass.isPrimitive())
+        if (!fieldClass.equals(String.class) && !fieldClass.isPrimitive()) {
             throw new RuntimeException(
                     String.format("%s field %s is not primitive; define it with its repository ID", fieldClass.getName(), fieldName));
+        }
 
         fields.add(new PrimitiveFieldBuilder(fieldName, fieldClass));
         return this;
@@ -134,7 +135,7 @@ public class FVDBuilder {
     /**
      * Modifies this builder to add a member field of a Java class type. This will add an entry to the members entry of the
      * created FVD.
-     * 
+     *
      * @param fieldName the name of the field
      * @param repId the repository ID for the field
      * @return this object
@@ -189,26 +190,27 @@ public class FVDBuilder {
     }
 
     private static TypeCode fromType(ORB orb, Class<?> type) {
-        if (type.equals(char.class))
+        if (type.equals(char.class)) {
             return new TypeCodeImpl(orb, TCKind._tk_wchar);
-        else if (type.equals(boolean.class))
+        } else if (type.equals(boolean.class)) {
             return new TypeCodeImpl(orb, TCKind._tk_boolean);
-        else if (type.equals(byte.class))
+        } else if (type.equals(byte.class)) {
             return new TypeCodeImpl(orb, TCKind._tk_octet);
-        else if (type.equals(short.class))
+        } else if (type.equals(short.class)) {
             return new TypeCodeImpl(orb, TCKind._tk_short);
-        else if (type.equals(int.class))
+        } else if (type.equals(int.class)) {
             return new TypeCodeImpl(orb, TCKind._tk_long);
-        else if (type.equals(float.class))
+        } else if (type.equals(float.class)) {
             return new TypeCodeImpl(orb, TCKind._tk_float);
-        else if (type.equals(double.class))
+        } else if (type.equals(double.class)) {
             return new TypeCodeImpl(orb, TCKind._tk_double);
-        else if (type.equals(String.class))
+        } else if (type.equals(String.class)) {
             return new TypeCodeImpl(orb, TCKind._tk_value);
-        else if (type.equals(long.class))
+        } else if (type.equals(long.class)) {
             return new TypeCodeImpl(orb, TCKind._tk_longlong);
-        else
+        } else {
             throw new RuntimeException("Test doesn't support type codes for " + type);
+        }
     }
 
     private static abstract class FieldBuilder {

@@ -29,6 +29,7 @@ import java.util.*;
 public class InvocationTest extends CORBATest {
     public static String URL_PROPERTY = "naming.instest.urlProperty";
 
+    @Override
     protected void doTest() throws Throwable {
 
         Properties clientProps = Options.getClientProperties();

@@ -55,7 +55,7 @@ public final class ShortHolder implements Streamable {
     /**
      * Constructs a new <code>ShortHolder</code> object with its <code>value</code> field initialized to the given
      * <code>short</code>.
-     * 
+     *
      * @param initial the <code>short</code> with which to initialize the <code>value</code> field of the newly-created
      * <code>ShortHolder</code> object
      */
@@ -69,6 +69,7 @@ public final class ShortHolder implements Streamable {
      *
      * @param input the InputStream containing CDR formatted data from the wire.
      */
+    @Override
     public void _read(InputStream input) {
         value = input.read_short();
     }
@@ -78,6 +79,7 @@ public final class ShortHolder implements Streamable {
      *
      * @param output the OutputStream which will contain the CDR formatted data.
      */
+    @Override
     public void _write(OutputStream output) {
         output.write_short(value);
     }
@@ -87,6 +89,7 @@ public final class ShortHolder implements Streamable {
      *
      * @return the TypeCode of the value held in this <code>ShortHolder</code> object
      */
+    @Override
     public org.omg.CORBA.TypeCode _type() {
         return ORB.init().get_primitive_tc(TCKind.tk_short);
     }

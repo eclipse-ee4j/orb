@@ -37,14 +37,17 @@ public final class UnknownUserExceptionHolder implements org.omg.CORBA.portable.
         value = initialValue;
     }
 
+    @Override
     public void _read(org.omg.CORBA.portable.InputStream i) {
         value = org.omg.CORBA.UnknownUserExceptionHelper.read(i);
     }
 
+    @Override
     public void _write(org.omg.CORBA.portable.OutputStream o) {
         org.omg.CORBA.UnknownUserExceptionHelper.write(o, value);
     }
 
+    @Override
     public org.omg.CORBA.TypeCode _type() {
         return org.omg.CORBA.UnknownUserExceptionHelper.type();
     }

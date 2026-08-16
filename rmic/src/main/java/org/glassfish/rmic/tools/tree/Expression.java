@@ -247,10 +247,11 @@ class Expression extends Node {
 
     public Vset checkAssignOp(Environment env, Context ctx,
                               Vset vset, Hashtable<Object, Object> exp, Expression outside) {
-        if (outside instanceof IncDecExpression)
+        if (outside instanceof IncDecExpression) {
             env.error(where, "invalid.arg", opNames[outside.op]);
-        else
+        } else {
             env.error(where, "invalid.lhs.assignment");
+        }
         type = Type.tError;
         return vset;
     }
@@ -772,6 +773,7 @@ class Expression extends Node {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print(opNames[op]);
     }

@@ -46,8 +46,9 @@ public class ClassLoadTest extends Test {
     private JUnitReportHelper helper = new JUnitReportHelper(this.getClass().getName());
 
     private String makeTestName(String className) {
-        if (className == null)
+        if (className == null) {
             return "null";
+        }
 
         StringBuilder sb = new StringBuilder();
         int numArrays = 0;
@@ -57,14 +58,16 @@ public class ClassLoadTest extends Test {
 
         for (int a = numArrays; a < className.length(); a++) {
             char ch = className.charAt(a);
-            if (Character.isJavaIdentifierPart(ch))
+            if (Character.isJavaIdentifierPart(ch)) {
                 sb.append(ch);
-            else
+            } else {
                 sb.append('_');
+            }
         }
 
-        for (int ctr2 = 0; ctr2 < numArrays; ctr2++)
+        for (int ctr2 = 0; ctr2 < numArrays; ctr2++) {
             sb.append("_array");
+        }
 
         return sb.toString();
     }
@@ -144,29 +147,29 @@ public class ClassLoadTest extends Test {
 
             /*
              * try {
-             * 
+             *
              * // Make sure that Class.forName() fails...
-             * 
+             *
              * boolean failed = false; try { Class.forName("javax.rmi.download.values.DownloadB$Nested"); } catch
              * (ClassNotFoundException e) { failed = true; } if (!failed) { throw new Error
              * ("Class.forName() loaded DownloadB$Nested!"); }
-             * 
+             *
              * // Now, get an instance of DownLoadB...
-             * 
+             *
              * Class clz = Util.loadClass("javax.rmi.download.values.DownloadB", remoteCodebase,null); Object downloadB =
              * clz.newInstance();
-             * 
+             *
              * // Call it's toString method, which tries to load DownloadB$Nested // using JDKBridge.loadClass(name,null).
-             * 
+             *
              * String result = downloadB.toString(); if (!result.equals("Loaded DownloadB.Nested")) { if
              * (result.startsWith("DownLoadB.toString() failed to load")) {
-             * 
+             *
              * System.out.println("WARNING: On 1.2, DownLoadB.Nested failed to load.");
-             * 
+             *
              * // _REVISIT_ This should not fail when in core, but for // now, it must. The problem is that JDKBridge is loaded //
              * by the extensions loader rather than the bootstrap loader, so // the stack walking code finds the extension loader
              * rather than // the remote loader...
-             * 
+             *
              * } else { throw new Error(result); } } } catch (Exception e) { e.printStackTrace(); throw new Error(e.toString()); }
              */
         } finally {
@@ -273,6 +276,7 @@ public class ClassLoadTest extends Test {
     private WebServer webServer = null;
     private String remoteCodebase = null;
 
+    @Override
     public void setup() {
         try {
 
@@ -327,6 +331,7 @@ public class ClassLoadTest extends Test {
         }
     }
 
+    @Override
     public void run() {
         try {
             doTests();

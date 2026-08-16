@@ -28,6 +28,7 @@ public class ResolveDeadlockTest extends CORBATest {
 
     // This is the main method defining the test. All tests
     // should have this.
+    @Override
     protected void doTest() throws Throwable {
         Options.setJavaFiles(javaFiles);
 

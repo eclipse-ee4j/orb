@@ -31,9 +31,11 @@ import org.omg.PortableInterceptor.CurrentHelper;
 import org.omg.PortableInterceptor.ORBInitInfo;
 
 public class LoggingServiceClientORBInitializer extends org.omg.CORBA.LocalObject implements org.omg.PortableInterceptor.ORBInitializer {
+    @Override
     public void pre_init(ORBInitInfo info) {
     }
 
+    @Override
     public void post_init(ORBInitInfo info) {
         try {
 

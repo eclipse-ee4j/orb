@@ -36,10 +36,12 @@ public class CommandQueue {
     public static abstract class CommandBase implements Command {
         protected Command next = null;
 
+        @Override
         public void setNext(Command next) {
             this.next = next;
         }
 
+        @Override
         public Command evaluate(Event ev) {
             action(ev);
             return next;
@@ -65,10 +67,12 @@ public class CommandQueue {
             this.count = numEvents;
         }
 
+        @Override
         public Command evaluate(Event ev) {
             count--;
-            if (count == 0)
+            if (count == 0) {
                 return next;
+            }
             return this;
         }
     }
@@ -95,15 +99,17 @@ public class CommandQueue {
      * == 0, the first event() will execute cmd.
      */
     public void add(int count, Command cmd) {
-        if (count > 0)
+        if (count > 0) {
             doAdd(new Delay(count));
+        }
         doAdd(cmd);
     }
 
     public void event(Event ev) {
         head = head.evaluate(ev);
-        if (head == end)
+        if (head == end) {
             tail = end;
+        }
     }
 
     private static void p(String msg) {
@@ -117,6 +123,7 @@ public class CommandQueue {
             this.msg = msg;
         }
 
+        @Override
         public void action(Event ev) {
             p(msg);
         }

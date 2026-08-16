@@ -32,15 +32,17 @@ import java.util.WeakHashMap;
  * This is used internally by CodeSetConversion.
  */
 class CodeSetCache {
-    private ThreadLocal<WeakHashMap<String, CharsetEncoder>> ctbMapLocal = new ThreadLocal<WeakHashMap<String, CharsetEncoder>>() {
+    private ThreadLocal<WeakHashMap<String, CharsetEncoder>> ctbMapLocal = new ThreadLocal<>() {
+        @Override
         protected WeakHashMap<String, CharsetEncoder> initialValue() {
-            return new WeakHashMap<String, CharsetEncoder>();
+            return new WeakHashMap<>();
         }
     };
 
-    private ThreadLocal<WeakHashMap<String, CharsetDecoder>> btcMapLocal = new ThreadLocal<WeakHashMap<String, CharsetDecoder>>() {
+    private ThreadLocal<WeakHashMap<String, CharsetDecoder>> btcMapLocal = new ThreadLocal<>() {
+        @Override
         protected WeakHashMap<String, CharsetDecoder> initialValue() {
-            return new WeakHashMap<String, CharsetDecoder>();
+            return new WeakHashMap<>();
         }
     };
 

@@ -155,10 +155,11 @@ public class SelectorImplTest extends TransportTestBase {
             field.setAccessible(true);
             field.set(obj, value);
         } catch (NoSuchFieldException e) {
-            if (theClass.equals(Object.class))
+            if (theClass.equals(Object.class)) {
                 throw e;
-            else
+            } else {
                 setPrivateFieldValue(obj, theClass.getSuperclass(), fieldName, value);
+            }
         }
     }
 
@@ -226,10 +227,10 @@ public class SelectorImplTest extends TransportTestBase {
     static abstract class NioSelectorFake extends Selector {
         boolean wakeupCalled;
         boolean open;
-        List<SelectionKey> keys = new ArrayList<SelectionKey>();
+        List<SelectionKey> keys = new ArrayList<>();
 
-        Set<SelectionKey> selectedKeys = new HashSet<SelectionKey>();
-        Set<SelectionKey> activeKeys = new HashSet<SelectionKey>();
+        Set<SelectionKey> selectedKeys = new HashSet<>();
+        Set<SelectionKey> activeKeys = new HashSet<>();
 
         public void addKey(SelectionKeyFake selectionKey) {
             keys.add(selectionKey);
@@ -274,7 +275,7 @@ public class SelectorImplTest extends TransportTestBase {
     }
 
     static abstract class SelectableChannelFake extends SelectableChannel {
-        private Set<SelectionKeyFake> keys = new HashSet<SelectionKeyFake>();
+        private Set<SelectionKeyFake> keys = new HashSet<>();
 
         @Override
         public SelectionKey register(Selector sel, int ops, Object attachment) throws ClosedChannelException {
@@ -286,8 +287,9 @@ public class SelectorImplTest extends TransportTestBase {
         }
 
         public void clearReadyOps() {
-            for (SelectionKeyFake key : keys)
+            for (SelectionKeyFake key : keys) {
                 key.readyOps = 0;
+            }
         }
     }
 
@@ -303,6 +305,7 @@ public class SelectorImplTest extends TransportTestBase {
             this.selector = selector;
         }
 
+        @Override
         public SelectableChannel channel() {
             return channel;
         }

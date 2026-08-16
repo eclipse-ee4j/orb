@@ -55,6 +55,7 @@ public class TechProfile implements java.io.Serializable {
         return fMini;
     }
 
+    @Override
     public String toString() {
         String s = "(";
         s += String.valueOf(fRange) + ",";

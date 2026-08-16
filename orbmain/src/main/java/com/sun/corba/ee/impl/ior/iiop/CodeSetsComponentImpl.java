@@ -32,19 +32,23 @@ import org.omg.IOP.TAG_CODE_SETS;
 public class CodeSetsComponentImpl extends TaggedComponentBase implements CodeSetsComponent {
     CodeSetComponentInfo csci;
 
+    @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof CodeSetsComponentImpl))
+        if (!(obj instanceof CodeSetsComponentImpl)) {
             return false;
+        }
 
         CodeSetsComponentImpl other = (CodeSetsComponentImpl) obj;
 
         return csci.equals(other.csci);
     }
 
+    @Override
     public int hashCode() {
         return csci.hashCode();
     }
 
+    @Override
     public String toString() {
         return "CodeSetsComponentImpl[csci=" + csci + "]";
     }
@@ -60,20 +64,24 @@ public class CodeSetsComponentImpl extends TaggedComponentBase implements CodeSe
     }
 
     public CodeSetsComponentImpl(com.sun.corba.ee.spi.orb.ORB orb) {
-        if (orb == null)
+        if (orb == null) {
             csci = new CodeSetComponentInfo();
-        else
+        } else {
             csci = orb.getORBData().getCodeSetComponentInfo();
+        }
     }
 
+    @Override
     public CodeSetComponentInfo getCodeSetComponentInfo() {
         return csci;
     }
 
+    @Override
     public void writeContents(OutputStream os) {
         csci.write((MarshalOutputStream) os);
     }
 
+    @Override
     public int getId() {
         return TAG_CODE_SETS.value; // 1 in CORBA 2.3.1 13.6.3
     }

@@ -103,8 +103,8 @@ public final class ValueHandlerImpl implements javax.rmi.CORBA.ValueHandlerMulti
     // can ever put a particular key into the stream pairs maps. Multiple threads
     // will simultaneously update these maps, so we need a ConcurrentHashMap.
     // But we don't need to use putIfAbsent to store into the maps.
-    private final Map<org.omg.CORBA.portable.InputStream, IIOPInputStream> inputStreamPairs = new ConcurrentHashMap<org.omg.CORBA.portable.InputStream, IIOPInputStream>();
-    private final Map<org.omg.CORBA.portable.OutputStream, IIOPOutputStream> outputStreamPairs = new ConcurrentHashMap<org.omg.CORBA.portable.OutputStream, IIOPOutputStream>();
+    private final Map<org.omg.CORBA.portable.InputStream, IIOPInputStream> inputStreamPairs = new ConcurrentHashMap<>();
+    private final Map<org.omg.CORBA.portable.OutputStream, IIOPOutputStream> outputStreamPairs = new ConcurrentHashMap<>();
 
     // See javax.rmi.CORBA.ValueHandlerMultiFormat
     @Override
@@ -196,6 +196,7 @@ public final class ValueHandlerImpl implements javax.rmi.CORBA.ValueHandlerMulti
      * @param _sender The sending context runtime
      * @return The serializable value read from the stream
      **/
+    @Override
     @ValueHandlerRead
     public java.io.Serializable readValue(org.omg.CORBA.portable.InputStream _in, int offset, java.lang.Class clazz, String repositoryID,
             org.omg.SendingContext.RunTime _sender) {

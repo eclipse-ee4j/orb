@@ -55,14 +55,17 @@ public class ClusterInstanceInfoComponentImpl extends TaggedComponentBase implem
         clusterInstanceInfoValue = theClusterInstanceInfoValue;
     }
 
+    @Override
     public ClusterInstanceInfo getClusterInstanceInfo() {
         return clusterInstanceInfoValue;
     }
 
+    @Override
     public void writeContents(OutputStream os) {
         clusterInstanceInfoValue.write(os);
     }
 
+    @Override
     public int getId() {
         return ORBConstants.FOLB_MEMBER_ADDRESSES_TAGGED_COMPONENT_ID;
     }

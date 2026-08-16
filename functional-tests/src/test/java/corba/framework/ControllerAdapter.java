@@ -36,6 +36,7 @@ public abstract class ControllerAdapter implements Controller {
     protected OutputStream err;
     protected Hashtable extra;
 
+    @Override
     public void initialize(String className, String processName, Properties environment, String VMArgs[], String programArgs[],
             OutputStream out, OutputStream err, Hashtable extra) throws Exception {
         this.className = className;
@@ -48,26 +49,33 @@ public abstract class ControllerAdapter implements Controller {
         this.extra = extra;
 
         // Make life a little easier
-        if (this.environment == null)
+        if (this.environment == null) {
             this.environment = new Properties();
-        if (this.VMArgs == null)
+        }
+        if (this.VMArgs == null) {
             this.VMArgs = new String[0];
-        if (this.programArgs == null)
+        }
+        if (this.programArgs == null) {
             this.programArgs = new String[0];
+        }
     }
 
+    @Override
     public OutputStream getOutputStream() {
         return out;
     }
 
+    @Override
     public OutputStream getErrorStream() {
         return err;
     }
 
+    @Override
     public String getProcessName() {
         return processName;
     }
 
+    @Override
     public String getClassName() {
         return className;
     }

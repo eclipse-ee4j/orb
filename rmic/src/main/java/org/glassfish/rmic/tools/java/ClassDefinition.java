@@ -194,7 +194,9 @@ public abstract class ClassDefinition implements Constants {
 
         // *** DEBUG ***
         // This method should not be called if the superclass has not been resolved.
-        if (!supersCheckStarted) throw new CompilerError("unresolved super");
+        if (!supersCheckStarted) {
+            throw new CompilerError("unresolved super");
+        }
 
         return superClass;
     }
@@ -220,7 +222,9 @@ public abstract class ClassDefinition implements Constants {
      * Get the class' interfaces
      */
     public final ClassDeclaration getInterfaces()[] {
-        if (interfaces == null)  throw new CompilerError("getInterfaces");
+        if (interfaces == null) {
+            throw new CompilerError("getInterfaces");
+        }
         return interfaces;
     }
 
@@ -235,7 +239,9 @@ public abstract class ClassDefinition implements Constants {
      * Set the class' enclosing class.  Must be done at most once.
      */
     protected final void setOuterClass(ClassDefinition outerClass) {
-        if (this.outerClass != null)  throw new CompilerError("setOuterClass");
+        if (this.outerClass != null) {
+            throw new CompilerError("setOuterClass");
+        }
         this.outerClass = outerClass;
     }
 
@@ -245,8 +251,9 @@ public abstract class ClassDefinition implements Constants {
      */
     protected final void setOuterMember(MemberDefinition outerMember) {
 
-        if (isStatic() || !isInnerClass())  throw new CompilerError("setOuterField");
-        if (this.outerMember != null)  throw new CompilerError("setOuterField");
+        if (isStatic() || !isInnerClass() || (this.outerMember != null)) {
+            throw new CompilerError("setOuterField");
+        }
         this.outerMember = outerMember;
     }
 
@@ -314,8 +321,9 @@ public abstract class ClassDefinition implements Constants {
      * If inner, get the field for this class in the enclosing class
      */
     public final MemberDefinition getInnerClassMember() {
-        if (outerClass == null)
+        if (outerClass == null) {
             return null;
+        }
         if (innerClassMember == null) {
             // We must find the field in the outer class.
             Identifier nm = getName().getFlatName().getName();
@@ -326,8 +334,9 @@ public abstract class ClassDefinition implements Constants {
                     break;
                 }
             }
-            if (innerClassMember == null)
+            if (innerClassMember == null) {
                 throw new CompilerError("getInnerClassField");
+            }
         }
         return innerClassMember;
     }
@@ -352,8 +361,9 @@ public abstract class ClassDefinition implements Constants {
      */
     public final ClassDefinition getTopClass() {
         ClassDefinition p, q;
-        for (p = this; (q = p.outerClass) != null; p = q)
-            ;
+        for (p = this; (q = p.outerClass) != null; p = q) {
+            
+        }
         return p;
     }
 
@@ -561,8 +571,8 @@ public abstract class ClassDefinition implements Constants {
                 return true;
             }
             ClassDeclaration intf[] = c.getClassDefinition(env).getInterfaces();
-            for (int i = 0 ; i < intf.length ; i++) {
-                if (implementedBy(env, intf[i])) {
+            for (ClassDeclaration element : intf) {
+                if (implementedBy(env, element)) {
                     return true;
                 }
             }
@@ -710,11 +720,8 @@ public abstract class ClassDefinition implements Constants {
                 throws ClassNotFound {
 
         // Public access is always ok
-        if (f.isPublic()) {
-            return true;
-        }
         // Protected access is ok from a subclass
-        if (f.isProtected() && subClassOf(env, f.getClassDeclaration())) {
+        if (f.isPublic() || (f.isProtected() && subClassOf(env, f.getClassDeclaration()))) {
             return true;
         }
         // Private access is ok only from the same class nest
@@ -857,12 +864,12 @@ public abstract class ClassDefinition implements Constants {
         }
 
         // Find the field in our superinterfaces.
-        for (int i = 0 ; i < interfaces.length ; i++) {
+        for (ClassDeclaration element : interfaces) {
             // Try to look up the field in an interface.  Since interfaces
             // only have public fields, the values of the two boolean
             // arguments are not important.
             MemberDefinition field2 =
-                interfaces[i].getClassDefinition(env)
+                element.getClassDefinition(env)
                   .getVariable0(env, nm, source, true, true);
 
             if (field2 != null) {
@@ -941,8 +948,9 @@ public abstract class ClassDefinition implements Constants {
         // This should only happen for synthetic members, which should
         // never be an inner class.
         ClassDeclaration sup = getSuperClass(env);
-        if (sup != null)
+        if (sup != null) {
             return sup.getClassDefinition(env).getInnerClass(env, nm);
+        }
 
         return null;
     }
@@ -1030,11 +1038,7 @@ public abstract class ClassDefinition implements Constants {
         }
 
         if (tentative != null && candidateList != null) {
-            // Find out if our `tentative' match is a uniquely
-            // maximally specific.
-            Iterator<MemberDefinition> candidates = candidateList.iterator();
-            while (candidates.hasNext()) {
-                MemberDefinition method = candidates.next();
+            for (MemberDefinition method : candidateList) {
                 if (!env.isMoreSpecific(tentative, method)) {
                     throw new AmbiguousMember(tentative, method);
                 }
@@ -1119,8 +1123,9 @@ public abstract class ClassDefinition implements Constants {
 
         // look in the super class
         ClassDeclaration sup = getSuperClass();
-        if (sup == null)
+        if (sup == null) {
             return null;
+        }
 
         return sup.getClassDefinition(env).findMethod(env, nm, t);
     }
@@ -1128,8 +1133,9 @@ public abstract class ClassDefinition implements Constants {
     // We create a stub for this.  Source classes do more work.
     protected void basicCheck(Environment env) throws ClassNotFound {
         // Do the outer class first.
-        if (outerClass != null)
+        if (outerClass != null) {
             outerClass.basicCheck(env);
+        }
     }
 
     /**
@@ -1350,13 +1356,7 @@ public abstract class ClassDefinition implements Constants {
 
                         if (!formerMethod.checkMeet(env,
                                            method,
-                                           this.getClassDeclaration())) {
-                                // The methods are incompatible.  Skip to
-                                // next method.
-                            continue;
-                        }
-
-                        if (formerMethod.couldOverride(env, method)) {
+                                           this.getClassDeclaration()) || formerMethod.couldOverride(env, method)) {
                                 // Do nothing.  The current definition
                                 // is specific enough.
 
@@ -1507,8 +1507,8 @@ public abstract class ClassDefinition implements Constants {
 
         //System.out.println("About to start interfaces for " + this);
 
-        for (int i = 0; i < interfaces.length; i++) {
-            collectOneClass(env, interfaces[i],
+        for (ClassDeclaration element : interfaces) {
+            collectOneClass(env, element,
                             myMethods, allMethods, mirandaMethods);
         }
         allMethods.freeze();
@@ -1662,7 +1662,9 @@ public abstract class ClassDefinition implements Constants {
      * directly to resolveName().
      */
     public Identifier resolveName(Environment env, Identifier name) {
-        if (tracing) env.dtEvent("ClassDefinition.resolveName: " + name);
+        if (tracing) {
+            env.dtEvent("ClassDefinition.resolveName: " + name);
+        }
         // This logic is pretty much exactly parallel to that of
         // Environment.resolveName().
         if (name.isQualified()) {
@@ -1739,7 +1741,9 @@ public abstract class ClassDefinition implements Constants {
      * Ignore outer scopes and packages.
      */
     public Identifier resolveInnerClass(Environment env, Identifier nm) {
-        if (nm.isInner())  throw new CompilerError("inner");
+        if (nm.isInner()) {
+            throw new CompilerError("inner");
+        }
         if (nm.isQualified()) {
             Identifier rhead = resolveInnerClass(env, nm.getHead());
             try {
@@ -1800,8 +1804,9 @@ public abstract class ClassDefinition implements Constants {
 
         // look in the super class
         ClassDeclaration sup = getSuperClass();
-        if (sup == null)
+        if (sup == null) {
             return null;
+        }
         return sup.getClassDefinition(env).findAnyMethod(env, nm);
     }
 
@@ -1825,8 +1830,9 @@ public abstract class ClassDefinition implements Constants {
                                 int start, Type margTypeResult[]) throws ClassNotFound {
         int haveMatch[] = new int[argTypes.length];
         Type margType[] = new Type[argTypes.length];
-        if (!diagnoseMismatch(env, nm, argTypes, start, haveMatch, margType))
+        if (!diagnoseMismatch(env, nm, argTypes, start, haveMatch, margType)) {
             return -2;
+        }
         for (int i = start; i < argTypes.length; i++) {
             if (haveMatch[i] < 4) {
                 margTypeResult[0] = margType[i];
@@ -1855,15 +1861,18 @@ public abstract class ClassDefinition implements Constants {
                         haveMatch[i] = 4;
                         continue;
                     } else if (haveMatch[i] <= 2 && env.explicitCast(at, ft)) {
-                        if (haveMatch[i] < 2)  margType[i] = null;
+                        if (haveMatch[i] < 2) {
+                            margType[i] = null;
+                        }
                         haveMatch[i] = 2;
                     } else if (haveMatch[i] > 0) {
                         continue;
                     }
-                    if (margType[i] == null)
+                    if (margType[i] == null) {
                         margType[i] = ft;
-                    else if (margType[i] != ft)
+                    } else if (margType[i] != ft) {
                         haveMatch[i] |= 1;
+                    }
                 }
             }
         }
@@ -1877,8 +1886,9 @@ public abstract class ClassDefinition implements Constants {
         ClassDeclaration sup = getSuperClass();
         if (sup != null) {
             if (sup.getClassDefinition(env).diagnoseMismatch(env, nm, argTypes, start,
-                                                             haveMatch, margType))
+                                                             haveMatch, margType)) {
                 haveOne = true;
+            }
         }
         return haveOne;
     }
@@ -2046,6 +2056,7 @@ public abstract class ClassDefinition implements Constants {
     /**
      * Convert to String
      */
+    @Override
     public String toString() {
         return getClassDeclaration().toString();
     }

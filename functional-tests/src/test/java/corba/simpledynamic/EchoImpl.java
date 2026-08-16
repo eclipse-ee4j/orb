@@ -69,42 +69,51 @@ public class EchoImpl extends PortableRemoteObject implements Echo {
         this.name = name;
     }
 
+    @Override
     public String sayHello(Object obj) throws RemoteException {
         return "Hello " + obj;
     }
 
+    @Override
     public Echo say(Echo echo) {
         return echo;
     }
 
+    @Override
     public String name() {
         return name;
     }
 
+    @Override
     public Object testExceptionContext() throws RemoteException {
-        Object d1 = new Pair<String, String>("foo", "bar");
-        Object d2 = new Pair<String, ThrowsSysEx>("baz", new ThrowsSysEx());
+        Object d1 = new Pair<>("foo", "bar");
+        Object d2 = new Pair<>("baz", new ThrowsSysEx());
         Foo f1 = new Foo("d1", d1, "d2", d2);
-        Pair<String, Foo> result = new Pair<String, Foo>("f1", f1);
+        Pair<String, Foo> result = new Pair<>("f1", f1);
         return result;
     }
 
+    @Override
     public int[] echo(int[] arg) {
         return arg;
     }
 
+    @Override
     public Object echo(Object arg) {
         return arg;
     }
 
+    @Override
     public BuckPasserAL echo(BuckPasserAL arg) {
         return arg;
     }
 
+    @Override
     public BuckPasserV echo(BuckPasserV arg) {
         return arg;
     }
 
+    @Override
     public BuckPasserVectorOriginal echo(BuckPasserVectorOriginal arg) throws RemoteException {
         return arg;
     }

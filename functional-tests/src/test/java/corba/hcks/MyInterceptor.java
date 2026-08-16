@@ -66,10 +66,12 @@ public class MyInterceptor extends org.omg.CORBA.LocalObject implements ClientRe
     // Interceptor operations
     //
 
+    @Override
     public String name() {
         return baseMsg;
     }
 
+    @Override
     public void destroy() {
     }
 
@@ -77,6 +79,7 @@ public class MyInterceptor extends org.omg.CORBA.LocalObject implements ClientRe
     // ClientRequestInterceptor operations
     //
 
+    @Override
     public void send_request(ClientRequestInfo ri) {
         sopCR(baseMsg, "send_request", ri);
 
@@ -106,20 +109,24 @@ public class MyInterceptor extends org.omg.CORBA.LocalObject implements ClientRe
         ri.add_request_service_context(new ServiceContext(clientSendServiceContextID, serviceContextData), true);
     }
 
+    @Override
     public void send_poll(ClientRequestInfo ri) {
         sopCR(baseMsg, "send_poll", ri);
     }
 
+    @Override
     public void receive_reply(ClientRequestInfo ri) {
         sopCR(baseMsg, "receive_reply", ri);
         checkServiceContexts(ri);
     }
 
+    @Override
     public void receive_exception(ClientRequestInfo ri) {
         sopCR(baseMsg, "receive_exception", ri);
         checkServiceContexts(ri);
     }
 
+    @Override
     public void receive_other(ClientRequestInfo ri) {
         sopCR(baseMsg, "receive_other", ri);
     }
@@ -128,6 +135,7 @@ public class MyInterceptor extends org.omg.CORBA.LocalObject implements ClientRe
     // ServerRequestInterceptor operations
     //
 
+    @Override
     public void receive_request_service_contexts(ServerRequestInfo ri) {
         String point = "receive_request_service_contexts";
         // Check that stuff you add is available, even if exception raised.
@@ -145,6 +153,7 @@ public class MyInterceptor extends org.omg.CORBA.LocalObject implements ClientRe
         }
     }
 
+    @Override
     public void receive_request(ServerRequestInfo ri) {
         sopSR(baseMsg, "receive_request", ri);
 
@@ -156,6 +165,7 @@ public class MyInterceptor extends org.omg.CORBA.LocalObject implements ClientRe
 
     }
 
+    @Override
     public void send_reply(ServerRequestInfo ri) {
         sopSR(baseMsg, "send_reply", ri);
         // Check that stuff you add is avaible, even if exception raised.
@@ -172,6 +182,7 @@ public class MyInterceptor extends org.omg.CORBA.LocalObject implements ClientRe
         }
     }
 
+    @Override
     public void send_exception(ServerRequestInfo ri) {
         sopSR(baseMsg, "send_exception", ri);
         ri.add_reply_service_context(new ServiceContext(serverSendServiceContextID, serviceContextData), true);
@@ -195,6 +206,7 @@ public class MyInterceptor extends org.omg.CORBA.LocalObject implements ClientRe
 
     }
 
+    @Override
     public void send_other(ServerRequestInfo ri) {
         sopSR(baseMsg, "send_other", ri);
         ri.add_reply_service_context(new ServiceContext(serverSendServiceContextID, serviceContextData), true);

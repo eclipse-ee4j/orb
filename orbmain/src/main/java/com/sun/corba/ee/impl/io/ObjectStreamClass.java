@@ -77,8 +77,9 @@ public class ObjectStreamClass implements java.io.Serializable {
     @TraceValueHandler
     static final ObjectStreamClass lookup(Class<?> cl) {
         ObjectStreamClass desc = lookupInternal(cl);
-        if (desc.isSerializable() || desc.isExternalizable())
+        if (desc.isSerializable() || desc.isExternalizable()) {
             return desc;
+        }
         return null;
     }
 
@@ -92,7 +93,7 @@ public class ObjectStreamClass implements java.io.Serializable {
         ObjectStreamClass desc = null;
         synchronized (descriptorFor) {
             /* Find the matching descriptor if it already known */
-            desc = (ObjectStreamClass) descriptorFor.get(cl);
+            desc = descriptorFor.get(cl);
             if (desc == null) {
                 /* Check if it's serializable */
                 ClassInfoCache.ClassInfo cinfo = ClassInfoCache.get(cl);
@@ -104,8 +105,9 @@ public class ObjectStreamClass implements java.io.Serializable {
                 ObjectStreamClass superdesc = null;
                 if (serializable) {
                     Class<?> superclass = cl.getSuperclass();
-                    if (superclass != null)
+                    if (superclass != null) {
                         superdesc = lookup(superclass);
+                    }
                 }
 
                 /*
@@ -152,7 +154,7 @@ public class ObjectStreamClass implements java.io.Serializable {
 
     /**
      * The name of the class described by this descriptor.
-     * 
+     *
      * @return name of class
      */
     public final String getName() {
@@ -162,7 +164,7 @@ public class ObjectStreamClass implements java.io.Serializable {
     /**
      * Return the serialVersionUID for this class. The serialVersionUID defines a set of classes all with the same name that
      * have evolved from a common root class and agree to be serialized and deserialized using a common format.
-     * 
+     *
      * @param clazz class to get UID of
      * @return UID for the class
      */
@@ -177,7 +179,7 @@ public class ObjectStreamClass implements java.io.Serializable {
     /**
      * Return the serialVersionUID for this class. The serialVersionUID defines a set of classes all with the same name that
      * have evolved from a common root class and agree to be serialized and deserialized using a common format.
-     * 
+     *
      * @return SerialVersionUID for this class.
      */
     public final long getSerialVersionUID() {
@@ -187,18 +189,19 @@ public class ObjectStreamClass implements java.io.Serializable {
     /**
      * Return the serialVersionUID string for this class. The serialVersionUID defines a set of classes all with the same
      * name that have evolved from a common root class and agree to be serialized and deserialized using a common format.
-     * 
+     *
      * @return UID for this class
      */
     public final String getSerialVersionUIDStr() {
-        if (suidStr == null)
+        if (suidStr == null) {
             suidStr = Long.toHexString(suid).toUpperCase();
+        }
         return suidStr;
     }
 
     /**
      * Return the actual (computed) serialVersionUID for this class.
-     * 
+     *
      * @param clazz Class to get UID of
      * @return The class UID
      */
@@ -212,7 +215,7 @@ public class ObjectStreamClass implements java.io.Serializable {
 
     /**
      * Return the actual (computed) serialVersionUID for this class.
-     * 
+     *
      * @return UID for this class
      */
     public final long getActualSerialVersionUID() {
@@ -221,19 +224,20 @@ public class ObjectStreamClass implements java.io.Serializable {
 
     /**
      * Return the actual (computed) serialVersionUID for this class.
-     * 
+     *
      * @return UID for this class
      */
     public final String getActualSerialVersionUIDStr() {
-        if (actualSuidStr == null)
+        if (actualSuidStr == null) {
             actualSuidStr = Long.toHexString(actualSuid).toUpperCase();
+        }
         return actualSuidStr;
     }
 
     /**
      * Return the class in the local VM that this version is mapped to. Null is returned if there is no corresponding local
      * class.
-     * 
+     *
      * @return Class this is mapped to
      */
     public final Class<?> forClass() {
@@ -242,7 +246,7 @@ public class ObjectStreamClass implements java.io.Serializable {
 
     /**
      * Return an array of the fields of this serializable class.
-     * 
+     *
      * @return an array containing an element for each persistent field of this class. Returns an array of length zero if
      * there are no fields.
      * @since JDK1.2
@@ -260,10 +264,11 @@ public class ObjectStreamClass implements java.io.Serializable {
 
     public boolean hasField(ValueMember field) {
         try {
-            for (int i = 0; i < fields.length; i++) {
-                if (fields[i].getName().equals(field.name)) {
-                    if (fields[i].getSignature().equals(ValueUtility.getSignature(field)))
+            for (ObjectStreamField field2 : fields) {
+                if (field2.getName().equals(field.name)) {
+                    if (field2.getSignature().equals(ValueUtility.getSignature(field))) {
                         return true;
+                    }
                 }
             }
         } catch (Exception exc) {
@@ -281,7 +286,7 @@ public class ObjectStreamClass implements java.io.Serializable {
 
     /**
      * Get the field of this class by name.
-     * 
+     *
      * @param name name of the field to get
      * @return The ObjectStreamField object of the named field or null if there is no such named field.
      */
@@ -304,8 +309,9 @@ public class ObjectStreamClass implements java.io.Serializable {
             } catch (Throwable t) {
                 throw new RuntimeException(t);
             }
-        } else
+        } else {
             return value;
+        }
     }
 
     public Object readResolve(Object value) {
@@ -315,8 +321,9 @@ public class ObjectStreamClass implements java.io.Serializable {
             } catch (Throwable t) {
                 throw new RuntimeException(t);
             }
-        } else
+        } else {
             return value;
+        }
     }
 
     /**
@@ -370,7 +377,7 @@ public class ObjectStreamClass implements java.io.Serializable {
     }
 
     private static final class PersistentFieldsValue {
-        private final ConcurrentMap<Class<?>, Object> map = new ConcurrentHashMap<Class<?>, Object>();
+        private final ConcurrentMap<Class<?>, Object> map = new ConcurrentHashMap<>();
         private static final Object NULL_VALUE = (PersistentFieldsValue.class.getName() + ".NULL_VALUE");
 
         PersistentFieldsValue() {
@@ -404,8 +411,9 @@ public class ObjectStreamClass implements java.io.Serializable {
 
         private static ObjectStreamField[] translateFields(java.io.ObjectStreamField[] fields) {
             ObjectStreamField[] translation = new ObjectStreamField[fields.length];
-            for (int i = 0; i < fields.length; i++)
+            for (int i = 0; i < fields.length; i++) {
                 translation[i] = new ObjectStreamField(fields[i].getName(), fields[i].getType());
+            }
             return translation;
         }
     }
@@ -422,8 +430,9 @@ public class ObjectStreamClass implements java.io.Serializable {
     private void init() {
         synchronized (lock) {
             // See description at definition of initialized.
-            if (initialized)
+            if (initialized) {
                 return;
+            }
 
             final Class<?> cl = ofClass;
 
@@ -437,23 +446,22 @@ public class ObjectStreamClass implements java.io.Serializable {
                  * Ask for permission to override field access checks.
                  */
                 /*
-                 * Fill in the list of persistent fields. If it is declared, use the declared serialPersistentFields. Otherwise,
-                 * extract the fields from the class itself.
+                 * Fill in the list of persistent fields. If it is declared, use the declared serialPersistentFields. Otherwise, extract
+                 * the fields from the class itself.
                  */
                 fields = persistentFieldsValue.get(cl);
 
                 if (fields == null) {
                     /*
-                     * Get all of the declared fields for this Class. setAccessible on all fields so they can be accessed later.
-                     * Create a temporary ObjectStreamField array to hold each non-static, non-transient field. Then copy the
-                     * temporary array into an array of the correct size once the number of fields is known.
+                     * Get all of the declared fields for this Class. setAccessible on all fields so they can be accessed later. Create a
+                     * temporary ObjectStreamField array to hold each non-static, non-transient field. Then copy the temporary array into an
+                     * array of the correct size once the number of fields is known.
                      */
                     Field[] actualfields = cl.getDeclaredFields();
 
                     int numFields = 0;
                     ObjectStreamField[] tempFields = new ObjectStreamField[actualfields.length];
-                    for (int i = 0; i < actualfields.length; i++) {
-                        Field fld = actualfields[i];
+                    for (Field fld : actualfields) {
                         int modifiers = fld.getModifiers();
                         if (!Modifier.isStatic(modifiers) && !Modifier.isTransient(modifiers)) {
                             // fld.setAccessible(true) ;
@@ -482,9 +490,9 @@ public class ObjectStreamClass implements java.io.Serializable {
                     }
                 }
 
-
-                if (fields.length > 1)
+                if (fields.length > 1) {
                     Arrays.sort(fields);
+                }
 
                 /* Set up field data for use while writing using the API api. */
                 computeFieldInfo();
@@ -529,10 +537,11 @@ public class ObjectStreamClass implements java.io.Serializable {
                 writeReplaceObjectMethod = bridge.writeReplaceForSerialization(cl);
                 readResolveObjectMethod = bridge.readResolveForSerialization(cl);
 
-                if (externalizable)
+                if (externalizable) {
                     cons = bridge.newConstructorForExternalization(cl);
-                else
+                } else {
                     cons = bridge.newConstructorForSerialization(cl);
+                }
 
                 if (serializable && !forProxyClass) {
                     /* Look for the readObject and writeObject methods. ObjectOutputStream will call them as necessary. */
@@ -549,8 +558,9 @@ public class ObjectStreamClass implements java.io.Serializable {
             // If we have a write object method, precompute the
             // RMI-IIOP stream format version 2 optional data
             // repository ID.
-            if (hasWriteObject() || isExternalizable())
+            if (hasWriteObject() || isExternalizable()) {
                 rmiiiopOptionalDataRepId = computeRMIIIOPOptionalDataRepId();
+            }
 
             // This must be done last.
             initialized = true;
@@ -578,7 +588,7 @@ public class ObjectStreamClass implements java.io.Serializable {
 
     /**
      * This will return null if there is no writeObject method.
-     * 
+     *
      * @return A Serializable's optional custom data fake repository ID.
      */
     public final String getRMIIIOPOptionalDataRepId() {
@@ -603,11 +613,11 @@ public class ObjectStreamClass implements java.io.Serializable {
      * Compare the base class names of streamName and localName.
      *
      * @return Return true iff the base class name compare.
-     * 
+     *
      * @parameter streamName Fully qualified class name.
-     * 
+     *
      * @parameter localName Fully qualified class name.
-     * 
+     *
      * @parameter pkgSeparator class names use either '.' or '/'.
      *
      * Only compare base class name to allow package renaming.
@@ -615,12 +625,14 @@ public class ObjectStreamClass implements java.io.Serializable {
     static boolean compareClassNames(String streamName, String localName, char pkgSeparator) {
         /* compare the class names, stripping off package names. */
         int streamNameIndex = streamName.lastIndexOf(pkgSeparator);
-        if (streamNameIndex < 0)
+        if (streamNameIndex < 0) {
             streamNameIndex = 0;
+        }
 
         int localNameIndex = localName.lastIndexOf(pkgSeparator);
-        if (localNameIndex < 0)
+        if (localNameIndex < 0) {
             localNameIndex = 0;
+        }
 
         return streamName.regionMatches(false, streamNameIndex, localName, localNameIndex, streamName.length() - streamNameIndex);
     }
@@ -682,9 +694,9 @@ public class ObjectStreamClass implements java.io.Serializable {
      * any objects have been written.
      *
      * @see ObjectOuputStream#useProtocolVersion
-     * 
+     *
      * @see ObjectStreamConstants#PROTOCOL_VERSION_1
-     * 
+     *
      * @see ObjectStreamConstants#PROTOCOL_VERSION_2
      *
      * @since JDK 1.2
@@ -740,8 +752,8 @@ public class ObjectStreamClass implements java.io.Serializable {
         primBytes = 0;
         objFields = 0;
 
-        for (int i = 0; i < fields.length; i++) {
-            switch (fields[i].getTypeCode()) {
+        for (ObjectStreamField field : fields) {
+            switch (field.getTypeCode()) {
                 case 'B':
                 case 'Z':
                     primBytes += 1;
@@ -790,8 +802,9 @@ public class ObjectStreamClass implements java.io.Serializable {
      * the hash into a long. Use the SHA secure hash function.
      */
     private static long _computeSerialVersionUID(Class<?> cl) {
-        if (DEBUG_SVUID)
+        if (DEBUG_SVUID) {
             msg("Computing SerialVersionUID for " + cl);
+        }
         ByteArrayOutputStream devnull = new ByteArrayOutputStream(512);
         ClassInfoCache.ClassInfo cinfo = ClassInfoCache.get(cl);
 
@@ -801,8 +814,9 @@ public class ObjectStreamClass implements java.io.Serializable {
             DigestOutputStream mdo = new DigestOutputStream(devnull, md);
             DataOutputStream data = new DataOutputStream(mdo);
 
-            if (DEBUG_SVUID)
+            if (DEBUG_SVUID) {
                 msg("\twriteUTF( \"" + cl.getName() + "\" )");
+            }
             data.writeUTF(cl.getName());
 
             int classaccess = cl.getModifiers();
@@ -824,8 +838,9 @@ public class ObjectStreamClass implements java.io.Serializable {
             // Mask out any post-1.4 attributes
             classaccess &= CLASS_MASK;
 
-            if (DEBUG_SVUID)
+            if (DEBUG_SVUID) {
                 msg("\twriteInt( " + classaccess + " ) ");
+            }
             data.writeInt(classaccess);
 
             /*
@@ -840,10 +855,11 @@ public class ObjectStreamClass implements java.io.Serializable {
                 Class<?> interfaces[] = cl.getInterfaces();
                 Arrays.sort(interfaces, compareClassByName);
 
-                for (int i = 0; i < interfaces.length; i++) {
-                    if (DEBUG_SVUID)
-                        msg("\twriteUTF( \"" + interfaces[i].getName() + "\" ) ");
-                    data.writeUTF(interfaces[i].getName());
+                for (Class<?> element : interfaces) {
+                    if (DEBUG_SVUID) {
+                        msg("\twriteUTF( \"" + element.getName() + "\" ) ");
+                    }
+                    data.writeUTF(element.getName());
                 }
             }
 
@@ -851,43 +867,48 @@ public class ObjectStreamClass implements java.io.Serializable {
             Field[] field = cl.getDeclaredFields();
             Arrays.sort(field, compareMemberByName);
 
-            for (int i = 0; i < field.length; i++) {
-                Field f = field[i];
-
+            for (Field f : field) {
                 /*
                  * Include in the hash all fields except those that are private transient and private static.
                  */
                 int m = f.getModifiers();
-                if (Modifier.isPrivate(m) && (Modifier.isTransient(m) || Modifier.isStatic(m)))
+                if (Modifier.isPrivate(m) && (Modifier.isTransient(m) || Modifier.isStatic(m))) {
                     continue;
+                }
 
-                if (DEBUG_SVUID)
+                if (DEBUG_SVUID) {
                     msg("\twriteUTF( \"" + f.getName() + "\" ) ");
+                }
                 data.writeUTF(f.getName());
 
                 // Mask out any post-1.4 bits
                 m &= FIELD_MASK;
 
-                if (DEBUG_SVUID)
+                if (DEBUG_SVUID) {
                     msg("\twriteInt( " + m + " ) ");
+                }
                 data.writeInt(m);
 
-                if (DEBUG_SVUID)
+                if (DEBUG_SVUID) {
                     msg("\twriteUTF( \"" + getSignature(f.getType()) + "\" ) ");
+                }
                 data.writeUTF(getSignature(f.getType()));
             }
 
             if (bridge.hasStaticInitializerForSerialization(cl)) {
-                if (DEBUG_SVUID)
+                if (DEBUG_SVUID) {
                     msg("\twriteUTF( \"<clinit>\" ) ");
+                }
                 data.writeUTF("<clinit>");
 
-                if (DEBUG_SVUID)
+                if (DEBUG_SVUID) {
                     msg("\twriteInt( " + Modifier.STATIC + " )");
+                }
                 data.writeInt(Modifier.STATIC); // TBD: what modifiers does it have
 
-                if (DEBUG_SVUID)
+                if (DEBUG_SVUID) {
                     msg("\twriteUTF( \"()V\" )");
+                }
                 data.writeUTF("()V");
             }
 
@@ -897,24 +918,26 @@ public class ObjectStreamClass implements java.io.Serializable {
              */
 
             MethodSignature[] constructors = MethodSignature.removePrivateAndSort(cl.getDeclaredConstructors());
-            for (int i = 0; i < constructors.length; i++) {
-                MethodSignature c = constructors[i];
+            for (MethodSignature c : constructors) {
                 String mname = "<init>";
                 String desc = c.signature;
                 desc = desc.replace('/', '.');
-                if (DEBUG_SVUID)
+                if (DEBUG_SVUID) {
                     msg("\twriteUTF( \"" + mname + "\" )");
+                }
                 data.writeUTF(mname);
 
                 // mask out post-1.4 modifiers
                 int modifier = c.member.getModifiers() & METHOD_MASK;
 
-                if (DEBUG_SVUID)
+                if (DEBUG_SVUID) {
                     msg("\twriteInt( " + modifier + " ) ");
+                }
                 data.writeInt(modifier);
 
-                if (DEBUG_SVUID)
+                if (DEBUG_SVUID) {
                     msg("\twriteUTF( \"" + desc + "\" )");
+                }
                 data.writeUTF(desc);
             }
 
@@ -922,24 +945,26 @@ public class ObjectStreamClass implements java.io.Serializable {
              * Include in the hash all methods except those that are private transient and private static.
              */
             MethodSignature[] methods = MethodSignature.removePrivateAndSort(method);
-            for (int i = 0; i < methods.length; i++) {
-                MethodSignature m = methods[i];
+            for (MethodSignature m : methods) {
                 String desc = m.signature;
                 desc = desc.replace('/', '.');
 
-                if (DEBUG_SVUID)
+                if (DEBUG_SVUID) {
                     msg("\twriteUTF( \"" + m.member.getName() + "\" )");
+                }
                 data.writeUTF(m.member.getName());
 
                 // mask out post-1.4 modifiers
                 int modifier = m.member.getModifiers() & METHOD_MASK;
 
-                if (DEBUG_SVUID)
+                if (DEBUG_SVUID) {
                     msg("\twriteInt( " + modifier + " ) ");
+                }
                 data.writeInt(modifier);
 
-                if (DEBUG_SVUID)
+                if (DEBUG_SVUID) {
                     msg("\twriteUTF( \"" + desc + "\" )");
+                }
                 data.writeUTF(desc);
             }
 
@@ -993,10 +1018,11 @@ public class ObjectStreamClass implements java.io.Serializable {
                 data.writeLong(computeStructuralUID(lookup(parent), parent));
             }
 
-            if (osc.hasWriteObject())
+            if (osc.hasWriteObject()) {
                 data.writeInt(2);
-            else
+            } else {
                 data.writeInt(1);
+            }
 
             // CORBA formal 00-11-03 10.6.2: For each field of the
             // class that is mapped to IDL, sorted lexicographically
@@ -1008,9 +1034,9 @@ public class ObjectStreamClass implements java.io.Serializable {
 
             // ...Java field name in UTF encoding, field
             // descriptor, as defined by the JVM spec...
-            for (int i = 0; i < field.length; i++) {
-                data.writeUTF(field[i].getName());
-                data.writeUTF(field[i].getSignature());
+            for (ObjectStreamField element : field) {
+                data.writeUTF(element.getName());
+                data.writeUTF(element.getSignature());
             }
 
             /*
@@ -1115,7 +1141,7 @@ public class ObjectStreamClass implements java.io.Serializable {
     /*
      * Cache of Class -> ClassDescriptor Mappings.
      */
-    static private final SoftCache<Class<?>, ObjectStreamClass> descriptorFor = new SoftCache<Class<?>, ObjectStreamClass>();
+    static private final SoftCache<Class<?>, ObjectStreamClass> descriptorFor = new SoftCache<>();
 
     /*
      * The name of this descriptor
@@ -1211,6 +1237,7 @@ public class ObjectStreamClass implements java.io.Serializable {
 
     private static class CompareClassByName implements Comparator<Class<?>> {
 
+        @Override
         public int compare(Class<?> c1, Class<?> c2) {
             return c1.getName().compareTo(c2.getName());
         }
@@ -1223,6 +1250,7 @@ public class ObjectStreamClass implements java.io.Serializable {
 
     private static class CompareObjStrFieldsByName implements Comparator<ObjectStreamField> {
 
+        @Override
         public int compare(ObjectStreamField o1, ObjectStreamField o2) {
             return o1.getName().compareTo(o2.getName());
         }
@@ -1235,6 +1263,7 @@ public class ObjectStreamClass implements java.io.Serializable {
 
     private static class CompareMemberByName implements Comparator<Member> {
 
+        @Override
         public int compare(Member o1, Member o2) {
             String s1 = o1.getName();
             String s2 = o2.getName();
@@ -1267,39 +1296,43 @@ public class ObjectStreamClass implements java.io.Serializable {
          */
         static MethodSignature[] removePrivateAndSort(Member[] m) {
             int numNonPrivate = 0;
-            for (int i = 0; i < m.length; i++) {
-                if (!Modifier.isPrivate(m[i].getModifiers())) {
+            for (Member element : m) {
+                if (!Modifier.isPrivate(element.getModifiers())) {
                     numNonPrivate++;
                 }
             }
             MethodSignature[] cm = new MethodSignature[numNonPrivate];
             int cmi = 0;
-            for (int i = 0; i < m.length; i++) {
-                if (!Modifier.isPrivate(m[i].getModifiers())) {
-                    cm[cmi] = new MethodSignature(m[i]);
+            for (Member element : m) {
+                if (!Modifier.isPrivate(element.getModifiers())) {
+                    cm[cmi] = new MethodSignature(element);
                     cmi++;
                 }
             }
-            if (cmi > 0)
+            if (cmi > 0) {
                 Arrays.sort(cm, cm[0]);
+            }
             return cm;
         }
 
         /*
          * Assumes that o1 and o2 are either both methods or both constructors.
          */
+        @Override
         public int compare(MethodSignature c1, MethodSignature c2) {
             /* Arrays.sort calls compare when o1 and o2 are equal. */
-            if (c1 == c2)
+            if (c1 == c2) {
                 return 0;
+            }
 
             int result;
             if (isConstructor()) {
                 result = c1.signature.compareTo(c2.signature);
             } else { // is a Method.
                 result = c1.member.getName().compareTo(c2.member.getName());
-                if (result == 0)
+                if (result == 0) {
                     result = c1.signature.compareTo(c2.signature);
+                }
             }
             return result;
         }

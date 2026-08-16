@@ -39,10 +39,11 @@ public class ID implements Serializable {
     }
 
     public boolean equals(ID other) {
-        if (fId == other.fId)
+        if (fId == other.fId) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
 }

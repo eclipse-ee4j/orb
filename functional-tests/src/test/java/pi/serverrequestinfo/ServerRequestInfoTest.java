@@ -43,22 +43,23 @@ public class ServerRequestInfoTest extends CORBATest {
      * "DSIRMIRemoteServer.java", "TestInitializer.java", "SampleServerRequestInterceptor.java", "DSIImpl.java",
      * "helloDelegate.java", "helloIF.java", "helloServant.java", "helloDSIServant.java", "helloDSIDeprecatedServant.java",
      * "helloRMIIIOP.java", "PolicyFactoryHundred.java", "PolicyHundred.java",
-     * 
+     *
      * // Interception strategies: "InterceptorStrategy.java", "RequestId1Strategy.java", "AttributesValidStrategy.java",
      * "AdapterIdStrategy.java", "OneWayStrategy.java", "ForwardReferenceStrategy.java", "ServiceContextStrategy.java",
      * "ExceptionStrategy.java", "RequestInfoStackStrategy.java", "GetServerPolicyStrategy.java",
-     * 
+     *
      * // Invocation strategies: "InvokeStrategy.java", "InvokeVisitAll.java", "InvokeExceptions.java", "InvokeOneWay.java",
      * "InvokeVisitAllForward.java" };
-     * 
+     *
      * public static String[] rmicClasses = { "pi.serverrequestinfo.helloRMIIIOP" };
      */
 
+    @Override
     protected void doTest() throws Throwable {
         /*
          * Options.addIDLCompilerArgs( "-fall" ); Options.setJavaFiles(javaFiles); Options.setIDLFiles(idlFiles);
          * Options.addRMICArgs( "-nolocalstubs -iiop -keep -g" ); Options.setRMICClasses( rmicClasses );
-         * 
+         *
          * compileIDLFiles(); compileRMICFiles(); compileJavaFiles();
          */
 

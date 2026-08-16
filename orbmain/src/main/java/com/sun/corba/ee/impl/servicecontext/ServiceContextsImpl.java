@@ -120,7 +120,7 @@ public class ServiceContextsImpl implements ServiceContexts {
     public ServiceContextsImpl(ORB orb) {
         this.orb = orb;
 
-        scMap = new HashMap<Integer, Object>();
+        scMap = new HashMap<>();
 
         // Use the GIOP version of the ORB. Should
         // be specified in ServiceContext.
@@ -131,7 +131,7 @@ public class ServiceContextsImpl implements ServiceContexts {
 
     /**
      * Read the Service contexts from the input stream.
-     * 
+     *
      * @param s Stream to get context from
      */
     public ServiceContextsImpl(InputStream s) {
@@ -216,6 +216,7 @@ public class ServiceContextsImpl implements ServiceContexts {
      *
      * If they haven't been unmarshaled, we don't have to unmarshal them.
      */
+    @Override
     @TraceServiceContext
     public void write(OutputStream os, GIOPVersion gv) {
         int numsc = scMap.size();
@@ -280,11 +281,13 @@ public class ServiceContextsImpl implements ServiceContexts {
         }
     }
 
+    @Override
     @TraceServiceContext
     public void put(ServiceContext sc) {
         scMap.put(sc.getId(), sc);
     }
 
+    @Override
     @TraceServiceContext
     public void delete(int scId) {
         scMap.remove(scId);
@@ -302,6 +305,7 @@ public class ServiceContextsImpl implements ServiceContexts {
     private void unmarshallingServiceContext(int id) {
     }
 
+    @Override
     @TraceServiceContext
     public ServiceContext get(int id) {
         Object result = scMap.get(id);
@@ -339,6 +343,7 @@ public class ServiceContextsImpl implements ServiceContexts {
     /**
      * send back a shallow copy of the ServiceContexts container
      */
+    @Override
     @TraceServiceContext
     public ServiceContexts copy() {
         ServiceContexts result = new ServiceContextsImpl(this);

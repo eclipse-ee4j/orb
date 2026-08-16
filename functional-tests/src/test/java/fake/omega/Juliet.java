@@ -31,6 +31,7 @@ public class Juliet implements org.omg.CORBA.portable.ValueBase {
         value = initial;
     }
 
+    @Override
     public String[] _truncatable_ids() {
         return fake.omega.JulietHelper.get_instance().get_truncatable_base_ids();
     }

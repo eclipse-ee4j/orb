@@ -22,6 +22,7 @@ package javax.rmi.CORBA.serialization;
 
 public class OBVTestObjectOneDefaultFactory implements org.omg.CORBA.portable.ValueFactory {
 
+    @Override
     public java.io.Serializable read_value(org.omg.CORBA_2_3.portable.InputStream is) {
         return is.read_value(new OBVTestObjectOneImpl(is));
     }

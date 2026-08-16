@@ -39,7 +39,7 @@ import org.omg.CORBA.ORB;
  * the name server (-ORBInitialPort), and if not set, defaults to the standard port number. The BootstrapServer is
  * created supplying the Properties object, using no external File object for storage, and the derived initial port
  * number.
- * 
+ *
  * @see com.sun.corba.se.internal.CosNaming.BootstrapServer
  */
 @Naming
@@ -65,7 +65,7 @@ public class TransientNameServer {
     /**
      * Main startup routine. It instantiates a TransientNameService object and a BootstrapServer object, and then allows
      * invocations to happen.
-     * 
+     *
      * @param args an array of strings representing the startup arguments.
      */
     @Naming

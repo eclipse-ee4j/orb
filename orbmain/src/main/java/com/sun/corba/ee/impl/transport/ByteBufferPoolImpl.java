@@ -54,6 +54,7 @@ public class ByteBufferPoolImpl implements ByteBufferPool {
     }
 
     /** Return a ByteBuffer of the requested size. */
+    @Override
     public ByteBuffer getByteBuffer(int size) {
         if (useDirectBuffers) {
             if (size > byteBufferSlabSize) {
@@ -77,6 +78,7 @@ public class ByteBufferPoolImpl implements ByteBufferPool {
         }
     }
 
+    @Override
     public void releaseByteBuffer(ByteBuffer buffer) {
         // nothing to do here other than help the garbage collector
         // Remove this, as it is not useful, and gets flagged by findbugs.
@@ -88,6 +90,7 @@ public class ByteBufferPoolImpl implements ByteBufferPool {
     /**
      * Get a count of the outstanding allocated DirectByteBuffers. (Those allocated and have not been returned to the pool).
      */
+    @Override
     public int activeCount() {
         return 0;
     }
@@ -97,6 +100,7 @@ public class ByteBufferPoolImpl implements ByteBufferPool {
      * <code>oldByteBuffer</code> starting at <code>oldByteBuffer.position()</code> up to <code>oldByteBuffer.limit()</code>
      * into the returned <code>ByteBuffer</code>.
      */
+    @Override
     public ByteBuffer reAllocate(ByteBuffer oldByteBuffer, int minimumSize) {
         int size = orb.getORBData().getReadByteBufferSize();
         while (size <= minimumSize) {

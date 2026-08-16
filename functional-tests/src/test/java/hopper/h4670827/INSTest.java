@@ -36,6 +36,7 @@ public class INSTest extends CORBATest {
 
     // This is the main method defining the test. All tests
     // should have this.
+    @Override
     protected void doTest() throws Throwable {
         Options.addIDLCompilerArgs("-fall -oldImplBase");
         Options.setJavaFiles(javaFiles);

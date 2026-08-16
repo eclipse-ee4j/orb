@@ -55,15 +55,13 @@ public abstract class Framework {
     /**
      * A free port, found at run time rather than hardcoded.
      *
-     * This used to be the literal "46132", which meant the test failed whenever anything else on
-     * the machine already held that port - reported only as "Unable to create IIOP listener on the
-     * specified host all interfaces and port 46,132", and so it passed on a developer machine and
-     * failed on a shared CI agent. corba.framework.Port asks the OS for an unused port
-     * (new ServerSocket(0)), which is what the rest of the harness already relies on.
+     * This used to be the literal "46132", which meant the test failed whenever anything else on the machine already held
+     * that port - reported only as "Unable to create IIOP listener on the specified host all interfaces and port 46,132",
+     * and so it passed on a developer machine and failed on a shared CI agent. corba.framework.Port asks the OS for an
+     * unused port (new ServerSocket(0)), which is what the rest of the harness already relies on.
      *
-     * Safe to allocate per-process here: the tests in this package that use it run in a single
-     * client JVM - corba.simpledynamic.NewAcceptor calls only createClient - so no other process
-     * needs to agree on the number.
+     * Safe to allocate per-process here: the tests in this package that use it run in a single client JVM -
+     * corba.simpledynamic.NewAcceptor calls only createClient - so no other process needs to agree on the number.
      */
     protected static final String PORT_NUM = new Port().toString();
 
@@ -101,7 +99,7 @@ public abstract class Framework {
             props.setProperty(ORBConstants.ORB_ID_PROPERTY, "clientORB");
         }
 
-        ORB orb = (ORB) ORB.init(new String[0], props);
+        ORB orb = (ORB) org.omg.CORBA.ORB.init(new String[0], props);
 
         updateORB(orb, isServer);
 

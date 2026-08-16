@@ -34,14 +34,17 @@ public class EchoImpl extends PortableRemoteObject implements Echo {
         this.name = name;
     }
 
+    @Override
     public Echo say(Echo echo) {
         return echo;
     }
 
+    @Override
     public String name() {
         return name;
     }
 
+    @Override
     public Collection methodCollectionUserInfo(String str, UserInfo ui) throws RemoteException {
         List result = new ArrayList();
         result.add(str);
@@ -49,6 +52,7 @@ public class EchoImpl extends PortableRemoteObject implements Echo {
         return result;
     }
 
+    @Override
     public Collection methodCollectionObject(String str, Object ui) throws RemoteException {
         List result = new ArrayList();
         result.add(str);

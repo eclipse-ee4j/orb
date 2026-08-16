@@ -38,6 +38,7 @@ public class RequestId2Strategy extends InterceptorStrategy {
     // The request id count:
     private int count = 0;
 
+    @Override
     public void send_request(SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) throws ForwardRequest {
         super.send_request(interceptor, ri);
 
@@ -60,6 +61,7 @@ public class RequestId2Strategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void receive_reply(SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) {
         super.receive_reply(interceptor, ri);
 

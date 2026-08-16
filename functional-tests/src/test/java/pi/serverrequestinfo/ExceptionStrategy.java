@@ -36,6 +36,7 @@ public class ExceptionStrategy extends InterceptorStrategy {
 
     private int count = 0;
 
+    @Override
     public void receive_request_service_contexts(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) throws ForwardRequest {
         super.receive_request_service_contexts(interceptor, ri);
 
@@ -48,6 +49,7 @@ public class ExceptionStrategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void receive_request(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) {
         super.receive_request(interceptor, ri);
 
@@ -58,6 +60,7 @@ public class ExceptionStrategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void send_reply(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) {
         super.send_reply(interceptor, ri);
 
@@ -68,6 +71,7 @@ public class ExceptionStrategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void send_exception(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) throws ForwardRequest {
         super.send_exception(interceptor, ri);
 
@@ -78,6 +82,7 @@ public class ExceptionStrategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void send_other(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) throws ForwardRequest {
         super.send_other(interceptor, ri);
 
@@ -109,13 +114,13 @@ public class ExceptionStrategy extends InterceptorStrategy {
                 // is fixed, uncomment this test.
                 /*
                  * Any sendingException = ri.sending_exception();
-                 * 
+                 *
                  * try { log( header + "Got any with type = " + sendingException.type().name() ); } catch(
                  * org.omg.CORBA.TypeCodePackage.BadKind e ) { log( "" + e ); }
-                 * 
+                 *
                  * SystemException sex = ORBUtility.extractSystemException( sendingException ); log( "SystemException: " + sex ); log(
                  * "SystemException: " + sex.getMessage() );
-                 * 
+                 *
                  * ExampleException exception = ExampleExceptionHelper.extract( sendingException ); if( !exception.reason.equals(
                  * "valid" ) ) { fail( header + "sending_exception() did not return valid " + "ExampleException.  Reason = " +
                  * exception.reason ); } else { log( header + "sending_exception() is valid." ); }

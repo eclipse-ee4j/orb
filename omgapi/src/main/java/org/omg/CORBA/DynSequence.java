@@ -21,10 +21,11 @@ package org.omg.CORBA;
 
 /**
  * The representation of a <code>DynAny</code> object that is associated with an IDL sequence.
- * 
+ *
  * @deprecated Use the new <a href="../DynamicAny/DynSequence.html">DynSequence</a> instead
  */
 // @Deprecated
+@Deprecated
 public interface DynSequence extends org.omg.CORBA.Object, org.omg.CORBA.DynAny {
 
     /**

@@ -106,6 +106,7 @@ public class AOMEntry extends FSMImpl {
     static final Input EXIT = new Input.Base("exit");
 
     private static final Action incrementAction = new Action.Base("increment") {
+        @Override
         public void doIt(FSM fsm, Input in) {
             AOMEntry entry = (AOMEntry) fsm;
             entry.counter[0]++;
@@ -113,6 +114,7 @@ public class AOMEntry extends FSMImpl {
     };
 
     private static final Action decrementAction = new Action.Base("decrement") {
+        @Override
         public void doIt(FSM fsm, Input in) {
             AOMEntry entry = (AOMEntry) fsm;
             if (entry.counter[0] > 0) {
@@ -124,18 +126,21 @@ public class AOMEntry extends FSMImpl {
     };
 
     private static final Action throwIllegalStateExceptionAction = new Action.Base("throwIllegalStateException") {
+        @Override
         public void doIt(FSM fsm, Input in) {
             throw new IllegalStateException("No transitions allowed from the DESTROYED state");
         }
     };
 
     private static final Action oaaAction = new Action.Base("throwObjectAlreadyActive") {
+        @Override
         public void doIt(FSM fsm, Input in) {
             throw new RuntimeException(new ObjectAlreadyActive());
         }
     };
 
     private static final Guard waitGuard = new Guard.Base("wait") {
+        @Override
         public Guard.Result evaluate(FSM fsm, Input in) {
             AOMEntry entry = (AOMEntry) fsm;
             try {
@@ -149,6 +154,7 @@ public class AOMEntry extends FSMImpl {
     };
 
     private static final IntFunc counterFunc = new Guard.Base.IntFunc("counterFunc") {
+        @Override
         public Integer evaluate(FSM fsm, Input in) {
             AOMEntry entry = (AOMEntry) fsm;
             return entry.counter[0];

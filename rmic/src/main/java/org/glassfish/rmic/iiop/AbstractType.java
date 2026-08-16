@@ -63,7 +63,9 @@ public class AbstractType extends RemoteType {
 
             if (existing != null) {
 
-                if (!(existing instanceof AbstractType)) return null; // False hit.
+                if (!(existing instanceof AbstractType)) {
+                    return null; // False hit.
+                }
 
                                 // Yep, so return it...
 
@@ -91,7 +93,9 @@ public class AbstractType extends RemoteType {
                 }
             }
         } catch (CompilerError e) {
-            if (doPop) stack.pop(false);
+            if (doPop) {
+                stack.pop(false);
+            }
         }
 
         return result;
@@ -100,6 +104,7 @@ public class AbstractType extends RemoteType {
     /**
      * Return a string describing this type.
      */
+    @Override
     public String getTypeDescription () {
         return "Abstract interface";
     }
@@ -133,7 +138,9 @@ public class AbstractType extends RemoteType {
 
             try {
                 result = ! env.defRemote.implementedBy(env, classDef.getClassDeclaration());
-                if (!result) failedConstraint(15,quiet,stack,classDef.getName());
+                if (!result) {
+                    failedConstraint(15,quiet,stack,classDef.getName());
+                }
             } catch (ClassNotFound e) {
                 classNotFound(stack,e);
             }

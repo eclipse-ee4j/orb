@@ -47,6 +47,7 @@ public class DynamicStrategy extends InterceptorStrategy {
     // 2 - saySystemException.
     private int count = 0;
 
+    @Override
     public void send_request(SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) throws ForwardRequest {
         try {
             super.send_request(interceptor, ri);
@@ -74,11 +75,13 @@ public class DynamicStrategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void send_poll(SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) {
         super.send_poll(interceptor, ri);
         // never executed in our orb.
     }
 
+    @Override
     public void receive_reply(SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) {
         try {
             super.receive_reply(interceptor, ri);
@@ -97,6 +100,7 @@ public class DynamicStrategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void receive_exception(SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) throws ForwardRequest {
         try {
             super.receive_exception(interceptor, ri);
@@ -128,6 +132,7 @@ public class DynamicStrategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void receive_other(SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) throws ForwardRequest {
         try {
             super.receive_other(interceptor, ri);

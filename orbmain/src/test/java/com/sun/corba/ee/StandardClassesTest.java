@@ -84,13 +84,17 @@ public class StandardClassesTest {
     }
 
     private boolean isConcrete(Class<?> theClass, Description description) {
-      if (!Modifier.isAbstract(theClass.getModifiers())) return true;
+      if (!Modifier.isAbstract(theClass.getModifiers())) {
+        return true;
+      }
       description.appendText("is abstract class");
       return false;
     }
 
     private boolean hasRequiredInterface(Class<?> theClass, Description description) {
-      if (requiredInterface.isAssignableFrom(theClass)) return true;
+      if (requiredInterface.isAssignableFrom(theClass)) {
+        return true;
+      }
       description.appendText("does not implement ").appendText(requiredInterface.getName());
       return false;
     }

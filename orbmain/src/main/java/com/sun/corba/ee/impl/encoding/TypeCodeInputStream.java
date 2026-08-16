@@ -45,31 +45,39 @@ public class TypeCodeInputStream extends EncapsInputStream implements TypeCodeRe
         super(orb, byteBuffer, size, byteOrder, version);
     }
 
+    @Override
     public void addTypeCodeAtPosition(TypeCodeImpl tc, int position) {
         if (typeMap == null) {
-            typeMap = new HashMap<Integer, TypeCodeImpl>(16);
+            typeMap = new HashMap<>(16);
         }
         typeMap.put(position, tc);
     }
 
+    @Override
     public TypeCodeImpl getTypeCodeAtPosition(int position) {
-        if (typeMap == null)
+        if (typeMap == null) {
             return null;
+        }
         return typeMap.get(position);
     }
 
+    @Override
     public void setEnclosingInputStream(InputStream enclosure) {
         this.enclosure = enclosure;
     }
 
+    @Override
     public TypeCodeReader getTopLevelStream() {
-        if (enclosure == null)
+        if (enclosure == null) {
             return this;
-        if (enclosure instanceof TypeCodeReader)
+        }
+        if (enclosure instanceof TypeCodeReader) {
             return ((TypeCodeReader) enclosure).getTopLevelStream();
+        }
         return this;
     }
 
+    @Override
     public int getTopLevelPosition() {
         if (enclosure != null && enclosure instanceof TypeCodeReader) {
             // The enclosed stream has to consider if the enclosing stream
@@ -110,6 +118,7 @@ public class TypeCodeInputStream extends EncapsInputStream implements TypeCodeRe
         consumeEndian();
     }
 
+    @Override
     public void printTypeMap() {
         System.out.println("typeMap = {");
         for (Integer pos : typeMap.keySet()) {

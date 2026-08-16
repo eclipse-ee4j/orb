@@ -43,6 +43,7 @@ public abstract class POAClient extends ClientCommon {
     hello helloRefForward;
 
     // To be invoked after the orb is created by subclasses.
+    @Override
     public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         this.out = out;
         this.err = err;
@@ -51,6 +52,7 @@ public abstract class POAClient extends ClientCommon {
         obeyServer();
     }
 
+    @Override
     void resolveReferences() throws Exception {
         out.println("    - Resolving Hello1...");
         // Look up reference to hello object on server:
@@ -62,6 +64,7 @@ public abstract class POAClient extends ClientCommon {
         out.println("    - Resolved.");
     }
 
+    @Override
     String syncWithServer() throws Exception {
         return helloRef.syncWithServer(exceptionRaised);
     }
@@ -69,6 +72,7 @@ public abstract class POAClient extends ClientCommon {
     /**
      * Invoke the method with the given name on the object
      */
+    @Override
     protected void invokeMethod(String methodName) throws Exception {
         if (methodName.equals("sayHello")) {
             helloRef.sayHello();

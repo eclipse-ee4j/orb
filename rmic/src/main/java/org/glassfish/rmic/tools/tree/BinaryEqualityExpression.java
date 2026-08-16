@@ -40,6 +40,7 @@ class BinaryEqualityExpression extends BinaryExpression {
     /**
      * Select the type
      */
+    @Override
     void selectType(Environment env, Context ctx, int tm) {
         Type t;
         if ((tm & TM_ERROR) != 0) {

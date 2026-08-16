@@ -79,8 +79,8 @@ public abstract class TdescSuite {
     public String[] args;
 
     /**
-     * Why this entry is disabled, or null when it is live. Non-null turns the case into a JUnit skip carrying this text,
-     * so a disabled test is reported rather than absent.
+     * Why this entry is disabled, or null when it is live. Non-null turns the case into a JUnit skip carrying this text, so
+     * a disabled test is reported rather than absent.
      */
     @Parameter(2)
     public String skipReason;
@@ -108,16 +108,15 @@ public abstract class TdescSuite {
      * Parse a .tdesc into JUnit parameters. Only reads and tokenizes: no ORB is created and no process is launched here, so
      * a failure during parameter discovery cannot leave servants behind for the {@link #cleanup()} below to miss.
      *
-     * A disabled test must be written as {@code // @disabled(reason) -test ...}, which becomes a skipped case carrying
-     * that reason. Commenting an entry out any other way is rejected here rather than ignored: that is the whole point.
-     * A bare {@code // -test Foo} used to vanish from the results entirely -- which is precisely how
-     * corba.evolve.EvolveTest hid four tests from every build in this repository's history -- so the format no longer
-     * permits it. Rejection happens during parameter discovery, so a malformed descriptor fails the suite before any
-     * case runs, reported as an initialisation error; malformed suite metadata is configuration corruption, not a
-     * failing test.
+     * A disabled test must be written as {@code // @disabled(reason) -test ...}, which becomes a skipped case carrying that
+     * reason. Commenting an entry out any other way is rejected here rather than ignored: that is the whole point. A bare
+     * {@code // -test Foo} used to vanish from the results entirely -- which is precisely how corba.evolve.EvolveTest hid
+     * four tests from every build in this repository's history -- so the format no longer permits it. Rejection happens
+     * during parameter discovery, so a malformed descriptor fails the suite before any case runs, reported as an
+     * initialisation error; malformed suite metadata is configuration corruption, not a failing test.
      *
-     * Note the {@code trim()} below must stay ahead of the matching: every pattern is anchored at {@code ^//}, so
-     * matching an untrimmed line would let an indented {@code // -test Foo} slip through as an ordinary comment.
+     * Note the {@code trim()} below must stay ahead of the matching: every pattern is anchored at {@code ^//}, so matching
+     * an untrimmed line would let an indented {@code // -test Foo} slip through as an ordinary comment.
      */
     protected static Collection<Object[]> entries(String resource) throws IOException {
         InputStream in = TdescSuite.class.getResourceAsStream(resource);
@@ -125,7 +124,7 @@ public abstract class TdescSuite {
             throw new IOException("test descriptor not on the classpath: " + resource);
         }
 
-        List<Object[]> params = new ArrayList<Object[]>();
+        List<Object[]> params = new ArrayList<>();
         BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
         try {
             String line;
@@ -139,8 +138,7 @@ public abstract class TdescSuite {
                 if (disabled.matches()) {
                     String reason = disabled.group(1).trim();
                     if (reason.isEmpty()) {
-                        throw new IllegalArgumentException(
-                                "@disabled needs a reason, in " + resource + ": " + line);
+                        throw new IllegalArgumentException("@disabled needs a reason, in " + resource + ": " + line);
                     }
                     String[] args = test.Test.parseTestLine(disabled.group(2));
                     params.add(new Object[] { describe(args), args, reason });
@@ -148,8 +146,7 @@ public abstract class TdescSuite {
                 }
                 if (MALFORMED_DISABLED.matcher(line).matches()) {
                     throw new IllegalArgumentException(
-                            "malformed @disabled entry, expected // @disabled(reason) -test ... , in "
-                                    + resource + ": " + line);
+                            "malformed @disabled entry, expected // @disabled(reason) -test ... , in " + resource + ": " + line);
                 }
                 if (BARE_COMMENTED_TEST.matcher(line).matches()) {
                     throw new IllegalArgumentException(
@@ -214,7 +211,7 @@ public abstract class TdescSuite {
 
     /**
      * Runs once after all entries of a suite, not once per entry: JUnit executes an inherited
-     * 
+     *
      * @AfterClass after the subclass's tests complete. This reproduces the cleanup that test.Test.main did in its finally
      * block, without the System.exit that came with it.
      */

@@ -49,6 +49,7 @@ public class IIOPProfileTemplateImpl extends TaggedProfileTemplateBase implement
     private GIOPVersion giopVersion;
     private IIOPAddress primary;
 
+    @Override
     public Iterator<TaggedComponent> getTaggedComponents() {
         return iterator();
     }
@@ -59,27 +60,33 @@ public class IIOPProfileTemplateImpl extends TaggedProfileTemplateBase implement
                 primary.getHost(), primary.getPort());
     }
 
+    @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof IIOPProfileTemplateImpl))
+        if (!(obj instanceof IIOPProfileTemplateImpl)) {
             return false;
+        }
 
         IIOPProfileTemplateImpl other = (IIOPProfileTemplateImpl) obj;
 
         return super.equals(obj) && giopVersion.equals(other.giopVersion) && primary.equals(other.primary);
     }
 
+    @Override
     public int hashCode() {
         return super.hashCode() ^ giopVersion.hashCode() ^ primary.hashCode();
     }
 
+    @Override
     public TaggedProfile create(ObjectKeyTemplate oktemp, ObjectId id) {
         return IIOPFactories.makeIIOPProfile(orb, oktemp, id, this);
     }
 
+    @Override
     public GIOPVersion getGIOPVersion() {
         return giopVersion;
     }
 
+    @Override
     public IIOPAddress getPrimaryAddress() {
         return primary;
     }
@@ -112,10 +119,11 @@ public class IIOPProfileTemplateImpl extends TaggedProfileTemplateBase implement
         this.orb = orb;
         this.giopVersion = version;
         this.primary = primary;
-        if (giopVersion.getMinor() == 0)
+        if (giopVersion.getMinor() == 0) {
             // Adding tagged components is not allowed for IIOP 1.0,
             // so this template is complete and should be made immutable.
             makeImmutable();
+        }
     }
 
     public IIOPProfileTemplateImpl(InputStream istr) {
@@ -125,12 +133,14 @@ public class IIOPProfileTemplateImpl extends TaggedProfileTemplateBase implement
         primary = new IIOPAddressImpl(istr);
         orb = (ORB) (istr.orb());
         // Handle any tagged components (if applicable)
-        if (minor > 0)
+        if (minor > 0) {
             EncapsulationUtility.readIdentifiableSequence(this, orb.getTaggedComponentFactoryFinder(), istr);
+        }
 
         makeImmutable();
     }
 
+    @Override
     public void write(ObjectKeyTemplate okeyTemplate, ObjectId id, OutputStream os) {
         giopVersion.write(os);
         primary.write(os);
@@ -145,28 +155,34 @@ public class IIOPProfileTemplateImpl extends TaggedProfileTemplateBase implement
         okeyTemplate.write(id, encapsulatedOS);
         EncapsulationUtility.writeOutputStream(encapsulatedOS, os);
 
-        if (giopVersion.getMinor() > 0)
+        if (giopVersion.getMinor() > 0) {
             EncapsulationUtility.writeIdentifiableSequence(this, os);
+        }
     }
 
     /**
      * Write out this IIOPProfileTemplateImpl only.
      */
+    @Override
     public void writeContents(OutputStream os) {
         giopVersion.write(os);
         primary.write(os);
 
-        if (giopVersion.getMinor() > 0)
+        if (giopVersion.getMinor() > 0) {
             EncapsulationUtility.writeIdentifiableSequence(this, os);
+        }
     }
 
+    @Override
     public int getId() {
         return TAG_INTERNET_IOP.value;
     }
 
+    @Override
     public boolean isEquivalent(TaggedProfileTemplate temp) {
-        if (!(temp instanceof IIOPProfileTemplateImpl))
+        if (!(temp instanceof IIOPProfileTemplateImpl)) {
             return false;
+        }
 
         IIOPProfileTemplateImpl tempimp = (IIOPProfileTemplateImpl) temp;
 

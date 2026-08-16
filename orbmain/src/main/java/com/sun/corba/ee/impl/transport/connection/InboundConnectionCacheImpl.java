@@ -47,6 +47,7 @@ public final class InboundConnectionCacheImpl<C extends Connection> extends Conn
 
     private final ConcurrentMap<C, ConnectionState<C>> connectionMap;
 
+    @Override
     protected String thisClassName() {
         return "InboundConnectionCacheImpl";
     }
@@ -82,21 +83,24 @@ public final class InboundConnectionCacheImpl<C extends Connection> extends Conn
 
         super(cacheType, highWaterMark, numberToReclaim, ttl);
 
-        this.connectionMap = new ConcurrentHashMap<C, ConnectionState<C>>();
+        this.connectionMap = new ConcurrentHashMap<>();
     }
 
     // We do not need to define equals or hashCode for this class.
 
+    @Override
     public void requestReceived(final C conn) {
         ConnectionState<C> cs = getConnectionState(conn);
 
         final int totalConnections = totalBusy.get() + totalIdle.get();
-        if (totalConnections > highWaterMark())
+        if (totalConnections > highWaterMark()) {
             reclaim();
+        }
 
         ConcurrentQueue.Handle<C> reclaimHandle = cs.reclaimableHandle;
-        if (reclaimHandle != null)
+        if (reclaimHandle != null) {
             reclaimHandle.remove();
+        }
 
         int count = cs.busyCount.getAndIncrement();
         if (count == 0) {
@@ -113,6 +117,7 @@ public final class InboundConnectionCacheImpl<C extends Connection> extends Conn
     private void display(String m, Object value) {
     }
 
+    @Override
     @Transport
     public void requestProcessed(final C conn, final int numResponsesExpected) {
 
@@ -144,6 +149,7 @@ public final class InboundConnectionCacheImpl<C extends Connection> extends Conn
      * Decrement the number of expected responses. When a connection is idle and has no expected responses, it can be
      * reclaimed.
      */
+    @Override
     @Transport
     public void responseSent(final C conn) {
         final ConnectionState<C> cs = connectionMap.get(conn);
@@ -156,17 +162,20 @@ public final class InboundConnectionCacheImpl<C extends Connection> extends Conn
     /**
      * Close a connection, regardless of whether the connection is busy or not.
      */
+    @Override
     public void close(final C conn) {
         final ConnectionState<C> cs = connectionMap.remove(conn);
         int count = cs.busyCount.get();
-        if (count == 0)
+        if (count == 0) {
             totalIdle.decrementAndGet();
-        else
+        } else {
             totalBusy.decrementAndGet();
+        }
 
         final ConcurrentQueue.Handle rh = cs.reclaimableHandle;
-        if (rh != null)
+        if (rh != null) {
             rh.remove();
+        }
 
         try {
             conn.close();

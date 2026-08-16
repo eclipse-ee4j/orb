@@ -49,19 +49,23 @@ public class SampleIORInterceptor extends LocalObject implements IORInterceptor_
         out.println("    - IORInterceptor " + name + " created.");
     }
 
+    @Override
     public String name() {
         return name;
     }
 
+    @Override
     public void destroy() {
     }
 
+    @Override
     public void establish_components(IORInfo info) {
     }
 
     /**
      * Check ORBId and ORBServerId are propogated correctly.
      */
+    @Override
     public void components_established(IORInfo info) {
         com.sun.corba.ee.impl.interceptors.IORInfoImpl iorInfoImpl = (com.sun.corba.ee.impl.interceptors.IORInfoImpl) info;
         ObjectReferenceTemplate ort = iorInfoImpl.adapter_template();
@@ -76,10 +80,12 @@ public class SampleIORInterceptor extends LocalObject implements IORInterceptor_
         }
     }
 
+    @Override
     public void adapter_state_changed(ObjectReferenceTemplate[] templates, short state) {
         ORTStateChangeEvaluator.getInstance().registerAdapterStateChange(templates, state);
     }
 
+    @Override
     public void adapter_manager_state_changed(int managedId, short state) {
         ORTStateChangeEvaluator.getInstance().registerAdapterManagerStateChange(managedId, state);
     }

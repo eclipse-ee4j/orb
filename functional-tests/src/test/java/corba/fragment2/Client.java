@@ -40,6 +40,7 @@ class Tester extends Thread {
         totalThread++;
     }
 
+    @Override
     public void run() {
         System.out.println("Sending array of length " + size);
 
@@ -112,8 +113,9 @@ public class Client {
     }
 
     public static void main(String args[]) {
-        for (int i = 0; i < args.length; i++)
-            System.out.println(args[i]);
+        for (String arg : args) {
+            System.out.println(arg);
+        }
         setTest();
         try {
             for (int i = 0; i < catagoryNumber; i++) {
@@ -126,9 +128,9 @@ public class Client {
                 /*
                  * org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService"); NamingContext ncRef =
                  * NamingContextHelper.narrow(objRef);
-                 * 
+                 *
                  * NameComponent nc = new NameComponent("FragmentTester", ""); NameComponent path[] = {nc};
-                 * 
+                 *
                  * org.omg.CORBA.Object obj = ncRef.resolve(path);
                  */
 
@@ -140,8 +142,9 @@ public class Client {
 
                 int arrayLen = Integer.parseInt(System.getProperty("array.length"));
 
-                for (int j = 0; j < testCatagory[i].threadNumber; j++)
+                for (int j = 0; j < testCatagory[i].threadNumber; j++) {
                     new Tester(tester, arrayLen).start();
+                }
 
             }
         } catch (Exception e) {

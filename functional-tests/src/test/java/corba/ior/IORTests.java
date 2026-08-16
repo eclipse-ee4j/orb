@@ -28,6 +28,7 @@ import com.sun.corba.ee.impl.ior.*;
 /**
  */
 public class IORTests extends CORBATest {
+    @Override
     protected void doTest() throws Throwable {
         // Create client controller using the given
         // class. You can also specify names for these (for instance,

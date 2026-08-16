@@ -42,6 +42,7 @@ public class NameServer implements InternalProcess {
         }
     }
 
+    @Override
     public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         try {
             Properties orbProperties = new Properties();

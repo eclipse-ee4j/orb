@@ -32,10 +32,12 @@ public class CharValue implements java.io.Serializable {
         return value;
     }
 
+    @Override
     public int hashCode() {
         return value;
     }
 
+    @Override
     public boolean equals(Object it) {
         boolean result = false;
         if (this == it) {

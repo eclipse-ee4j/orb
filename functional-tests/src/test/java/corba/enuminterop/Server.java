@@ -47,8 +47,9 @@ public class Server {
     public static void main(String[] args) {
         try {
             System.out.println("Arguments:");
-            for (String str : args)
+            for (String str : args) {
                 System.out.println("\t" + str);
+            }
 
             // Use the JDK ORB for this test
             System.setProperty("org.omg.CORBA.ORBClass", PKG_PREFIX + "impl.orb.ORBImpl");
@@ -100,7 +101,7 @@ public class Server {
             Tie tie = javax.rmi.CORBA.Util.getTie(servant);
             // Tie tie = orb.getPresentationManager().getTie();
             tie.orb(orb);
-            tie.setTarget((java.rmi.Remote) servant);
+            tie.setTarget(servant);
             return tie;
         } catch (Exception e) {
             e.printStackTrace();

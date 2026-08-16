@@ -45,7 +45,7 @@ public abstract class BindingIteratorImpl extends BindingIteratorPOA {
 
     /**
      * Create a binding iterator servant. runs the super constructor.
-     * 
+     *
      * @param orb an ORB object.
      * @exception java.lang.Exception a Java exception.
      */
@@ -56,7 +56,7 @@ public abstract class BindingIteratorImpl extends BindingIteratorPOA {
 
     /**
      * Return the next binding. It also returns true or false, indicating whether there were more bindings.
-     * 
+     *
      * @param b The Binding as an out parameter.
      * @return true if there were more bindings.
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA system exceptions.
@@ -70,12 +70,13 @@ public abstract class BindingIteratorImpl extends BindingIteratorPOA {
 
     /**
      * Return the next n bindings. It also returns true or false, indicating whether there were more bindings.
-     * 
+     *
      * @param how_many The number of requested bindings in the BindingList.
      * @param blh The BindingList as an out parameter.
      * @return true if there were more bindings.
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA system exceptions.
      */
+    @Override
     public synchronized boolean next_n(int how_many, org.omg.CosNaming.BindingListHolder blh) {
         if (how_many == 0) {
             throw new BAD_PARAM(" 'how_many' parameter is set to 0 which is" + " invalid");
@@ -86,7 +87,7 @@ public abstract class BindingIteratorImpl extends BindingIteratorPOA {
     /**
      * lists next n bindings. It returns true or false, indicating whether there were more bindings. This method has the
      * package private scope, It will be called from NamingContext.list() operation or this.next_n().
-     * 
+     *
      * @param how_many The number of requested bindings in the BindingList.
      * @param blh The BindingList as an out parameter.
      * @return true if there were more bindings.
@@ -100,7 +101,7 @@ public abstract class BindingIteratorImpl extends BindingIteratorPOA {
         BindingHolder bh = new BindingHolder();
         int i = 0;
         // Keep iterating as long as there are entries
-        while (i < numberToGet && this.nextOneImpl(bh) == true) {
+        while (i < numberToGet && this.nextOneImpl(bh)) {
             bl[i] = bh.value;
             i++;
         }
@@ -119,7 +120,7 @@ public abstract class BindingIteratorImpl extends BindingIteratorPOA {
 
     /**
      * Destroy this BindingIterator object. The object corresponding to this object reference is destroyed.
-     * 
+     *
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA system exceptions.
      * @see #destroyImpl
      */
@@ -131,7 +132,7 @@ public abstract class BindingIteratorImpl extends BindingIteratorPOA {
 
     /**
      * Abstract method for returning the next binding in the NamingContext for which this BindingIterator was created.
-     * 
+     *
      * @param b The Binding as an out parameter.
      * @return true if there were more bindings.
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA system exceptions.
@@ -140,14 +141,14 @@ public abstract class BindingIteratorImpl extends BindingIteratorPOA {
 
     /**
      * Abstract method for destroying this BindingIterator.
-     * 
+     *
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA system exceptions.
      */
     protected abstract void destroyImpl();
 
     /**
      * Abstract method for returning the remaining number of elements.
-     * 
+     *
      * @return the remaining number of elements in the iterator.
      */
     protected abstract int remainingElementsImpl();

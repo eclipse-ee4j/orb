@@ -29,6 +29,7 @@ public class FrobnicatorProviderBean extends PortableRemoteObject implements Fro
     }
 
     // remote method
+    @Override
     public Frobnicator getFrobnicator() throws RemoteException {
         return (Frobnicator) Proxy.newProxyInstance(Frobnicator.class.getClassLoader(), new Class[] { Frobnicator.class }, new Handler());
     }

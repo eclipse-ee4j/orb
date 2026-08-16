@@ -88,6 +88,7 @@ public final class IORInfoImpl extends LocalObject implements IORInfo, IORInfoEx
      * @return The effective CORBA::Policy object of the requested type. If the given policy type is known, but no policy of
      * that type is in effect, then this operation will return a nil object reference.
      */
+    @Override
     public Policy get_effective_policy(int type) {
         checkState(STATE_INITIAL, STATE_ESTABLISHED);
 
@@ -103,11 +104,13 @@ public final class IORInfoImpl extends LocalObject implements IORInfo, IORInfoEx
      *
      * @param tagged_component The IOP::TaggedComponent to add
      */
+    @Override
     public void add_ior_component(TaggedComponent tagged_component) {
         checkState(STATE_INITIAL);
 
-        if (tagged_component == null)
+        if (tagged_component == null) {
             nullParam();
+        }
         addIORComponentToProfileInternal(tagged_component, adapter.getIORTemplate().iterator());
     }
 
@@ -124,11 +127,13 @@ public final class IORInfoImpl extends LocalObject implements IORInfo, IORInfoEx
      * @param tagged_component The IOP::TaggedComponent to add.
      * @param profile_id The IOP::ProfileId tof the profile to which this component will be added.
      */
+    @Override
     public void add_ior_component_to_profile(TaggedComponent tagged_component, int profile_id) {
         checkState(STATE_INITIAL);
 
-        if (tagged_component == null)
+        if (tagged_component == null) {
             nullParam();
+        }
         addIORComponentToProfileInternal(tagged_component, adapter.getIORTemplate().iteratorById(profile_id));
     }
 
@@ -137,6 +142,7 @@ public final class IORInfoImpl extends LocalObject implements IORInfo, IORInfoEx
      * @return The listen port number for that type.
      * @throws UnknownType if no port of the given type is found.
      */
+    @Override
     public int getServerPort(String type) throws UnknownType {
         checkState(STATE_INITIAL, STATE_ESTABLISHED);
 
@@ -147,22 +153,26 @@ public final class IORInfoImpl extends LocalObject implements IORInfo, IORInfoEx
         return port;
     }
 
+    @Override
     public ObjectAdapter getObjectAdapter() {
         return adapter;
     }
 
+    @Override
     public int manager_id() {
         checkState(STATE_INITIAL, STATE_ESTABLISHED);
 
         return adapter.getManagerId();
     }
 
+    @Override
     public short state() {
         checkState(STATE_INITIAL, STATE_ESTABLISHED);
 
         return adapter.getState();
     }
 
+    @Override
     public ObjectReferenceTemplate adapter_template() {
         checkState(STATE_ESTABLISHED);
 
@@ -181,12 +191,14 @@ public final class IORInfoImpl extends LocalObject implements IORInfo, IORInfoEx
         return adapter.getAdapterTemplate();
     }
 
+    @Override
     public ObjectReferenceFactory current_factory() {
         checkState(STATE_ESTABLISHED);
 
         return adapter.getCurrentFactory();
     }
 
+    @Override
     public void current_factory(ObjectReferenceFactory factory) {
         checkState(STATE_ESTABLISHED);
 
@@ -228,13 +240,15 @@ public final class IORInfoImpl extends LocalObject implements IORInfo, IORInfoEx
     // REVISIT: add minor codes!
 
     private void checkState(int expectedState) {
-        if (expectedState != state)
+        if (expectedState != state) {
             throw wrapper.badState1(expectedState, state);
+        }
     }
 
     private void checkState(int expectedState1, int expectedState2) {
-        if ((expectedState1 != state) && (expectedState2 != state))
+        if ((expectedState1 != state) && (expectedState2 != state)) {
             throw wrapper.badState2(expectedState1, expectedState2, state);
+        }
     }
 
     void makeStateEstablished() {

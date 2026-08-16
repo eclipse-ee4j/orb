@@ -31,19 +31,23 @@ import org.omg.IOP.TAG_ORB_TYPE;
 public class ORBTypeComponentImpl extends TaggedComponentBase implements ORBTypeComponent {
     private int ORBType;
 
+    @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof ORBTypeComponentImpl))
+        if (!(obj instanceof ORBTypeComponentImpl)) {
             return false;
+        }
 
         ORBTypeComponentImpl other = (ORBTypeComponentImpl) obj;
 
         return ORBType == other.ORBType;
     }
 
+    @Override
     public int hashCode() {
         return ORBType;
     }
 
+    @Override
     public String toString() {
         return "ORBTypeComponentImpl[ORBType=" + ORBType + "]";
     }
@@ -52,14 +56,17 @@ public class ORBTypeComponentImpl extends TaggedComponentBase implements ORBType
         this.ORBType = ORBType;
     }
 
+    @Override
     public int getId() {
         return TAG_ORB_TYPE.value; // 0 in CORBA 2.3.1 13.6.3
     }
 
+    @Override
     public int getORBType() {
         return ORBType;
     }
 
+    @Override
     public void writeContents(OutputStream os) {
         os.write_ulong(ORBType);
     }

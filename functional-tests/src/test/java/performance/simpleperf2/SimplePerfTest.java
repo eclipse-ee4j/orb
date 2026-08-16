@@ -24,10 +24,12 @@ import corba.framework.*;
 import java.util.*;
 
 public class SimplePerfTest extends CORBATest {
+    @Override
     protected Controller newClientController() {
         return new InternalExec();
     }
 
+    @Override
     protected void doTest() throws Throwable {
         Options.setOutputDirectory((String) getArgs().get(test.Test.OUTPUT_DIRECTORY));
         Options.addServerArg("-debug");

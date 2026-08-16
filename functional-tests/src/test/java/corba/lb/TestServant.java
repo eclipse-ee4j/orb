@@ -33,6 +33,7 @@ public class TestServant extends PortableRemoteObject implements Test {
     public TestServant() throws RemoteException {
     }
 
+    @Override
     public int echo(int x) throws RemoteException {
         System.out.println(baseMsg + ".echo: " + x);
         return x;

@@ -32,6 +32,7 @@ class idlIServantPOA extends idlIPOA {
     public idlIServantPOA() {
     }
 
+    @Override
     public String o(String arg1) {
         // REVISIT : IDL stubs do NOT have colocated branch yet.
         // NEW: but now we have a SharedCDR subcontract.

@@ -27,12 +27,15 @@ public class FragmentTesterImpl extends PortableRemoteObject implements Fragment
         super();
     }
 
+    @Override
     public void verifyTransmission(byte array[]) throws BadArrayException {
-        if (array == null)
+        if (array == null) {
             throw new BadArrayException("Array is null");
+        }
 
-        if (array.length % 4 != 0)
+        if (array.length % 4 != 0) {
             throw new BadArrayException("Invalid array length: " + array.length);
+        }
 
         System.out.println("Array length = " + array.length);
 

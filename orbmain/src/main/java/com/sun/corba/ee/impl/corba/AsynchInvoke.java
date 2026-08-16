@@ -43,7 +43,7 @@ public class AsynchInvoke implements Runnable {
         _orb = o;
         _req = reqToInvokeOn;
         _notifyORB = n;
-    };
+    }
 
     /*
      * The run operation calls the invocation on the request object, updates the RequestImpl state to indicate that the
@@ -51,6 +51,7 @@ public class AsynchInvoke implements Runnable {
      *
      */
 
+    @Override
     public void run() {
         synchronized (_req) {
             // do the actual invocation
@@ -67,11 +68,11 @@ public class AsynchInvoke implements Runnable {
             _req.notify();
         }
 
-        if (_notifyORB == true) {
+        if (_notifyORB) {
             _orb.notifyORB();
         }
     }
 
-};
+}
 
 ///////////////////////////////////////////////////////////////////////////

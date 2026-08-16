@@ -33,6 +33,7 @@ import java.util.List;
 import org.omg.IOP.TAG_ALTERNATE_IIOP_ADDRESS;
 
 public class DefaultIORToSocketInfoImpl implements IORToSocketInfo {
+    @Override
     public List<? extends SocketInfo> getSocketInfo(IOR ior, List<? extends SocketInfo> previous) {
 
         // 6152681
@@ -41,7 +42,7 @@ public class DefaultIORToSocketInfoImpl implements IORToSocketInfo {
         }
 
         SocketInfo socketInfo;
-        List<SocketInfo> result = new ArrayList<SocketInfo>();
+        List<SocketInfo> result = new ArrayList<>();
 
         IIOPProfileTemplate iiopProfileTemplate = (IIOPProfileTemplate) ior.getProfile().getTaggedProfileTemplate();
         IIOPAddress primary = iiopProfileTemplate.getPrimaryAddress();
@@ -69,14 +70,17 @@ public class DefaultIORToSocketInfoImpl implements IORToSocketInfo {
 
     private SocketInfo createSocketInfo(final String hostname, final int port) {
         return new SocketInfo() {
+            @Override
             public String getType() {
                 return SocketInfo.IIOP_CLEAR_TEXT;
             }
 
+            @Override
             public String getHost() {
                 return hostname;
             }
 
+            @Override
             public int getPort() {
                 return port;
             }

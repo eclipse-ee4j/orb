@@ -30,6 +30,7 @@ public interface ServantOuter extends Remote {
         public Inner() throws RemoteException {
         }
 
+        @Override
         public ServantOuter echo(ServantOuter in) throws RemoteException {
             return in;
         }

@@ -54,9 +54,11 @@ public class IDLCompiler extends Compiler {
      *
      * @exception Exception Any error generated during compile or setup, such as abnormal termination
      */
+    @Override
     public void compile(String files[], Vector arguments, String stubDirectory, String reportDirectory) throws Exception {
-        if (files == null || files.length == 0)
+        if (files == null || files.length == 0) {
             return;
+        }
 
         // Probably the right way to do this modification (which is
         // specific to our compiler) would've been to subclass IDLCompiler
@@ -79,8 +81,9 @@ public class IDLCompiler extends Compiler {
                     File file = new File(files[i]);
                     String fileName = file.getName();
                     int dotIndex = fileName.indexOf(".idl");
-                    if (dotIndex > 0)
+                    if (dotIndex > 0) {
                         fileName = fileName.substring(0, dotIndex);
+                    }
                     fn = fileName;
                 } catch (Throwable t) {
                     // If something goes wrong, just make it
@@ -105,8 +108,9 @@ public class IDLCompiler extends Compiler {
         args.add(OUTPUT_DIR_OPTION);
         args.add(stubDirectory);
 
-        if (arguments != null)
+        if (arguments != null) {
             args.addAll(arguments);
+        }
 
         args.add(file);
 

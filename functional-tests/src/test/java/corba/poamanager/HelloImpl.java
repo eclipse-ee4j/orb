@@ -22,6 +22,7 @@ package corba.poamanager;
 import HelloStuff.HelloPOA;
 
 public class HelloImpl extends HelloPOA {
+    @Override
     public String hi() {
         try {
             Thread.sleep(10); // to allow interesting threading behavior

@@ -37,6 +37,7 @@ public class LBTest extends CORBATest {
 
     private static final int SHARED_SERVER_ID = 2727;
 
+    @Override
     protected void doTest() throws Exception {
         String thisPackage = this.getClass().getPackage().getName();
         String pluginPackage = "com.sun.corba.ee.impl.plugin.hwlb";

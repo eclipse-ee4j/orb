@@ -24,6 +24,7 @@ import corba.framework.*;
 import java.util.Properties;
 
 public class ProxySerializationTest extends CORBATest {
+    @Override
     protected void doTest() throws Throwable {
         // DEBUG: release commnet here
         // test.Test.debug=true;

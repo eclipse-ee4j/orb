@@ -66,10 +66,12 @@ public class ResourceLevelsPanel extends JComponent {
         fIIOP = valueOf(calls);
     }
 
+    @Override
     public void paint(Graphics g) {
         update(g);
     }
 
+    @Override
     public void update(Graphics g) {
         Rectangle bounds = getBounds();
 
@@ -97,8 +99,9 @@ public class ResourceLevelsPanel extends JComponent {
             width = Math.max(width, fm.stringWidth("Income: " + fIncome));
             width = Math.max(width, fm.stringWidth("IIOP: " + fIIOP));
 
-            if (height > maxHeight || width > maxWidth)
+            if (height > maxHeight || width > maxWidth) {
                 break;
+            }
 
             padding = (maxWidth - width) / 4;
             pointSize = pt;
@@ -115,7 +118,7 @@ public class ResourceLevelsPanel extends JComponent {
         int indent = fm.stringWidth("Savings: ");
 
         x = padding;
-        y = (int) (1.5 * (double) maxHeight);
+        y = (int) (1.5 * maxHeight);
         g.drawString("Savings: ", x, y);
         x += indent;
         g.drawString(fSavings, x, y);

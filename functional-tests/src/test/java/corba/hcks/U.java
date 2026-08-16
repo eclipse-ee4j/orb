@@ -86,8 +86,9 @@ public class U {
 
     // KMC: all done
     public static void done() {
-        if (testName != null)
+        if (testName != null) {
             testComplete();
+        }
 
         helper.done();
     }
@@ -112,8 +113,9 @@ public class U {
 
     // KMC: helper support
     private static void testStart(Object x) {
-        if (testName != null)
+        if (testName != null) {
             testComplete();
+        }
         testName = x.toString();
         helper.start(testName);
         ea.startTest();
@@ -576,8 +578,8 @@ public class U {
 
     public static StringBuffer formatCall(Object ref, String methodName, Object[] args) {
         StringBuffer result = new StringBuffer(ref + "." + methodName + "(");
-        for (int i = 0; i < args.length; i++) {
-            result.append(args[i]);
+        for (Object arg : args) {
+            result.append(arg);
             result.append(",");
         }
         if (args.length > 0) {
@@ -628,6 +630,7 @@ class CloseThread extends Thread {
         this.connection = connection;
     }
 
+    @Override
     public void run() {
         try {
             Thread.sleep(1000);

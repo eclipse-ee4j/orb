@@ -43,6 +43,7 @@ class helloDelegate implements helloIF {
         this.symbol = symbol;
     }
 
+    @Override
     public String sayHello() {
         ServerCommon.servantInvoked = true;
         out.println("    - helloDelegate: sayHello() invoked");
@@ -50,12 +51,14 @@ class helloDelegate implements helloIF {
         return "Hello, world!";
     }
 
+    @Override
     public void sayOneway() {
         ServerCommon.servantInvoked = true;
         out.println("    - helloDelegate: sayOneway() invoked");
         SampleServerRequestInterceptor.methodOrder += symbol;
     }
 
+    @Override
     public void saySystemException() {
         ServerCommon.servantInvoked = true;
         out.println("    - helloDelegate: saySystemException() invoked");
@@ -63,6 +66,7 @@ class helloDelegate implements helloIF {
         throw new IMP_LIMIT(SampleServerRequestInterceptor.VALID_MESSAGE);
     }
 
+    @Override
     public void sayUserException() throws ForwardRequest {
         ServerCommon.servantInvoked = true;
         out.println("    - helloDelegate: sayUserException() invoked");
@@ -79,6 +83,7 @@ class helloDelegate implements helloIF {
     //
     // @param exceptionRaised true if the last invocation resulted in
     // an exception on the client side.
+    @Override
     public String syncWithServer(boolean exceptionRaised) {
         out.println("    - helloDelegate: syncWithServer() invoked");
         // Notify the test case that the client is waiting for

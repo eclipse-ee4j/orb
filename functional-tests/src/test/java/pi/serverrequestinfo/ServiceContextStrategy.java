@@ -47,6 +47,7 @@ public class ServiceContextStrategy extends InterceptorStrategy {
     private final static byte[] FAKEDATA_RRSC = { (byte) 1, (byte) 8, (byte) 2 };
     private final static byte[] FAKEDATA_RR = { (byte) 9, (byte) 8, (byte) 9 };
 
+    @Override
     public void receive_request_service_contexts(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) throws ForwardRequest {
         super.receive_request_service_contexts(interceptor, ri);
 
@@ -59,6 +60,7 @@ public class ServiceContextStrategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void receive_request(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) {
         super.receive_request(interceptor, ri);
 
@@ -71,6 +73,7 @@ public class ServiceContextStrategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void send_reply(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) {
         super.send_reply(interceptor, ri);
 
@@ -83,6 +86,7 @@ public class ServiceContextStrategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void send_exception(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) throws ForwardRequest {
         super.send_exception(interceptor, ri);
 
@@ -95,6 +99,7 @@ public class ServiceContextStrategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void send_other(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) throws ForwardRequest {
         super.send_other(interceptor, ri);
 
@@ -164,10 +169,10 @@ public class ServiceContextStrategy extends InterceptorStrategy {
             // Commenting out "copy" test due to "good citizen" assumption.
             /*
              * // Ensure this is a copy and not the real thing: byte altered = ++sc.context_data[0];
-             * 
+             *
              * if( reqOrRep.equals( "request" ) ) { sc = ri.get_request_service_context( id ); } else { sc =
              * ri.get_reply_service_context( id ); }
-             * 
+             *
              * if( sc.context_data[0] == altered ) { fail( header + "( " + id + " ) is not a copy.  " + "It is the original!" ); }
              * else { log( header + "( " + id + " ) is a copy, " + "not the original (ok)" ); }
              */

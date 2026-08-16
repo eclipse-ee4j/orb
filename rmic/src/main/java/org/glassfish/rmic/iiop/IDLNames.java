@@ -21,6 +21,7 @@
 
 package org.glassfish.rmic.iiop;
 
+import org.glassfish.rmic.iiop.CompoundType.Member;
 import org.glassfish.rmic.tools.java.ClassNotFound;
 import org.glassfish.rmic.tools.java.Identifier;
 
@@ -274,10 +275,11 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
     }
 
     private static String toInnerClassName(String typeName) {
-        if (typeName.contains(". "))
+        if (typeName.contains(". ")) {
             return replace(typeName,". ","__");
-        else
+        } else {
             return replace(typeName,"$","__");
+        }
     }
 
     /**
@@ -700,7 +702,9 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
 
         int count = allMethods.length;
 
-        if (count == 0) return;
+        if (count == 0) {
+            return;
+        }
 
         // Make an array of all the method names...
 
@@ -1015,9 +1019,8 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
 
         // Now set all the idl names...
 
-        for (int i = 0; i < allMembers.length; i++) {
+        for (Member member : allMembers) {
 
-            CompoundType.Member member = allMembers[i];
             String idlName = getMemberOrMethodName(context,member.getName(),env);
             member.setIDLName(idlName);
         }

@@ -56,6 +56,7 @@ class InlineReturnStatement extends Statement {
     /**
      * Inline
      */
+    @Override
     public Statement inline(Environment env, Context ctx) {
         if (expr != null) {
             expr = expr.inlineValue(env, ctx);
@@ -66,6 +67,7 @@ class InlineReturnStatement extends Statement {
     /**
      * Create a copy of the statement for method inlining
      */
+    @Override
     public Statement copyInline(Context ctx, boolean valNeeded) {
         InlineReturnStatement s = (InlineReturnStatement)clone();
         if (expr != null) {
@@ -77,6 +79,7 @@ class InlineReturnStatement extends Statement {
     /**
      * The cost of inlining this statement
      */
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
         return 1 + ((expr != null) ? expr.costInline(thresh, env, ctx) : 0);
     }
@@ -84,6 +87,7 @@ class InlineReturnStatement extends Statement {
     /**
      * Code
      */
+    @Override
     public void code(Environment env, Context ctx, Assembler asm) {
         if (expr != null) {
             expr.codeValue(env, ctx, asm);
@@ -95,6 +99,7 @@ class InlineReturnStatement extends Statement {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out, int indent) {
         super.print(out, indent);
         out.print("inline-return");

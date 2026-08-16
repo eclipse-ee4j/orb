@@ -28,27 +28,32 @@ import test.*;
  * assumes the class has a static main method, etc. Output is redirected appropriately by using test.ProcessMonitor.
  */
 public class RDebugExec extends ExternalExec {
+    @Override
     public void initialize(String className, String processName, Properties environment, String VMArgs[], String programArgs[],
             OutputStream out, OutputStream err, Hashtable extra) throws Exception {
         super.initialize(className, processName, environment, VMArgs, programArgs, System.out, err, extra);
     }
 
+    @Override
     protected String[] getDebugVMArgs() {
         String[] result = { "-Xdebug", "-Xnoagent", "-Xrunjdwp:transport=dt_socket,server=y,suspend=y" };
 
         return result;
-    };
+    }
 
     // Don't timeout while debugging
+    @Override
     protected long getMaximumTimeout() {
         return 0;
     }
 
+    @Override
     public int waitFor(long timeout) throws Exception {
         // We don't want to set a timeout while debugging
         return waitFor();
     }
 
+    @Override
     public void start() throws Exception {
         System.out.println("Starting process " + processName + " in remote debug mode");
         super.start();
@@ -58,6 +63,7 @@ public class RDebugExec extends ExternalExec {
         }
     }
 
+    @Override
     public void stop() {
         // we don't want to stop; just tell the user and let them
         // tell us when to stop

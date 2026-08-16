@@ -43,6 +43,7 @@ class NotExpression extends UnaryExpression {
     /**
      * Select the type of the expression
      */
+    @Override
     void selectType(Environment env, Context ctx, int tm) {
         right = convert(env, ctx, Type.tBoolean, right);
     }
@@ -60,6 +61,7 @@ class NotExpression extends UnaryExpression {
      * swap true and false.
      */
 
+    @Override
     public void checkCondition(Environment env, Context ctx, Vset vset,
                                Hashtable<Object, Object> exp, ConditionVars cvars) {
         right.checkCondition(env, ctx, vset, exp, cvars);
@@ -73,6 +75,7 @@ class NotExpression extends UnaryExpression {
     /**
      * Evaluate
      */
+    @Override
     Expression eval(boolean a) {
         return new BooleanExpression(where, !a);
     }
@@ -80,6 +83,7 @@ class NotExpression extends UnaryExpression {
     /**
      * Simplify
      */
+    @Override
     Expression simplify() {
         // Check if the expression can be optimized
         switch (right.op) {
@@ -125,6 +129,7 @@ class NotExpression extends UnaryExpression {
     /**
      * Code
      */
+    @Override
     void codeBranch(Environment env, Context ctx, Assembler asm, Label lbl, boolean whenTrue) {
         right.codeBranch(env, ctx, asm, lbl, !whenTrue);
     }
@@ -133,6 +138,7 @@ class NotExpression extends UnaryExpression {
      * Instead of relying on the default code generation which uses
      * conditional branching, generate a simpler stream using XOR.
      */
+    @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         right.codeValue(env, ctx, asm);
         asm.add(where, opc_ldc, 1);

@@ -59,8 +59,9 @@ public class Client {
 
             MarshalTester result = tester.verify(predata, payload, postdata);
 
-            if (!payload.equals(result))
+            if (!payload.equals(result)) {
                 throw new Exception("Payloads not equal at predata size " + predata.length);
+            }
         }
 
         System.out.println("PASSED");
@@ -150,8 +151,9 @@ public class Client {
 
         AbsTester absTester = tester.getAbsTester();
 
-        if (!(absTester instanceof Tester))
+        if (!(absTester instanceof Tester)) {
             throw new DataCorruptedException("Not a Tester");
+        }
 
         // Methods in the abstract interface which
         // are declared to throw RemoteException
@@ -171,8 +173,9 @@ public class Client {
         System.out.println("Testing for incorrect char TC...");
 
         Character ch1 = new Character('\u6D77');
-        if (!ch1.equals(tester.verify(ch1)))
+        if (!ch1.equals(tester.verify(ch1))) {
             throw new DataCorruptedException("Error on character 1");
+        }
 
         System.out.println("PASSED");
     }
@@ -187,8 +190,9 @@ public class Client {
 
         TestObject to = new TestObject();
 
-        if (!to.equals(tester.verify(to)))
+        if (!to.equals(tester.verify(to))) {
             throw new DataCorruptedException("TestObjects not equal");
+        }
 
         System.out.println("PASSED");
     }
@@ -209,8 +213,9 @@ public class Client {
 
         System.out.println("Received: " + result);
 
-        if (!sc.equals(result))
+        if (!sc.equals(result)) {
             throw new DataCorruptedException("Bad result!");
+        }
 
         System.out.println("PASSED");
     }
@@ -231,11 +236,13 @@ public class Client {
 
         java.lang.Object result = tester.verify(data);
 
-        if (result == null)
+        if (result == null) {
             throw new DataCorruptedException("Failed -- result was null");
+        }
 
-        if (!data.equals(result))
+        if (!data.equals(result)) {
             throw new DataCorruptedException("Failed: " + result);
+        }
 
         System.out.println("PASSED");
     }
@@ -253,31 +260,37 @@ public class Client {
         Vector nonCustom = new Vector();
         nonCustom.add(nonCustom);
         Vector vectorResult = (Vector) tester.verify(nonCustom);
-        if (vectorResult == null)
+        if (vectorResult == null) {
             throw new DataCorruptedException("Result Vector was null");
-        if (vectorResult.size() != nonCustom.size())
+        }
+        if (vectorResult.size() != nonCustom.size()) {
             throw new DataCorruptedException("Result Vector's size is " + vectorResult.size());
-        if (vectorResult.elementAt(0) != vectorResult)
+        }
+        if (vectorResult.elementAt(0) != vectorResult) {
             throw new DataCorruptedException("Vector graph not preserved");
+        }
 
         Hashtable custom = new Hashtable();
         String customKey = "Test";
         custom.put(customKey, custom);
         Hashtable hashResult = (Hashtable) tester.verify((Map) custom);
-        if (hashResult == null)
+        if (hashResult == null) {
             throw new DataCorruptedException("Result Hashtable was null");
-        if (hashResult.size() != custom.size())
+        }
+        if (hashResult.size() != custom.size()) {
             throw new DataCorruptedException("Result Hashtable size is " + hashResult.size());
+        }
         Object hashObj = hashResult.get(customKey);
 
         // Should preserve self reference
-        if (hashObj != hashResult)
+        if (hashObj != hashResult) {
             throw new DataCorruptedException("Hashtable graph not preserved");
+        }
 
         Hashtable table2 = new Hashtable();
         table2.put("three", table2);
 
-        Hashtable table2Result = (Hashtable) tester.verify(table2);
+        Hashtable table2Result = tester.verify(table2);
         if (table2Result == null || table2Result.size() != table2.size() || table2Result.get("three") != table2Result) {
             throw new DataCorruptedException("Bad resulting Hashtable");
         }
@@ -296,10 +309,11 @@ public class Client {
         MarshalTester mt = new MarshalTester();
         mt.init(tester);
 
-        MarshalTester result = (MarshalTester) tester.verify((java.lang.Object) mt);
+        MarshalTester result = (MarshalTester) tester.verify(mt);
 
-        if (!mt.equals(result))
+        if (!mt.equals(result)) {
             throw new DataCorruptedException("MarshalTesters not equal!");
+        }
 
         System.out.println("PASSED");
     }
@@ -314,8 +328,9 @@ public class Client {
         for (int i = 0; i < 100; i++) {
             java.sql.Date d = new java.sql.Date((new java.util.Date()).getTime());
             java.sql.Date res = tester.verify(d);
-            if (!d.equals(res))
+            if (!d.equals(res)) {
                 throw new DataCorruptedException("Test 1 failed");
+            }
         }
 
         System.out.println("PASSED");
@@ -330,10 +345,12 @@ public class Client {
 
         Properties props = System.getProperties();
 
-        if (!props.equals(tester.verify(props)))
+        if (!props.equals(tester.verify(props))) {
             throw new DataCorruptedException("Test 1 failed");
-        if (!props.equals(tester.verify((Object) props)))
+        }
+        if (!props.equals(tester.verify((Object) props))) {
             throw new DataCorruptedException("Test 2 failed");
+        }
 
         Properties defaults = new Properties();
         defaults.setProperty("Test1", "Test2");
@@ -341,10 +358,12 @@ public class Client {
         Properties props2 = new Properties(defaults);
         props2.setProperty("Test5", "Test6");
 
-        if (!props2.equals(tester.verify(props2)))
+        if (!props2.equals(tester.verify(props2))) {
             throw new DataCorruptedException("Test 3 failed");
-        if (!props2.equals(tester.verify((Object) props2)))
+        }
+        if (!props2.equals(tester.verify((Object) props2))) {
             throw new DataCorruptedException("Test 4 failed");
+        }
 
         System.out.println("PASSED");
     }
@@ -359,20 +378,24 @@ public class Client {
 
         ArrayList list = new ArrayList(255);
 
-        for (int i = 0; i < 255; i++)
+        for (int i = 0; i < 255; i++) {
             list.add(tester);
+        }
 
         List result = tester.verify(list);
 
-        if (result == null)
+        if (result == null) {
             throw new DataCorruptedException("Result is null!");
+        }
 
-        if (result.size() != list.size())
+        if (result.size() != list.size()) {
             throw new DataCorruptedException("Sizes not equal!");
+        }
 
         for (int i = 0; i < list.size(); i++) {
-            if (!list.get(i).equals(result.get(i)))
+            if (!list.get(i).equals(result.get(i))) {
                 throw new DataCorruptedException("Item not equal: " + i);
+            }
         }
 
         System.out.println("PASSED");
@@ -391,8 +414,9 @@ public class Client {
 
         Calendar c2 = (Calendar) tester.verify(c1);
 
-        if (!c1.equals(c2))
+        if (!c1.equals(c2)) {
             throw new DataCorruptedException("Calendars not equal");
+        }
 
         System.out.println("PASSED");
     }
@@ -415,11 +439,13 @@ public class Client {
 
         System.out.println("Received: " + result);
 
-        if (!rsc.equals(result))
+        if (!rsc.equals(result)) {
             throw new DataCorruptedException("Bad result!");
+        }
 
-        if (!Status.writeReplaceCalled() || !Status.readResolveCalled())
+        if (!Status.writeReplaceCalled() || !Status.readResolveCalled()) {
             throw new DataCorruptedException("Didn't call writeReplace and readResolve");
+        }
 
         System.out.println("PASSED");
     }

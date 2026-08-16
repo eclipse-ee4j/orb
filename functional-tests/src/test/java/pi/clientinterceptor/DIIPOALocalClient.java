@@ -66,6 +66,7 @@ public class DIIPOALocalClient extends ClientCommon implements InternalProcess {
             System.out.println("+ Starting Server...");
             client.syncObject = new java.lang.Object();
             new Thread() {
+                @Override
                 public void run() {
                     try {
                         (new POALocalServer()).run(client.orb, client.syncObject, System.getProperties(), arguments, System.out, System.err,
@@ -97,6 +98,7 @@ public class DIIPOALocalClient extends ClientCommon implements InternalProcess {
         }
     }
 
+    @Override
     public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         try {
             // Test ClientInterceptor
@@ -112,6 +114,7 @@ public class DIIPOALocalClient extends ClientCommon implements InternalProcess {
     /**
      * Clear invocation flags of helloRef and helloRefForward
      */
+    @Override
     protected void clearInvoked() throws Exception {
         helloRef.clearInvoked();
         helloRefForward.clearInvoked();
@@ -120,6 +123,7 @@ public class DIIPOALocalClient extends ClientCommon implements InternalProcess {
     /**
      * Invoke the method with the given name on the object
      */
+    @Override
     protected void invokeMethod(String methodName) throws Exception {
         // Make an invocation:
         if (methodName.equals("sayHello")) {
@@ -144,6 +148,7 @@ public class DIIPOALocalClient extends ClientCommon implements InternalProcess {
     /**
      * Return true if the method was invoked
      */
+    @Override
     protected boolean wasInvoked() throws Exception {
         return helloRef.wasInvoked();
     }
@@ -151,6 +156,7 @@ public class DIIPOALocalClient extends ClientCommon implements InternalProcess {
     /**
      * Return true if the method was forwarded
      */
+    @Override
     protected boolean didForward() throws Exception {
         return helloRefForward.wasInvoked();
     }
@@ -158,6 +164,7 @@ public class DIIPOALocalClient extends ClientCommon implements InternalProcess {
     /**
      * Perform ClientRequestInterceptor tests
      */
+    @Override
     protected void testClientInterceptor() throws Exception {
         super.testClientInterceptor();
     }
@@ -165,6 +172,7 @@ public class DIIPOALocalClient extends ClientCommon implements InternalProcess {
     /**
      * Re-resolves all references to eliminate any cached ForwardRequests from the last invocation
      */
+    @Override
     protected void resolveReferences() throws Exception {
         out.println("    + resolving references...");
         out.println("      - disabling interceptors...");

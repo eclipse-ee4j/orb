@@ -64,12 +64,7 @@ class Node implements Constants, Cloneable {
      * Implicit conversions
      */
     public Expression convert(Environment env, Context ctx, Type t, Expression e) {
-        if (e.type.isType(TC_ERROR) || t.isType(TC_ERROR)) {
-            // An error was already reported
-            return e;
-        }
-
-        if (e.type.equals(t)) {
+        if (e.type.isType(TC_ERROR) || t.isType(TC_ERROR) || e.type.equals(t)) {
             // The types are already the same
             return e;
         }
@@ -102,6 +97,7 @@ class Node implements Constants, Cloneable {
     /**
      * Clone this object.
      */
+    @Override
     public Object clone() {
         try {
             return super.clone();
@@ -114,6 +110,7 @@ class Node implements Constants, Cloneable {
     /*
      * Useful for simple debugging
      */
+    @Override
     public String toString() {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         print(new PrintStream(bos));

@@ -30,24 +30,29 @@ final class ImplicitActivationPolicyImpl extends org.omg.CORBA.LocalObject imple
         this.value = value;
     }
 
+    @Override
     public ImplicitActivationPolicyValue value() {
         return value;
     }
 
+    @Override
     public int policy_type() {
         return IMPLICIT_ACTIVATION_POLICY_ID.value;
     }
 
+    @Override
     public Policy copy() {
         return new ImplicitActivationPolicyImpl(value);
     }
 
+    @Override
     public void destroy() {
         value = null;
     }
 
     private ImplicitActivationPolicyValue value;
 
+    @Override
     public String toString() {
         return "ImplicitActivationPolicy[" + ((value.value() == ImplicitActivationPolicyValue._IMPLICIT_ACTIVATION) ? "IMPLICIT_ACTIVATION"
                 : "NO_IMPLICIT_ACTIVATION" + "]");

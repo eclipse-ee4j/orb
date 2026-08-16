@@ -34,6 +34,7 @@ public class ShipSavings implements Investment, java.io.Serializable {
         fInterestRate = 0.07;
     }
 
+    @Override
     public String getName() {
         return "Ship Savings";
     }
@@ -50,6 +51,7 @@ public class ShipSavings implements Investment, java.io.Serializable {
         return (long) (fSavings * fInterestRate);
     }
 
+    @Override
     public void invest(long investment) {
         fSavings += computeInterest();
         fSavings += investment;

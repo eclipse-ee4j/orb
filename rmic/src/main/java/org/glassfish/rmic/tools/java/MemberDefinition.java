@@ -129,8 +129,9 @@ class MemberDefinition implements Constants {
         // System.out.println("Key is : " + key);
         MemberDefinition proxy = proxyCache.get(key);
 
-        if (proxy != null)
+        if (proxy != null) {
             return proxy;
+        }
 
         proxy = new MemberDefinition(field.getWhere(), classDef,
                                      field.getModifiers(), field.getType(),
@@ -218,7 +219,7 @@ class MemberDefinition implements Constants {
      * Get arguments (a vector of LocalMember)
      */
     public Vector<MemberDefinition> getArguments() {
-        return isMethod() ? new Vector<MemberDefinition>() : null;
+        return isMethod() ? new Vector<>() : null;
     }
 
     /**
@@ -226,11 +227,12 @@ class MemberDefinition implements Constants {
      */
     public ClassDeclaration[] getExceptions(Environment env) {
         if (expIds != null && exp == null) {
-            if (expIds.length == 0)
+            if (expIds.length == 0) {
                 exp = new ClassDeclaration[0];
-            else
-                // we should have translated this already!
-                throw new CompilerError("getExceptions "+this);
+            } else { // we should have translated this already!
+            	// we should have translated this already!
+            	throw new CompilerError("getExceptions "+this);
+            }
         }
         return exp;
     }
@@ -430,13 +432,16 @@ class MemberDefinition implements Constants {
      * forward references, not the access modifiers).
      */
     public final boolean canReach(Environment env, MemberDefinition f) {
-        if (f.isLocal() || !f.isVariable() || !(isVariable() || isInitializer()))
+        if (f.isLocal() || !f.isVariable() || !(isVariable() || isInitializer())) {
             return true;
+        }
         if ((getClassDeclaration().equals(f.getClassDeclaration())) &&
             (isStatic() == f.isStatic())) {
             // They are located in the same class, and are either both
             // static or both non-static.  Check the initialization order.
-            while (((f = f.getNextMember()) != null) && (f != this));
+            while (((f = f.getNextMember()) != null) && (f != this)) {
+                
+            }
             return f != null;
         }
         return true;
@@ -761,17 +766,11 @@ class MemberDefinition implements Constants {
         // The following check makes sure we aren't trying to override
         // an inherited non-abstract definition with an abstract definition
         // from an interface.
-        if (!method.isAbstract()) {
-            return false;
-        }
+        
 
         // Visibility should be less restrictive
-        if (getAccessLevel() > method.getAccessLevel()) {
-            return false;
-        }
-
         // Exceptions
-        if (!exceptionsFit(env, method)) {
+        if (!method.isAbstract() || (getAccessLevel() > method.getAccessLevel()) || !exceptionsFit(env, method)) {
             return false;
         }
 
@@ -794,20 +793,19 @@ class MemberDefinition implements Constants {
         // This code is taken nearly verbatim from the old implementation
         // of checkOverride() in SourceClass.
     outer:
-        for (int i = 0 ; i < e1.length ; i++) {
+        for (ClassDeclaration element : e1) {
             try {
-                ClassDefinition c1 = e1[i].getClassDefinition(env);
-                for (int j = 0 ; j < e2.length ; j++) {
-                    if (c1.subClassOf(env, e2[j])) {
+                ClassDefinition c1 = element.getClassDefinition(env);
+                for (ClassDeclaration element2 : e2) {
+                    if (c1.subClassOf(env, element2)) {
                         continue outer;
                     }
                 }
                 if (c1.subClassOf(env,
-                                  env.getClassDeclaration(idJavaLangError)))
+                                  env.getClassDeclaration(idJavaLangError)) || c1.subClassOf(env,
+                                  env.getClassDeclaration(idJavaLangRuntimeException))) {
                     continue outer;
-                if (c1.subClassOf(env,
-                                  env.getClassDeclaration(idJavaLangRuntimeException)))
-                    continue outer;
+                }
 
                 // the throws was neither something declared by a parent,
                 // nor one of the ignorables.
@@ -914,6 +912,7 @@ class MemberDefinition implements Constants {
     /**
      * toString
      */
+    @Override
     public String toString() {
         Identifier name = getClassDefinition().getName();
         if (isInitializer()) {

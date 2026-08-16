@@ -62,60 +62,70 @@ public class DateImpl extends Date {
         // nk
     }
 
+    @Override
     public long UTC(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5) {
         // nk
-        return delegate.UTC(arg0, arg1, arg2, arg3, arg4, arg5);
+        return java.util.Date.UTC(arg0, arg1, arg2, arg3, arg4, arg5);
         // nk
     }
 
+    @Override
     public long parse(String arg0) {
         // nk
-        return delegate.parse(arg0);
+        return java.util.Date.parse(arg0);
         // nk
     }
 
+    @Override
     public int year() {
         // nk
         return delegate.getYear();
         // nk
     }
 
+    @Override
     public void year(int newYear) {
         // nk
         delegate.setYear(newYear);
         // nk
     }
 
+    @Override
     public int month() {
         // nk
         return delegate.getMonth();
         // nk
     }
 
+    @Override
     public void month(int newMonth) {
         // nk
         delegate.setMonth(newMonth);
         // nk
     }
 
+    @Override
     public int date() {
         // nk
         return delegate.getDate();
         // nk
     }
 
+    @Override
     public void date(int newDate) {
         // nk
         delegate.setDate(newDate);
         // nk
     }
 
+    @Override
     public int day() {
         // nk
         return delegate.getDay();
         // nk
     }
 
+    @Override
     public int hours() {
         // nk
         return delegate.getHours();
@@ -123,90 +133,105 @@ public class DateImpl extends Date {
 
     }
 
+    @Override
     public void hours(int newHours) {
         // nk
         delegate.setHours(newHours);
         // nk
     }
 
+    @Override
     public int minutes() {
         // nk
         return delegate.getMinutes();
         // nk
     }
 
+    @Override
     public void minutes(int newMinutes) {
         // nk
         delegate.setMinutes(newMinutes);
         // nk
     }
 
+    @Override
     public int seconds() {
         // nk
         return delegate.getSeconds();
         // nk
     }
 
+    @Override
     public void seconds(int newSeconds) {
         // nk
         delegate.setSeconds(newSeconds);
         // nk
     }
 
+    @Override
     public long time() {
         // nk
         return delegate.getTime();
         // nk
     }
 
+    @Override
     public void time(long newTime) {
         // nk
         delegate.setTime(newTime);
         // nk
     }
 
+    @Override
     public boolean before(javax.rmi.CORBA.serialization.Date arg0) {
         // nk
         return delegate.before(((DateImpl) arg0).getDelegate());
         // nk
     }
 
+    @Override
     public boolean after(javax.rmi.CORBA.serialization.Date arg0) {
         // nk
         return delegate.after(((DateImpl) arg0).getDelegate());
         // nk
     }
 
+    @Override
     public boolean _equals(org.omg.CORBA.Any arg0) {
         // nk
         return false;
         // nk
     }
 
+    @Override
     public int _hashCode() {
         // nk
         return delegate.hashCode();
         // nk
     }
 
+    @Override
     public String _toString() {
         // nk
         return delegate.toString();
         // nk
     }
 
+    @Override
     public String toLocaleString() {
         // nk
         return delegate.toLocaleString();
         // nk
     }
 
+    @Override
     public String toGMTString() {
         // nk
         return delegate.toGMTString();
         // nk
     }
 
+    @Override
     public int timezoneOffset() {
         // nk
         return delegate.getTimezoneOffset();
@@ -226,12 +251,14 @@ public class DateImpl extends Date {
 
     // nk
     // Methods to be implemented for Custom Marshalling
+    @Override
     public void marshal(org.omg.CORBA.DataOutputStream os) {
         os.write_octet((byte) 1);
         os.write_boolean(false);
         os.write_longlong(delegate.getTime());
     }
 
+    @Override
     public void unmarshal(org.omg.CORBA.DataInputStream is) {
         is.read_octet();
         is.read_boolean();

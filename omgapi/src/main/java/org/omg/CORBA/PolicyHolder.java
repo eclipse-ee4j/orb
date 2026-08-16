@@ -37,14 +37,17 @@ public final class PolicyHolder implements org.omg.CORBA.portable.Streamable {
         value = initialValue;
     }
 
+    @Override
     public void _read(org.omg.CORBA.portable.InputStream i) {
         value = org.omg.CORBA.PolicyHelper.read(i);
     }
 
+    @Override
     public void _write(org.omg.CORBA.portable.OutputStream o) {
         org.omg.CORBA.PolicyHelper.write(o, value);
     }
 
+    @Override
     public org.omg.CORBA.TypeCode _type() {
         return org.omg.CORBA.PolicyHelper.type();
     }

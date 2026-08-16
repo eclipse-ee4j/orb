@@ -31,8 +31,8 @@ public abstract class ServiceInformationHelper {
         out.write_long(that.service_options.length);
         out.write_ulong_array(that.service_options, 0, that.service_options.length);
         out.write_long(that.service_details.length);
-        for (int i = 0; i < that.service_details.length; i += 1) {
-            org.omg.CORBA.ServiceDetailHelper.write(out, that.service_details[i]);
+        for (ServiceDetail service_detail : that.service_details) {
+            org.omg.CORBA.ServiceDetailHelper.write(out, service_detail);
         }
     }
 

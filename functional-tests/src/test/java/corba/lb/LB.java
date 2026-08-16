@@ -64,8 +64,9 @@ public class LB {
         }
 
         private String get() {
-            if (!iter.hasNext())
+            if (!iter.hasNext()) {
                 throw new RuntimeException("No more arguments");
+            }
 
             if (ungetFlag) {
                 ungetFlag = false;
@@ -86,16 +87,18 @@ public class LB {
 
         public String getCommand() {
             String data = get();
-            if (!isCommand(data))
+            if (!isCommand(data)) {
                 throw new RuntimeException("Next argument is not a command");
+            }
 
             return data;
         }
 
         public String getData() {
             String data = get();
-            if (isCommand(data))
+            if (isCommand(data)) {
                 throw new RuntimeException("Next argument is not a command");
+            }
 
             return data;
         }
@@ -111,8 +114,9 @@ public class LB {
                 result.add(data);
             }
 
-            if (result.size() == 0)
+            if (result.size() == 0) {
                 throw new RuntimeException("No data available");
+            }
 
             return result;
         }
@@ -158,7 +162,7 @@ public class LB {
 
     /**
      * All addresses are given in host:port form. If host is omitted, we assume localhost for the host. Arguments are:
-     * 
+     *
      * <pre>
      * -listen <addr> -pool <addr>,<addr> ...
      */
@@ -200,6 +204,7 @@ public class LB {
             final Socket ss, final Socket cs) {
 
         new Thread() {
+            @Override
             public void run() {
                 String myName = makeAndSetName("Cleaner", addr, port, count);
                 try {
@@ -240,14 +245,16 @@ public class LB {
             this.os = os;
         }
 
+        @Override
         public void run() {
             try {
                 this.setName(name);
                 while (running) {
                     int size = is.read(buffer);
                     dprint(name + ": read " + size + " bytes");
-                    if (size < 0)
+                    if (size < 0) {
                         break;
+                    }
                     os.write(buffer, 0, size);
                     dprint(name + ": wrote " + size + " bytes");
                 }
@@ -298,8 +305,9 @@ public class LB {
         while (retryCount++ < pool.size()) {
             // Grab the next pool address
             poolIndex++;
-            if (poolIndex == pool.size())
+            if (poolIndex == pool.size()) {
                 poolIndex = 0;
+            }
 
             dprint("Creating new Socket copier(" + count + ") for socket " + socket);
             // Open a new connection to the pool address
@@ -348,10 +356,11 @@ public class LB {
             while (true) {
                 try {
                     Socket socket = ss.accept();
-                    if (!createSocketCopier(socket, acceptCount++))
+                    if (!createSocketCopier(socket, acceptCount++)) {
                         // It is very important to close the socket if we cannot
                         // find a valid pool address, as otherwise the client will hang!
                         socket.close();
+                    }
                 } catch (Exception exc) {
                     System.out.println("Exception in accept loop: " + exc);
                     exc.printStackTrace();

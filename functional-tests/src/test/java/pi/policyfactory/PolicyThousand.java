@@ -27,14 +27,17 @@ import org.omg.CORBA.*;
  * This Policy object's type is 1000.
  */
 public class PolicyThousand extends LocalObject implements Policy {
+    @Override
     public int policy_type() {
         return 1000;
     }
 
+    @Override
     public org.omg.CORBA.Policy copy() {
         return this;
     }
 
+    @Override
     public void destroy() {
         // Do Nothing
     }

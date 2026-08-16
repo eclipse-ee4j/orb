@@ -65,9 +65,11 @@ class ThisExpression extends Expression {
         this.outerArg = outerArg;
     }
 
+    @Override
     public Expression getImplementation() {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation;
+        }
         return this;
     }
 
@@ -83,6 +85,7 @@ class ThisExpression extends Expression {
     /**
      * Check expression
      */
+    @Override
     public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         if (ctx.field.isStatic()) {
             env.error(where, "undef.var", opNames[op]);
@@ -108,6 +111,7 @@ class ThisExpression extends Expression {
         return vset;
     }
 
+    @Override
     public boolean isNonNull() {
         return true;
     }
@@ -115,10 +119,12 @@ class ThisExpression extends Expression {
     // A 'ThisExpression' node can never appear on the LHS of an assignment in a correct
     // program, but handle this case anyhow to provide a safe error recovery.
 
+    @Override
     public FieldUpdater getAssigner(Environment env, Context ctx) {
         return null;
     }
 
+    @Override
     public FieldUpdater getUpdater(Environment env, Context ctx) {
         return null;
     }
@@ -126,9 +132,11 @@ class ThisExpression extends Expression {
     /**
      * Inline
      */
+    @Override
     public Expression inlineValue(Environment env, Context ctx) {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation.inlineValue(env, ctx);
+        }
         if (field != null && field.isInlineable(env, false)) {
             Expression e = (Expression)field.getValue(env);
             //System.out.println("INLINE = "+ e + ", THIS");
@@ -144,9 +152,11 @@ class ThisExpression extends Expression {
     /**
      * Create a copy of the expression for method inlining
      */
+    @Override
     public Expression copyInline(Context ctx) {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation.copyInline(ctx);
+        }
         ThisExpression e = (ThisExpression)clone();
         if (field == null) {
             // The expression is copied into the context of a method
@@ -164,6 +174,7 @@ class ThisExpression extends Expression {
     /**
      * Code
      */
+    @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         asm.add(where, opc_aload, field.number);
     }
@@ -171,6 +182,7 @@ class ThisExpression extends Expression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         if (outerArg != null) {
             out.print("(outer=");
@@ -181,7 +193,8 @@ class ThisExpression extends Expression {
             : field.getClassDefinition().getName().getFlatName().getName()+".";
         pfx += opNames[op];
         out.print(pfx + "#" + ((field != null) ? field.hashCode() : 0));
-        if (outerArg != null)
+        if (outerArg != null) {
             out.print(")");
+        }
     }
 }

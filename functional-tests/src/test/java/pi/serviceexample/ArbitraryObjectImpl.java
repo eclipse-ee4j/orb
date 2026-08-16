@@ -36,15 +36,18 @@ class ArbitraryObjectImpl extends ArbitraryObjectPOA {
     // The IDL operations.
     //
 
+    @Override
     public String arbitraryOperation1(String a1) {
         verifyService();
         return "I got this from the client: " + a1;
     }
 
+    @Override
     public void arbitraryOperation2(int a1) {
         verifyService();
     }
 
+    @Override
     public void arbitraryOperation3(String a1) throws ArbitraryObjectException {
         verifyService();
         if (a1.equals("throw exception")) {

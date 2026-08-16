@@ -46,6 +46,7 @@ public class OBVTestObjectOneImpl extends OBVTestObjectOne {
         // for unmarshalling only, called by the factory
     }
 
+    @Override
     public boolean equals(Object o) {
         try {
             OBVTestObjectOne ctbo = (OBVTestObjectOne) o;
@@ -56,6 +57,7 @@ public class OBVTestObjectOneImpl extends OBVTestObjectOne {
         }
     }
 
+    @Override
     public String toString() {
         return new String("fInt=" + fInt + "; fLong=" + fLong + "; fFloat=" + fFloat + "; fDouble=" + fDouble + "; fString=" + fString);
     }

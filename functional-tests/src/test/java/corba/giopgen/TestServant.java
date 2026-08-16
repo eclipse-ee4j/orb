@@ -42,6 +42,7 @@ public class TestServant extends PortableRemoteObject implements Test {
     public TestServant() throws RemoteException {
     }
 
+    @Override
     public int echo(int x, float y, short[] z, String str, Map m) throws RemoteException {
         System.out.println(baseMsg + ".echo: " + x);
         return x;
@@ -82,19 +83,21 @@ public class TestServant extends PortableRemoteObject implements Test {
         }
     }
 
+    @Override
     public Object testExceptionContext() throws RemoteException {
-        Object d1 = new SPair<String, String>("foo", "bar");
-        Object d2 = new SPair<String, ThrowsSysEx>("baz", new ThrowsSysEx());
+        Object d1 = new SPair<>("foo", "bar");
+        Object d2 = new SPair<>("baz", new ThrowsSysEx());
         Foo f1 = new Foo("d1", d1, "d2", d2);
-        SPair<String, Foo> result = new SPair<String, Foo>("f1", f1);
+        SPair<String, Foo> result = new SPair<>("f1", f1);
         return result;
     }
 
+    @Override
     public Object testSimpleExceptionContext() throws RemoteException {
-        Object d1 = new SPair<String, String>("foo", "bar");
-        Object d2 = new SPair<String, ThrowsSimpleSysEx>("baz", new ThrowsSimpleSysEx());
+        Object d1 = new SPair<>("foo", "bar");
+        Object d2 = new SPair<>("baz", new ThrowsSimpleSysEx());
         Foo f1 = new Foo("d1", d1, "d2", d2);
-        SPair<String, Foo> result = new SPair<String, Foo>("f1", f1);
+        SPair<String, Foo> result = new SPair<>("f1", f1);
         return result;
     }
 }

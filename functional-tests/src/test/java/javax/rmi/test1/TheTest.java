@@ -35,6 +35,7 @@ public class TheTest extends test.Test {
     // This test runs its own NameServer on Util.TEST1_NAME_SERVER_PORT.
     private static String[] myArgs = new String[] { "-ORBInitialPort", Util.TEST1_NAME_SERVER_PORT };
 
+    @Override
     public void run() {
         JUnitReportHelper helper = new JUnitReportHelper(this.getClass().getName());
 
@@ -153,7 +154,7 @@ public class TheTest extends test.Test {
             }
         }
 
-        if (testPassed == true) {
+        if (testPassed) {
             helper.pass();
             status = null;
         } else {

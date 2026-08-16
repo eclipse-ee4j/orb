@@ -50,6 +50,7 @@ class FieldConstantData extends ConstantPoolData {
     /**
      * Write the constant to the output stream
      */
+    @Override
     void write(Environment env, DataOutputStream out, ConstantPool tab) throws IOException {
         if (field.isMethod()) {
             if (field.getClassDefinition().isInterface()) {
@@ -67,6 +68,7 @@ class FieldConstantData extends ConstantPoolData {
     /**
      * Return the order of the constant
      */
+    @Override
     int order() {
         return 2;
     }

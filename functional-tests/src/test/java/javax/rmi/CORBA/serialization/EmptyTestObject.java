@@ -29,6 +29,7 @@ public class EmptyTestObject implements java.io.Serializable {
     public EmptyTestObject() {
     }
 
+    @Override
     public boolean equals(Object o) {
         return (o instanceof EmptyTestObject);
     }

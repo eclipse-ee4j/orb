@@ -34,11 +34,13 @@ public class ORTEchoImpl extends PortableRemoteObject implements ORTEcho {
         this.poa = poa;
     }
 
+    @Override
     public ObjectReferenceTemplate getORT() throws RemoteException {
         ObjectAdapter oa = (ObjectAdapter) poa;
         return oa.getAdapterTemplate();
     }
 
+    @Override
     public ObjectReferenceFactory getORF() throws RemoteException {
         ObjectAdapter oa = (ObjectAdapter) poa;
         return oa.getCurrentFactory();

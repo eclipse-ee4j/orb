@@ -70,6 +70,7 @@ public class FragmentTest extends CORBATest {
         System.out.println(result);
     }
 
+    @Override
     protected void doTest() throws Throwable {
         int errors = 0;
         int fragmentSize = 1024;
@@ -114,14 +115,16 @@ public class FragmentTest extends CORBATest {
 
         System.out.print("      Test result : ");
 
-        if (errors > 0)
+        if (errors > 0) {
             throw new Exception("Errors detected");
+        }
     }
 
     private int runTest(int errors, int client_strategy, int client_version, int server_strategy, int server_version) throws Exception {
         // skip non-longer support COLLECT strategy tests
-        if (client_strategy == COLLECT || server_strategy == COLLECT)
+        if (client_strategy == COLLECT || server_strategy == COLLECT) {
             return errors;
+        }
 
         printBeginTest(client_version, client_strategy, server_version, server_strategy);
         String name = testName(client_version, client_strategy, server_version, server_strategy);

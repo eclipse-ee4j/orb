@@ -42,10 +42,12 @@ class NullExpression extends ConstantExpression {
     /**
      * Check if the expression is equal to a value
      */
+    @Override
     public boolean equals(int i) {
         return i == 0;
     }
 
+    @Override
     public boolean isNull() {
         return true;
     }
@@ -53,6 +55,7 @@ class NullExpression extends ConstantExpression {
     /**
      * Code
      */
+    @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         asm.add(where, opc_aconst_null);
     }
@@ -60,6 +63,7 @@ class NullExpression extends ConstantExpression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print("null");
     }

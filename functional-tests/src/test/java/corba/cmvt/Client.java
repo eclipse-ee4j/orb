@@ -58,22 +58,25 @@ public class Client {
 
     public static java.util.Vector constructVector(int len, String r) {
         java.util.Vector ht = new java.util.Vector();
-        for (int i = 0; i < len; i++)
+        for (int i = 0; i < len; i++) {
             ht.addElement(getStringObject(i, r));
+        }
         return ht;
     }
 
     public static java.util.Hashtable constructHashtable(int len, String r) {
         java.util.Hashtable ht = new java.util.Hashtable();
-        for (int i = 0; i < len; i++)
+        for (int i = 0; i < len; i++) {
             ht.put(getStringObject(i, r), getStringObject(i, r));
+        }
         return ht;
     }
 
     public static java.lang.Object getStringObject(int len, String r) {
         String s = new String();
-        for (int i = 0; i < len; i++)
+        for (int i = 0; i < len; i++) {
             s += r;
+        }
         return s;
     }
 

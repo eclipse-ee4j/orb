@@ -23,6 +23,7 @@ import test.Test;
 import corba.framework.*;
 
 public class NewORBTests extends CORBATest {
+    @Override
     protected void doTest() throws Throwable {
         // Create client controller using the given
         // class. You can also specify names for these (for instance,

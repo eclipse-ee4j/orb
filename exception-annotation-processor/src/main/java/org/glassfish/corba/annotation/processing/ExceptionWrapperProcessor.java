@@ -44,7 +44,7 @@ import org.glassfish.pfl.basic.logex.Message;
 @SupportedSourceVersion(SourceVersion.RELEASE_11)
 public class ExceptionWrapperProcessor extends AbstractProcessor {
 
-    Map<Element, FileGenerator> annotatedClasses = new HashMap<Element, FileGenerator>();
+    Map<Element, FileGenerator> annotatedClasses = new HashMap<>();
 
     @Override
     public boolean process(Set<? extends TypeElement> typeElements, RoundEnvironment roundEnvironment) {

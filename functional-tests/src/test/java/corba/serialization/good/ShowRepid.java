@@ -89,9 +89,9 @@ public class ShowRepid implements Serializable {
     public static void main(String[] args) {
         System.out.println("Server is ready.");
         if (args.length == 0) {
-            if (runTest() == 0)
+            if (runTest() == 0) {
                 System.out.println("Test PASSED");
-            else {
+            } else {
                 System.out.println("Test FAILED");
                 System.exit(1);
             }

@@ -41,6 +41,7 @@ import javax.naming.*;
 public abstract class RMIServer extends ServerCommon implements helloDelegate.ClientCallback {
     InitialContext initialNamingContext;
 
+    @Override
     public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         try {
             out.println("+ Creating Initial naming context...");
@@ -91,6 +92,7 @@ public abstract class RMIServer extends ServerCommon implements helloDelegate.Cl
     /**
      * One-way test not applicable for RMI case. Override it.
      */
+    @Override
     protected void testOneWay() throws Exception {
         out.println("+ OneWay test not applicable for RMI.  Skipping...");
     }
@@ -98,11 +100,13 @@ public abstract class RMIServer extends ServerCommon implements helloDelegate.Cl
     /**
      * Passes in the appropriate valid and invalid repository ids for RMI
      */
+    @Override
     protected void testAttributesValid() throws Exception {
         testAttributesValid("RMI:pi.serverrequestinfo.helloIF:0000000000000000", "RMI:pi.serverrequestinfo.goodbyeIF:0000000000000000");
     }
 
     // ClientCallback interface for request info stack test:
+    @Override
     public String sayHello() {
         String result = "";
 
@@ -118,6 +122,7 @@ public abstract class RMIServer extends ServerCommon implements helloDelegate.Cl
         return result;
     }
 
+    @Override
     public void saySystemException() {
         out.println("    + ClientCallback: resolving and invoking " + "saySystemException()...");
         try {

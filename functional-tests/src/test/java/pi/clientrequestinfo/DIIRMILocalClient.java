@@ -66,6 +66,7 @@ public class DIIRMILocalClient extends ClientCommon implements InternalProcess {
             System.out.println("+ Starting Server...");
             client.syncObject = new java.lang.Object();
             new Thread() {
+                @Override
                 public void run() {
                     try {
                         (new OldRMILocalServer()).run(client.orb, client.syncObject, System.getProperties(), arguments, System.out,
@@ -97,6 +98,7 @@ public class DIIRMILocalClient extends ClientCommon implements InternalProcess {
         }
     }
 
+    @Override
     public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         try {
             // Test ClientInterceptor
@@ -109,6 +111,7 @@ public class DIIRMILocalClient extends ClientCommon implements InternalProcess {
     /**
      * Clear invocation flags of helloRef and helloRefForward
      */
+    @Override
     protected void clearInvoked() throws Exception {
         helloRef.clearInvoked();
         helloRefForward.clearInvoked();
@@ -117,6 +120,7 @@ public class DIIRMILocalClient extends ClientCommon implements InternalProcess {
     /**
      * Invoke the method with the given name on the object
      */
+    @Override
     protected void invokeMethod(String methodName) throws Exception {
         // Make an invocation:
         if (methodName.equals("sayHello")) {
@@ -135,6 +139,7 @@ public class DIIRMILocalClient extends ClientCommon implements InternalProcess {
     /**
      * Return true if the method was invoked
      */
+    @Override
     protected boolean wasInvoked() throws Exception {
         return helloRef.wasInvoked();
     }
@@ -142,6 +147,7 @@ public class DIIRMILocalClient extends ClientCommon implements InternalProcess {
     /**
      * Return true if the method was forwarded
      */
+    @Override
     protected boolean didForward() throws Exception {
         return helloRefForward.wasInvoked();
     }
@@ -149,6 +155,7 @@ public class DIIRMILocalClient extends ClientCommon implements InternalProcess {
     /**
      * Perform ClientRequestInfo tests
      */
+    @Override
     protected void testClientRequestInfo() throws Exception {
         super.testClientRequestInfo();
 
@@ -159,6 +166,7 @@ public class DIIRMILocalClient extends ClientCommon implements InternalProcess {
     /**
      * Re-resolves all references to eliminate any cached ForwardRequests from the last invocation
      */
+    @Override
     protected void resolveReferences() throws Exception {
         out.println("    + resolving references...");
         out.println("      - disabling interceptors...");
@@ -197,6 +205,7 @@ public class DIIRMILocalClient extends ClientCommon implements InternalProcess {
     /**
      * One-way test not applicable for RMI case. Override it.
      */
+    @Override
     protected void testOneWay() throws Exception {
         out.println("+ OneWay test not applicable for RMI.  Skipping...");
     }
@@ -216,6 +225,7 @@ public class DIIRMILocalClient extends ClientCommon implements InternalProcess {
     /**
      * When asked to run exception tests, run in DII mode. This will skip any UserException-related tests.
      */
+    @Override
     protected void testException() throws Exception {
         out.println("+ Testing received_exception[_id]() in DII mode...");
 
@@ -228,6 +238,7 @@ public class DIIRMILocalClient extends ClientCommon implements InternalProcess {
     /**
      * Executes the test case set up with the parameters in setParameters
      */
+    @Override
     protected void runTestCase(String testName) throws Exception {
         super.runTestCase(testName);
 

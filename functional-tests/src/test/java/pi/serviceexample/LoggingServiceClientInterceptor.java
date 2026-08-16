@@ -48,10 +48,12 @@ public class LoggingServiceClientInterceptor extends org.omg.CORBA.LocalObject i
     // Interceptor operations
     //
 
+    @Override
     public String name() {
         return "LoggingServiceClientInterceptor";
     }
 
+    @Override
     public void destroy() {
     }
 
@@ -59,22 +61,27 @@ public class LoggingServiceClientInterceptor extends org.omg.CORBA.LocalObject i
     // ClientRequestInterceptor operations
     //
 
+    @Override
     public void send_request(ClientRequestInfo ri) {
         log(ri, "send_request");
     }
 
+    @Override
     public void send_poll(ClientRequestInfo ri) {
         log(ri, "send_poll");
     }
 
+    @Override
     public void receive_reply(ClientRequestInfo ri) {
         log(ri, "receive_reply");
     }
 
+    @Override
     public void receive_exception(ClientRequestInfo ri) {
         log(ri, "receive_exception");
     }
 
+    @Override
     public void receive_other(ClientRequestInfo ri) {
         log(ri, "receive_other");
     }

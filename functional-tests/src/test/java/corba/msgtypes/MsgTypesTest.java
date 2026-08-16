@@ -84,6 +84,7 @@ public class MsgTypesTest extends CORBATest {
         System.out.println(output.toString());
     }
 
+    @Override
     protected void doTest() throws Throwable {
         // Pleasing aesthetics
         System.out.println();
@@ -108,8 +109,9 @@ public class MsgTypesTest extends CORBATest {
 
         System.out.print("      Test result : ");
 
-        if (errors > 0)
+        if (errors > 0) {
             throw new Exception("Errors detected");
+        }
     }
 
     public void runLocateMsgType() throws Throwable {
@@ -156,8 +158,9 @@ public class MsgTypesTest extends CORBATest {
 
     private void runTest(int client_strategy, int client_version, int server_strategy, int server_version) throws Exception {
         // skip non-longer support COLLECT strategy tests
-        if (client_strategy == COLLECT || server_strategy == COLLECT)
+        if (client_strategy == COLLECT || server_strategy == COLLECT) {
             return;
+        }
 
         printBeginTest(client_version, client_strategy, server_version, server_strategy);
 

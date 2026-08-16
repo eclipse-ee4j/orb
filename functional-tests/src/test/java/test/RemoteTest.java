@@ -68,7 +68,7 @@ public abstract class RemoteTest extends Test {
 
     /**
      * Perform the test.
-     * 
+     *
      * @param context The context returned by getServantContext().
      */
     protected abstract void doTest(ServantContext context) throws Throwable;
@@ -127,7 +127,7 @@ public abstract class RemoteTest extends Test {
 
     /**
      * Generate stubs/ties.
-     * 
+     *
      * @param classes An array of fully qualified class names for which stubs/ties need to be generated.
      * @param additionalRMICArgs An array of additional arguments (i.e. after -iiop and before classes)to rmic.
      * @param onlyOnce True if stubs should only be generated once per process.
@@ -145,8 +145,7 @@ public abstract class RemoteTest extends Test {
             dprint("\texternal = " + external);
 
             Vector list = new Vector(classes.length);
-            for (int i = 0; i < classes.length; i++) {
-                String theClass = classes[i];
+            for (String theClass : classes) {
                 // Do we need to compile this class?
                 if (!stubs.contains(theClass) || !onlyOnce) {
                     dprint("RemoteTest.generateStubs: adding to list " + theClass);
@@ -196,12 +195,14 @@ public abstract class RemoteTest extends Test {
 
         Properties sysProps = System.getProperties();
         if (flags.get(LOCAL_SERVANTS_FLAG) != null) {
-            if (verbose)
+            if (verbose) {
                 System.out.print("(Local Servants)");
+            }
             sysProps.put(ServantContext.LOCAL_SERVANTS_FLAG, "true");
         } else {
-            if (verbose)
+            if (verbose) {
                 System.out.print("(Remote Servants)");
+            }
             sysProps.remove(ServantContext.LOCAL_SERVANTS_FLAG);
         }
 
@@ -221,6 +222,7 @@ public abstract class RemoteTest extends Test {
         return result;
     }
 
+    @Override
     public void setup() {
         try {
             dprint("RemoteTest.setup called");
@@ -245,9 +247,9 @@ public abstract class RemoteTest extends Test {
                     String dir = (String) getArgs().get(OUTPUT_DIRECTORY);
                     if (dir != null) {
                         File root = new File(dir);
-                        for (int i = 0; i < tieClasses.length; i++) {
-                            dprint("RemoteTest.setup: tieClass = " + tieClasses[i]);
-                            String tieClass = Utility.tieName(tieClasses[i]);
+                        for (String tieClass2 : tieClasses) {
+                            dprint("RemoteTest.setup: tieClass = " + tieClass2);
+                            String tieClass = Utility.tieName(tieClass2);
                             tieClass = tieClass.replace('.', File.separatorChar);
                             tieClass += ".class";
                             File file = new File(root, tieClass);
@@ -279,6 +281,7 @@ public abstract class RemoteTest extends Test {
         }
     }
 
+    @Override
     public void run() {
         dprint("run called");
         ServantContext theContext = null;

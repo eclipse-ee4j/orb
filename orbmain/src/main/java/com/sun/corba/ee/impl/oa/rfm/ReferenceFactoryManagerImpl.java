@@ -87,9 +87,9 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
         suspendCondition = lock.newCondition();
         state = RFMState.READY;
         this.orb = orb;
-        poatable = new HashMap<String, Pair<ServantLocator, List<Policy>>>();
-        factories = new HashMap<String, ReferenceFactory>();
-        managers = new HashSet<POAManager>();
+        poatable = new HashMap<>();
+        factories = new HashMap<>();
+        managers = new HashSet<>();
         activator = new AdapterActivatorImpl();
         isActive = false;
     }
@@ -98,6 +98,7 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
     private class AdapterActivatorImpl extends LocalObject implements AdapterActivator {
         private static final long serialVersionUID = 7922226881290146012L;
 
+        @Override
         @Poa
         public boolean unknown_adapter(POA parent, String name) {
             Pair<ServantLocator, List<Policy>> data = null;
@@ -111,7 +112,7 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
                 return false;
             } else {
                 try {
-                    List<Policy> policies = new ArrayList<Policy>();
+                    List<Policy> policies = new ArrayList<>();
                     // XXX What should we do if data.second() contains
                     // policies with the same ID as standard policies?
                     if (data.second() != null) {
@@ -139,7 +140,7 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
                 }
             }
         }
-    };
+    }
 
     // Policy used to indicate that a POA may particpate in the reference manager.
     // If this policy is not present, and a create_POA call is made under base POA,
@@ -155,18 +156,22 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
         private ReferenceManagerPolicy() {
         }
 
+        @Override
         public int policy_type() {
             return ORBConstants.REFERENCE_MANAGER_POLICY;
         }
 
+        @Override
         public Policy copy() {
             return this;
         }
 
+        @Override
         public void destroy() {
         }
     }
 
+    @Override
     public RFMState getState() {
         lock.lock();
         try {
@@ -176,6 +181,7 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
         }
     }
 
+    @Override
     @Poa
     public void activate() {
         lock.lock();
@@ -215,6 +221,7 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
     // It may also be better to get rid of separate suspend/resume calls, instead
     // passing an object to a method that does suspend/resume (as in
     // doPrivileged). See GF issue 4560.
+    @Override
     @Poa
     public ReferenceFactory create(final String name, final String repositoryId, final List<Policy> policies,
             final ServantLocator locator) {
@@ -230,13 +237,13 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
 
             List<Policy> newPolicies = null;
             if (policies != null) {
-                newPolicies = new ArrayList<Policy>(policies);
+                newPolicies = new ArrayList<>(policies);
             }
 
             // Store an entry for the appropriate POA in the POA table,
             // which is used by the AdapterActivator on the root.
             synchronized (poatable) {
-                poatable.put(name, new Pair<ServantLocator, List<Policy>>(locator, newPolicies));
+                poatable.put(name, new Pair<>(locator, newPolicies));
             }
 
             ReferenceFactory factory = new ReferenceFactoryImpl(this, name, repositoryId);
@@ -247,6 +254,7 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
         }
     }
 
+    @Override
     @Poa
     public ReferenceFactory find(String[] adapterName) {
         lock.lock();
@@ -277,6 +285,7 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
         }
     }
 
+    @Override
     public ReferenceFactory find(String name) {
         lock.lock();
         try {
@@ -312,12 +321,13 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
     // XXX We may still want to switch to discard semantics,
     // but that would require significant testing.
 
+    @Override
     @Poa
     public void suspend() {
         lock.lock();
 
         // Clone managers so we can safely iterator over it.
-        final Set<POAManager> pms = new HashSet<POAManager>(managers);
+        final Set<POAManager> pms = new HashSet<>(managers);
 
         // wait until all requests in the manager have completed.
         try {
@@ -357,12 +367,13 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
         }
     }
 
+    @Override
     @Poa
     public void resume() {
         lock.lock();
 
         // Clone managers so we can safely iterator over it.
-        final Set<POAManager> pms = new HashSet<POAManager>(managers);
+        final Set<POAManager> pms = new HashSet<>(managers);
 
         try {
             if (!isActive) {
@@ -411,6 +422,7 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
         }
     }
 
+    @Override
     @Poa
     public void restartFactories(Map<String, Pair<ServantLocator, List<Policy>>> updates) {
         lock.lock();
@@ -446,17 +458,19 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
         }
     }
 
+    @Override
     public void restartFactories() {
-        restartFactories(new HashMap<String, Pair<ServantLocator, List<Policy>>>());
+        restartFactories(new HashMap<>());
     }
 
     /**
      * Restart all ReferenceFactories. This is done safely, so that any request against object references created from these
      * factories complete correctly. Restart does not return until all restart activity completes.
-     * 
+     *
      * @param updates is a map giving the updated policies for some or all of the ReferenceFactory instances in this
      * ReferenceFactoryManager. This parameter must not be null.
      */
+    @Override
     @Poa
     public void restart(Map<String, Pair<ServantLocator, List<Policy>>> updates) {
         suspend();
@@ -472,8 +486,9 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
      * factories complete correctly. Restart does not return until all restart activity completes. Equivalent to calling
      * restart( new Map() ).
      */
+    @Override
     public void restart() {
-        restart(new HashMap<String, Pair<ServantLocator, List<Policy>>>());
+        restart(new HashMap<>());
     }
 
     // Methods used to implement the ReferenceFactory interface.
@@ -553,6 +568,7 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
     }
 
     // locking not required
+    @Override
     @Poa
     public boolean isRfmName(String[] adapterName) {
         if (!isActive) {

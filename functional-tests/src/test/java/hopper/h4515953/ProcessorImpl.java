@@ -30,11 +30,13 @@ public class ProcessorImpl extends PortableRemoteObject implements Processor {
 
     // Fails since the import statement specifies
     // the original portable InputStream
+    @Override
     public IDLEntity testIDLEntity(IDLEntity input) {
         return input;
     }
 
     // Works since a local 2.3 InputStream is defined
+    @Override
     public TestInterface testInterface(TestInterface input) {
         return input;
     }

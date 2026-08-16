@@ -94,6 +94,7 @@ public class POALocalCRDImpl extends LocalClientRequestDispatcherBase {
         }
     }
 
+    @Override
     public void servant_postinvoke(org.omg.CORBA.Object self, ServantObject servantobj) {
         ObjectAdapter oa = orb.peekInvocationInfo().oa();
         servantExit(oa);

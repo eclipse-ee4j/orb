@@ -56,10 +56,12 @@ public class TechLevelsPanel extends JComponent {
         fMini = "Mini = " + String.valueOf(mini);
     }
 
+    @Override
     public void paint(Graphics g) {
         update(g);
     }
 
+    @Override
     public void update(Graphics g) {
         Rectangle bounds = getBounds();
 
@@ -88,8 +90,9 @@ public class TechLevelsPanel extends JComponent {
             width = Math.max(width, fm.stringWidth(fShields));
             width = Math.max(width, fm.stringWidth(fMini));
 
-            if (height > maxHeight || width > maxWidth)
+            if (height > maxHeight || width > maxWidth) {
                 break;
+            }
 
             padding = (maxWidth - width) / 2;
             pointSize = pt;

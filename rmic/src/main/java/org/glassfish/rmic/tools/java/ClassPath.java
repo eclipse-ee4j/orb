@@ -209,8 +209,8 @@ class ClassPath {
             subdir = subdir + File.separatorChar;
             name = subdir;      // Note: isDirectory==true & basename==""
         }
-        for (int i = 0; i < path.length; i++) {
-            ClassFile cf = path[i].getFile(name, subdir, basename, isDirectory);
+        for (ClassPathEntry element : path) {
+            ClassFile cf = element.getFile(name, subdir, basename, isDirectory);
             if (cf != null) {
                 return cf;
             }
@@ -241,6 +241,7 @@ class ClassPath {
     /**
      * Returns original class path string
      */
+    @Override
     public String toString() {
         return pathstr;
     }
@@ -292,6 +293,7 @@ final class DirClassPathEntry extends ClassPathEntry {
         return files;
     }
 
+    @Override
     ClassFile getFile(String name,  String subdir, String basename, boolean isDirectory) {
         File file = new File(dir.getPath(), name);
         String list[] = getFiles(subdir);
@@ -300,8 +302,8 @@ final class DirClassPathEntry extends ClassPathEntry {
                 return ClassFile.newClassFile(file);
             }
         } else {
-            for (int j = 0; j < list.length; j++) {
-                if (basename.equals(list[j])) {
+            for (String element : list) {
+                if (basename.equals(element)) {
                     // Don't bother checking !file.isDir,
                     // since we only look for names which
                     // cannot already be packages (foo.java, etc).
@@ -312,10 +314,11 @@ final class DirClassPathEntry extends ClassPathEntry {
         return null;
     }
 
+    @Override
     void fillFiles(String pkg, String ext, Hashtable<String, ClassFile> files) {
         String[] list = getFiles(pkg);
-        for (int j = 0; j < list.length; j++) {
-            String name = list[j];
+        for (String element : list) {
+            String name = element;
             if (name.endsWith(ext)) {
                 name = pkg + File.separatorChar + name;
                 File file = new File(dir.getPath(), name);
@@ -324,6 +327,7 @@ final class DirClassPathEntry extends ClassPathEntry {
         }
     }
 
+    @Override
     void close() throws IOException {
     }
 }
@@ -336,20 +340,23 @@ final class ZipClassPathEntry extends ClassPathEntry {
         this.zip = zip;
     }
 
+    @Override
     void close() throws IOException {
         zip.close();
     }
 
+    @Override
     ClassFile getFile(String name, String subdir, String basename, boolean isDirectory) {
         String newname = name.replace(File.separatorChar, '/');
         ZipEntry entry = zip.getEntry(newname);
         return entry != null? ClassFile.newClassFile(zip, entry) : null;
     }
 
+    @Override
     void fillFiles(String pkg, String ext, Hashtable<String, ClassFile> files) {
         Enumeration<? extends ZipEntry> e = zip.entries();
         while (e.hasMoreElements()) {
-            ZipEntry entry = (ZipEntry)e.nextElement();
+            ZipEntry entry = e.nextElement();
             String name = entry.getName();
             name = name.replace('/', File.separatorChar);
             if (name.startsWith(pkg) && name.endsWith(ext)) {
@@ -370,6 +377,7 @@ final class JrtClassPathEntry extends ClassPathEntry {
         this.pkgDirs = new HashMap<>();
     }
 
+    @Override
     void close() throws IOException {
     }
 
@@ -424,6 +432,7 @@ final class JrtClassPathEntry extends ClassPathEntry {
         return pkgPath == null? null : fs.getPath(pkgPath + "/" + clsName.substring(index + 1));
     }
 
+    @Override
     ClassFile getFile(String name, String subdir, String basename, boolean isDirectory) {
         try {
             name = name.replace(File.separatorChar, '/');
@@ -434,6 +443,7 @@ final class JrtClassPathEntry extends ClassPathEntry {
         }
     }
 
+    @Override
     void fillFiles(String pkg, String ext, Hashtable<String, ClassFile> files) {
         Path dir;
         try {

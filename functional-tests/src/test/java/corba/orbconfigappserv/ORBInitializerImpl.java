@@ -30,10 +30,12 @@ import org.omg.PortableInterceptor.Current;
 import org.omg.PortableInterceptor.CurrentHelper;
 
 public class ORBInitializerImpl extends org.omg.CORBA.LocalObject implements org.omg.PortableInterceptor.ORBInitializer {
+    @Override
     public void pre_init(ORBInitInfo info) {
         System.out.println("ORBInitializerImpl.pre_init");
     }
 
+    @Override
     public void post_init(ORBInitInfo info) {
         System.out.println("ORBInitializerImpl.post_init");
     }

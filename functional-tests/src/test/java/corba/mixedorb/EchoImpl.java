@@ -30,10 +30,12 @@ public class EchoImpl extends PortableRemoteObject implements Echo {
         this.name = name;
     }
 
+    @Override
     public Echo say(Echo echo) {
         return echo;
     }
 
+    @Override
     public String name() {
         return name;
     }

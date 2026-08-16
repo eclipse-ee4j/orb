@@ -167,6 +167,37 @@
                 </configuration>
             </plugin>
 
+            <!--
+                idlj:generate-test already registers target/generated-test-sources/idl with Maven,
+                so this execution changes nothing for a command-line build. It is here for the IDE:
+                m2e has no connector for idlj-maven-plugin, but it does understand build-helper, so
+                without this the generated types are invisible to Eclipse and appear unresolved.
+                That is not cosmetic - CodecFactoryImplTest uses the generated TestStruct from its
+                own package, and an IDE that cannot see it will "fix" the unresolved name by
+                importing an unrelated TestStruct from elsewhere in the tree.
+
+                Only the test sources are registered: this module has no main IDL, so
+                target/generated-sources/idl is always empty.
+            -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-generated-idl-test-source</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>add-test-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/generated-test-sources/idl</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <!-- generate code coverage report -->
 
             <plugin>

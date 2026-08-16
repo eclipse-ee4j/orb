@@ -46,6 +46,7 @@ class AddExpression extends BinaryArithmeticExpression {
     /**
      * Select the type
      */
+    @Override
     void selectType(Environment env, Context ctx, int tm) {
         if ((left.type == Type.tString) && !right.type.isType(TC_VOID)) {
             type = Type.tString;
@@ -57,6 +58,7 @@ class AddExpression extends BinaryArithmeticExpression {
         super.selectType(env, ctx, tm);
     }
 
+    @Override
     public boolean isNonNull() {
         // an addition expression cannot yield a null reference as a result
         return true;
@@ -65,18 +67,23 @@ class AddExpression extends BinaryArithmeticExpression {
     /**
      * Evaluate
      */
+    @Override
     Expression eval(int a, int b) {
         return new IntExpression(where, a + b);
     }
+    @Override
     Expression eval(long a, long b) {
         return new LongExpression(where, a + b);
     }
+    @Override
     Expression eval(float a, float b) {
         return new FloatExpression(where, a + b);
     }
+    @Override
     Expression eval(double a, double b) {
         return new DoubleExpression(where, a + b);
     }
+    @Override
     Expression eval(String a, String b) {
         return new StringExpression(where, a + b);
     }
@@ -87,6 +94,7 @@ class AddExpression extends BinaryArithmeticExpression {
      * dispatch to the special method inlineValueSB, which handles
      * the inlining more efficiently.
      */
+    @Override
     public Expression inlineValue(Environment env, Context ctx) {
         if (type == Type.tString && isConstant()) {
             StringBuffer buffer = inlineValueSB(env, ctx, new StringBuffer());
@@ -145,6 +153,7 @@ class AddExpression extends BinaryArithmeticExpression {
      *
      * See also Expression#inlineValueSB() and ExprExpression#inlineValueSB().
      */
+    @Override
     protected StringBuffer inlineValueSB(Environment env,
                                          Context ctx,
                                          StringBuffer buffer) {
@@ -164,6 +173,7 @@ class AddExpression extends BinaryArithmeticExpression {
     /**
      * Simplify
      */
+    @Override
     Expression simplify() {
         if (!type.isType(TC_CLASS)) {
             // Can't simplify floating point add because of -0.0 strangeness
@@ -186,6 +196,7 @@ class AddExpression extends BinaryArithmeticExpression {
     /**
      * The cost of inlining this expression
      */
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
         return (type.isType(TC_CLASS) ? 12 : 1)
             + left.costInline(thresh, env, ctx)
@@ -195,6 +206,7 @@ class AddExpression extends BinaryArithmeticExpression {
     /**
      * Code
      */
+    @Override
     void codeOperation(Environment env, Context ctx, Assembler asm) {
         asm.add(where, opc_iadd + type.getTypeCodeOffset());
     }
@@ -205,6 +217,7 @@ class AddExpression extends BinaryArithmeticExpression {
      * If the needBuffer argument is true, the string buffer needs to be
      * created, initialized, and pushed on the stack, first.
      */
+    @Override
     void codeAppend(Environment env, Context ctx, Assembler asm,
                     ClassDeclaration sbClass, boolean needBuffer)
         throws ClassNotFound, AmbiguousMember {
@@ -216,6 +229,7 @@ class AddExpression extends BinaryArithmeticExpression {
         }
     }
 
+    @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         if (type.isType(TC_CLASS)) {
             try {

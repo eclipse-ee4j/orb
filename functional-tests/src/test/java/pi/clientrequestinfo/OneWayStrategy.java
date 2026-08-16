@@ -27,6 +27,7 @@ import org.omg.PortableInterceptor.*;
  */
 public class OneWayStrategy extends InterceptorStrategy {
 
+    @Override
     public void send_request(SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) throws ForwardRequest {
         super.send_request(interceptor, ri);
 
@@ -37,11 +38,13 @@ public class OneWayStrategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void send_poll(SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) {
         super.send_poll(interceptor, ri);
         // never executed in our orb.
     }
 
+    @Override
     public void receive_reply(SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) {
         super.receive_reply(interceptor, ri);
 

@@ -119,13 +119,17 @@ class Identifier implements Constants {
      */
     public static Identifier lookup(Identifier q, Identifier n) {
         // lookup("", x) => x
-        if (q == idNull)  return n;
+        if (q == idNull) {
+            return n;
+        }
         // lookup(lookupInner(c, ""), n) => lookupInner(c, lookup("", n))
-        if (q.name.charAt(q.name.length()-1) == INNERCLASS_PREFIX)
+        if (q.name.charAt(q.name.length()-1) == INNERCLASS_PREFIX) {
             return lookup(q.name+n.name);
+        }
         Identifier id = lookup(q + "." + n);
-        if (!n.isQualified() && !q.isInner())
+        if (!n.isQualified() && !q.isInner()) {
             id.value = q;
+        }
         return id;
     }
 
@@ -136,10 +140,11 @@ class Identifier implements Constants {
     public static Identifier lookupInner(Identifier c, Identifier n) {
         Identifier id;
         if (c.isInner()) {
-            if (c.name.charAt(c.name.length()-1) == INNERCLASS_PREFIX)
+            if (c.name.charAt(c.name.length()-1) == INNERCLASS_PREFIX) {
                 id = lookup(c.name+n);
-            else
+            } else {
                 id = lookup(c, n);
+            }
         } else {
             id = lookup(c + "." + INNERCLASS_PREFIX + n);
         }
@@ -150,6 +155,7 @@ class Identifier implements Constants {
     /**
      * Convert to a string.
      */
+    @Override
     public String toString() {
         return name;
     }
@@ -160,10 +166,11 @@ class Identifier implements Constants {
     public boolean isQualified() {
         if (value == null) {
             int idot = ipos;
-            if (idot <= 0)
+            if (idot <= 0) {
                 idot = name.length();
-            else
+            } else {
                 idot -= 1;      // back up over previous dot
+            }
             int index = name.lastIndexOf('.', idot-1);
             value = (index < 0) ? idNull : Identifier.lookup(name.substring(0, index));
         }
@@ -248,7 +255,9 @@ class Identifier implements Constants {
     }
 
     public Identifier getTopName() {
-        if (!isInner())  return this;
+        if (!isInner()) {
+            return this;
+        }
         return Identifier.lookup(getQualifier(), getFlatName().getHead());
     }
 
@@ -259,8 +268,9 @@ class Identifier implements Constants {
      */
     public Identifier getHead() {
         Identifier id = this;
-        while (id.isQualified())
+        while (id.isQualified()) {
             id = id.getQualifier();
+        }
         return id;
     }
 
@@ -269,10 +279,11 @@ class Identifier implements Constants {
      */
     public Identifier getTail() {
         Identifier id = getHead();
-        if (id == this)
+        if (id == this) {
             return idNull;
-        else
+        } else {
             return Identifier.lookup(name.substring(id.name.length() + 1));
+        }
     }
 
     // Unfortunately, the current structure of the compiler requires

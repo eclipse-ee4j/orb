@@ -67,7 +67,7 @@ public final class Utility {
     /**
      * Ensure that stubs, ties, and implementation objects are 'connected' to the runtime. Converts implementation objects
      * to a type suitable for sending on the wire.
-     * 
+     *
      * @param obj the object to connect.
      * @param orb the ORB to connect to if obj is exported to IIOP.
      * @param convertToStub true if implementation types should be converted to Stubs rather than just org.omg.CORBA.Object.
@@ -227,7 +227,7 @@ public final class Utility {
 
     /**
      * Load a class and check that it is assignable to a given type.
-     * 
+     *
      * @param className the class name.
      * @param remoteCodebase the codebase to use. May be null.
      * @param loader the class loader of last resort. May be null.
@@ -293,7 +293,7 @@ public final class Utility {
 
     /**
      * Load a class and check that it is compatible with a given type.
-     * 
+     *
      * @param className the class name.
      * @param remoteCodebase the codebase to use. May be null.
      * @param loader the loading context. May be null.
@@ -342,7 +342,7 @@ public final class Utility {
      * Get the helper for an IDLValue
      *
      * Throws MARSHAL exception if no helper found.
-     * 
+     *
      * @param clazz Class to get helper for
      * @param codebase The codebase to use. May be null.
      * @param repId The repository ID
@@ -378,7 +378,7 @@ public final class Utility {
      * Get the factory for an IDLValue
      *
      * Throws MARSHAL exception if no factory found.
-     * 
+     *
      * @param clazz The Class
      * @param codebase The codebase to use. May be null.
      * @param orb the ORB
@@ -412,8 +412,9 @@ public final class Utility {
 
         // if earlier search found a non-default factory, or the same default
         // factory that loadClassForClass would return, bale out now...
-        if (factory != null && (!factory.getClass().getName().equals(className + "DefaultFactory") || (clazz == null && codebase == null)))
+        if (factory != null && (!factory.getClass().getName().equals(className + "DefaultFactory") || (clazz == null && codebase == null))) {
             return factory;
+        }
 
         try {
             ClassLoader clazzLoader = (clazz == null ? null : clazz.getClassLoader());
@@ -427,7 +428,7 @@ public final class Utility {
 
     /**
      * Load an RMI-IIOP Stub given a Tie.
-     * 
+     *
      * @param tie the tie.
      * @param stubFactory the Stub factory.
      * @param remoteCodebase the codebase to use. May be null.
@@ -502,7 +503,7 @@ public final class Utility {
     /**
      * Load an RMI-IIOP Stub given a Tie, but do not look in the cache. This method must be called with the lock held for
      * tieToStubCache.
-     * 
+     *
      * @param tie the tie.
      * @param stubFactory the stub factory. May be null.
      * @param remoteCodebase the codebase to use. May be null.
@@ -546,15 +547,15 @@ public final class Utility {
                 List errors = new ArrayList();
 
                 // Now walk all the RepIDs till we find a stub or fail...
-                for (int i = 0; i < ids.length; i++) {
-                    if (ids[i].length() == 0) {
+                for (String id : ids) {
+                    if (id.length() == 0) {
                         stub = new org.omg.stub.java.rmi._Remote_Stub();
                         break;
                     }
 
                     try {
                         PresentationManager.StubFactoryFactory stubFactoryFactory = com.sun.corba.ee.spi.orb.ORB.getStubFactoryFactory();
-                        RepositoryId rid = RepositoryId.cache.getId(ids[i]);
+                        RepositoryId rid = RepositoryId.cache.getId(id);
                         String className = rid.getClassName();
                         boolean isIDLInterface = rid.isIDLType();
                         stubFactory = stubFactoryFactory.createStubFactory(className, isIDLInterface, remoteCodebase, null,
@@ -773,7 +774,7 @@ public final class Utility {
 
     /**
      * Create an RMI stub name.
-     * 
+     *
      * @param className Class to create stub of
      * @return RMI stub name
      */
@@ -814,7 +815,7 @@ public final class Utility {
 
     /**
      * Create an RMI tie name.
-     * 
+     *
      * @param className Class used for RMI
      * @return RMI Tie name
      */
@@ -838,7 +839,7 @@ public final class Utility {
 
     /**
      * Throws the CORBA equivalent of a java.io.NotSerializableException
-     * 
+     *
      * @param className Class that is non-serializable
      */
     public static void throwNotSerializableForCorba(String className) {
@@ -847,7 +848,7 @@ public final class Utility {
 
     /**
      * Create an IDL stub name.
-     * 
+     *
      * @param className Class to create stub name of
      * @return Created stub name
      */
@@ -870,7 +871,7 @@ public final class Utility {
 
     /**
      * Read an object reference from the input stream and narrow it to the desired type.
-     * 
+     *
      * @param in the stream to read from.
      * @param narrowTo Desired class
      * @return Narrowed object
@@ -887,7 +888,7 @@ public final class Utility {
 
     /**
      * Read an abstract interface type from the input stream and narrow it to the desired type.
-     * 
+     *
      * @param in the stream to read from.
      * @param narrowTo Desired class
      * @return Narrowed object

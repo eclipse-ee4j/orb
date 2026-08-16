@@ -41,6 +41,7 @@ public final class InboundConnectionCacheBlockingImpl<C extends Connection> exte
 
     private final Map<C, ConnectionState<C>> connectionMap;
 
+    @Override
     protected String thisClassName() {
         return "InboundConnectionCacheBlockingImpl";
     }
@@ -71,7 +72,7 @@ public final class InboundConnectionCacheBlockingImpl<C extends Connection> exte
 
         super(cacheType, highWaterMark, numberToReclaim, ttl);
 
-        this.connectionMap = new HashMap<C, ConnectionState<C>>();
+        this.connectionMap = new HashMap<>();
     }
 
     // We do not need to define equals or hashCode for this class.
@@ -84,13 +85,15 @@ public final class InboundConnectionCacheBlockingImpl<C extends Connection> exte
     private void msg(String msg) {
     }
 
+    @Override
     @Transport
     public synchronized void requestReceived(final C conn) {
         ConnectionState<C> cs = getConnectionState(conn);
 
         final int totalConnections = totalBusy + totalIdle;
-        if (totalConnections > highWaterMark())
+        if (totalConnections > highWaterMark()) {
             reclaim();
+        }
 
         ConcurrentQueue.Handle<C> reclaimHandle = cs.reclaimableHandle;
         if (reclaimHandle != null) {
@@ -107,6 +110,7 @@ public final class InboundConnectionCacheBlockingImpl<C extends Connection> exte
         }
     }
 
+    @Override
     @Transport
     public synchronized void requestProcessed(final C conn, final int numResponsesExpected) {
         final ConnectionState<C> cs = connectionMap.get(conn);
@@ -143,6 +147,7 @@ public final class InboundConnectionCacheBlockingImpl<C extends Connection> exte
      * Decrement the number of expected responses. When a connection is idle and has no expected responses, it can be
      * reclaimed.
      */
+    @Override
     @Transport
     public synchronized void responseSent(final C conn) {
         final ConnectionState<C> cs = connectionMap.get(conn);
@@ -163,6 +168,7 @@ public final class InboundConnectionCacheBlockingImpl<C extends Connection> exte
     /**
      * Close a connection, regardless of whether the connection is busy or not.
      */
+    @Override
     @Transport
     public synchronized void close(final C conn) {
         final ConnectionState<C> cs = connectionMap.remove(conn);
@@ -170,10 +176,11 @@ public final class InboundConnectionCacheBlockingImpl<C extends Connection> exte
 
         int count = cs.busyCount;
 
-        if (count == 0)
+        if (count == 0) {
             totalIdle--;
-        else
+        } else {
             totalBusy--;
+        }
 
         final ConcurrentQueue.Handle rh = cs.reclaimableHandle;
         if (rh != null) {

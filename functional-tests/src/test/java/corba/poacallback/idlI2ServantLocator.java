@@ -32,6 +32,7 @@ public class idlI2ServantLocator extends org.omg.CORBA.LocalObject implements Se
         this.orb = orb;
     }
 
+    @Override
     public Servant preinvoke(byte[] oid, POA poa, String operation, CookieHolder cookieHolder) {
         System.out.println("idlI2ServantLocator.preinvoke called for " + operation);
         System.out.flush();
@@ -47,6 +48,7 @@ public class idlI2ServantLocator extends org.omg.CORBA.LocalObject implements Se
         return new idlI2Servant();
     }
 
+    @Override
     public void postinvoke(byte[] oid, POA poa, String operation, java.lang.Object cookie, Servant servant) {
     }
 }

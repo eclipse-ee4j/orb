@@ -62,6 +62,7 @@ public abstract class POAServer extends ServerCommon implements helloDelegate.Cl
     }
 
     // To be invoked by subclass after orb is created.
+    @Override
     public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         try {
             this.out = out;
@@ -149,6 +150,7 @@ public abstract class POAServer extends ServerCommon implements helloDelegate.Cl
     /**
      * Passes in the appropriate valid and invalid repository ids for POA
      */
+    @Override
     protected void testAttributesValid() throws Exception {
         testAttributesValid("IDL:ServerRequestInfo/hello:1.0", "IDL:ServerRequestInfo/goodbye:1.0");
     }
@@ -213,6 +215,7 @@ public abstract class POAServer extends ServerCommon implements helloDelegate.Cl
     }
 
     // ClientCallback interface for request info stack test:
+    @Override
     public String sayHello() {
         String result = "";
 
@@ -229,6 +232,7 @@ public abstract class POAServer extends ServerCommon implements helloDelegate.Cl
 
     }
 
+    @Override
     public void saySystemException() {
         out.println("    + ClientCallback: resolving and invoking " + "saySystemException()...");
         try {
