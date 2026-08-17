@@ -53,7 +53,7 @@ public class IIOPPerformance extends test.Test {
             Exception exception = new Exception("Test Exception");
             sos.write_value(exception);
 
-            Float f = new Float(1.23);
+            Float f = Float.valueOf(1.23f);
             sos.write_value(f);
 
             javax.rmi.CORBA.serialization.ComplexTestObjectOne test1 = new javax.rmi.CORBA.serialization.ComplexTestObjectOne();
@@ -77,7 +77,7 @@ public class IIOPPerformance extends test.Test {
             javax.rmi.CORBA.serialization.ComplexTestObjectOne test1b = new javax.rmi.CORBA.serialization.ComplexTestObjectOne();
             sos.write_value(test1b);
 
-            Double d = new Double(3.5);
+            Double d = Double.valueOf(3.5);
             sos.write_value(d);
 
             javax.rmi.CORBA.serialization.ComplexTestObjectThree test3 = new javax.rmi.CORBA.serialization.ComplexTestObjectThree();

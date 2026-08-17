@@ -373,7 +373,7 @@
             <!--
                 The test sources have non-Java companions sitting beside them in src/test/java -
                 .tdesc suite descriptors, .javaref/.idlref/.classlist expected-output files,
-                test.policy - and the harness reads them TWO different ways: some from the
+                - and the harness reads them TWO different ways: some from the
                 classpath (Test.getResource -> getResourceAsStream), others from the filesystem
                 via corba.test.srcdir (the .idl/.sjava it compiles at run time). Copying satisfies
                 the first while the originals stay in place for the second.
@@ -588,7 +588,6 @@
                                              depending on the process working directory -->
                                         <corba.test.srcdir>${project.basedir}/src/test/java</corba.test.srcdir>
                                         <http.server.root.directory>${project.build.directory}/test/values2/classes</http.server.root.directory>
-                                        <java.security.policy>${project.basedir}/src/test/java/test.policy</java.security.policy>
                                         <junit.report.dir>${project.build.directory}/junitreports</junit.report.dir>
                                     </systemPropertyVariables>
                                 </configuration>
@@ -632,7 +631,6 @@
                                         <http.server.port>9090</http.server.port>
                                         <java.rmi.server.codebase>http://localhost:9090/</java.rmi.server.codebase>
                                         <http.server.root.directory>${project.build.directory}/test/values2/classes</http.server.root.directory>
-                                        <java.security.policy>${project.basedir}/src/test/java/test.policy</java.security.policy>
                                         <java.security.debug>debug</java.security.debug>
                                         <junit.report.dir>${project.build.directory}/junitreports</junit.report.dir>
                                     </systemPropertyVariables>

@@ -44,7 +44,7 @@
 
 // 4647746 (POA does not work when ORB.init is called for an Applet) and its test are gone: the ORB
 // no longer has ORB.init(Applet, Properties) for the test to exercise. java.applet was removed from
-// the JDK in 25, so there is nothing to reinstate here.
+// the JDK in 26, so there is nothing to reinstate here.
 
 // Fixed 4655388: POA.the_children() method throws ClassCastException
 -test hopper.h4655388.POAHierarchyTest

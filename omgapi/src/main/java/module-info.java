@@ -16,7 +16,6 @@
 
 module org.glassfish.corba.omgapi {
 
-    requires java.desktop;
     requires java.logging;
     requires java.rmi;
 

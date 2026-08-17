@@ -21,18 +21,21 @@
 package javax.rmi.download;
 
 import com.sun.corba.ee.spi.JndiConstants;
-import org.glassfish.pfl.test.JUnitReportHelper;
-import org.omg.CORBA.ORB;
-import test.Util;
-import test.WebServer;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.rmi.PortableRemoteObject;
 import java.io.File;
 import java.util.Hashtable;
 import java.util.Properties;
 import java.util.Vector;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.rmi.PortableRemoteObject;
+
+import org.glassfish.pfl.test.JUnitReportHelper;
+import org.omg.CORBA.ORB;
+
+import test.Util;
+import test.WebServer;
 
 /*
  * @test
@@ -75,16 +78,8 @@ public class TheTest extends test.Test {
 
             // Create user.dir property (this is how the server knows
             // where the test value is but we (this client) does not).
-            Vector properties = new Vector();
+            Vector<String> properties = new Vector<>();
             properties.addElement("-Djava.rmi.server.codebase=" + System.getProperty("java.rmi.server.codebase"));
-            String testPolicy = System.getProperty("java.security.policy");
-            if (testPolicy != null) {
-                properties.addElement("-Djava.security.policy=" + testPolicy);
-            }
-
-            // Class c = java.rmi.server.RMIClassLoader.loadClass(new java.net.URL(System.getProperty("java.rmi.server.codebase")),
-            // "javax.rmi.download.values.TheValueImpl");
-            // System.out.println("Found : " + c.toString());
 
             // Start it
             server = Util.startServer("javax.rmi.download.TheServer", properties);
@@ -105,12 +100,13 @@ public class TheTest extends test.Test {
             // We are going to use JNDI/CosNaming so lets go ahead and
             // create our root naming context. NOTE: We setup CosNaming
             // as our naming plug-in for JNDI by setting properties above.
-            Hashtable env = new Hashtable();
+            Hashtable<String, Object> env = new Hashtable<>();
             env.put("java.naming.corba.orb", orb);
             Context ic = new InitialContext(env);
 
             // Let the test begin...
             helper.start("test1");
+
             // Resolve the Object Reference using JNDI/CosNaming
             java.lang.Object objref = ic.lookup("TheDownloadTestServer");
 
@@ -138,7 +134,6 @@ public class TheTest extends test.Test {
 
                 // Now try from separate client that has no codebase of its own
                 Vector properties2 = new Vector();
-                properties.addElement("-Djava.security.policy=" + testPolicy);
                 client = Util.startServer("javax.rmi.download.TheClient", properties);
                 helper.pass();
             } catch (Throwable ex) {

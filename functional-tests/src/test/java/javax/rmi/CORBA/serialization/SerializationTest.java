@@ -233,7 +233,7 @@ public class SerializationTest extends test.Test {
             sos2.write_value(obv1);
 
             test("writeFloat");
-            Float f = new Float(1.23);
+            Float f = Float.valueOf(1.23f);
             sos.write_value(f);
 
             test("writeComplexTestObjectOne");
@@ -269,7 +269,7 @@ public class SerializationTest extends test.Test {
             sos.write_value(test1b);
 
             test("writeDouble");
-            Double d = new Double(3.5);
+            Double d = Double.valueOf(3.5);
             sos.write_value(d);
 
             test("writeComplexTestObjectThree");

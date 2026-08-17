@@ -47,7 +47,7 @@ class DoubleExpression extends ConstantExpression {
      */
     @Override
     public Object getValue() {
-        return new Double(value);
+        return Double.valueOf(value);
     }
 
     /**
@@ -72,7 +72,7 @@ class DoubleExpression extends ConstantExpression {
      */
     @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
-        asm.add(where, opc_ldc2_w, new Double(value));
+        asm.add(where, opc_ldc2_w, Double.valueOf(value));
     }
 
     /**

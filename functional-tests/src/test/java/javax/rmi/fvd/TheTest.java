@@ -70,10 +70,6 @@ public class TheTest extends test.Test {
             // Create user.dir property (this is how the server knows
             // where the test value is but we (this client) does not).
             Vector properties = new Vector();
-            String testPolicy = System.getProperty("java.security.policy");
-            if (testPolicy != null) {
-                properties.addElement("-Djava.security.policy=" + testPolicy);
-            }
 
             // Start it
             String valueClasses = getClassesDirectory("values");
@@ -108,7 +104,6 @@ public class TheTest extends test.Test {
                 // Now try from separate client that has no codebase of its own
 
                 Vector properties2 = new Vector();
-                properties.addElement("-Djava.security.policy=" + testPolicy);
 
                 // Start it
                 client = Util.startServer("javax.rmi.fvd.TheClient", properties, getClassesDirectory("values2"));

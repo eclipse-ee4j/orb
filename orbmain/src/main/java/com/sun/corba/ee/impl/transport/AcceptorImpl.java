@@ -20,7 +20,6 @@
 
 package com.sun.corba.ee.impl.transport;
 
-import com.sun.corba.ee.impl.misc.ORBUtility;
 import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.trace.Transport;
 import com.sun.corba.ee.spi.transport.Selector;
@@ -207,8 +206,7 @@ public class AcceptorImpl extends AcceptorBase {
             }
         } catch (SecurityException se) {
             securityException(se);
-            String permissionStr = ORBUtility.getClassSecurityInfo(getClass());
-            wrapper.securityExceptionInAccept(se, permissionStr);
+            wrapper.securityExceptionInAccept(se);
         } catch (Exception ex) {
             otherException(ex);
             wrapper.exceptionInAccept(ex, ex.toString());

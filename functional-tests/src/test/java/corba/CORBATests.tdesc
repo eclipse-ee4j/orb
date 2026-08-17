@@ -51,7 +51,10 @@
 -test corba.folb.FolbTest -ifpresent
 -test corba.folb_8_1.FolbTest
 -test corba.fwddecl.ForwardDeclTest
--test corba.security.PermissionTest
+// corba.security.PermissionTest is gone. It asserted nothing - it dumped java.security.policy,
+// .debug and .manager plus a few ProtectionDomains, and could only fail by throwing. The properties
+// are meaningless now the Security Manager is permanently disabled (JEP 486), and the paths it
+// printed were Ant-era build directories that the Maven layout no longer has.
 -test corba.unarrow.UncheckedNarrowTest
 -test corba.legacyorbclasses.LegacyORBClassesTest
 -test corba.legacybootstrapserver.LegacyBootstrapServerTest

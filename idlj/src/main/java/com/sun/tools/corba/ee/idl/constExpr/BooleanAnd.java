@@ -69,7 +69,7 @@ public class BooleanAnd extends BinaryExpr
       else
         r = (Boolean)tmpR;
 
-      value (new Boolean (l.booleanValue () && r.booleanValue ()));
+      value (Boolean.valueOf(l.booleanValue () && r.booleanValue ()));
     }
     catch (ClassCastException e)
     {

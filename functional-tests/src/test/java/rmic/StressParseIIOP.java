@@ -136,7 +136,7 @@ public class StressParseIIOP {
         int offset = 0;
         args[offset++] = "java";
         args[offset++] = "rmic.MapType";
-        args[offset++] = new Boolean(solo).toString();
+        args[offset++] = Boolean.valueOf(solo).toString();
         args[offset++] = Integer.toString(totalCount);
         args[offset++] = classPath;
 

@@ -1609,7 +1609,7 @@ class Parser
         match (com.sun.tools.corba.ee.idl.Token.FloatingPointLiteral);
         try
         {
-          literal = exprFactory.terminal (string, new Double (string));
+          literal = exprFactory.terminal (string, Double.valueOf(string));
           literal.type (entry.typeName ());
         }
         catch (NumberFormatException e)

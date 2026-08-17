@@ -194,7 +194,7 @@ public class TestExecutor {
         Hashtable table = new Hashtable();
         for (Method method : methods) {
             String name = method.getIDLName();
-            table.put(name, new Boolean(method.isConstructor()));
+            table.put(name, Boolean.valueOf(method.isConstructor()));
         }
 
         for (int i = 0; i < names.length; i++) {

@@ -128,7 +128,7 @@ class I2Servant extends I2POA {
 
     @Override
     public int m(String x) {
-        int result = new Integer(x).intValue();
+        int result = Integer.valueOf(x).intValue();
         System.out.println("I2Servant.m result: " + result);
         System.out.flush();
         return result;

@@ -257,8 +257,8 @@ public class GameUI implements ActionListener {
         fTechLevels.setMini(1);
 
         ui.setLayout(new PercentLayout(PercentLayout.HORZ));
-        ui.add(fTechLevels, new Float(.2f));
-        ui.add(fTechSpendingUI, new Float(.8f));
+        ui.add(fTechLevels, Float.valueOf(.2f));
+        ui.add(fTechSpendingUI, Float.valueOf(.8f));
 
         return ui;
     }

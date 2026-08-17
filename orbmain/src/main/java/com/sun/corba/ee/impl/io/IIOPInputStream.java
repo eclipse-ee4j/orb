@@ -2564,9 +2564,9 @@ public class IIOPInputStream extends com.sun.corba.ee.impl.io.InputStreamHook {
             }
         } catch (Exception e) {
             if (o != null) {
-                throw utilWrapper.errorSetBooleanField(e, fieldName, o.toString(), new Boolean(v));
+                throw utilWrapper.errorSetBooleanField(e, fieldName, o.toString(), Boolean.valueOf(v));
             } else {
-                throw utilWrapper.errorSetBooleanField(e, fieldName, "null " + c.getName() + " object", new Boolean(v));
+                throw utilWrapper.errorSetBooleanField(e, fieldName, "null " + c.getName() + " object", Boolean.valueOf(v));
             }
         }
     }
@@ -2583,9 +2583,9 @@ public class IIOPInputStream extends com.sun.corba.ee.impl.io.InputStreamHook {
             }
         } catch (Exception e) {
             if (o != null) {
-                throw utilWrapper.errorSetByteField(e, fieldName, o.toString(), new Byte(v));
+                throw utilWrapper.errorSetByteField(e, fieldName, o.toString(), Byte.valueOf(v));
             } else {
-                throw utilWrapper.errorSetByteField(e, fieldName, "null " + c.getName() + " object", new Byte(v));
+                throw utilWrapper.errorSetByteField(e, fieldName, "null " + c.getName() + " object", Byte.valueOf(v));
             }
         }
     }
@@ -2602,9 +2602,9 @@ public class IIOPInputStream extends com.sun.corba.ee.impl.io.InputStreamHook {
             }
         } catch (Exception e) {
             if (o != null) {
-                throw utilWrapper.errorSetCharField(e, fieldName, o.toString(), new Character(v));
+                throw utilWrapper.errorSetCharField(e, fieldName, o.toString(), Character.valueOf(v));
             } else {
-                throw utilWrapper.errorSetCharField(e, fieldName, "null " + c.getName() + " object", new Character(v));
+                throw utilWrapper.errorSetCharField(e, fieldName, "null " + c.getName() + " object", Character.valueOf(v));
             }
         }
     }
@@ -2621,9 +2621,9 @@ public class IIOPInputStream extends com.sun.corba.ee.impl.io.InputStreamHook {
             }
         } catch (Exception e) {
             if (o != null) {
-                throw utilWrapper.errorSetShortField(e, fieldName, o.toString(), new Short(v));
+                throw utilWrapper.errorSetShortField(e, fieldName, o.toString(), Short.valueOf(v));
             } else {
-                throw utilWrapper.errorSetShortField(e, fieldName, "null " + c.getName() + " object", new Short(v));
+                throw utilWrapper.errorSetShortField(e, fieldName, "null " + c.getName() + " object", Short.valueOf(v));
             }
         }
     }
@@ -2640,9 +2640,9 @@ public class IIOPInputStream extends com.sun.corba.ee.impl.io.InputStreamHook {
             }
         } catch (Exception e) {
             if (o != null) {
-                throw utilWrapper.errorSetIntField(e, fieldName, o.toString(), new Integer(v));
+                throw utilWrapper.errorSetIntField(e, fieldName, o.toString(), Integer.valueOf(v));
             } else {
-                throw utilWrapper.errorSetIntField(e, fieldName, "null " + c.getName() + " object", new Integer(v));
+                throw utilWrapper.errorSetIntField(e, fieldName, "null " + c.getName() + " object", Integer.valueOf(v));
             }
         }
     }
@@ -2659,9 +2659,9 @@ public class IIOPInputStream extends com.sun.corba.ee.impl.io.InputStreamHook {
             }
         } catch (Exception e) {
             if (o != null) {
-                throw utilWrapper.errorSetLongField(e, fieldName, o.toString(), new Long(v));
+                throw utilWrapper.errorSetLongField(e, fieldName, o.toString(), Long.valueOf(v));
             } else {
-                throw utilWrapper.errorSetLongField(e, fieldName, "null " + c.getName() + " object", new Long(v));
+                throw utilWrapper.errorSetLongField(e, fieldName, "null " + c.getName() + " object", Long.valueOf(v));
             }
         }
     }
@@ -2678,9 +2678,9 @@ public class IIOPInputStream extends com.sun.corba.ee.impl.io.InputStreamHook {
             }
         } catch (Exception e) {
             if (o != null) {
-                throw utilWrapper.errorSetFloatField(e, fieldName, o.toString(), new Float(v));
+                throw utilWrapper.errorSetFloatField(e, fieldName, o.toString(), Float.valueOf(v));
             } else {
-                throw utilWrapper.errorSetFloatField(e, fieldName, "null " + c.getName() + " object", new Float(v));
+                throw utilWrapper.errorSetFloatField(e, fieldName, "null " + c.getName() + " object", Float.valueOf(v));
             }
         }
     }
@@ -2697,9 +2697,9 @@ public class IIOPInputStream extends com.sun.corba.ee.impl.io.InputStreamHook {
             }
         } catch (Exception e) {
             if (o != null) {
-                throw utilWrapper.errorSetDoubleField(e, fieldName, o.toString(), new Double(v));
+                throw utilWrapper.errorSetDoubleField(e, fieldName, o.toString(), Double.valueOf(v));
             } else {
-                throw utilWrapper.errorSetDoubleField(e, fieldName, "null " + c.getName() + " object", new Double(v));
+                throw utilWrapper.errorSetDoubleField(e, fieldName, "null " + c.getName() + " object", Double.valueOf(v));
             }
         }
     }

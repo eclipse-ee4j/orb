@@ -893,7 +893,7 @@ class SourceMember extends MemberDefinition implements Constants {
                     ClassDeclaration c = getClassDefinition().getSuperClass();
                     if (c != null) {
                         MemberDefinition field = c.getClassDefinition(env).matchMethod(env, getClassDefinition(), idInit);
-                        asm.add(getWhere(), opc_aload, new Integer(0));
+                        asm.add(getWhere(), opc_aload, Integer.valueOf(0));
                         asm.add(getWhere(), opc_invokespecial, field);
                         asm.add(getWhere(), opc_pop);
                     }

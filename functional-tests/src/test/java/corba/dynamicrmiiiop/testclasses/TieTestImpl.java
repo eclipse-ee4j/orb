@@ -66,15 +66,15 @@ public class TieTestImpl implements TieTest {
             // types
             { "hasAByteArray", Boolean.FALSE, null, null, new Object[] { new byte[] { 0, 1, 2, 3 } }, new Class[] { byte[].class } },
             { "foo_bar_baz", Boolean.TRUE, new BAD_OPERATION(wrapper.METHOD_NOT_FOUND_IN_TIE, CompletionStatus.COMPLETED_NO), null,
-                    new Object[] { new Integer(37) }, new Class[] { int.class } },
+                    new Object[] { Integer.valueOf(37) }, new Class[] { int.class } },
             { "throwsDeclaredException", Boolean.FALSE, new MyApplicationException("Foo"), new MyApplicationException("Foo"),
-                    new Object[] { new Integer(36) }, new Class[] { int.class } },
-            { "throwsException", Boolean.FALSE, new Exception("Foo"), new Exception("Foo"), new Object[] { new Integer(38) },
+                    new Object[] { Integer.valueOf(36) }, new Class[] { int.class } },
+            { "throwsException", Boolean.FALSE, new Exception("Foo"), new Exception("Foo"), new Object[] { Integer.valueOf(38) },
                     new Class[] { int.class } },
             { "throwsSystemException", Boolean.FALSE, new BAD_PARAM(), Util.mapSystemException(new BAD_PARAM()),
-                    new Object[] { new Integer(35) }, new Class[] { int.class } },
+                    new Object[] { Integer.valueOf(35) }, new Class[] { int.class } },
             { "throwsJavaException", Boolean.FALSE, new UnknownException(new IllegalStateException()),
-                    wrapException(new IllegalStateException()), new Object[] { new Integer(31) }, new Class[] { int.class } },
+                    wrapException(new IllegalStateException()), new Object[] { Integer.valueOf(31) }, new Class[] { int.class } },
             { "m0", Boolean.FALSE, "m0 result", "m0 result", null, new Class[0] },
             { "m1", Boolean.FALSE, "m1 result", "m1 result", new Object[] { "m1 arg" }, new Class[] { String.class } },
             { "m2", Boolean.FALSE, "m2 result", "m2 result", new Object[] { new HashMap(), "m2 arg" },
@@ -142,25 +142,25 @@ public class TieTestImpl implements TieTest {
 
     @Override
     public int throwsException(int arg) throws Exception, RemoteException {
-        checkArgs("throwsException", new Object[] { new Integer(arg) });
+        checkArgs("throwsException", new Object[] { Integer.valueOf(arg) });
         throw (Exception) getExpectedTieResult("throwsException");
     }
 
     @Override
     public int throwsDeclaredException(int arg) throws MyApplicationExceptionBase, RemoteException {
-        checkArgs("throwsDeclaredException", new Object[] { new Integer(arg) });
+        checkArgs("throwsDeclaredException", new Object[] { Integer.valueOf(arg) });
         throw (MyApplicationException) getExpectedTieResult("throwsDeclaredException");
     }
 
     @Override
     public int throwsSystemException(int arg) throws RemoteException {
-        checkArgs("throwsSystemException", new Object[] { new Integer(arg) });
+        checkArgs("throwsSystemException", new Object[] { Integer.valueOf(arg) });
         throw (SystemException) getExpectedTieResult("throwsSystemException");
     }
 
     @Override
     public int throwsJavaException(int arg) throws RemoteException {
-        checkArgs("throwsJavaException", new Object[] { new Integer(arg) });
+        checkArgs("throwsJavaException", new Object[] { Integer.valueOf(arg) });
         throw (RuntimeException) getExpectedTieResult("throwsJavaException");
     }
 

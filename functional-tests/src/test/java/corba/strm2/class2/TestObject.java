@@ -30,7 +30,7 @@ public class TestObject extends TestObjectSuper implements Testable {
     private String data2;
 
     public TestObject() {
-        data0 = new Integer(342141);
+        data0 = Integer.valueOf(342141);
         data1 = 1209409213L;
         data2 = "This is a test\u98DB";
 

@@ -54,7 +54,7 @@ public class TestThreadPoolManager implements ThreadPoolManager {
         for (int i = 0; i < NUMBER_OF_THREAD_POOLS_TO_CREATE; i++) {
             createThreadPools(i);
         }
-        defaultID = (String) indexToIdTable.get(new Integer(0));
+        defaultID = (String) indexToIdTable.get(Integer.valueOf(0));
     }
 
     private void createThreadPools(int index) {
@@ -68,10 +68,10 @@ public class TestThreadPoolManager implements ThreadPoolManager {
         threadpoolList.add(threadpool);
 
         // Associate the threadpoolId to the index passed
-        idToIndexTable.put(threadpoolId, new Integer(index));
+        idToIndexTable.put(threadpoolId, Integer.valueOf(index));
 
         // Associate the threadpoolId to the index passed
-        indexToIdTable.put(new Integer(index), threadpoolId);
+        indexToIdTable.put(Integer.valueOf(index), threadpoolId);
 
     }
 
@@ -131,7 +131,7 @@ public class TestThreadPoolManager implements ThreadPoolManager {
      */
     @Override
     public String getThreadPoolStringId(int numericIdForThreadpool) {
-        String id = (String) indexToIdTable.get(new Integer(numericIdForThreadpool));
+        String id = (String) indexToIdTable.get(Integer.valueOf(numericIdForThreadpool));
         return ((id == null) ? defaultID : id);
     }
 

@@ -300,27 +300,27 @@ public class ValueEntry extends com.sun.tools.corba.ee.idl.InterfaceEntry
     {
       primTypes = new Hashtable ();
       //<daz> primTypes.put ("short",          new Integer (TypeCode.tk_short  ));
-      primTypes.put ("short",          new Integer (org.omg.CORBA.TCKind._tk_short  ));
+      primTypes.put ("short",          Integer.valueOf(org.omg.CORBA.TCKind._tk_short  ));
       //<daz> primTypes.put ("long",           new Integer (TypeCode.tk_long   ));
-      primTypes.put ("long",           new Integer (org.omg.CORBA.TCKind._tk_long   ));
+      primTypes.put ("long",           Integer.valueOf(org.omg.CORBA.TCKind._tk_long   ));
       //<daz> primTypes.put ("unsigned short", new Integer (TypeCode.tk_ushort ));
-      primTypes.put ("unsigned short", new Integer (org.omg.CORBA.TCKind._tk_ushort ));
+      primTypes.put ("unsigned short", Integer.valueOf(org.omg.CORBA.TCKind._tk_ushort ));
       //<daz> primTypes.put ("unsigned long",  new Integer (TypeCode.tk_ulong  ));
-      primTypes.put ("unsigned long",  new Integer (org.omg.CORBA.TCKind._tk_ulong  ));
+      primTypes.put ("unsigned long",  Integer.valueOf(org.omg.CORBA.TCKind._tk_ulong  ));
       //<daz> primTypes.put ("char",           new Integer (TypeCode.tk_char   ));
-      primTypes.put ("char",           new Integer (org.omg.CORBA.TCKind._tk_char   ));
+      primTypes.put ("char",           Integer.valueOf(org.omg.CORBA.TCKind._tk_char   ));
       //<daz> primTypes.put ("wchar",          new Integer (TypeCode.tk_wchar  ));
-      primTypes.put ("wchar",          new Integer (org.omg.CORBA.TCKind._tk_wchar  ));
+      primTypes.put ("wchar",          Integer.valueOf(org.omg.CORBA.TCKind._tk_wchar  ));
       //<daz> primTypes.put ("float",          new Integer (TypeCode.tk_float  ));
-      primTypes.put ("float",          new Integer (org.omg.CORBA.TCKind._tk_float  ));
+      primTypes.put ("float",          Integer.valueOf(org.omg.CORBA.TCKind._tk_float  ));
       //<daz> primTypes.put ("double",         new Integer (TypeCode.tk_double ));
-      primTypes.put ("double",         new Integer (org.omg.CORBA.TCKind._tk_double ));
+      primTypes.put ("double",         Integer.valueOf(org.omg.CORBA.TCKind._tk_double ));
       //<daz> primTypes.put ("boolean",        new Integer (TypeCode.tk_boolean));
-      primTypes.put ("boolean",        new Integer (org.omg.CORBA.TCKind._tk_boolean));
+      primTypes.put ("boolean",        Integer.valueOf(org.omg.CORBA.TCKind._tk_boolean));
       //<daz> primTypes.put ("octet",          new Integer (TypeCode.tk_octet  ));
-      primTypes.put ("octet",          new Integer (org.omg.CORBA.TCKind._tk_octet  ));
+      primTypes.put ("octet",          Integer.valueOf(org.omg.CORBA.TCKind._tk_octet  ));
       //<daz> primTypes.put ("any",            new Integer (TypeCode.tk_any    )); }
-      primTypes.put ("any",            new Integer (org.omg.CORBA.TCKind._tk_any    ));
+      primTypes.put ("any",            Integer.valueOf(org.omg.CORBA.TCKind._tk_any    ));
     }
     repId.addValue (((Integer)primTypes.get (entry.name ())).intValue ());
   } // calcPrimitiveType

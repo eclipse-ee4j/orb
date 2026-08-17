@@ -49,7 +49,7 @@ public class Equal extends BinaryExpr
         Number l = (Number)left;
         Number r = (Number)right ().evaluate ();
         if (l instanceof Float || l instanceof Double || r instanceof Float || r instanceof Double)
-          value (new Boolean (l.doubleValue () == r.doubleValue ()));
+          value (Boolean.valueOf(l.doubleValue () == r.doubleValue ()));
         else
           //daz          value (Boolean.valueOf (l.longValue () == r.longValue ()));
           value (Boolean.valueOf (((BigInteger)l).equals ((BigInteger)r)));

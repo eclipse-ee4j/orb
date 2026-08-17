@@ -57,7 +57,7 @@ public class Divide extends BinaryExpr
       boolean rIsNonInteger = r instanceof Float || r instanceof Double;
 
       if (lIsNonInteger && rIsNonInteger)
-        value (new Double (l.doubleValue () / r.doubleValue ()));
+        value (Double.valueOf(l.doubleValue () / r.doubleValue ()));
       else if (lIsNonInteger || rIsNonInteger)
       {
         String[] parameters = {Util.getMessage ("EvaluationException.divide"),
@@ -81,7 +81,7 @@ public class Divide extends BinaryExpr
       // Floating-point operands.
       if (lIsNonInteger && rIsNonInteger)
       {
-        value (new Double (l.doubleValue () / r.doubleValue ()));
+        value (Double.valueOf(l.doubleValue () / r.doubleValue ()));
       }
       // Integral operands.
       else if (!(lIsNonInteger || rIsNonInteger))
@@ -96,7 +96,7 @@ public class Divide extends BinaryExpr
         if (type ().equals ("float") ||
             type ().equals ("double"))
         {
-          value (new Double (l.doubleValue () / r.doubleValue ()));
+          value (Double.valueOf(l.doubleValue () / r.doubleValue ()));
         }
         else
         {

@@ -367,7 +367,7 @@ public class Util {
             "java.naming.factory.state",
 
             // Security related
-            "com.sun.corba.ee.ORBBase", "java.security.policy", "java.security.debug", "java.security.manager",
+            "com.sun.corba.ee.ORBBase", "java.security.debug",
 
             // Whether a display is available. Inherited so that -Djava.awt.headless=true reaches the client and
             // server processes, which is where it would matter. The tests that needed this are gone with the
@@ -406,11 +406,11 @@ public class Util {
         }
     }
 
-    public static Process startProcess(Vector command, String handShake) throws IOException {
+    public static Process startProcess(Vector<String> command, String handShake) throws IOException {
         return startProcess(command, handShake, Test.forkDebugLevel);
     }
 
-    public static Process startProcess(Vector command, String handShake, int debugLevel) throws IOException {
+    public static Process startProcess(Vector<String> command, String handShake, int debugLevel) throws IOException {
         inheritProperties(command);
 
         if (debugLevel >= Test.ATTACH) {
@@ -427,7 +427,7 @@ public class Util {
             buff.append("startProcess: about to exec:");
             for (int ctr = 0; ctr < command.size(); ctr++) {
                 buff.append(" ");
-                buff.append((String) command.elementAt(ctr));
+                buff.append(command.elementAt(ctr));
             }
             trace(buff.toString());
             trace("handShake = \"" + handShake + "\"");
@@ -669,14 +669,6 @@ public class Util {
             temp.addElement("-Djava.rmi.server.codebase=" + codebase);
         }
 
-        boolean is12VM = true;
-        if (is12VM) {
-            String policy = System.getProperty("java.security.policy");
-            if (policy != null) {
-                temp.addElement("-Djava.security.policy=" + policy);
-            }
-        }
-
         temp.addElement("-classpath");
         temp.addElement(System.getProperty("java.class.path"));
         temp.addElement("test.Util");
@@ -699,14 +691,9 @@ public class Util {
     public static Process startServer(String serverClass) throws IOException {
 
         // Fill out the command...
-        Vector cmd = new Vector();
+        Vector<String> cmd = new Vector<>();
 
         cmd.add(System.getProperty("java.home") + "/bin/java");
-
-        String policy = System.getProperty("java.security.policy");
-        if (policy != null) {
-            cmd.addElement("-Djava.security.policy=" + policy);
-        }
 
         cmd.add("-Dorg.omg.CORBA.ORBClass=com.sun.corba.ee.impl.orb.ORBImpl");
         cmd.add("-Dorg.omg.CORBA.ORBSingletonClass=com.sun.corba.ee.impl.orb.ORBSingleton");
@@ -805,21 +792,13 @@ public class Util {
         args.addElement("-classpath");
         args.addElement(System.getProperty("java.class.path"));
 
-        boolean is12VM = true;
-        if (is12VM) {
-            String policy = System.getProperty("java.security.policy");
-            args.addElement("-Djava.security.policy=" + policy);
-        }
-
         if (iiop) {
-
             args.addElement("com.sun.corba.ee.impl.naming.cosnaming.TransientNameServer");
             args.addElement("-ORBInitialPort");
             args.addElement(port);
             handshake = "Initial Naming Context:";
 
         } else {
-
             args.addElement("test.StartRMIRegistry");
             args.addElement(port);
             handshake = HANDSHAKE;

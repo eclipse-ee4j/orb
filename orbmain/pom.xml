@@ -116,6 +116,31 @@
                         </annotationProcessorPath>
                     </annotationProcessorPaths>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>default-testCompile</id>
+                        <configuration>
+                            <!--
+                                The ORB itself does not read java.desktop - the requires went away with the Applet
+                                support. One test still needs it: IDLOverloadedTest names
+                                javax.swing.UIDefaults.ActiveValue to check how a nested interface from another
+                                module is mangled into an IDL name, and TestIDLNameTranslator asserts the exact
+                                mangled form. Granting the read edge for the test compile only keeps that coverage
+                                without putting java.desktop back into the module the ORB actually ships.
+                            -->
+                            <compilerArgs>
+                                <!-- add-modules pulls java.desktop into the module graph. Nothing requires it
+                                     any more, so on its own the add-reads below has no module to bind to and
+                                     javac warns that the module name was not found, leaving the read edge
+                                     ungranted and the compile still failing. -->
+                                <arg>--add-modules</arg>
+                                <arg>java.desktop</arg>
+                                <arg>--add-reads</arg>
+                                <arg>org.glassfish.corba.orb=java.desktop</arg>
+                            </compilerArgs>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.felix</groupId>

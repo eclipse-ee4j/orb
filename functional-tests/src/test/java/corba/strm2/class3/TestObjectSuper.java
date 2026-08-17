@@ -32,8 +32,8 @@ public class TestObjectSuper implements Serializable {
     public TestObjectSuper() {
         dataS1 = 23910;
         dataS2 = '\u6A5F';
-        dataS3 = new Long(999211L);
-        optDataS1 = new Double(24124.23121);
+        dataS3 = Long.valueOf(999211L);
+        optDataS1 = Double.valueOf(24124.23121);
         optDataS2 = 2412;
     }
 
@@ -106,7 +106,7 @@ public class TestObjectSuper implements Serializable {
             optDataS1 = (Double) is.readObject();
         } catch (OptionalDataException ode) {
             // Optional object data not present
-            optDataS1 = new Double(24124.23121);
+            optDataS1 = Double.valueOf(24124.23121);
         }
 
         try {

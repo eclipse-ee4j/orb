@@ -190,7 +190,7 @@ public class ORBManager {
             initialPort = DEFAULT_ORB_INIT_PORT;
         }
         System.setProperty(OMG_ORB_INIT_PORT_PROPERTY, initialPort);
-        orbInitialPort = new Integer(initialPort).intValue();
+        orbInitialPort = Integer.valueOf(initialPort).intValue();
         System.out.println("Setting orb initial port to " + initialPort);
         return initialPort;
     }

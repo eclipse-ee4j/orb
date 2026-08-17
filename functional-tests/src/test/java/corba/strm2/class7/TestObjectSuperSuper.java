@@ -24,13 +24,13 @@ public class TestObjectSuperSuper implements Serializable {
     public Integer dataxssup1;
 
     public static final int INITIAL_DATAXSSUP0 = 512;
-    public static final Integer INITIAL_DATAXSSUP1 = new Integer(102400);
+    public static final Integer INITIAL_DATAXSSUP1 = Integer.valueOf(102400);
 
     private static final long serialVersionUID = -6910104656092098469L;
 
     public TestObjectSuperSuper() {
         dataxssup0 = 512;
-        dataxssup1 = new Integer(102400);
+        dataxssup1 = Integer.valueOf(102400);
     }
 
     public boolean testObjectSuperSuperHasStreamDefaults() {

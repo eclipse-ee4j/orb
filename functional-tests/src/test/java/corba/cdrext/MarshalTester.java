@@ -114,8 +114,8 @@ public class MarshalTester implements Serializable {
 
         recursiveField = this;
 
-        objectField = new Integer(52);
-        serializableField = new Integer(59);
+        objectField = Integer.valueOf(52);
+        serializableField = Integer.valueOf(59);
 
         this.remoteField = remoteField;
 

@@ -810,20 +810,6 @@ document: ignore this section.
 or updated in years. See http://www.lambdacs.com/debugger/debugger.html
 for more information).
 <LI CLASS="li-itemize">Default ORB class has changed. We now use com.sun.corba.ee.impl.orb.ORBImpl.
-<LI CLASS="li-itemize">There are two security policy files available for running the tests.
-The default test.policy file simply sets up the needed permissions
-for all of the tests and the ORB. The more fine grained test.policy.secure
-file sets up more restrictive permissions for the tests, while giving
-more powerful permissions to the ORB code in the build and optional/build
-directories. Which policy file is used is set in the test/make/Makefile
-in the DEFINES macro.<BR>
-<BR>
-Setting the more secure policy file is useful to work on ensuring
-that the ORB has doPrivileged blocks around all operations that have
-security implications. It is known that the ORB is at least somewhat
-deficient in this area, but we have not taken the time to thoroughly
-address this issue.<BR>
-<BR>
 <LI CLASS="li-itemize">There are several environment variables that are useful to set while
 running tests (see test/make/Makefile for more details):
 <DL CLASS="description" COMPACT=compact><DT CLASS="dt-description">

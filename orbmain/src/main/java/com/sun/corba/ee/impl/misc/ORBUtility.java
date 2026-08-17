@@ -47,7 +47,6 @@ import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.security.PermissionCollection;
-import java.security.Policy;
 import java.security.ProtectionDomain;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -905,29 +904,6 @@ public final class ORBUtility {
 
         sbuf.append("--------------------------------------------------------\n");
         ps.println(sbuf.toString());
-    }
-
-    public static String getClassSecurityInfo(final Class cl) {
-        // Returns a String which looks similar to:
-        // PermissionCollection java.security.Permissions@1053693 ...
-        // (java.io.FilePermission <<ALL FILES>> ....)
-        // (java.io.FilePermission /export0/sunwappserv/lib/- ...)
-        // ... other permissions ...
-        // Domain ProtectionDomain (file:/export0/sunwappserv/lib-)
-        // java.security.Permissions@141fedb (
-        // (java.io.FilePermission <<ALL FILES>> ...)
-        // (java.io.FilePermission /var/tmp//- ...)
-
-        StringBuilder sb = new StringBuilder(500);
-        ProtectionDomain pd = cl.getProtectionDomain();
-        Policy policy = Policy.getPolicy();
-        PermissionCollection pc = policy.getPermissions(pd);
-        sb.append("\nPermissionCollection ");
-        sb.append(pc.toString());
-        // Don't need to add 'Protection Domain' string, it's
-        // in ProtectionDomain.toString() already.
-        sb.append(pd.toString());
-        return sb.toString();
     }
 
     public static String formatStringArray(String[] a) {

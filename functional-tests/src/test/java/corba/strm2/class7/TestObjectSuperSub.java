@@ -27,7 +27,7 @@ public class TestObjectSuperSub extends TestObjectSuper {
     private transient BigInteger optData;
 
     public static final int INITIAL_DATAXSS0 = 256;
-    public static final Long INITIAL_DATAXSS1 = new Long(128000L);
+    public static final Long INITIAL_DATAXSS1 = Long.valueOf(128000L);
 
     private static final BigInteger INITIAL_BIGINT = new BigInteger("209487109248102948109248102948124");
 
@@ -35,7 +35,7 @@ public class TestObjectSuperSub extends TestObjectSuper {
 
     public TestObjectSuperSub() {
         dataxss0 = 256;
-        dataxss1 = new Long(128000L);
+        dataxss1 = Long.valueOf(128000L);
 
         optData = INITIAL_BIGINT;
     }

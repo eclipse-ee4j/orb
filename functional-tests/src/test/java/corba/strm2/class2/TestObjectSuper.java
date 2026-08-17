@@ -29,7 +29,7 @@ public class TestObjectSuper implements Serializable {
     public TestObjectSuper() {
         dataS1 = 23910;
         dataS2 = '\u6A5F';
-        dataS3 = new Long(999211L);
+        dataS3 = Long.valueOf(999211L);
     }
 
     @Override

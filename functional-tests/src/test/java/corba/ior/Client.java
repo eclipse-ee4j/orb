@@ -1211,7 +1211,7 @@ public class Client {
         StringTokenizer st = new StringTokenizer(values);
         while (st.hasMoreTokens()) {
             String elem = st.nextToken();
-            Integer refValue = new Integer(elem);
+            Integer refValue = Integer.valueOf(elem);
 
             if (!iter.hasNext()) {
                 error(msg + ": too few elements");
@@ -1245,11 +1245,11 @@ public class Client {
         }
 
         // add several elements to it
-        flist.add(new Integer(1));
-        flist.add(new Integer(2));
-        flist.add(new Integer(3));
-        flist.add(new Integer(4));
-        flist.add(new Integer(5));
+        flist.add(Integer.valueOf(1));
+        flist.add(Integer.valueOf(2));
+        flist.add(Integer.valueOf(3));
+        flist.add(Integer.valueOf(4));
+        flist.add(Integer.valueOf(5));
 
         // Create an Iterator
         Iterator iter = flist.iterator();
