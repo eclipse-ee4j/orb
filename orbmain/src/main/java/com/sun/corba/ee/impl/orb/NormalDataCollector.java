@@ -30,11 +30,6 @@ public class NormalDataCollector extends DataCollectorBase {
     }
 
     @Override
-    public boolean isApplet() {
-        return false;
-    }
-
-    @Override
     protected void collect() {
         checkPropertyDefaults();
 

@@ -24,6 +24,7 @@ import javax.rmi.PortableRemoteObject;
 import javax.naming.*;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 
 public class Server extends PortableRemoteObject implements Tester {
     public Server() throws java.rmi.RemoteException {
@@ -35,9 +36,8 @@ public class Server extends PortableRemoteObject implements Tester {
     }
 
     @Override
-    public Object requestValue() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-        Class valueClass = Class.forName("TestValue");
-        return valueClass.newInstance();
+    public Object requestValue() throws ReflectiveOperationException {
+        return Class.forName("TestValue").getDeclaredConstructor().newInstance();
     }
 
     @Override

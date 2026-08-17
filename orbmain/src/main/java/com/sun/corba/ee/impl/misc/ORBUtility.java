@@ -376,7 +376,7 @@ public final class ORBUtility {
     public static SystemException readSystemException(InputStream strm) {
         try {
             String name = classNameOf(strm.read_string());
-            SystemException ex = (SystemException) ORBClassLoader.loadClass(name).newInstance();
+            SystemException ex = (SystemException) ORBClassLoader.loadClass(name).getDeclaredConstructor().newInstance();
             ex.minor = strm.read_long();
             ex.completed = CompletionStatus.from_int(strm.read_long());
             return ex;
@@ -740,8 +740,7 @@ public final class ORBUtility {
 
     public static void setDaemon(Thread thread) {
         // Catch exceptions since setDaemon can cause a
-        // security exception to be thrown under netscape
-        // in the Applet mode
+        // security exception to be thrown
         final Thread finalThread = thread;
         try {
             finalThread.setDaemon(true);

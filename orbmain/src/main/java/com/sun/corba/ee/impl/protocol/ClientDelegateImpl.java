@@ -280,7 +280,7 @@ public class ClientDelegateImpl extends ClientDelegate {
             }
 
             try {
-                stub = (org.omg.CORBA.Object) JDKBridge.loadClass("org.omg.CORBA._InterfaceDefStub").newInstance();
+                stub = (org.omg.CORBA.Object) JDKBridge.loadClass("org.omg.CORBA._InterfaceDefStub").getDeclaredConstructor().newInstance();
             } catch (Exception ex) {
                 throw wrapper.noInterfaceDefStub(ex);
             }

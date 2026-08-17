@@ -182,7 +182,7 @@ public abstract class Stub extends ObjectImpl implements java.io.Serializable {
     private void setDefaultDelegate() {
         if (stubDelegateClass != null) {
             try {
-                stubDelegate = (javax.rmi.CORBA.StubDelegate) stubDelegateClass.newInstance();
+                stubDelegate = (javax.rmi.CORBA.StubDelegate) stubDelegateClass.getDeclaredConstructor().newInstance();
             } catch (Exception ex) {
                 // what kind of exception to throw
                 // delegate not set therefore it is null and will return default
@@ -210,7 +210,7 @@ public abstract class Stub extends ObjectImpl implements java.io.Serializable {
         }
 
         try {
-            return loadDelegateClass(className).newInstance();
+            return loadDelegateClass(className).getDeclaredConstructor().newInstance();
         } catch (ClassNotFoundException ex) {
             INITIALIZE exc = new INITIALIZE("Cannot instantiate " + className);
             exc.initCause(ex);

@@ -61,7 +61,7 @@ public class HelloServer {
             System.out.println("Class path: " + System.getProperty("java.class.path"));
 
             if (factory != null && !factory.equals("")) {
-                f = (POAFactory) Class.forName(factory).newInstance();
+                f = (POAFactory) Class.forName(factory).getDeclaredConstructor().newInstance();
             }
 
             Utility u = new Utility(args);
@@ -78,7 +78,7 @@ public class HelloServer {
             if (f == null) {
                 theFactory = new BasicObjectFactoryImpl();
             } else {
-                theFactory = (BasicObjectFactoryImpl) Class.forName(f.getObjectFactoryName()).newInstance();
+                theFactory = (BasicObjectFactoryImpl) Class.forName(f.getObjectFactoryName()).getDeclaredConstructor().newInstance();
             }
 
             System.out.println("Got the basic object factory");

@@ -35,7 +35,7 @@ public class ServantImpl implements Servant {
     @Override
     public ParentClass receiveMismatch(ParentClass value) throws java.rmi.RemoteException {
         try {
-            return (ParentClass) Class.forName("javax.rmi.download.values.ClientA").newInstance();
+            return (ParentClass) Class.forName("javax.rmi.download.values.ClientA").getDeclaredConstructor().newInstance();
         } catch (Throwable t) {
             return null;
         }
@@ -44,7 +44,7 @@ public class ServantImpl implements Servant {
     @Override
     public ParentClass receiveABC(ParentClass value) throws java.rmi.RemoteException {
         try {
-            return (ParentClass) Class.forName("javax.rmi.download.values.ClassC").newInstance();
+            return (ParentClass) Class.forName("javax.rmi.download.values.ClassC").getDeclaredConstructor().newInstance();
         } catch (Throwable t) {
             return null;
         }
@@ -53,7 +53,7 @@ public class ServantImpl implements Servant {
     @Override
     public ParentClass receiveAE(ParentClass value) throws java.rmi.RemoteException {
         try {
-            return (ParentClass) Class.forName("javax.rmi.download.values.ClassE").newInstance();
+            return (ParentClass) Class.forName("javax.rmi.download.values.ClassE").getDeclaredConstructor().newInstance();
         } catch (Throwable t) {
             return null;
         }

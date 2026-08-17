@@ -78,7 +78,7 @@ public class StubFactoryCodegenImpl extends StubFactoryDynamicBase {
         CodegenStubBase stub = null;
 
         try {
-            stub = (CodegenStubBase) stubClass.newInstance();
+            stub = (CodegenStubBase) stubClass.getDeclaredConstructor().newInstance();
         } catch (Exception exc) {
             wrapper.couldNotInstantiateStubClass(exc, stubClass.getName());
         }

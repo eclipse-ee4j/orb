@@ -25,7 +25,6 @@ import com.sun.corba.ee.spi.misc.ORBConstants;
 import com.sun.corba.ee.spi.orb.DataCollector;
 import com.sun.corba.ee.spi.orb.PropertyParser;
 
-import java.applet.Applet;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
@@ -99,14 +98,6 @@ public abstract class DataCollectorBase implements DataCollector {
     }
 
 //////////////////////////////////////////////////////////
-// public interface from DataCollector that must be defined
-// in subclasses
-//////////////////////////////////////////////////////////
-
-    @Override
-    public abstract boolean isApplet();
-
-//////////////////////////////////////////////////////////
 // Implementation methods needed in subclasses
 //////////////////////////////////////////////////////////
 
@@ -154,50 +145,6 @@ public abstract class DataCollectorBase implements DataCollector {
                 setProperty(name, value);
             }
         }
-    }
-
-    protected void findPropertiesFromApplet(final Applet app) {
-        // Cannot use propertyPrefixes here, since there is no
-        // way to fetch properties by prefix from an Applet.
-        if (app == null) {
-            return;
-        }
-
-        PropertyCallback callback = new PropertyCallback() {
-            @Override
-            public String get(String name) {
-                return app.getParameter(name);
-            }
-        };
-
-        findPropertiesByName(propertyNames.iterator(), callback);
-
-        // Special Case:
-        //
-        // Convert any applet parameter relative URLs to an
-        // absolute URL based on the Document Root. This is so HTML
-        // URLs can be kept relative which is sometimes useful for
-        // managing the Document Root layout.
-        PropertyCallback URLCallback = new PropertyCallback() {
-            @Override
-            public String get(String name) {
-                String value = resultProps.getProperty(name);
-                if (value == null) {
-                    return null;
-                }
-
-                try {
-                    URL url = new URL(app.getDocumentBase(), value);
-                    return url.toExternalForm();
-                } catch (java.net.MalformedURLException exc) {
-                    // Just preserve the original (malformed) value:
-                    // the error will be handled later.
-                    return value;
-                }
-            }
-        };
-
-        findPropertiesByName(URLPropertyNames.iterator(), URLCallback);
     }
 
     private void doProperties(final Properties props) {

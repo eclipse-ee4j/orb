@@ -38,7 +38,7 @@ public class Client {
 
         Class testValueClass = Class.forName("TestValue");
 
-        String result = tester.processValue(testValueClass.newInstance());
+        String result = tester.processValue(testValueClass.getDeclaredConstructor().newInstance());
 
         if (!testValueClass.getName().equals(result)) {
             throw new Exception("Server didn't receive the right value class.  Got: " + result);

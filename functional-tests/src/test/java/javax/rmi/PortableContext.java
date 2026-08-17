@@ -411,7 +411,17 @@ public class PortableContext {
         // Instantiate the servant...
 
         Class theClass = Class.forName(servantClass);
-        servantInstance = (Remote) theClass.newInstance();
+        try {
+            servantInstance = (Remote) theClass.getDeclaredConstructor().newInstance();
+        } catch (NoSuchMethodException | java.lang.reflect.InvocationTargetException exc) {
+            // getDeclaredConstructor().newInstance() replaced the deprecated Class.newInstance() and reports
+            // two cases differently: a missing no-arg constructor as NoSuchMethodException, and an exception
+            // from the constructor wrapped in InvocationTargetException. Folded back into
+            // InstantiationException so startServant keeps the throws clause its callers and javadoc name.
+            InstantiationException failed = new InstantiationException("could not instantiate " + servantClass);
+            failed.initCause(exc);
+            throw failed;
+        }
 
         // Determine runtime...
 

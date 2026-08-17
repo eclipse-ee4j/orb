@@ -163,7 +163,7 @@ public class PortableRemoteObject {
         }
 
         try {
-            return loadDelegateClass(className).newInstance();
+            return loadDelegateClass(className).getDeclaredConstructor().newInstance();
         } catch (ClassNotFoundException ex) {
             INITIALIZE exc = new INITIALIZE("Cannot instantiate " + className);
             exc.initCause(ex);

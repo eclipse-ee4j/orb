@@ -504,7 +504,7 @@ public class ParserTable {
                     // this socket factory class is not one that would fail
                     // the class cast anyway.
                     if (com.sun.corba.ee.spi.legacy.connection.ORBSocketFactory.class.isAssignableFrom(legacySocketFactoryClass)) {
-                        return legacySocketFactoryClass.newInstance();
+                        return legacySocketFactoryClass.getDeclaredConstructor().newInstance();
                     } else {
                         throw wrapper.illegalSocketFactoryType(legacySocketFactoryClass.toString());
                     }
@@ -532,7 +532,7 @@ public class ParserTable {
                     // this socket factory class is not one that would fail
                     // the class cast anyway.
                     if (com.sun.corba.ee.spi.transport.ORBSocketFactory.class.isAssignableFrom(socketFactoryClass)) {
-                        return socketFactoryClass.newInstance();
+                        return socketFactoryClass.getDeclaredConstructor().newInstance();
                     } else {
                         throw wrapper.illegalSocketFactoryType(socketFactoryClass.toString());
                     }
@@ -560,7 +560,7 @@ public class ParserTable {
                     // this socket factory class is not one that would fail
                     // the class cast anyway.
                     if (IORToSocketInfo.class.isAssignableFrom(iorToSocketInfoClass)) {
-                        return iorToSocketInfoClass.newInstance();
+                        return iorToSocketInfoClass.getDeclaredConstructor().newInstance();
                     } else {
                         throw wrapper.illegalIorToSocketInfoType(iorToSocketInfoClass.toString());
                     }
@@ -588,7 +588,7 @@ public class ParserTable {
                     // this socket factory class is not one that would fail
                     // the class cast anyway.
                     if (IIOPPrimaryToContactInfo.class.isAssignableFrom(iiopPrimaryToContactInfoClass)) {
-                        return iiopPrimaryToContactInfoClass.newInstance();
+                        return iiopPrimaryToContactInfoClass.getDeclaredConstructor().newInstance();
                     } else {
                         throw wrapper.illegalIiopPrimaryToContactInfoType(iiopPrimaryToContactInfoClass.toString());
                     }
@@ -616,7 +616,7 @@ public class ParserTable {
                     // this socket factory class is not one that would fail
                     // the class cast anyway.
                     if (ContactInfoListFactory.class.isAssignableFrom(contactInfoListFactoryClass)) {
-                        return contactInfoListFactoryClass.newInstance();
+                        return contactInfoListFactoryClass.getDeclaredConstructor().newInstance();
                     } else {
                         throw wrapper.illegalContactInfoListFactoryType(contactInfoListFactoryClass.toString());
                     }
@@ -752,7 +752,7 @@ public class ParserTable {
                     ORBInitializer initializer = null;
 
                     try {
-                        initializer = (ORBInitializer) initClass.newInstance();
+                        initializer = (ORBInitializer) initClass.getDeclaredConstructor().newInstance();
                     } catch (Exception exc) {
                         throw wrapper.orbInitializerFailure(exc, initClass.getName());
                     }
@@ -1030,7 +1030,7 @@ public class ParserTable {
                     Acceptor acceptor = null;
 
                     try {
-                        acceptor = (Acceptor) initClass.newInstance();
+                        acceptor = (Acceptor) initClass.getDeclaredConstructor().newInstance();
                     } catch (InstantiationException | IllegalAccessException exc) {
                         throw wrapper.acceptorInstantiationFailure(exc, initClass.getName());
                     } catch (Exception exc) {

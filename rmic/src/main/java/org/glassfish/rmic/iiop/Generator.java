@@ -218,7 +218,7 @@ public abstract class Generator implements      org.glassfish.rmic.Generator,
     private Generator newInstance() {
         Generator result = null;
         try {
-            result = getClass().newInstance();
+            result = getClass().getDeclaredConstructor().newInstance();
         }
         catch (Exception ignored){} // Should ALWAYS work!
 

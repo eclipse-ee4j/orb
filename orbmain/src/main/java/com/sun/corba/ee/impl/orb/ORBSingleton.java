@@ -67,7 +67,6 @@ import com.sun.corba.ee.spi.transport.ContactInfoListFactory;
 import com.sun.corba.ee.spi.transport.Selector;
 import com.sun.corba.ee.spi.transport.TransportManager;
 
-import java.applet.Applet;
 import java.net.URL;
 import java.util.Properties;
 
@@ -114,11 +113,6 @@ public class ORBSingleton extends ORB {
 
     @Override
     public void set_parameters(Properties props) {
-        // this is never called by ORB.init()
-    }
-
-    @Override
-    protected void set_parameters(Applet app, Properties props) {
         // this is never called by ORB.init()
     }
 
@@ -528,14 +522,6 @@ public class ORBSingleton extends ORB {
 
     @Override
     public void setORBVersion(ORBVersion verObj) {
-        throw new SecurityException("ORBSingleton: access denied");
-    }
-
-    public String getAppletHost() {
-        throw new SecurityException("ORBSingleton: access denied");
-    }
-
-    public URL getAppletCodeBase() {
         throw new SecurityException("ORBSingleton: access denied");
     }
 

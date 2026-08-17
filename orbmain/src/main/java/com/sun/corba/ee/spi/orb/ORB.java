@@ -146,72 +146,72 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB implements 
     // MethodMonitorRegistry.
 
     @Transport
-    public boolean transportDebugFlag = false;
+    public boolean transportDebugFlag;
 
     @Subcontract
-    public boolean subcontractDebugFlag = false;
+    public boolean subcontractDebugFlag;
 
     @Osgi
-    public boolean osgiDebugFlag = false;
+    public boolean osgiDebugFlag;
 
     @Poa
-    public boolean poaDebugFlag = false;
+    public boolean poaDebugFlag;
 
     @PoaFSM
-    public boolean poaFSMDebugFlag = false;
+    public boolean poaFSMDebugFlag;
 
     @Orbd
-    public boolean orbdDebugFlag = false;
+    public boolean orbdDebugFlag;
 
     @Naming
-    public boolean namingDebugFlag = false;
+    public boolean namingDebugFlag;
 
     @TraceServiceContext
-    public boolean serviceContextDebugFlag = false;
+    public boolean serviceContextDebugFlag;
 
     @TransientObjectManager
-    public boolean transientObjectManagerDebugFlag = false;
+    public boolean transientObjectManagerDebugFlag;
 
     @Shutdown
-    public boolean shutdownDebugFlag = false;
+    public boolean shutdownDebugFlag;
 
     @Giop
-    public boolean giopDebugFlag = false;
+    public boolean giopDebugFlag;
 
-    public boolean giopSizeDebugFlag = false;
-    public boolean giopReadDebugFlag = false;
+    public boolean giopSizeDebugFlag;
+    public boolean giopReadDebugFlag;
 
     @TraceInterceptor
-    public boolean interceptorDebugFlag = false;
+    public boolean interceptorDebugFlag ;
 
     @Folb
-    public boolean folbDebugFlag = false;
+    public boolean folbDebugFlag;
 
-    public boolean cdrCacheDebugFlag = false;
+    public boolean cdrCacheDebugFlag;
 
     @Cdr
-    public boolean cdrDebugFlag = false;
+    public boolean cdrDebugFlag;
 
     @StreamFormatVersion
-    public boolean streamFormatVersionDebugFlag = false;
+    public boolean streamFormatVersionDebugFlag;
 
     @TraceValueHandler
-    public boolean valueHandlerDebugFlag = false;
+    public boolean valueHandlerDebugFlag;
 
-    public boolean mbeanDebugFlag = false;
-    public boolean mbeanFineDebugFlag = false;
-    public boolean mbeanRuntimeDebugFlag = false;
+    public boolean mbeanDebugFlag;
+    public boolean mbeanFineDebugFlag;
+    public boolean mbeanRuntimeDebugFlag;
 
     @OrbLifeCycle
-    public boolean orbLifecycleDebugFlag = false;
+    public boolean orbLifecycleDebugFlag;
 
-    public boolean operationTraceDebugFlag = false;
+    public boolean operationTraceDebugFlag;
 
     @DynamicType
-    public boolean dynamicTypeDebugFlag = false;
+    public boolean dynamicTypeDebugFlag;
 
     @IsLocal
-    public boolean isLocalDebugFlag = false;
+    public boolean isLocalDebugFlag;
 
     @ManagedAttribute
     @Description("The current settings of the ORB debug flags")

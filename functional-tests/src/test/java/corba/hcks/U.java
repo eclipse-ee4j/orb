@@ -242,7 +242,7 @@ public class U {
         // to generate the Ties.
 
         byte[] oid = name.getBytes();
-        Servant servant = (Servant) Class.forName(tieClassName).newInstance();
+        Servant servant = (Servant) Class.forName(tieClassName).getDeclaredConstructor().newInstance();
         String repositoryId = servant._all_interfaces(poa, oid)[0];
         org.omg.CORBA.Object ref = poa.create_reference_with_id(oid, repositoryId);
 

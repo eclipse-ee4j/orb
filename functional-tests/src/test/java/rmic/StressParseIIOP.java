@@ -20,14 +20,13 @@
 
 package rmic;
 
-import java.io.File;
-import java.io.PrintStream;
-import java.util.Vector;
-import java.io.InputStreamReader;
 import java.io.BufferedReader;
-import java.io.PrintWriter;
-import java.io.OutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.util.Vector;
 
 /**
  * StressParseIIOP walks all classes in a classpath and has CompoundType.makeType() parse them. The output is sent to
@@ -238,37 +237,19 @@ public class StressParseIIOP {
      * exception.
      */
     public static int execAndWaitFor(String[] command) {
-
         try {
+            Process process = new ProcessBuilder(command)
+                    .redirectOutput(ProcessBuilder.Redirect.INHERIT)
+                    .redirectError(ProcessBuilder.Redirect.INHERIT)
+                    .start();
 
-            Runtime runtime = Runtime.getRuntime();
-            Process theProcess = runtime.exec(command);
-            ProcessMonitor monitor = new ProcessMonitor(theProcess, System.out, System.err, 0);
-            monitor.start();
-            int result = waitForCompletion(theProcess, 2000);
-            monitor.stop();
-            return result;
-        } catch (Throwable error) {
-            error.printStackTrace(System.out);
-            throw new Error(error.getMessage());
+            return process.waitFor();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new Error(e);
+        } catch (IOException e) {
+            throw new Error(e);
         }
-    }
-
-    private static int waitForCompletion(Process theProcess, int sleepTime) throws java.lang.InterruptedException {
-        int result = -1;
-
-        try {
-            theProcess.waitFor();
-            result = theProcess.exitValue();
-        } catch (java.lang.IllegalThreadStateException notDone) {
-            // We assume that waitFor() does not work and exitValue()
-            // failed because the Process is not done. Lets Sleep
-            // for a while then check for completion again.
-            Thread.sleep(sleepTime, 0);
-            result = waitForCompletion(theProcess, sleepTime + 1500);
-        }
-
-        return result;
     }
 }
 

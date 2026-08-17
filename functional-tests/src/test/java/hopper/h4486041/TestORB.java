@@ -23,7 +23,6 @@ import org.omg.CORBA.*;
 import org.omg.CORBA.portable.*;
 import org.omg.CORBA.ORBPackage.InvalidName;
 import java.util.Properties;
-import java.applet.Applet;
 
 public class TestORB extends ORB {
     public static final String ThrowError = "ThrowError";
@@ -36,10 +35,6 @@ public class TestORB extends ORB {
             throw new ORBInitException("You asked for it.");
         }
         System.out.println("\tTestORB.set_parameters - Normal Exit");
-    }
-
-    @Override
-    protected void set_parameters(Applet app, Properties props) {
     }
 
     @Override

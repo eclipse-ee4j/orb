@@ -415,7 +415,7 @@ public class TestCodegenProxyCreator extends TestCase {
             }
 
             try {
-                TestBase base = (TestBase) proxyClass.newInstance();
+                TestBase base = (TestBase) proxyClass.getDeclaredConstructor().newInstance();
                 base.initialize(methods, ti);
                 object = (TestInterface) base;
             } catch (Exception exc) {

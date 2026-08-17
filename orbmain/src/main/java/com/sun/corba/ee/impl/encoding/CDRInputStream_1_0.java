@@ -173,7 +173,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase implements Restorable
         CDRInputStreamBase result = null;
 
         try {
-            result = this.getClass().newInstance();
+            result = this.getClass().getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             throw wrapper.couldNotDuplicateCdrInputStream(e);
         }
@@ -1233,8 +1233,20 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase implements Restorable
         // ...create a blank instance
         java.lang.Object val = null;
         try {
-            val = helper.get_class().newInstance();
+            val = helper.get_class().getDeclaredConstructor().newInstance();
         } catch (java.lang.InstantiationException ie) {
+            throw wrapper.couldNotInstantiateHelper(ie, helper.get_class());
+        } catch (NoSuchMethodException | InvocationTargetException exc) {
+            // Both come from getDeclaredConstructor().newInstance(), which replaced the deprecated
+            // Class.newInstance(): a missing no-arg constructor now surfaces as NoSuchMethodException
+            // instead of InstantiationException, and an exception thrown by the constructor is wrapped
+            // rather than propagated undeclared. Report them the same way as before. The
+            // IllegalAccessException case below is deliberately left alone - a protected or private
+            // constructor still reaches it, because getDeclaredConstructor finds such a constructor and
+            // newInstance then refuses it, so the fall-back to the helper still happens.
+            java.lang.InstantiationException ie = new java.lang.InstantiationException("could not instantiate "
+                    + helper.get_class().getName());
+            ie.initCause(exc);
             throw wrapper.couldNotInstantiateHelper(ie, helper.get_class());
         } catch (IllegalAccessException iae) {
             // Value's constructor is protected or private

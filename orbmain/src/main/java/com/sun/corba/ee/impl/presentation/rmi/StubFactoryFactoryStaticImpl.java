@@ -101,11 +101,11 @@ public class StubFactoryFactoryStaticImpl extends StubFactoryFactoryBase {
                 // _REVISIT_ The spec does not specify a loadingContext parameter for
                 // the following call. Would it be useful to pass one?
                 tieClass = Utility.loadClassForClass(className, Util.getInstance().getCodebase(cls), null, cls, cls.getClassLoader());
-                return (Tie) tieClass.newInstance();
+                return (Tie) tieClass.getDeclaredConstructor().newInstance();
             } catch (Exception err) {
                 tieClass = Utility.loadClassForClass(PackagePrefixChecker.packagePrefix() + className, Util.getInstance().getCodebase(cls),
                         null, cls, cls.getClassLoader());
-                return (Tie) tieClass.newInstance();
+                return (Tie) tieClass.getDeclaredConstructor().newInstance();
             }
         } catch (Exception err) {
             return null;

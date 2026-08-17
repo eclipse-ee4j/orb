@@ -27,13 +27,6 @@ import java.util.Properties;
  */
 public interface DataCollector {
     /**
-     * Return true iff this DataCollector was created from applet data.
-     *
-     * @return if this was created from an applet
-     */
-    boolean isApplet();
-
-    /**
      * Return true iff the local host and ORB initial host are the same. This is provided to avoid exposing the local host
      * in insecure contexts.
      *
@@ -52,8 +45,7 @@ public interface DataCollector {
     /**
      * Return the consolidated property information to be used for ORB configuration. Note that -ORBInitRef arguments are
      * handled specially: all -ORBInitRef name=value arguments are converted into ( org.omg.CORBA.ORBInitRef.name, value )
-     * mappings in the resulting properties. Also, -ORBInitialServices is handled specially in applet mode: they are
-     * converted from relative to absolute URLs.
+     * mappings in the resulting properties.
      *
      * @return consolidated property information
      * @throws IllegalStateException if setPropertyNames has not been called.

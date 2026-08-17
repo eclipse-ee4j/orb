@@ -38,7 +38,7 @@ public class TesterImpl extends PortableRemoteObject implements Tester {
     public Testable createTestObject() {
         try {
             Class testObjectClass = Class.forName("TestObject");
-            return (Testable) testObjectClass.newInstance();
+            return (Testable) testObjectClass.getDeclaredConstructor().newInstance();
         } catch (Exception ex) {
             throw new RuntimeException("Couldn't create TestObject", ex);
         }

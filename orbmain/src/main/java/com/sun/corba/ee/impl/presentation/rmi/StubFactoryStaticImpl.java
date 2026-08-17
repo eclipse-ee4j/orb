@@ -31,10 +31,12 @@ public class StubFactoryStaticImpl extends StubFactoryBase {
     public org.omg.CORBA.Object makeStub() {
         org.omg.CORBA.Object stub = null;
         try {
-            stub = (org.omg.CORBA.Object) stubClass.newInstance();
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
+            stub = (org.omg.CORBA.Object) stubClass.getDeclaredConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException
+                | java.lang.reflect.InvocationTargetException e) {
+            // The last two arrived with getDeclaredConstructor().newInstance(), which replaced the
+            // deprecated Class.newInstance(): a missing no-arg constructor and an exception thrown by
+            // the constructor. Both are as fatal here as the two that were already handled.
             throw new RuntimeException(e);
         }
         return stub;

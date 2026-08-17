@@ -39,7 +39,7 @@ public class InternalExec extends ControllerAdapter {
             Loader loader = new Loader();
             loader.addPath(Options.getOutputDirectory());
 
-            Object obj = (loader.loadClass(className)).newInstance();
+            Object obj = (loader.loadClass(className)).getDeclaredConstructor().newInstance();
 
             activateObject(obj);
         } finally {

@@ -32,7 +32,7 @@ public class ServantImpl implements Servant {
         try {
             String url = System.getProperty("java.rmi.server.codebase");
             return (TheValue) java.rmi.server.RMIClassLoader.loadClass(new java.net.URL(url), "javax.rmi.download.values.TheValueImpl")
-                    .newInstance();
+                    .getDeclaredConstructor().newInstance();
         } catch (Throwable t) {
             java.io.CharArrayWriter cw = new java.io.CharArrayWriter();
             t.printStackTrace(new java.io.PrintWriter(cw));

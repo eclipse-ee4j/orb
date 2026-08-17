@@ -40,7 +40,7 @@ public final class FactoryImpl extends GenericFactoryPOA {
     public org.omg.CORBA.Object create(String intfName, String implName, CreationMethods how) {
         try {
             // create Servant first.
-            Servant s = (Servant) Class.forName(implName).newInstance();
+            Servant s = (Servant) Class.forName(implName).getDeclaredConstructor().newInstance();
 
             org.omg.CORBA.Object ref = null;
 
