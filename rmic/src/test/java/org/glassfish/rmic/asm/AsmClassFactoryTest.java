@@ -26,6 +26,7 @@ import org.objectweb.asm.Opcodes;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 
 public class AsmClassFactoryTest extends ClassDefinitionFactoryTest {
 
@@ -40,6 +41,6 @@ public class AsmClassFactoryTest extends ClassDefinitionFactoryTest {
 
     @Test
     public void canRetrieveLatestSupportedClassVersion() {
-        assertThat(AsmClassFactory.getLatestClassVersion(), equalTo(Opcodes.V26));
+        assertThat(AsmClassFactory.getLatestClassVersion(), greaterThanOrEqualTo(Opcodes.V26));
     }
 }

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 
     Copyright (c) 2022, 2026 Contributors to the Eclipse Foundation.
@@ -22,6 +23,7 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>org.eclipse.ee4j</groupId>
         <artifactId>project</artifactId>
@@ -31,18 +33,12 @@
 
     <groupId>org.glassfish.corba</groupId>
     <artifactId>glassfish-corba</artifactId>
-    <version>5.0.3-SNAPSHOT</version>
-    <name>GlassFish ORB</name>
+    <version>6.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+
+    <name>GlassFish ORB</name>
     <description>A CORBA ORB Implementation for Glassfish</description>
-
     <url>https://projects.eclipse.org/proposals/eclipse-orb</url>
-
-    <issueManagement>
-        <system>github</system>
-        <url>https://github.com/eclipse-ee4j/orb/issues</url>
-    </issueManagement>
-
     <licenses>
         <license>
             <name>EDL 1.0</name>
@@ -50,30 +46,6 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-
-    <mailingLists>
-        <mailingList>
-          <name>ORB mailing list</name>
-          <post>orb-dev@eclipse.org</post>
-          <subscribe>https://dev.eclipse.org/mailman/listinfo/orb-dev</subscribe>
-          <unsubscribe>https://dev.eclipse.org/mailman/listinfo/orb-dev</unsubscribe>
-          <archive>https://dev.eclipse.org/mhonarc/lists/orb-dev</archive>
-        </mailingList>
-    </mailingLists>
-
-    <scm>
-        <connection>scm:git:https://github.com/eclipse-ee4j/orb.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/eclipse-ee4j/orb.git</developerConnection>
-        <url>https://github.com/eclipse-ee4j/orb</url>
-        <tag>HEAD</tag>
-    </scm>
-
-    <distributionManagement>
-        <site>
-            <id>github</id>
-            <url>scm:git:https://github.com/eclipse-ee4j/orb.git</url>
-        </site>
-    </distributionManagement>
 
     <developers>
         <developer>
@@ -86,6 +58,16 @@
         </developer>
     </developers>
 
+    <mailingLists>
+        <mailingList>
+            <name>ORB mailing list</name>
+            <post>orb-dev@eclipse.org</post>
+            <subscribe>https://dev.eclipse.org/mailman/listinfo/orb-dev</subscribe>
+            <unsubscribe>https://dev.eclipse.org/mailman/listinfo/orb-dev</unsubscribe>
+            <archive>https://dev.eclipse.org/mhonarc/lists/orb-dev</archive>
+        </mailingList>
+    </mailingLists>
+
     <modules>
         <module>idlj</module>
         <module>rmic</module>
@@ -96,6 +78,23 @@
         <module>internal-api</module>
         <module>functional-tests</module>
     </modules>
+
+    <scm>
+        <connection>scm:git:https://github.com/eclipse-ee4j/orb.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/eclipse-ee4j/orb.git</developerConnection>
+        <url>https://github.com/eclipse-ee4j/orb</url>
+        <tag>HEAD</tag>
+    </scm>
+    <issueManagement>
+        <system>github</system>
+        <url>https://github.com/eclipse-ee4j/orb/issues</url>
+    </issueManagement>
+    <distributionManagement>
+        <site>
+            <id>github</id>
+            <url>scm:git:https://github.com/eclipse-ee4j/orb.git</url>
+        </site>
+    </distributionManagement>
 
     <properties>
         <copyright.exclude>make/copyright-information/copyright-exclude.txt</copyright.exclude>
@@ -109,7 +108,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sonar.dynamicAnalysis>false</sonar.dynamicAnalysis>
         <pfl-version>5.1.1</pfl-version>
-        <!-- shared so the surefire provider pinned in functional-tests cannot drift from the plugin -->
+        <!-- shared so the surefire provider pinned in functional-tests cannot
+        drift from the plugin -->
         <maven-surefire-plugin.version>3.5.6</maven-surefire-plugin.version>
         <gmbal-version>4.1.2</gmbal-version>
     </properties>
@@ -140,19 +140,19 @@
                 <version>2.22.0</version>
             </dependency>
             <dependency>
-              <groupId>org.glassfish.pfl</groupId>
-              <artifactId>pfl-basic</artifactId>
-              <version>${pfl-version}</version>
+                <groupId>org.glassfish.pfl</groupId>
+                <artifactId>pfl-basic</artifactId>
+                <version>${pfl-version}</version>
             </dependency>
             <dependency>
-              <groupId>org.glassfish.pfl</groupId>
-              <artifactId>pfl-dynamic</artifactId>
-              <version>${pfl-version}</version>
+                <groupId>org.glassfish.pfl</groupId>
+                <artifactId>pfl-dynamic</artifactId>
+                <version>${pfl-version}</version>
             </dependency>
             <dependency>
-              <groupId>org.glassfish.pfl</groupId>
-              <artifactId>pfl-tf</artifactId>
-              <version>${pfl-version}</version>
+                <groupId>org.glassfish.pfl</groupId>
+                <artifactId>pfl-tf</artifactId>
+                <version>${pfl-version}</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.pfl</groupId>
@@ -184,62 +184,6 @@
     </dependencyManagement>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
-                    </archive>
-                </configuration>
-            </plugin>
-
-            <!-- prevent the site plugin from deploying to the scm url -->
-            <plugin>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>3.22.0</version>
-                <executions>
-                    <execution>
-                        <id>stage-for-scm-publish</id>
-                        <phase>post-site</phase>
-                        <goals>
-                            <goal>stage</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>default-deploy</id>
-                        <phase>none</phase>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- use the scm publish plugin to deploy to GitHub -->
-            <plugin>
-                <artifactId>maven-scm-publish-plugin</artifactId>
-                <version>3.3.0</version>
-                <configuration>
-                    <scmBranch>gh-pages</scmBranch>
-                    <pubScmUrl>scm:git:https://github.com/javaee/glassfish-corba.git</pubScmUrl>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.glassfish.copyright</groupId>
-                <artifactId>glassfish-copyright-maven-plugin</artifactId>
-                <configuration>
-                    <templateFile>${copyright.template}</templateFile>
-                    <excludeFile>${copyright.exclude}</excludeFile>
-                    <!-- skip files not under SCM-->
-                    <scmOnly>${copyright.scmonly}</scmOnly>
-                    <!-- for use with repair -->
-                    <update>${copyright.update}</update>
-                    <!-- check that year is correct -->
-                    <ignoreYear>${copyright.ignoreyear}</ignoreYear>
-                </configuration>
-            </plugin>
-        </plugins>
-
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -277,7 +221,8 @@
                         </execution>
                     </executions>
                     <dependencies>
-                        <!-- depending on the current version of idlj lets us functional test it in passing. -->
+                        <!-- depending on the current version of idlj lets us
+                        functional test it in passing. -->
                         <dependency>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>idlj</artifactId>
@@ -338,14 +283,14 @@
                     <version>3.2.8</version>
                 </plugin>
                 <plugin>
-                     <groupId>org.apache.maven.plugins</groupId>
-                     <artifactId>maven-source-plugin</artifactId>
-                     <version>3.4.0</version>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.4.0</version>
                 </plugin>
                 <plugin>
-                     <groupId>org.apache.maven.plugins</groupId>
-                     <artifactId>maven-javadoc-plugin</artifactId>
-                     <version>3.12.0</version>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>3.12.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -353,24 +298,24 @@
                     <version>3.15.0</version>
                 </plugin>
                 <plugin>
-                  <groupId>org.jacoco</groupId>
-                  <artifactId>jacoco-maven-plugin</artifactId>
-                  <version>0.8.15</version>
-                  <executions>
-                    <execution>
-                      <id>coverage-initialize</id>
-                      <goals>
-                        <goal>prepare-agent</goal>
-                      </goals>
-                    </execution>
-                    <execution>
-                      <id>coverage-report</id>
-                      <phase>post-integration-test</phase>
-                      <goals>
-                        <goal>report</goal>
-                      </goals>
-                    </execution>
-                  </executions>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>0.8.15</version>
+                    <executions>
+                        <execution>
+                            <id>coverage-initialize</id>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>coverage-report</id>
+                            <phase>post-integration-test</phase>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>org.glassfish.copyright</groupId>
@@ -393,6 +338,101 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+
+        <plugins>
+            <!-- Sets minimal Maven version to 3.9.6 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce-maven</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>3.9.6</version>
+                                </requireMavenVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestFile>
+                            ${project.build.outputDirectory}/META-INF/MANIFEST.MF
+                        </manifestFile>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.glassfish.copyright</groupId>
+                <artifactId>glassfish-copyright-maven-plugin</artifactId>
+                <configuration>
+                    <templateFile>${copyright.template}</templateFile>
+                    <excludeFile>${copyright.exclude}</excludeFile>
+                    <!-- skip files not under SCM-->
+                    <scmOnly>${copyright.scmonly}</scmOnly>
+                    <!-- for use with repair -->
+                    <update>${copyright.update}</update>
+                    <!-- check that year is correct -->
+                    <ignoreYear>${copyright.ignoreyear}</ignoreYear>
+                </configuration>
+            </plugin>
+
+            <!-- As long as we are not on Maven 4, exclude the 4.0.0-beta versions of tons of plugins -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.21.0</version>
+                <configuration>
+                    <ruleSet>
+                        <ignoreVersions>
+                            <ignoreVersion>
+                                <type>regex</type>
+                                <version>4\.0\.0-beta-.*</version>
+                            </ignoreVersion>
+                        </ignoreVersions>
+                    </ruleSet>
+                </configuration>
+            </plugin>
+
+            <!-- Generate a "consumer pom" for the generated jar -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>1.8.0</version>
+                <configuration>
+                    <flattenMode>ossrh</flattenMode>
+                </configuration>
+                <executions>
+                    <!-- enable flattening -->
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <!-- ensure proper cleanup -->
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 
     <profiles>
@@ -411,36 +451,42 @@
                         <artifactId>copy-rename-maven-plugin</artifactId>
                         <version>1.0.1</version>
                         <executions>
-                          <execution>
-                            <id>copy-legal-files</id>
-                            <phase>generate-resources</phase>
-                            <goals>
-                              <goal>copy</goal>
-                            </goals>
-                            <configuration>
-                                <fileSets>
-                                    <fileSet>
-                                        <sourceFile>${project.basedir}/../LICENSE.md</sourceFile>
-                                        <destinationFile>${project.build.outputDirectory}/META-INF/LICENSE</destinationFile>
-                                    </fileSet>
-                                    <fileSet>
-                                        <sourceFile>${project.basedir}/../NOTICE.md</sourceFile>
-                                        <destinationFile>${project.build.outputDirectory}/META-INF/NOTICE</destinationFile>
-                                    </fileSet>
-                                </fileSets>
-                            </configuration>
-                          </execution>
+                            <execution>
+                                <id>copy-legal-files</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <fileSets>
+                                        <fileSet>
+                                            <sourceFile>
+                                                ${project.basedir}/../LICENSE.md</sourceFile>
+                                            <destinationFile>
+                                                ${project.build.outputDirectory}/META-INF/LICENSE</destinationFile>
+                                        </fileSet>
+                                        <fileSet>
+                                            <sourceFile>
+                                                ${project.basedir}/../NOTICE.md</sourceFile>
+                                            <destinationFile>
+                                                ${project.build.outputDirectory}/META-INF/NOTICE</destinationFile>
+                                        </fileSet>
+                                    </fileSets>
+                                </configuration>
+                            </execution>
                         </executions>
-                      </plugin>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
+
         <profile>
             <id>dash-licenses</id>
             <pluginRepositories>
                 <pluginRepository>
                     <id>dash-licenses</id>
-                    <url>https://repo.eclipse.org/content/repositories/dash-licenses-releases/</url>
+                    <url>
+                        https://repo.eclipse.org/content/repositories/dash-licenses-releases/</url>
                     <snapshots>
                         <enabled>false</enabled>
                     </snapshots>
@@ -468,6 +514,7 @@
                 </plugins>
             </build>
         </profile>
+
         <profile>
             <id>oss-release</id>
             <properties>
