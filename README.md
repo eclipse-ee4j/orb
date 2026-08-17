@@ -7,7 +7,7 @@ Compatibility:
 
 | GlassFish CORBA-ORB version                                           | Java    | Notes                                      |
 | --------------------------------------------------------------------- | ------- | ------------------------------------------ |
-| [6.0](https://github.com/eclipse-ee4j/orb/milestone/9)                | 17 - 26 | TBD, Removed Obsoleted JDK API usages      |
+| [6.0](https://github.com/eclipse-ee4j/orb/milestone/9)                | 21 - 26 | Removed Obsoleted JDK API usages among which Applet and SecurityManager support |
 | [5.0](https://github.com/eclipse-ee4j/orb/releases/tag/5.0.0)         | 17 - 25 | JPMS support                               |
 | [4.2](https://github.com/eclipse-ee4j/orb/releases/tag/4.2.5-RELEASE) |  8 - 11 | Migrated from Oracle to Eclipse Foundation |
  
@@ -17,7 +17,7 @@ Note: Compatibility means that the project passes its own tests running `mvn cle
 
 Run all tests
 
-* Not supported on JDK25+ until we remove Applets and SecurityManager
+* Fully supported on JDK25+ because in this version we removed Applets and SecurityManager
 
 ```
 mvn -Pall-tests clean install
@@ -26,7 +26,7 @@ mvn -Pall-tests clean install
 ## Release
 
 * For a temporary release branch
-* Use [CI Release Job](https://ci.eclipse.org/orb/view/Release/job/release-and-deploy) to build, test and deploy
+* Use [CI Release Job](https://ci.eclipse.org/glassfish/view/Release-ORB/job/release-and-deploy) to build, test and deploy
 * Update this file, README.md
 
 ## Documentation
