@@ -60,7 +60,7 @@ public class UserORBConfiguratorImpl implements ORBConfigurator {
 
         if (theTestclass != null) {
             try {
-                Object o = theTestclass.newInstance();
+                Object o = theTestclass.getDeclaredConstructor().newInstance();
                 System.out.println("UserORBConfiguratorImpl.configure: " + o);
             } catch (Exception ex) {
                 throw new org.omg.CORBA.INITIALIZE(ex.toString());

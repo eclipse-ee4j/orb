@@ -712,7 +712,7 @@ public abstract class MessageBase implements Message {
         try {
             Class<?> clazz = ORBClassLoader.loadClass(exClassName);
             if (message == null) {
-                sysEx = (SystemException) clazz.newInstance();
+                sysEx = (SystemException) clazz.getDeclaredConstructor().newInstance();
             } else {
                 Class<?>[] types = { String.class };
                 Constructor<?> constructor = clazz.getConstructor(types);

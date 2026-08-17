@@ -611,8 +611,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
                 run();
             } else {
                 // Catch exceptions since setDaemon can cause a
-                // security exception to be thrown under netscape
-                // in the Applet mode
+                // security exception to be thrown
                 try {
                     setDaemon(true);
                 } catch (Exception e) {

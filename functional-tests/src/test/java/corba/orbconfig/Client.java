@@ -19,9 +19,6 @@
 
 package corba.orbconfig;
 
-import java.applet.Applet;
-import java.applet.AppletContext;
-import java.applet.AppletStub;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -96,13 +93,6 @@ public class Client {
         testParser();
         setupDCEnvironment();
         testNormalDataCollector();
-        // testAppletDataCollector() is deliberately not called. It builds a java.applet.Applet,
-        // which throws HeadlessException where there is no display - so this whole test failed on
-        // headless CI while passing on a developer desktop, and the failure surfaced only as
-        // "Bad exit value(s): client[1]". java.applet was removed outright in JDK 25, so the
-        // Applet DataCollector has no future in any case; the remaining sessions below still
-        // cover the ORB configuration machinery. Remove the method, AppletDataCollector and the
-        // makeDCApplet/TestAppletStub helpers when Applet support is dropped from the ORB itself.
         testORBData();
         testORBServerHostAndListenOnAllInterfaces();
 
@@ -523,55 +513,6 @@ public class Client {
         return result;
     }
 
-    private static class TestAppletStub implements AppletStub {
-        private Properties parameters;
-        private URL codeBase;
-        private URL documentBase;
-
-        TestAppletStub(Properties parameters, URL codeBase, URL documentBase) {
-            this.parameters = parameters;
-            this.codeBase = codeBase;
-            this.documentBase = documentBase;
-        }
-
-        @Override
-        public void appletResize(int width, int height) {
-        }
-
-        @Override
-        public AppletContext getAppletContext() {
-            return null;
-        }
-
-        @Override
-        public URL getCodeBase() {
-            return codeBase;
-        }
-
-        @Override
-        public URL getDocumentBase() {
-            return documentBase;
-        }
-
-        @Override
-        public String getParameter(String name) {
-            return parameters.getProperty(name);
-        }
-
-        @Override
-        public boolean isActive() {
-            return false;
-        }
-    }
-
-    // This applet needs to support getDocumentBase, getParameter, and getCodeBase
-    private Applet makeDCApplet(Properties parameters, URL codeBase, URL documentBase) {
-        AppletStub stub = new TestAppletStub(parameters, codeBase, documentBase);
-        Applet result = new Applet();
-        result.setStub(stub);
-        return result;
-    }
-
     private Properties makeDCProperties() {
         Properties result = new Properties();
         result.setProperty(ORBConstants.INITIAL_HOST_PROPERTY, "thisHost");
@@ -585,14 +526,6 @@ public class Client {
         result.setProperty(ORBConstants.SUN_PREFIX + "poa.ORBfoo", "ALittleFoo");
         result.setProperty(ORBConstants.SUN_PREFIX + "pool.ORBsize", "25000");
         result.setProperty(ORBConstants.SUN_PREFIX + "bar.foo", "YetAnotherFoo");
-        return result;
-    }
-
-    private Properties makeDCAppletProperties() {
-        Properties result = new Properties();
-        result.setProperty(ORBConstants.ORB_INIT_REF_PROPERTY, "TraderService=corbaloc::host.org/TraderService");
-        result.setProperty("foo.prefix.stuff2", "2AnotherFoo");
-        result.setProperty(ORBConstants.SUN_PREFIX + "pool.ORBsize", "4000");
         return result;
     }
 
@@ -651,29 +584,16 @@ public class Client {
     // Testing properties in result:
     // INITIAL_HOST_PROPERTY and INITIAL_SERVER_PROPERTY defaults
     // -ORB arguments are converted to matching properties
-    // URL properties for applets are made absolute
     // ORB_INIT_REF_PROPERTY correctly converted to properties
     // Only corba properties come from system properties
     // Correct overriding:
-    // applet case:
-    // props then applet
-    // normal case:
     // system, props, <java.home>/orb.properties,
     // <user.home>/orb.properties, finally args
     // Verify that intersection of parser prop names are present in
     // result iff they are available in data.
 
-    private void testDataCollectorState(String name, PropertyParser parser, final DataCollector dc, boolean expectedAppletResult,
+    private void testDataCollectorState(String name, PropertyParser parser, final DataCollector dc,
             Properties expectedProperties) {
-        NullaryFunction<Object> isAppletNullaryFunction = new NullaryFunction<>() {
-            @Override
-            public Object evaluate() {
-                return Boolean.valueOf(dc.isApplet());
-            }
-        };
-
-        session.testForPass(name + "isApplet", isAppletNullaryFunction, Boolean.valueOf(expectedAppletResult));
-
         NullaryFunction<Object> getPropertiesNullaryFunction = new NullaryFunction<>() {
             @Override
             public Object evaluate() {
@@ -755,20 +675,20 @@ public class Client {
         PropertyParser parser = new PropertyParser();
         Properties props = new Properties();
         props.setProperty(ORBConstants.INITIAL_HOST_PROPERTY, "MyHost");
-        testDataCollectorState("1: no data, verify results: ", parser, dc1, false, props);
+        testDataCollectorState("1: no data, verify results: ", parser, dc1, props);
 
         args = makeDCArgs();
         PropertyParser parser2 = makeDCParser();
         Properties parameters = makeDCProperties();
         DataCollector dc2 = DataCollectorFactory.create(args, parameters, "MyHost");
         props = makeDCNormalResult();
-        testDataCollectorState("2: no data, verify results: ", parser2, dc2, false, props);
+        testDataCollectorState("2: no data, verify results: ", parser2, dc2, props);
 
         session.end();
     }
 
 // Expected results (in override order: later overrides earlier):
-// From setDCSystemProperties: (not in applet mode)
+// From setDCSystemProperties:
 //      "foo.prefix.still.more.stuff", "Too much Foo" (not allowed, since this is a std prefix!)
 //      ORBConstants.SUN_LC_PREFIX + "pool.ORBsize", "24000"
 // From system file:
@@ -788,29 +708,10 @@ public class Client {
 //      ORBConstants.SUN_PREFIX + "poa.ORBfoo", "ALittleFoo"
 //      ORBConstants.SUN_LC_PREFIX + "pool.ORBsize", "25000"
 //      ORBConstants.SUN_LC_VERSION_PREFIX + "bar.foo", "YetAnotherFoo"
-// From makeDCApplet( makeDCAppletProperties(), new URL( "http://www.bar.com" ),
-//      new URL( "http://www.foo.com" ) ):
-//      ORBConstants.ORB_INIT_REF_PROPERTY, "TraderService=corbaloc::host.org/TraderService"
-//      "foo.prefix.stuff2", "2AnotherFoo"
-//      ORBConstants.SUN_LC_PREFIX + "pool.ORBsize", "4000" ;
 // From args (normal case only):
 //      ORBConstants.ORG_OMG_CORBA_PREFIX + "poa.ORBmaxhold", "27"
 //      ORBConstants.ORB_INIT_REF_PROPERTY.FooService, "corbaloc::host.org/FooService"
 //      ORBConstants.ORB_INIT_REF_PROPERTY.BarService, "corbaloc::host.org/BarService"
-//
-// Expected result from the above (applet case):
-//      ORBConstants.ORB_INIT_REF_PROPERTY.TraderService, "corbaloc::host.org/TraderService"
-//      "foo.prefix.stuff2", "2AnotherFoo"
-//      ORBConstants.SUN_LC_PREFIX + "pool.ORBsize", "4000"
-//      ORBConstants.ORB_INIT_REF_PROPERTY.NameService, "corbaloc::host.org/NameService"
-//      "foo.ORBarg1", "MyFoo"
-//      "foo.prefix.stuff1", "AnotherFoo"
-//      "foo.prefix.somestuff", "More Foo"
-//      ORBConstants.ORG_OMG_CORBA_PREFIX + "poa.ORBmaxhold", "351"
-//      ORBConstants.SUN_PREFIX + "poa.ORBfoo", "ALittleFoo"
-//      ORBConstants.SUN_LC_VERSION_PREFIX + "bar.foo", "YetAnotherFoo"
-//      ORBConstants.INITIAL_HOST_PROPERTY, "thisHost"
-//      ORBConstants.SERVER_HOST_PROPERTY, "thatHost"
 //
 // Expected result from the above (normal case):
 //      ORBConstants.ORG_OMG_CORBA_PREFIX + "poa.ORBmaxhold", "27"
@@ -826,24 +727,6 @@ public class Client {
 //      ORBConstants.SUN_LC_VERSION_PREFIX + "bar.foo", "YetAnotherFoo"
 //      ORBConstants.INITIAL_HOST_PROPERTY, "thisHost"
 //      ORBConstants.SERVER_HOST_PROPERTY, "thatHost"
-
-    private Properties makeDCAppletResult() {
-        Properties props = new Properties();
-        props.setProperty("org.omg.CORBA.ORBInitRef.TraderService", "corbaloc::host.org/TraderService");
-        props.setProperty(ORBConstants.SUN_PREFIX + "pool.ORBsize", "4000");
-        props.setProperty("org.omg.CORBA.ORBInitRef.NameService", "corbaloc::host.org/NameService");
-        props.setProperty("foo.ORBarg1", "MyFoo");
-        props.setProperty("foo.prefix.stuff1", "AnotherFoo");
-        props.setProperty("foo.prefix.somestuff", "More Foo");
-        props.setProperty("org.omg.CORBA.poa.ORBmaxhold", "351");
-        props.setProperty(ORBConstants.SUN_PREFIX + "poa.ORBfoo", "ALittleFoo");
-        props.setProperty("com.sun.corba.ee.bar.foo", "YetAnotherFoo");
-        props.setProperty("org.omg.CORBA.ORBInitialHost", "thisHost");
-        props.setProperty("com.sun.corba.ee.ORBServerHost", "thatHost");
-        props.setProperty(ORBConstants.CORBA_PREFIX + "ORBmodule.iiopTransport", "iiopTransportImpl");
-        props.setProperty(ORBConstants.CORBA_PREFIX + "ORBmodule.localTransport", "localTransportImpl");
-        return props;
-    }
 
     private Properties makeDCNormalResult() {
         Properties props = new Properties();
@@ -864,38 +747,6 @@ public class Client {
         props.setProperty(ORBConstants.CORBA_PREFIX + "ORBmodule.soapTransport", "soapTransportImpl");
         props.setProperty(ORBConstants.CORBA_PREFIX + "ORBmodule.localTransport", "localTransportImpl");
         return props;
-    }
-
-    private void testAppletDataCollector() {
-        session.start("Applet DataCollector");
-
-        Properties appProps = new Properties();
-        URL codeBase;
-        URL documentBase;
-        try {
-            codeBase = new URL("http://www.bar.com");
-            documentBase = new URL("http://www.foo.com");
-        } catch (MalformedURLException exc) {
-            throw new Error("Unexpected Exception", exc);
-        }
-
-        Applet app = makeDCApplet(appProps, codeBase, documentBase);
-
-        DataCollector dc1 = DataCollectorFactory.create(app, null, "MyHost");
-        PropertyParser parser = new PropertyParser();
-        Properties props = new Properties();
-        props.setProperty(ORBConstants.INITIAL_HOST_PROPERTY, "www.bar.com");
-        testDataCollectorState("1: no data, verify results: ", parser, dc1, true, props);
-
-        appProps = makeDCAppletProperties();
-        app = makeDCApplet(appProps, codeBase, documentBase);
-        PropertyParser parser2 = makeDCParser();
-        Properties parameters = makeDCProperties();
-        DataCollector dc2 = DataCollectorFactory.create(app, parameters, "MyHost");
-        props = makeDCAppletResult();
-        testDataCollectorState("2: no data, verify results: ", parser2, dc2, true, props);
-
-        session.end();
     }
 
     private Set makeSetFromArray(Object array) {
@@ -988,10 +839,6 @@ public class Client {
             this.props = props;
         }
 
-        @Override
-        public boolean isApplet() {
-            return false;
-        }
 
         @Override
         public boolean initialHostIsLocal() {

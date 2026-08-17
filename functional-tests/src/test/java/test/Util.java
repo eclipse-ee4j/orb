@@ -250,7 +250,7 @@ public class Util {
         try {
 
             Class servantClass = Class.forName(servantClassName);
-            Remote servant = (Remote) servantClass.newInstance();
+            Remote servant = (Remote) servantClass.getDeclaredConstructor().newInstance();
             result = startSingleServant(servant, servantName, nameServerHost, nameServerPort, iiop, orbDebugFlags);
 
         } catch (Throwable e) {
@@ -370,8 +370,9 @@ public class Util {
             "com.sun.corba.ee.ORBBase", "java.security.policy", "java.security.debug", "java.security.manager",
 
             // Whether a display is available. Inherited so that -Djava.awt.headless=true reaches the client and
-            // server processes, which is where it matters: a headless CI agent is why hopper.h4647746.POAAppletTest
-            // fails there and passes on a desktop. Setting it locally reproduces that difference.
+            // server processes, which is where it would matter. The tests that needed this are gone with the
+            // Applet support they exercised; it is kept so that a local run can still be made faithful to a
+            // headless CI agent rather than differing from it silently.
             "java.awt.headless",
 
             // Test setup

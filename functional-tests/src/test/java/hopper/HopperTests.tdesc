@@ -42,14 +42,9 @@
 // Not required to be run as part of Hopper, it is a fix for the package rename.
 // @disabled(not required for Hopper - it tested the package rename) -test hopper.h4645953.ValidateIdlModules
 
-// Fixed 4647746: POA does not work when ORB.init is called for an Applet
-//
-// Its client does `new java.applet.Applet()`, which throws HeadlessException when there is no
-// display - so this passes on a developer desktop and fails on headless CI with client[1]. Set
-// -Djava.awt.headless=true to reproduce locally; that property is inherited by the processes the
-// harness forks. Note java.applet was removed altogether in JDK 25, so this test has no future in
-// its present form; it needs rewriting without Applet rather than a headless workaround.
-// @disabled(client needs a display - new java.applet.Applet() throws HeadlessException on headless CI) -test hopper.h4647746.POAAppletTest
+// 4647746 (POA does not work when ORB.init is called for an Applet) and its test are gone: the ORB
+// no longer has ORB.init(Applet, Properties) for the test to exercise. java.applet was removed from
+// the JDK in 25, so there is nothing to reinstate here.
 
 // Fixed 4655388: POA.the_children() method throws ClassCastException
 -test hopper.h4655388.POAHierarchyTest

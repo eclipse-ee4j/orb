@@ -55,7 +55,7 @@ public class BasicObjectFactoryImpl extends ServantFactoryPOA {
 
             Servant s;
             try {
-                s = (Servant) Class.forName(implName).newInstance();
+                s = (Servant) Class.forName(implName).getDeclaredConstructor().newInstance();
             } catch (Exception ex) {
                 System.err.println("Problems finding: " + implName);
                 ex.printStackTrace();

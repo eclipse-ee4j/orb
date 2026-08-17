@@ -61,7 +61,13 @@ public abstract class ServerCommon implements InternalProcess {
     static String nextMethodToInvoke;
 
     // An object for syncWithServer to wait on before returning to the client.
-    static final Integer syncObject = new Integer(0);
+    //
+    // Plain Object, as every other syncObject in these pi tests already is. It used to be
+    // new Integer(0), which locked on a value-based class - a compiler warning today and an error once
+    // value objects land - and used a constructor deprecated for removal. Note the fix is not
+    // Integer.valueOf(0): that returns the cached instance for small values, so unrelated tests in the
+    // same JVM would silently share one monitor.
+    static final Object syncObject = new Object();
 
     // Constant string to indicate to the client that we are done.
     static final String EXIT_METHOD = "exit";

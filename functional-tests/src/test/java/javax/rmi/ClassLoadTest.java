@@ -90,16 +90,19 @@ public class ClassLoadTest extends Test {
             loadClass("[[Q", LOCAL, FAIL_NOT_FOUND12_OR_ILLEGAL_ARG11);
 
             // Make sure we can load a system class array...
+            // Any JDK type serves here - this exercises the class loader, not the type. It used to
+            // name java.applet.AppletStub/Applet, which said nothing about applets and would simply
+            // stop resolving once java.applet was removed from the JDK.
 
-            loadClass("[Ljava.applet.AppletStub;", LOCAL, SUCCEED);
+            loadClass("[Ljava.util.Date;", LOCAL, SUCCEED);
 
             // Make sure we can load a system class...
 
-            loadClass("java.applet.Applet", LOCAL, SUCCEED);
+            loadClass("java.util.Date", LOCAL, SUCCEED);
 
             // Make sure we can load a system class array...
 
-            loadClass("[Ljava.applet.AppletStub;", LOCAL, SUCCEED);
+            loadClass("[Ljava.util.Date;", LOCAL, SUCCEED);
 
             // Make sure we can load an application class...
 

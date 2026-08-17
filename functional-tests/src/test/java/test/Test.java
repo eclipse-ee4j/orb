@@ -1099,7 +1099,7 @@ public abstract class Test implements java.lang.Runnable {
         Test testObj = null;
 
         try {
-            testObj = (Test) Class.forName(testClassName).newInstance();
+            testObj = (Test) Class.forName(testClassName).getDeclaredConstructor().newInstance();
         } catch (ClassNotFoundException cnfe) {
             System.out.print("    " + testClassName + ": not found - ");
             if (flags.containsKey(IF_PRESENT_FLAG)) {

@@ -193,7 +193,7 @@ public final class Utility {
 
                 if (it != CACHE_MISS) {
                     try {
-                        result = (Tie) it.getClass().newInstance();
+                        result = (Tie) it.getClass().getDeclaredConstructor().newInstance();
                     } catch (Exception e) {
                     }
                 }
@@ -367,9 +367,13 @@ public final class Utility {
         try {
             ClassLoader clazzLoader = (clazz == null ? null : clazz.getClassLoader());
             Class helperClass = loadClassForClass(className + "Helper", codebase, clazzLoader, clazz, clazzLoader);
-            return (BoxedValueHelper) helperClass.newInstance();
+            return (BoxedValueHelper) helperClass.getDeclaredConstructor().newInstance();
 
-        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | ClassCastException cnfe) {
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | ClassCastException
+                | NoSuchMethodException | java.lang.reflect.InvocationTargetException cnfe) {
+            // The last two arrived with getDeclaredConstructor().newInstance(), which replaced the deprecated
+            // Class.newInstance(): a missing no-arg constructor, and an exception thrown by the constructor.
+            // Either way the helper could not be produced, which is what this already reports.
             throw wrapper.unableLocateValueHelper(cnfe);
         }
     }
@@ -419,9 +423,11 @@ public final class Utility {
         try {
             ClassLoader clazzLoader = (clazz == null ? null : clazz.getClassLoader());
             Class factoryClass = loadClassForClass(className + "DefaultFactory", codebase, clazzLoader, clazz, clazzLoader);
-            return (ValueFactory) factoryClass.newInstance();
+            return (ValueFactory) factoryClass.getDeclaredConstructor().newInstance();
 
-        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | ClassCastException cnfe) {
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | ClassCastException
+                | NoSuchMethodException | java.lang.reflect.InvocationTargetException cnfe) {
+            // As above: the two extra types come from getDeclaredConstructor().newInstance().
             throw omgWrapper.unableLocateValueFactory(cnfe);
         }
     }

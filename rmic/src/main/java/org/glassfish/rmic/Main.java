@@ -356,7 +356,7 @@ public class Main implements org.glassfish.rmic.Constants {
         }
 
         try {
-            gen = (Generator) Class.forName(className).newInstance();
+            gen = (Generator) Class.forName(className).getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             error("rmic.cannot.instantiate",className);
             return null;

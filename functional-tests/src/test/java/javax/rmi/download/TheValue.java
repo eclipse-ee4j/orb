@@ -23,7 +23,17 @@ package javax.rmi.download;
 public interface TheValue extends java.io.Serializable {
     public class Helper {
         public static TheValue newValue() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-            return (javax.rmi.download.TheValue) Class.forName("javax.rmi.download.values.TheValueImpl").newInstance();
+            try {
+                return (javax.rmi.download.TheValue) Class.forName("javax.rmi.download.values.TheValueImpl")
+                        .getDeclaredConstructor().newInstance();
+            } catch (NoSuchMethodException | java.lang.reflect.InvocationTargetException exc) {
+                // From getDeclaredConstructor().newInstance(), which replaced the deprecated
+                // Class.newInstance(). Folded into InstantiationException to keep this signature: the
+                // class is downloaded over IIOP by the fvd/download tests, which assert on these types.
+                InstantiationException failed = new InstantiationException("could not instantiate TheValueImpl");
+                failed.initCause(exc);
+                throw failed;
+            }
         }
     }
 

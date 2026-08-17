@@ -316,7 +316,18 @@ public class OldReflectObjectCopierImpl implements ObjectCopier {
     // cloning collection types. Requires a no args constructor,
     // public for now (but could use non-public)
     private Object makeInstanceOfClass(Class cls) throws IllegalAccessException, InstantiationException {
-        return cls.newInstance();
+        try {
+            return cls.getDeclaredConstructor().newInstance();
+        } catch (NoSuchMethodException | InvocationTargetException exc) {
+            // getDeclaredConstructor().newInstance() replaced the deprecated Class.newInstance(). It reports
+            // the two cases differently: a missing no-arg constructor as NoSuchMethodException rather than
+            // InstantiationException, and an exception thrown by the constructor wrapped in
+            // InvocationTargetException rather than propagated undeclared. Both are folded back into
+            // InstantiationException here so the signature - and every caller up the copy chain - is unchanged.
+            InstantiationException failed = new InstantiationException("could not instantiate " + cls.getName());
+            failed.initCause(exc);
+            throw failed;
+        }
     }
 
     // Copy any object that is an instanceof Map.

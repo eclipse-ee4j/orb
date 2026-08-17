@@ -57,13 +57,13 @@ public class MyServantLocator extends org.omg.CORBA.LocalObject implements Serva
         try {
             classLoader = new CustomClassLoader();
             rmiiIServantPOAClass = classLoader.loadClass(thisPackage + ".rmiiIServantPOA");
-            rmiiIServantPOAObject = rmiiIServantPOAClass.newInstance();
+            rmiiIServantPOAObject = rmiiIServantPOAClass.getDeclaredConstructor().newInstance();
             classLoader = rmiiIServantPOAObject.getClass().getClassLoader();
             System.out.println("rmiiIServantPOAClass: " + rmiiIServantPOAClass);
             System.out.println("rmiiIServantPOAObject classLoader: " + classLoader);
             System.out.println("rmiiIServantPOAObject: " + rmiiIServantPOAObject);
             // tie = javax.rmi.CORBA.Util.getTie(rmiiIServantPOAObject);
-            tie = (Tie) Class.forName(thisPackage + "._rmiiIServantPOA_Tie").newInstance();
+            tie = (Tie) Class.forName(thisPackage + "._rmiiIServantPOA_Tie").getDeclaredConstructor().newInstance();
             reflect(tie.getClass());
             reflect(java.rmi.Remote.class);
             reflect(rmiiIServantPOAObject.getClass());

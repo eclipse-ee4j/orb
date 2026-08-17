@@ -20,7 +20,6 @@
 
 package org.omg.CORBA;
 
-import java.applet.Applet;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
@@ -64,7 +63,7 @@ import org.omg.CORBA.ORBPackage.InvalidName;
  * <P>
  * The <code>ORB</code> class can be used to obtain references to objects implemented anywhere on the network.
  * <P>
- * An application or applet gains access to the CORBA environment by initializing itself into an <code>ORB</code> using
+ * An application gains access to the CORBA environment by initializing itself into an <code>ORB</code> using
  * one of three <code>init</code> methods. Two of the three methods use the properties (associations of a name with a
  * value) shown in the table below.<BR>
  * <TABLE BORDER>
@@ -90,7 +89,7 @@ import org.omg.CORBA.ORBPackage.InvalidName;
  * </P>
  *
  * <OL>
- * <LI>check in Applet parameter or application string array, if any
+ * <LI>check in application string array, if any
  *
  * <LI>check in properties parameter, if any
  *
@@ -109,7 +108,7 @@ import org.omg.CORBA.ORBPackage.InvalidName;
  * returned.
  * <P>
  * The following code fragment creates an <code>ORB</code> object initialized with the default ORB Singleton. This ORB
- * has a restricted implementation to prevent malicious applets from doing anything beyond creating typecodes. It is
+ * has a restricted implementation to prevent malicious programs from doing anything beyond creating typecodes. It is
  * called a singleton because there is only one instance for an entire virtual machine.
  *
  * <PRE>
@@ -128,16 +127,6 @@ import org.omg.CORBA.ORBPackage.InvalidName;
  * ORB orb = ORB.init(args, p);
  * </PRE>
  * <P>
- * The following code fragment creates an <code>ORB</code> object for the applet supplied as the first parameter. If the
- * given applet does not specify an ORB class, the new ORB will be initialized with the default Java&nbsp;IDL
- * implementation.
- *
- * <PRE>
- * ORB orb = ORB.init(myApplet, null);
- * </PRE>
- * <P>
- * An application or applet can be initialized in one or more ORBs. ORB initialization is a bootstrap call into the
- * CORBA world.
  *
  * @version 1.70, 09/09/97
  * @since JDK1.2
@@ -155,7 +144,7 @@ abstract public class ORB {
     //
     // The last resort fallback ORB implementation classes in case
     // no ORB implementation class is dynamically configured through
-    // properties or applet parameters. Change these values to
+    // properties parameters. Change these values to
     // vendor-specific class names.
     //
     private static final String defaultORB = "com.sun.corba.ee.impl.orb.ORBImpl";
@@ -165,7 +154,7 @@ abstract public class ORB {
     // The global instance of the singleton ORB implementation which
     // acts as a factory for typecodes for generated Helper classes.
     // TypeCodes should be immutable since they may be shared across
-    // different security contexts (applets). There should be no way to
+    // different security contexts. There should be no way to
     // use a TypeCode as a storage depot for illicitly passing
     // information or Java objects between different security contexts.
     //
@@ -233,18 +222,12 @@ abstract public class ORB {
     /**
      * Returns the <code>ORB</code> singleton object. This method always returns the same ORB instance, which is an instance
      * of the class described by the <code>org.omg.CORBA.ORBSingletonClass</code> system property.
+     *
      * <P>
      * This no-argument version of the method <code>init</code> is used primarily as a factory for <code>TypeCode</code>
      * objects, which are used by <code>Helper</code> classes to implement the method <code>type</code>. It is also used to
      * create <code>Any</code> objects that are used to describe <code>union</code> labels (as part of creating a <code>
      * TypeCode</code> object for a <code>union</code>).
-     * <P>
-     * This method is not intended to be used by applets, and in the event that it is called in an applet environment, the
-     * ORB it returns is restricted so that it can be used only as a factory for <code>TypeCode</code> objects. Any
-     * <code>TypeCode</code> objects it produces can be safely shared among untrusted applets.
-     * <P>
-     * If an ORB is created using this method from an applet, a system exception will be thrown if methods other than those
-     * for creating <code>TypeCode</code> objects are invoked.
      *
      * @return the singleton ORB
      */
@@ -264,7 +247,6 @@ abstract public class ORB {
     }
 
     private static ORB create_impl(String className) {
-
         ClassLoader cl = Thread.currentThread().getContextClassLoader();
         if (cl == null) {
             cl = ClassLoader.getSystemClassLoader();
@@ -320,37 +302,6 @@ abstract public class ORB {
     }
 
     /**
-     * Creates a new <code>ORB</code> instance for an applet. This method may be called from applets only and returns a new
-     * fully-functional <code>ORB</code> object each time it is called.
-     *
-     * @param app the applet; may be <code>null</code>
-     * @param props applet-specific properties; may be <code>null</code>
-     * @return the newly-created ORB instance
-     */
-    public static ORB init(Applet app, Properties props) {
-        String className;
-        ORB orb;
-
-        className = app.getParameter(ORBClassKey);
-        if (className == null && props != null) {
-            className = props.getProperty(ORBClassKey);
-        }
-        if (className == null) {
-            className = getSystemProperty(ORBClassKey);
-        }
-        if (className == null) {
-            className = getPropertyFromFile(ORBClassKey);
-        }
-        if (className == null) {
-            className = defaultORB;
-        }
-
-        orb = create_impl(className);
-        orb.set_parameters(app, props);
-        return orb;
-    }
-
-    /**
      * Allows the ORB implementation to be initialized with the given parameters and properties. This method, used in
      * applications only, is implemented by subclass ORB implementations and called by the appropriate <code>init</code>
      * method to pass in its parameters.
@@ -359,16 +310,6 @@ abstract public class ORB {
      * @param props application-specific properties; may be <code>null</code>
      */
     abstract protected void set_parameters(String[] args, Properties props);
-
-    /**
-     * Allows the ORB implementation to be initialized with the given applet and parameters. This method, used in applets
-     * only, is implemented by subclass ORB implementations and called by the appropriate <code>init</code> method to pass
-     * in its parameters.
-     *
-     * @param app the applet; may be <code>null</code>
-     * @param props applet-specific properties; may be <code>null</code>
-     */
-    abstract protected void set_parameters(Applet app, Properties props);
 
     /**
      * Connects the given servant object (a Java object that is an instance of the server implementation class) to the ORB.

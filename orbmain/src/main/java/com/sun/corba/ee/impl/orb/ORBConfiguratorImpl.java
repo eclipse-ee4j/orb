@@ -141,7 +141,7 @@ public class ORBConfiguratorImpl implements ORBConfigurator {
         if (parser.userConfigurators != null) {
             for (Class<?> cls : parser.userConfigurators) {
                 try {
-                    ORBConfigurator config = (ORBConfigurator) (cls.newInstance());
+                    ORBConfigurator config = (ORBConfigurator) (cls.getDeclaredConstructor().newInstance());
                     config.configure(collector, orb);
                 } catch (Exception exc) {
                     wrapper.userConfiguratorException(exc);

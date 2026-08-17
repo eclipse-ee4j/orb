@@ -89,7 +89,7 @@ public class ReflectObjectCopierImpl implements ObjectCopier {
 
             try {
                 // Create a new object of the same type as source
-                ObjectImpl result = (ObjectImpl) source.getClass().newInstance();
+                ObjectImpl result = (ObjectImpl) source.getClass().getDeclaredConstructor().newInstance();
                 result._set_delegate(del);
 
                 return result;

@@ -89,7 +89,7 @@ public class TheClient {
 
                     // Send a mismatched class
                     // i.e. a matching class hierarchy with differing fields
-                    ParentClass mismatch = (ParentClass) Class.forName("javax.rmi.download.values.ClientA").newInstance();
+                    ParentClass mismatch = (ParentClass) Class.forName("javax.rmi.download.values.ClientA").getDeclaredConstructor().newInstance();
                     if (mismatch == null) {
                         throw new Error("Could not create javax.rmi.download.values.ClientA");
                     }
@@ -101,7 +101,7 @@ public class TheClient {
                     // Send a differing hierarchy
                     // - Sender (TheClient) has shallow hierarchy C->A whereas
                     // receiver (TheServer) has deeper hierarchy C->B->A.
-                    ParentClass shallowHierarchy = (ParentClass) Class.forName("javax.rmi.download.values.ClassC").newInstance();
+                    ParentClass shallowHierarchy = (ParentClass) Class.forName("javax.rmi.download.values.ClassC").getDeclaredConstructor().newInstance();
 
                     if (shallowHierarchy == null) {
                         throw new Error("Could not create javax.rmi.download.values.ClassA");
@@ -114,7 +114,7 @@ public class TheClient {
                     // Send a differing hierarchy
                     // - Sender (TheClient) has deeper hierarchy E->D->A whereas
                     // receiver (TheServer) has shallow hierarchy E->A.
-                    ParentClass deeperHierarchy = (ParentClass) Class.forName("javax.rmi.download.values.ClassE").newInstance();
+                    ParentClass deeperHierarchy = (ParentClass) Class.forName("javax.rmi.download.values.ClassE").getDeclaredConstructor().newInstance();
 
                     if (deeperHierarchy == null) {
                         throw new Error("Could not create javax.rmi.download.values.ClassE");
@@ -128,7 +128,7 @@ public class TheClient {
                     // not exist on the receiver's side (i.e. not codebase
                     // to download it from either).
                     ParentClass missingClassContainer = (ParentClass) Class.forName("javax.rmi.download.values.MissingContainer")
-                            .newInstance();
+                            .getDeclaredConstructor().newInstance();
 
                     if (missingClassContainer == null) {
                         throw new Error("Could not create javax.rmi.download.values.MissingContainer");

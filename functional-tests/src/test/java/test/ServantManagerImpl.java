@@ -91,7 +91,7 @@ public class ServantManagerImpl implements ServantManager {
                 // Ok, create an instance and export it (if we need to)...
 
                 Class theClass = Class.forName(servantClass);
-                Remote servant = (Remote) theClass.newInstance();
+                Remote servant = (Remote) theClass.getDeclaredConstructor().newInstance();
 
                 if (!(servant instanceof PortableRemoteObject)) {
                     PortableRemoteObject.exportObject(servant);

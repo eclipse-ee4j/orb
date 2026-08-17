@@ -46,7 +46,7 @@ public class ThreadPoolManagerImpl implements ThreadPoolManager {
 
         // See bugs 4916766 and 4936203
         // We intend to create new threads in a reliable thread group.
-        // This avoids problems if the application/applet
+        // This avoids problems if the application
         // creates a thread group, makes JavaIDL calls which create a new
         // connection and ReaderThread, and then destroys the thread
         // group. If our ReaderThreads were to be part of such destroyed thread
@@ -60,8 +60,6 @@ public class ThreadPoolManagerImpl implements ThreadPoolManager {
         try {
             // try to get a thread group that's as high in the threadgroup
             // parent-child hierarchy, as we can get to.
-            // this will prevent an ORB thread created during applet-init from
-            // being killed when an applet dies.
             ThreadGroup tgx = Thread.currentThread().getThreadGroup();
             ThreadGroup ptg = tgx;
             try {

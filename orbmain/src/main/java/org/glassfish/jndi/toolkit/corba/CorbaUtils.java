@@ -19,7 +19,6 @@
 
 package org.glassfish.jndi.toolkit.corba;
 
-import java.applet.Applet;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URLDecoder;
@@ -117,11 +116,10 @@ public class CorbaUtils {
     /**
      * Get ORB using given server and port number, and properties from environment.
      *
-     * @param server Possibly null server; if null means use default; For applet, it is the applet host; for app, it is
-     * localhost.
+     * @param server Possibly null server; if null means use default; localhost.
      * @param port Port number, -1 means default port
-     * @param env Possibly null environment. Contains environment properties. Could contain ORB itself; or applet used for
-     * initializing ORB. Use all String properties from env for initializing ORB
+     * @param env Possibly null environment. Contains environment properties. Could contain ORB itself
+     * Use all String properties from env for initializing ORB
      * @return A non-null ORB.
      */
     public static ORB getOrb(String server, int port, Hashtable<?, ?> env) {
@@ -154,16 +152,6 @@ public class CorbaUtils {
         }
         if (port >= 0) {
             orbProp.put("org.omg.CORBA.ORBInitialPort", "" + port);
-        }
-
-        // Get Applet from environment
-        if (env != null) {
-            @SuppressWarnings("deprecation")
-            Applet applet = (Applet) env.get(Context.APPLET);
-            if (applet != null) {
-                // Create ORBs using applet and orbProp
-                return ORB.init(applet, orbProp);
-            }
         }
 
         return ORB.init(new String[0], orbProp);

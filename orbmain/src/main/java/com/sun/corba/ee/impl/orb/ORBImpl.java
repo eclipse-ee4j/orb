@@ -62,6 +62,7 @@ import com.sun.corba.ee.spi.misc.ORBConstants;
 import com.sun.corba.ee.spi.oa.OAInvocationInfo;
 import com.sun.corba.ee.spi.oa.ObjectAdapterFactory;
 import com.sun.corba.ee.spi.orb.DataCollector;
+import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.orb.ORBConfigurator;
 import com.sun.corba.ee.spi.orb.ORBData;
 import com.sun.corba.ee.spi.orb.ORBVersion;
@@ -90,7 +91,6 @@ import com.sun.corba.ee.spi.transport.ContactInfoListFactory;
 import com.sun.corba.ee.spi.transport.TransportManager;
 import com.sun.org.omg.SendingContext.CodeBase;
 
-import java.applet.Applet;
 import java.io.IOException;
 import java.lang.System.Logger;
 import java.lang.reflect.Constructor;
@@ -142,7 +142,8 @@ import static java.lang.System.Logger.Level.WARNING;
  */
 @OrbLifeCycle
 @Subcontract
-public class ORBImpl extends com.sun.corba.ee.spi.orb.ORB implements AutoCloseable {
+public class ORBImpl extends ORB implements AutoCloseable {
+
     private static final Logger LOG = System.getLogger(ORBImpl.class.getName());
     private boolean set_parameters_called;
 
@@ -536,7 +537,7 @@ public class ORBImpl extends com.sun.corba.ee.spi.orb.ORB implements AutoCloseab
         }
         final ORBConfigurator configurator;
         try {
-            configurator = (ORBConfigurator) (parser.configurator.newInstance());
+            configurator = (ORBConfigurator) (parser.configurator.getDeclaredConstructor().newInstance());
         } catch (Exception iexc) {
             name = parser.configurator.getName();
             throw wrapper.badOrbConfigurator(iexc, name);
@@ -599,15 +600,6 @@ public class ORBImpl extends com.sun.corba.ee.spi.orb.ORB implements AutoCloseab
     public void set_parameters(Properties props) {
         preInit(null, props);
         DataCollector dataCollector = DataCollectorFactory.create(props, getLocalHostName());
-        postInit(null, dataCollector);
-        initializationComplete(getORBData().getORBId());
-    }
-
-    @Override
-    @OrbLifeCycle
-    protected void set_parameters(Applet app, Properties props) {
-        preInit(null, props);
-        DataCollector dataCollector = DataCollectorFactory.create(app, props, getLocalHostName());
         postInit(null, dataCollector);
         initializationComplete(getORBData().getORBId());
     }
