@@ -21,14 +21,16 @@
 -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>glassfish-corba</artifactId>
-        <groupId>org.glassfish.corba</groupId>
-        <version>5.0.3-SNAPSHOT</version>
-    </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.glassfish.corba</groupId>
+        <artifactId>glassfish-corba</artifactId>
+        <version>6.0.0-SNAPSHOT</version>
+    </parent>
+
     <artifactId>glassfish-corba-internal-api</artifactId>
+
     <name>Exposed Internal APIs</name>
     <description>Exposed Internal APIs</description>
 
@@ -47,7 +49,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
 
     <build>
         <plugins>
