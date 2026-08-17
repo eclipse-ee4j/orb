@@ -16,7 +16,6 @@
 
 module org.glassfish.corba.orb {
 
-    requires java.desktop;
     requires java.logging;
     requires java.naming;
     requires java.rmi;

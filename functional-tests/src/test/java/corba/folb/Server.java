@@ -80,7 +80,7 @@ public class Server implements ORBConfigurator {
         // 300 is arbitrary;
         props.setProperty(ORBConstants.ORB_SERVER_ID_PROPERTY, "300");
         // 4567 is arbitrary;
-        props.setProperty(ORBConstants.PERSISTENT_SERVER_PORT_PROPERTY, new Integer(4567).toString());
+        props.setProperty(ORBConstants.PERSISTENT_SERVER_PORT_PROPERTY, Integer.valueOf(4567).toString());
 
         //
         // Tell the ORB to listen on user-define ports

@@ -606,8 +606,8 @@ public interface ORBUtilSystemException {
     COMM_FAILURE exceptionInAccept(@Chain Exception exc, String arg0);
 
     @Log(level = LogLevel.FINE, id = 14)
-    @Message("Unexpected exception, has permissions {0}")
-    COMM_FAILURE securityExceptionInAccept(@Chain Exception exc, String arg0);
+    @Message("Unexpected exception")
+    COMM_FAILURE securityExceptionInAccept(@Chain Exception exc);
 
     @Log(level = LogLevel.WARNING, id = 15)
     @Message("Read of full message failed : bytes requested = {0} " + "bytes read = {1} max wait time = {2} total time spent waiting = {3}")

@@ -24,13 +24,13 @@ public class TestObjectSuperSub extends TestObjectSuper {
     public Long dataxss1;
 
     public static final int INITIAL_DATAXSS0 = 256;
-    public static final Long INITIAL_DATAXSS1 = new Long(128000L);
+    public static final Long INITIAL_DATAXSS1 = Long.valueOf(128000L);
 
     private static final long serialVersionUID = -2547646174414134925L;
 
     public TestObjectSuperSub() {
         dataxss0 = 256;
-        dataxss1 = new Long(128000L);
+        dataxss1 = Long.valueOf(128000L);
     }
 
     public boolean testObjectSuperSubHasStreamDefaults() {

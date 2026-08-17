@@ -40,7 +40,7 @@ public class Negative extends UnaryExpr
       Number op = (Number)operand ().evaluate ();
 
       if (op instanceof Float || op instanceof Double)
-        value (new Double (-op.doubleValue ()));
+        value (Double.valueOf(-op.doubleValue ()));
       else
       {
         // Multiply by -1

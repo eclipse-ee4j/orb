@@ -47,7 +47,6 @@ import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.security.PermissionCollection;
-import java.security.Policy;
 import java.security.ProtectionDomain;
 import java.util.Enumeration;
 import java.util.Hashtable;

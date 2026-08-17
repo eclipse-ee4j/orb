@@ -51,7 +51,7 @@ public class JRMPPerformance extends test.Test {
             Exception exception = new Exception("Test Exception");
             sos.writeObject(exception);
 
-            Float f = new Float(1.23);
+            Float f = Float.valueOf(1.23f);
             sos.writeObject(f);
 
             javax.rmi.CORBA.serialization.ComplexTestObjectOne test1 = new javax.rmi.CORBA.serialization.ComplexTestObjectOne();
@@ -75,7 +75,7 @@ public class JRMPPerformance extends test.Test {
             javax.rmi.CORBA.serialization.ComplexTestObjectOne test1b = new javax.rmi.CORBA.serialization.ComplexTestObjectOne();
             sos.writeObject(test1b);
 
-            Double d = new Double(3.5);
+            Double d = Double.valueOf(3.5);
             sos.writeObject(d);
 
             javax.rmi.CORBA.serialization.ComplexTestObjectThree test3 = new javax.rmi.CORBA.serialization.ComplexTestObjectThree();

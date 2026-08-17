@@ -44,7 +44,7 @@ public class Minus extends BinaryExpr
       boolean rIsNonInteger = r instanceof Float || r instanceof Double;
 
       if (lIsNonInteger && rIsNonInteger)
-        value (new Double (l.doubleValue () - r.doubleValue ()));
+        value (Double.valueOf(l.doubleValue () - r.doubleValue ()));
       else if (lIsNonInteger || rIsNonInteger)
       {
         String[] parameters = {Util.getMessage ("EvaluationException.minus"), left ().value ().getClass ().getName (), right ().value ().getClass ().getName ()};

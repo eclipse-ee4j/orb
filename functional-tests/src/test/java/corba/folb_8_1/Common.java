@@ -63,7 +63,7 @@ public abstract class Common {
     public static HashMap portToSocketType = new HashMap();
     static {
         for (int i = 0; i < socketTypes.length; i++) {
-            Integer port = new Integer(socketPorts[i]);
+            Integer port = Integer.valueOf(socketPorts[i]);
             socketTypeToPort.put(socketTypes[i], port);
             portToSocketType.put(port, socketTypes[i]);
         }

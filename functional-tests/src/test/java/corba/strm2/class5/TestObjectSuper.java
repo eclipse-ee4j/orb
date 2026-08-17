@@ -36,8 +36,8 @@ public class TestObjectSuper implements Serializable {
     public TestObjectSuper() {
         dataS1 = 23910;
         dataS2 = '\u6A5F';
-        dataS3 = new Long(999211L);
-        optDataS1 = new Double(24124.23121);
+        dataS3 = Long.valueOf(999211L);
+        optDataS1 = Double.valueOf(24124.23121);
         optDataS2 = 2412;
         optDataS3 = new BigInteger("982749812479812481242148998391", 10);
 
@@ -126,7 +126,7 @@ public class TestObjectSuper implements Serializable {
         } catch (OptionalDataException ode) {
             System.out.println("Defaulting");
             // Optional object data not present
-            optDataS1 = new Double(24124.23121);
+            optDataS1 = Double.valueOf(24124.23121);
         }
 
         System.out.println("Reading optional int");

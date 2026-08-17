@@ -23,13 +23,7 @@ package javax.rmi;
 
 import com.sun.corba.ee.impl.util.Utility;
 import com.sun.corba.ee.spi.JndiConstants;
-import org.omg.CORBA.ORB;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.rmi.CORBA.Tie;
-import javax.rmi.CORBA.Util;
 import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -39,6 +33,15 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Hashtable;
 import java.util.Properties;
 import java.util.Vector;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NameNotFoundException;
+import javax.naming.NamingException;
+import javax.rmi.CORBA.Tie;
+import javax.rmi.CORBA.Util;
+
+import org.omg.CORBA.ORB;
 
 /**
  * PortableContext is a convenience class for rmi-iiop programs which simplifies both server and client initialization.
@@ -106,14 +109,12 @@ public class PortableContext {
     public static final int RMI_RUNTIME = 0;
     public static final int IIOP_RUNTIME = 1;
 
-    private ORB orb = null;
-    private InitialContext nameContext = null;
-    private String nameServerHost = null;
-    private int nameServerPort = 0;
+    private ORB orb;
+    private InitialContext nameContext;
+    private String nameServerHost;
+    private int nameServerPort;
     private int runtime;
-    private String key = null;
-    private boolean startNameServer = false;
-    private static boolean is12VM = true;
+    private boolean startNameServer;
 
     private static Hashtable cache = new Hashtable();
     private static final String HANDSHAKE = "Ready.";
@@ -632,20 +633,13 @@ public class PortableContext {
     public static Process startNameServer(String port, int runtime) throws IOException {
 
         String handshake = null;
-        Vector args = new Vector();
+        Vector<String> args = new Vector<>();
 
         // Fill out the command...
 
         args.addElement("java");
         args.addElement("-classpath");
         args.addElement(System.getProperty("java.class.path"));
-
-        if (is12VM) {
-            String policy = System.getProperty("java.security.policy");
-            if (policy != null) {
-                args.addElement("-Djava.security.policy=" + policy);
-            }
-        }
 
         if (runtime == IIOP_RUNTIME) {
 
@@ -695,7 +689,7 @@ public class PortableContext {
 
     protected void init() throws NamingException {
 
-        Hashtable nameEnv = new Hashtable();
+        Hashtable<String, Object> nameEnv = new Hashtable<>();
 
         // First, make sure we have a valid port number for
         // the name service...
@@ -758,13 +752,8 @@ public class PortableContext {
         }
 
         // Now get our name context.
-
-        boolean gotContext = false;
-        boolean retry = false;
-
         try {
             nameContext = new InitialContext(nameEnv);
-            gotContext = true;
 
             if (runtime == RMI_RUNTIME) {
 
@@ -773,15 +762,10 @@ public class PortableContext {
 
                 try {
                     nameContext.lookup("atsatt");
-                } catch (javax.naming.NameNotFoundException e) {
+                } catch (NameNotFoundException e) {
                 }
             }
         } catch (Throwable e) {
-
-            if (e instanceof ThreadDeath) {
-                throw (ThreadDeath) e;
-            }
-
             String server = runtime == IIOP_RUNTIME ? "TransientNameServer" : "RMIRegistry";
 
             if (startNameServer && nameServerHost == null) {
@@ -813,7 +797,7 @@ public class PortableContext {
 
         // Finally, create our key...
 
-        key = createContextKey(runtime, nameServerHost, Integer.toString(nameServerPort));
+        createContextKey(runtime, nameServerHost, Integer.toString(nameServerPort));
     }
 
     private ORB initORB(String[] nameServerArgs) {

@@ -86,7 +86,7 @@ public class MyInterceptor extends org.omg.CORBA.LocalObject implements ClientRe
         if (ri.operation().equals(C.testEffectiveTarget1)) {
             org.omg.CORBA.Object effectiveTarget1 = ri.effective_target();
             int hash = effectiveTarget1._hash(Integer.MAX_VALUE);
-            effectiveTargetHashtable.put(new Integer(hash), effectiveTarget1);
+            effectiveTargetHashtable.put(Integer.valueOf(hash), effectiveTarget1);
 
             // Not necessary to set recursion slot because of above if.
             boolean isA = effectiveTarget1._is_a(idlIHelper.id());
@@ -99,7 +99,7 @@ public class MyInterceptor extends org.omg.CORBA.LocalObject implements ClientRe
         } else if (ri.operation().equals(C.testEffectiveTarget2)) {
             org.omg.CORBA.Object effectiveTarget2 = ri.effective_target();
             int hash = effectiveTarget2._hash(Integer.MAX_VALUE);
-            org.omg.CORBA.Object effectiveTarget1 = (org.omg.CORBA.Object) effectiveTargetHashtable.get(new Integer(hash));
+            org.omg.CORBA.Object effectiveTarget1 = (org.omg.CORBA.Object) effectiveTargetHashtable.get(Integer.valueOf(hash));
             if (!effectiveTarget2._is_equivalent(effectiveTarget1)) {
                 throw new RuntimeException(C.testEffectiveTarget1);
             }

@@ -271,7 +271,7 @@ public class TestCodegenProxyCreator extends TestCase {
         }
 
         public void testIntegerEcho() {
-            Integer num = new Integer(43);
+            Integer num = Integer.valueOf(43);
             assertEquals(getTestInterface().echo(num), num);
         }
 

@@ -122,7 +122,7 @@ public interface MangleMethods extends Remote {
             if (map == null) {
                 map = new Hashtable();
                 for (int i = 0; i < ASSERTS.length; i++) {
-                    map.put(ASSERTS[i][0], new Integer(i));
+                    map.put(ASSERTS[i][0], Integer.valueOf(i));
                 }
             }
 

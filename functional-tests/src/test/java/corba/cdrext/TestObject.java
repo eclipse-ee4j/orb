@@ -52,11 +52,11 @@ public class TestObject implements Serializable {
         }
         internalRep.put(BYTE_ARRAY_NAME, data);
 
-        internalRep.put(LONG_NAME, new Long(43));
+        internalRep.put(LONG_NAME, Long.valueOf(43));
 
-        internalRep.put(NEW_FIELD_NAME, new Integer(4523));
+        internalRep.put(NEW_FIELD_NAME, Integer.valueOf(4523));
 
-        internalRep.put(CHAR_NAME, new Character('\u6D77'));
+        internalRep.put(CHAR_NAME, Character.valueOf('\u6D77'));
     }
 
     public TestObject(String str, byte[] data, long lg, char ch, Integer newField) {
@@ -69,8 +69,8 @@ public class TestObject implements Serializable {
         System.arraycopy(data, 0, newArray, 0, data.length);
 
         internalRep.put(BYTE_ARRAY_NAME, newArray);
-        internalRep.put(LONG_NAME, new Long(lg));
-        internalRep.put(CHAR_NAME, new Character(ch));
+        internalRep.put(LONG_NAME, Long.valueOf(lg));
+        internalRep.put(CHAR_NAME, Character.valueOf(ch));
         internalRep.put(NEW_FIELD_NAME, newField);
     }
 
@@ -103,7 +103,7 @@ public class TestObject implements Serializable {
         byte[] byteData = (byte[]) fields.get(BYTE_ARRAY_NAME, null);
         long lgData = fields.get(LONG_NAME, (long) 0);
         char chData = fields.get(CHAR_NAME, '0');
-        Integer newField = (Integer) fields.get(NEW_FIELD_NAME, new Integer(0));
+        Integer newField = (Integer) fields.get(NEW_FIELD_NAME, Integer.valueOf(0));
 
         if (chData == '0') {
             System.out.println("chData defaulted");
@@ -115,7 +115,7 @@ public class TestObject implements Serializable {
             System.out.println("String data defaulted");
         }
 
-        if (newField.equals(new Integer(0))) {
+        if (newField.equals(Integer.valueOf(0))) {
             System.out.println("The new field was defaulted");
         }
 
@@ -123,8 +123,8 @@ public class TestObject implements Serializable {
 
         internalRep.put(STRING_NAME, strData);
         internalRep.put(BYTE_ARRAY_NAME, byteData);
-        internalRep.put(LONG_NAME, new Long(lgData));
-        internalRep.put(CHAR_NAME, new Character(chData));
+        internalRep.put(LONG_NAME, Long.valueOf(lgData));
+        internalRep.put(CHAR_NAME, Character.valueOf(chData));
         internalRep.put(NEW_FIELD_NAME, newField);
     }
 

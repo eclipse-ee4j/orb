@@ -137,11 +137,11 @@ class IncDecExpression extends UnaryExpression {
             asm.add(where, inc ? opc_ladd : opc_lsub);
             break;
           case TC_FLOAT:
-            asm.add(where, opc_ldc, new Float(1));
+            asm.add(where, opc_ldc, Float.valueOf(1));
             asm.add(where, inc ? opc_fadd : opc_fsub);
             break;
           case TC_DOUBLE:
-            asm.add(where, opc_ldc2_w, new Double(1));
+            asm.add(where, opc_ldc2_w, Double.valueOf(1));
             asm.add(where, inc ? opc_dadd : opc_dsub);
             break;
           default:

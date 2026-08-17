@@ -38,7 +38,7 @@ public class ComplexTestObjectOne implements Serializable {
         fFloat = 3;// r.nextFloat();
         fDouble = 4;// r.nextDouble();
         fString = new String(fInt + "" + fLong + "" + fFloat + "" + fDouble);
-        fMarshalAsAny = new Character('S');
+        fMarshalAsAny = Character.valueOf('S');
     }
 
     @Override

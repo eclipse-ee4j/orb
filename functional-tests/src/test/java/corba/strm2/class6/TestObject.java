@@ -36,13 +36,13 @@ public class TestObject extends TestObjectSuperSub implements Testable {
     private transient BigInteger optData1;
 
     public TestObject() {
-        data0 = new Integer(342141);
+        data0 = Integer.valueOf(342141);
         data1 = 1209409213L;
         data2 = "This is a test\u98DB";
 
         desc = "class5";
 
-        optData0 = new Long(23124124L);
+        optData0 = Long.valueOf(23124124L);
         optData1 = new BigInteger("892748282821123", 10);
     }
 
@@ -94,7 +94,7 @@ public class TestObject extends TestObjectSuperSub implements Testable {
             optData0 = (Long) is.readObject();
             optData1 = (BigInteger) is.readObject();
         } catch (OptionalDataException ode) {
-            optData0 = new Long(23124124L);
+            optData0 = Long.valueOf(23124124L);
             optData1 = new BigInteger("892748282821123", 10);
         }
     }
@@ -103,7 +103,7 @@ public class TestObject extends TestObjectSuperSub implements Testable {
         ObjectOutputStream.PutField fields = out.putFields();
 
         fields.put("data0", data0);
-        fields.put("data1", new Long(data1));
+        fields.put("data1", Long.valueOf(data1));
         fields.put("data2", data2);
         fields.put("desc", desc);
 

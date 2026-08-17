@@ -66,13 +66,13 @@ class BinaryConstantPool implements Constants {
                 cpool[i] = in.readInt();
                 break;
               case CONSTANT_FLOAT:
-                cpool[i] = new Float(in.readFloat());
+                cpool[i] = Float.valueOf(in.readFloat());
                 break;
               case CONSTANT_LONG:
                 cpool[i++] = in.readLong();
                 break;
               case CONSTANT_DOUBLE:
-                cpool[i++] = new Double(in.readDouble());
+                cpool[i++] = Double.valueOf(in.readDouble());
                 break;
 
               case CONSTANT_CLASS:

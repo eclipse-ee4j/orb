@@ -51,7 +51,7 @@ public class SpaceFrame extends JFrame {
 
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout(new PercentLayout(PercentLayout.VERT));
-        getContentPane().add(controlPanel, new Float(.35f));
+        getContentPane().add(controlPanel, Float.valueOf(.35f));
 
         // Planet Stats Pane
 
@@ -76,40 +76,40 @@ public class SpaceFrame extends JFrame {
         JPanel planetGroup = new JPanel();
         planetGroup.setLayout(new PercentLayout(PercentLayout.HORZ));
         planetGroup.setBorder(new EtchedBorder());
-        planetGroup.add(PlanetStatsPanel, new Float(.5f));
-        planetGroup.add(PlanetResourceControl, new Float(.5f));
-        controlPanel.add(planetGroup, new Float(.2f));
+        planetGroup.add(PlanetStatsPanel, Float.valueOf(.5f));
+        planetGroup.add(PlanetResourceControl, Float.valueOf(.5f));
+        controlPanel.add(planetGroup, Float.valueOf(.2f));
 
         // Turn Button
 
         JButton turnButton = fGameUI.createTurnButton();
         turnButton.addActionListener(new SpaceFrame_miTakeTurn_actionAdapter(this));
-        controlPanel.add(turnButton, new Float(.07f));
+        controlPanel.add(turnButton, Float.valueOf(.07f));
 
         // Ship List Pane
 
         JComponent shipListUI = fGameUI.createShipListUI();
-        controlPanel.add(shipListUI, new Float(.13f));
+        controlPanel.add(shipListUI, Float.valueOf(.13f));
 
         // Resources Pane
 
         JComponent resourceLevelsUI = fGameUI.createResourceLevelsUI();
         resourceLevelsUI.setBorder(new EtchedBorder());
-        controlPanel.add(resourceLevelsUI, new Float(.1f));
+        controlPanel.add(resourceLevelsUI, Float.valueOf(.1f));
 
         // Budget Pane
 
         JComponent budgetUI = fGameUI.createBudgetUI();
         JScrollPane budgetScroller = new JScrollPane();
         budgetScroller.getViewport().add(budgetUI, null);
-        controlPanel.add(budgetScroller, new Float(.3f));
+        controlPanel.add(budgetScroller, Float.valueOf(.3f));
 
         // Tech Spending Pane
 
         JComponent techSpendingUI = fGameUI.createTechSpendingUI();
         JScrollPane techSpendingScroller = new JScrollPane();
         techSpendingScroller.getViewport().add(techSpendingUI, null);
-        controlPanel.add(techSpendingScroller, new Float(.2f));
+        controlPanel.add(techSpendingScroller, Float.valueOf(.2f));
 
         // Space Pane
 
@@ -118,7 +118,7 @@ public class SpaceFrame extends JFrame {
         galaxyScroller.setMinimumSize(new Dimension(300, 300));
         GalaxyView galaxyView = fGameUI.createGalaxyUI();
         galaxyScroller.getViewport().add(galaxyView, null);
-        getContentPane().add(galaxyScroller, new Float(.65f));
+        getContentPane().add(galaxyScroller, Float.valueOf(.65f));
 
         fGameUI.init();
 

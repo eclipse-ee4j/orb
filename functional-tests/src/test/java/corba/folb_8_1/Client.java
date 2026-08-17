@@ -305,7 +305,7 @@ public class Client extends org.omg.CORBA.LocalObject implements ClientRequestIn
                         System.out.println("    request on connection: " + rie.connection());
                     }
                     lastConnectionUsed = (Connection) rie.connection();
-                    lastSocketTypeUsed = (String) Common.portToSocketType.get(new Integer(rie.connection().getSocket().getPort()));
+                    lastSocketTypeUsed = (String) Common.portToSocketType.get(Integer.valueOf(rie.connection().getSocket().getPort()));
                     if (lastSocketTypeUsed == null) {
                         // NOTE: the last one is running on an emphemeral port
                         // so it does NOT map. Just assume it.

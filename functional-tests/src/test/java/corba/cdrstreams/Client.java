@@ -140,8 +140,8 @@ public class Client {
 
         String one = new String(strBytes1);
         String two = new String(strBytes2);
-        java.lang.Object oneKey = new Integer(1);
-        java.lang.Object twoKey = new Integer(2);
+        java.lang.Object oneKey = Integer.valueOf(1);
+        java.lang.Object twoKey = Integer.valueOf(2);
 
         simple.put(oneKey, one);
         simple.put(twoKey, two);

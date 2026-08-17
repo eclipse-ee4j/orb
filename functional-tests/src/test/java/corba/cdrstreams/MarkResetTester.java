@@ -49,12 +49,12 @@ public class MarkResetTester implements Serializable {
         System.out.println("Writing " + numLongs + " Longs");
 
         // Intermix indirected and new instances with the same value
-        Long indirectedLong = new Long(TESTVALUE);
+        Long indirectedLong = Long.valueOf(TESTVALUE);
         for (int i = 0; i < numLongs; i++) {
             if (i % 3 == 0) {
                 out.writeObject(indirectedLong);
             } else {
-                out.writeObject(new Long(TESTVALUE));
+                out.writeObject(Long.valueOf(TESTVALUE));
             }
         }
 
@@ -128,7 +128,7 @@ public class MarkResetTester implements Serializable {
 
         int numLongObjs = in.readInt();
         System.out.println("Reading " + numLongObjs + " Longs");
-        Long expectedLong = new Long(TESTVALUE);
+        Long expectedLong = Long.valueOf(TESTVALUE);
 
         if (in.markSupported()) {
             // The assumption is that while we use mark/reset internally,

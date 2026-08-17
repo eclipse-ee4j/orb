@@ -172,7 +172,7 @@ public class Client {
 
         System.out.println("Testing for incorrect char TC...");
 
-        Character ch1 = new Character('\u6D77');
+        Character ch1 = Character.valueOf('\u6D77');
         if (!ch1.equals(tester.verify(ch1))) {
             throw new DataCorruptedException("Error on character 1");
         }
