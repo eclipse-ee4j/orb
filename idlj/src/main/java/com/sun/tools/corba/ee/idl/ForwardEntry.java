@@ -34,7 +34,6 @@ public class ForwardEntry extends com.sun.tools.corba.ee.idl.SymtabEntry impleme
 {
   protected ForwardEntry ()
   {
-    super ();
   } // ctor
 
   protected ForwardEntry (ForwardEntry that)

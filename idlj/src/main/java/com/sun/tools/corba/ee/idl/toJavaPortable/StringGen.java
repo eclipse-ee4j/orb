@@ -79,14 +79,17 @@ public class StringGen implements com.sun.tools.corba.ee.idl.StringGen, JavaGene
     return index;
   } // type
 
+  @Override
   public void helperRead (String entryName, SymtabEntry entry, PrintWriter stream)
   {
   } // helperRead
 
+  @Override
   public void helperWrite (SymtabEntry entry, PrintWriter stream)
   {
   } // helperWrite
 
+  @Override
   public int read (int index, String indent, String name, SymtabEntry entry, PrintWriter stream)
   {
     StringEntry string = (StringEntry)entry;
@@ -103,6 +106,7 @@ public class StringGen implements com.sun.tools.corba.ee.idl.StringGen, JavaGene
     return index;
   } // read
 
+  @Override
   public int write (int index, String indent, String name, SymtabEntry entry, PrintWriter stream)
   {
     StringEntry string = (StringEntry)entry;

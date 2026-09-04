@@ -100,6 +100,7 @@ public class AbstractType extends RemoteType {
     /**
      * Return a string describing this type.
      */
+    @Override
     public String getTypeDescription () {
         return "Abstract interface";
     }

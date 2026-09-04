@@ -22,9 +22,10 @@ package com.sun.corba.ee.impl.io;
 
 public class TypeMismatchException extends Error
 {
+    private static final long serialVersionUID = -5399400738428432586L;
+
     public TypeMismatchException()
     {
-        super();
     }
 
     public TypeMismatchException(String mssg)

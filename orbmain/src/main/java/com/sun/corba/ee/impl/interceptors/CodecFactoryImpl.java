@@ -36,6 +36,7 @@ public final class CodecFactoryImpl
     extends org.omg.CORBA.LocalObject
     implements CodecFactory
 {
+    private static final long serialVersionUID = 2228191165848076666L;
     // The ORB that created this Codec Factory
     private transient ORB orb;
     private static final ORBUtilSystemException wrapper =
@@ -75,6 +76,7 @@ public final class CodecFactoryImpl
      * @exception UnknownEncoding Thrown if this factory cannot create a
      *   Codec of the given encoding.
      */
+    @Override
     public Codec create_codec ( Encoding enc )
         throws UnknownEncoding
     {

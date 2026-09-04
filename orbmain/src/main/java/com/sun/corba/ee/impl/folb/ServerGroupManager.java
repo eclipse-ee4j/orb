@@ -96,7 +96,7 @@ public class ServerGroupManager
         csiv2SSLTaggedComponentHandler;
     private String membershipLabel;
 
-    private enum MembershipChangeState { IDLE, DOING_WORK, RETRY_REQUIRED };
+    private enum MembershipChangeState { IDLE, DOING_WORK, RETRY_REQUIRED }
     private MembershipChangeState membershipChangeState =
         MembershipChangeState.IDLE;
 
@@ -165,10 +165,12 @@ public class ServerGroupManager
     // Interceptor operations
     //
 
+    @Override
     public String name() {
         return baseMsg;
     }
 
+    @Override
     public void destroy() {
     }
 
@@ -201,6 +203,7 @@ public class ServerGroupManager
     @InfoMethod
     private void addingInstanceInfoFor( String name, int weight ) {}
 
+    @Override
     @Folb
     public void establish_components(IORInfo iorInfo) {
         try {
@@ -309,6 +312,7 @@ public class ServerGroupManager
     @InfoMethod
     private void unexpectedStateForMembershipChange() { }
 
+    @Override
     @Folb
     public void membershipChange() {
         try {
@@ -464,28 +468,33 @@ public class ServerGroupManager
     // ServerRequestInterceptor
     //
 
+    @Override
     @Folb
     public void receive_request_service_contexts(ServerRequestInfo ri)
     {
         initialize();
     }
 
+    @Override
     @Folb
     public void receive_request(ServerRequestInfo ri)
     {
         initialize();
     }
 
+    @Override
     public void send_reply(ServerRequestInfo ri)
     {
         send_star(".send_reply", ri);
     }
 
+    @Override
     public void send_exception(ServerRequestInfo ri)
     {
         send_star(".send_exception", ri);
     }
 
+    @Override
     public void send_other(ServerRequestInfo ri)
     {
         send_star(".send_other", ri);
@@ -592,10 +601,12 @@ public class ServerGroupManager
     // ORBInitializer
     //
 
+    @Override
     public void pre_init(ORBInitInfo info)
     {
     }
 
+    @Override
     @Folb
     public void post_init(ORBInitInfo info) {
         try {

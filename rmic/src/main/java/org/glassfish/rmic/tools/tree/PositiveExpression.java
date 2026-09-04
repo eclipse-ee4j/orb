@@ -55,6 +55,7 @@ class PositiveExpression extends UnaryExpression {
     /**
      * Simplify
      */
+    @Override
     Expression simplify() {
         return right;
     }

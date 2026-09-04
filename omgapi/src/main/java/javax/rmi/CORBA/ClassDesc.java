@@ -25,6 +25,8 @@ package javax.rmi.CORBA;
  */
 public class ClassDesc implements java.io.Serializable {
 
+    private static final long serialVersionUID = -3477057297839810709L;
+
     /**
      * @serial The class's RepositoryId.
      */

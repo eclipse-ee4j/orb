@@ -540,7 +540,7 @@ public class TCKind {
     *         the <code>int</code> constants in the class
     *         <code>TCKind</code>.
     */
-    // @Deprecated
+    @Deprecated
     protected TCKind(int _value){
         this._value = _value;
     }

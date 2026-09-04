@@ -96,7 +96,7 @@ public class ValueHandlerTest extends ValueTestBase {
 
 
 
-  static enum EnumWithAbstractMethod {
+  enum EnumWithAbstractMethod {
 
     first {
       @Override

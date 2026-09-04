@@ -33,13 +33,14 @@ import javax.naming.spi.InitialContextFactory;
 
 public class CNCtxFactory implements InitialContextFactory {
 
-  /**
-    * Creates the InitialContext object. Properties parameter should
-    * should contain the ORB object for the value jndi.corba.orb.
-    * @param env Properties object
-    */
-
-  public Context getInitialContext(Hashtable<?,?> env) throws NamingException {
-      return new CNCtx(env);
-  }
+    /**
+     * Creates the InitialContext object. Properties parameter should
+     * should contain the ORB object for the value jndi.corba.orb.
+     *
+     * @param env Properties object
+     */
+    @Override
+    public Context getInitialContext(Hashtable<?, ?> env) throws NamingException {
+        return new CNCtx(env);
+    }
 }

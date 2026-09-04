@@ -29,19 +29,19 @@ import com.sun.corba.ee.spi.protocol.MessageMediator;
 /**
  * @author Harold Carr
  */
-public abstract interface ContactInfo extends SocketInfo
+public interface ContactInfo extends SocketInfo
 {
-    public ContactInfoList getContactInfoList() ;
-    public IOR getTargetIOR();
-    public IOR getEffectiveTargetIOR();
-    public IIOPProfile getEffectiveProfile(); // REVISIT - type
-    public void setAddressingDisposition(short addressingDisposition);
-    public short getAddressingDisposition();
-    public String getMonitoringName();
+    ContactInfoList getContactInfoList() ;
+    IOR getTargetIOR();
+    IOR getEffectiveTargetIOR();
+    IIOPProfile getEffectiveProfile(); // REVISIT - type
+    void setAddressingDisposition(short addressingDisposition);
+    short getAddressingDisposition();
+    String getMonitoringName();
 
-    public ORB getBroker();
+    ORB getBroker();
 
-    public ClientRequestDispatcher getClientRequestDispatcher();
+    ClientRequestDispatcher getClientRequestDispatcher();
 
     /**
      * Used to determine if a CorbaConnection
@@ -54,7 +54,7 @@ public abstract interface ContactInfo extends SocketInfo
      * @return <code>true</code> if a CorbaConnection
      * will be used for an invocation.
      */
-    public boolean isConnectionBased();
+    boolean isConnectionBased();
 
     /**
      * Used to determine if the CorbaConnection
@@ -68,28 +68,27 @@ public abstract interface ContactInfo extends SocketInfo
      * @return <code>true</code> if a CorbaConnection
      * created by this <code>ContactInfo</code> should be cached.
      */
-    public boolean shouldCacheConnection();
+    boolean shouldCacheConnection();
 
-    public String getConnectionCacheType();
+    String getConnectionCacheType();
 
-    public void setConnectionCache(OutboundConnectionCache connectionCache);
+    void setConnectionCache(OutboundConnectionCache connectionCache);
 
-    public OutboundConnectionCache getConnectionCache();
+    OutboundConnectionCache getConnectionCache();
 
-    public Connection createConnection();
+    Connection createConnection();
 
-    public MessageMediator createMessageMediator(ORB broker,
+    MessageMediator createMessageMediator(ORB broker,
         ContactInfo contactInfo, Connection connection,
         String methodName, boolean isOneWay);
 
-    public CDROutputObject createOutputObject(MessageMediator messageMediator);
+    CDROutputObject createOutputObject(MessageMediator messageMediator);
 
     /**
      * Used to lookup artifacts associated with this <code>ContactInfo</code>.
      *
      * @return the hash value.
      */
-    public int hashCode();
+    @Override
+    int hashCode();
 }
-
-// End of file.

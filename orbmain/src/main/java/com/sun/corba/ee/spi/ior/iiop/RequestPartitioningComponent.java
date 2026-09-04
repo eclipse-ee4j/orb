@@ -26,10 +26,10 @@ import org.glassfish.gmbal.ManagedAttribute ;
 import org.glassfish.gmbal.ManagedData ;
 
 @ManagedData
-@Description( "Component encoding request paritioning ID" )
-public interface RequestPartitioningComponent extends TaggedComponent
-{
+@Description("Component encoding request paritioning ID")
+public interface RequestPartitioningComponent extends TaggedComponent {
+
     @ManagedAttribute
-    @Description( "Request paritioning id (0-63); commonly 0" )
-    public int getRequestPartitioningId();
+    @Description("Request paritioning id (0-63); commonly 0")
+    int getRequestPartitioningId();
 }

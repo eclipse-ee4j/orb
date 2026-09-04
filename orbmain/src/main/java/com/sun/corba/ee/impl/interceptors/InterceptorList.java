@@ -114,7 +114,7 @@ public class InterceptorList {
             // An O(n) search will suffice because register_interceptor is not
             // likely to be called often.
             for( int i = 0; i < size; i++ ) {
-                Interceptor in = (Interceptor)interceptorList[i];
+                Interceptor in = interceptorList[i];
                 if( in.name().equals( interceptorName ) ) {
                     foundDuplicate = true;
                     break;
@@ -176,12 +176,12 @@ public class InterceptorList {
     private void growInterceptorArray( int type ) {
         Class classType = classTypes[type];
         int currentLength = interceptors[type].length;
-        Interceptor[] replacementArray;
+
 
         // Create new array to replace the old one.  The new array will be
         // one element larger but have the same type as the old one.
-        replacementArray = (Interceptor[])
-            Array.newInstance( classType, currentLength + 1 );
+        Interceptor[] replacementArray = (Interceptor[])
+                    Array.newInstance( classType, currentLength + 1 );
         System.arraycopy( interceptors[type], 0,
                           replacementArray, 0, currentLength );
         interceptors[type] = replacementArray;

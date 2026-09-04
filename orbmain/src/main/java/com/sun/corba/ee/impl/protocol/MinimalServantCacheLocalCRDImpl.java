@@ -33,6 +33,7 @@ public class MinimalServantCacheLocalCRDImpl extends ServantCacheLocalCRDBase
         super( (com.sun.corba.ee.spi.orb.ORB)orb, scid, ior ) ;
     }
 
+    @Override
     public ServantObject internalPreinvoke( org.omg.CORBA.Object self,
         String operation, Class expectedType ) throws OADestroyed
     {

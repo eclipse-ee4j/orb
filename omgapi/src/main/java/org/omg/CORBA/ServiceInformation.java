@@ -28,6 +28,8 @@ package org.omg.CORBA;
 // @SuppressWarnings({"serial"})
 public final class ServiceInformation implements org.omg.CORBA.portable.IDLEntity
 {
+    private static final long serialVersionUID = 4234135598583538868L;
+
     /** Array of ints representing service options.
     */
     public int[] service_options;

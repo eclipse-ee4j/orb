@@ -443,6 +443,7 @@ class Type implements Constants {
     /**
      * Convert to a String
      */
+    @Override
     public String toString() {
         return typeString("", false, true);
     }

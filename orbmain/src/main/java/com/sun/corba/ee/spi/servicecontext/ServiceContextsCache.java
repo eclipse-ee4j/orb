@@ -25,11 +25,11 @@ import java.util.EnumMap;
 
 public class ServiceContextsCache {
 
-    public static enum CASE {
+    public enum CASE {
                     CLIENT_INITIAL,
                     CLIENT_SUBSEQUENT,
                     SERVER_INITIAL,
-                    SERVER_SUBSEQUENT};
+                    SERVER_SUBSEQUENT}
 
     private EnumMap<CASE, ServiceContexts> data;
     private ORB orb;

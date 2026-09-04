@@ -67,9 +67,8 @@ public final class ExcDescriptionSeqHelper
 
     public static com.sun.org.omg.CORBA.ExceptionDescription[] read (org.omg.CORBA.portable.InputStream istream)
     {
-        com.sun.org.omg.CORBA.ExceptionDescription value[] = null;
         int _len0 = istream.read_long ();
-        value = new com.sun.org.omg.CORBA.ExceptionDescription[_len0];
+        com.sun.org.omg.CORBA.ExceptionDescription value[] = new com.sun.org.omg.CORBA.ExceptionDescription[_len0];
         for (int _o1 = 0;_o1 < value.length; ++_o1)
             value[_o1] = com.sun.org.omg.CORBA.ExceptionDescriptionHelper.read (istream);
         return value;

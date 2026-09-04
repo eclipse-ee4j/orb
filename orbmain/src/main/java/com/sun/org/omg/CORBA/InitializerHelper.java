@@ -64,8 +64,7 @@ public final class InitializerHelper
                                     }
                                 __active = true;
                                 org.omg.CORBA.StructMember[] _members0 = new org.omg.CORBA.StructMember [2];
-                                org.omg.CORBA.TypeCode _tcOf_members0 = null;
-                                _tcOf_members0 = com.sun.org.omg.CORBA.StructMemberHelper.type ();
+                                org.omg.CORBA.TypeCode _tcOf_members0 = com.sun.org.omg.CORBA.StructMemberHelper.type ();
                                 _tcOf_members0 = org.omg.CORBA.ORB.init ().create_sequence_tc (0, _tcOf_members0);
                                 _tcOf_members0 = org.omg.CORBA.ORB.init ().create_alias_tc (com.sun.org.omg.CORBA.StructMemberSeqHelper.id (), "StructMemberSeq", _tcOf_members0);
                                 _members0[0] = new org.omg.CORBA.StructMember (

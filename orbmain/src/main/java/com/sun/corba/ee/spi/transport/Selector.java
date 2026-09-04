@@ -24,12 +24,12 @@ package com.sun.corba.ee.spi.transport;
  */
 public interface Selector
 {
-    public void setTimeout(long timeout);
-    public long getTimeout();
-    public void registerInterestOps(EventHandler eventHandler);
-    public void registerForEvent(EventHandler eventHander);
-    public void unregisterForEvent(EventHandler eventHandler);
-    public void close();
+    void setTimeout(long timeout);
+    long getTimeout();
+    void registerInterestOps(EventHandler eventHandler);
+    void registerForEvent(EventHandler eventHander);
+    void unregisterForEvent(EventHandler eventHandler);
+    void close();
 }
 
 // End of file.

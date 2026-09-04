@@ -219,22 +219,26 @@ public class EnumGen implements com.sun.tools.corba.ee.idl.EnumGen, JavaGenerato
     return index;
   } // type
 
+  @Override
   public void helperRead (String entryName, SymtabEntry entry, PrintWriter stream)
   {
     stream.println ("    return " + com.sun.tools.corba.ee.idl.toJavaPortable.Util.javaQualifiedName(entry) + ".from_int (istream.read_long ());");
   } // helperRead
 
+  @Override
   public void helperWrite (SymtabEntry entry, PrintWriter stream)
   {
     stream.println ("    ostream.write_long (value.value ());");
   } // helperWrite
 
+  @Override
   public int read (int index, String indent, String name, SymtabEntry entry, PrintWriter stream)
   {
     stream.println (indent + name + " = " + com.sun.tools.corba.ee.idl.toJavaPortable.Util.javaQualifiedName(entry) + ".from_int (istream.read_long ());");
     return index;
   } // read
 
+  @Override
   public int write (int index, String indent, String name, SymtabEntry entry, PrintWriter stream)
   {
     stream.println (indent + "ostream.write_long (" + name + ".value ());");

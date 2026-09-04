@@ -49,6 +49,7 @@ class AndExpression extends BinaryLogicalExpression {
      *    cvars.vsFalse indicates variables with a known value
      *        either the left or right hand side is false
      */
+    @Override
     public void checkCondition(Environment env, Context ctx, Vset vset,
                                Hashtable<Object, Object> exp, ConditionVars cvars) {
         // Find out when the left side is true/false
@@ -70,6 +71,7 @@ class AndExpression extends BinaryLogicalExpression {
     /**
      * Evaluate
      */
+    @Override
     Expression eval(boolean a, boolean b) {
         return new BooleanExpression(where, a && b);
     }
@@ -77,6 +79,7 @@ class AndExpression extends BinaryLogicalExpression {
     /**
      * Simplify
      */
+    @Override
     Expression simplify() {
         if (left.equals(true)) {
             return right;
@@ -97,6 +100,7 @@ class AndExpression extends BinaryLogicalExpression {
     /**
      * Code
      */
+    @Override
     void codeBranch(Environment env, Context ctx, Assembler asm, Label lbl, boolean whenTrue) {
         if (whenTrue) {
             Label lbl2 = new Label();

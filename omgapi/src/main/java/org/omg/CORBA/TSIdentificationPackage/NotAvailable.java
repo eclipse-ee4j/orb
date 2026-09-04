@@ -28,12 +28,13 @@ package org.omg.CORBA.TSIdentificationPackage;
 public final class NotAvailable
     extends org.omg.CORBA.UserException {
 
-    //  constructor
+    private static final long serialVersionUID = 673908599121909374L;
+
+//  constructor
 /**
  * Constructs a <code>NotAvailable</code> exception.
  */
     public NotAvailable() {
-        super();
     }
 }
 

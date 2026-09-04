@@ -29,6 +29,7 @@ package com.sun.org.omg.CORBA;
 
 public class AttributeMode implements org.omg.CORBA.portable.IDLEntity
 {
+    private static final long serialVersionUID = 1167327854543537721L;
     private        int __value;
     private static int __size = 2;
     private static com.sun.org.omg.CORBA.AttributeMode[] __array = new com.sun.org.omg.CORBA.AttributeMode [__size];

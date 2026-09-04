@@ -24,6 +24,7 @@ package com.sun.corba.ee.impl.protocol;
  */
 public class RequestCanceledException extends RuntimeException {
 
+    private static final long serialVersionUID = 6341395474546804067L;
     private int requestId = 0;
 
     public RequestCanceledException(int requestId) {

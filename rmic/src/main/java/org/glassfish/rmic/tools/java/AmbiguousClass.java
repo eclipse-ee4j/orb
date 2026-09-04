@@ -31,6 +31,7 @@ package org.glassfish.rmic.tools.java;
 @SuppressWarnings("serial") // JDK implementation class
 public
 class AmbiguousClass extends ClassNotFound {
+    private static final long serialVersionUID = 3360757667933452034L;
     /**
      * The class that was not found
      */

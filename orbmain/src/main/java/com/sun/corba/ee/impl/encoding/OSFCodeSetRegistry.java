@@ -99,6 +99,7 @@ public final class OSFCodeSetRegistry
          * First checks reference equality since it's expected
          * people will use the pre-defined constant Entries.
          */
+        @Override
         public boolean equals(Object obj) {
             if (this == obj)
                 return true;
@@ -118,6 +119,7 @@ public final class OSFCodeSetRegistry
         /**
          * Uses the registry number as the hash code.
          */
+        @Override
         public int hashCode() {
             return encodingNum;
         }

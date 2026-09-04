@@ -297,146 +297,175 @@ public class CDRInputObject
     }
 
     // org.omg.CORBA.portable.InputStream
+    @Override
     @MonitorRead
     public final boolean read_boolean() {
         return impl.read_boolean();
     }
 
+    @Override
     @MonitorRead
     public final char read_char() {
         return impl.read_char();
     }
 
+    @Override
     @MonitorRead
     public final char read_wchar() {
         return impl.read_wchar();
     }
 
+    @Override
     @MonitorRead
     public final byte read_octet() {
         return impl.read_octet();
     }
 
+    @Override
     @MonitorRead
     public final short read_short() {
         return impl.read_short();
     }
 
+    @Override
     @MonitorRead
     public final short read_ushort() {
         return impl.read_ushort();
     }
 
+    @Override
     @MonitorRead
     public final int read_long() {
         return impl.read_long();
     }
 
+    @Override
     @MonitorRead
     public final int read_ulong() {
         return impl.read_ulong();
     }
 
+    @Override
     @MonitorRead
     public final long read_longlong() {
         return impl.read_longlong();
     }
 
+    @Override
     @MonitorRead
     public final long read_ulonglong() {
         return impl.read_ulonglong();
     }
 
+    @Override
     @MonitorRead
     public final float read_float() {
         return impl.read_float();
     }
 
+    @Override
     @MonitorRead
     public final double read_double() {
         return impl.read_double();
     }
 
+    @Override
     @MonitorRead
     public final String read_string() {
         return impl.read_string();
     }
 
+    @Override
     @MonitorRead
     public final String read_wstring() {
         return impl.read_wstring();
     }
 
+    @Override
     @MonitorRead
     public final void read_boolean_array(boolean[] value, int offset, int length) {
         impl.read_boolean_array(value, offset, length);
     }
 
+    @Override
     @MonitorRead
     public final void read_char_array(char[] value, int offset, int length) {
         impl.read_char_array(value, offset, length);
     }
 
+    @Override
     @MonitorRead
     public final void read_wchar_array(char[] value, int offset, int length) {
         impl.read_wchar_array(value, offset, length);
     }
 
+    @Override
     @MonitorRead
     public final void read_octet_array(byte[] value, int offset, int length) {
         impl.read_octet_array(value, offset, length);
     }
 
+    @Override
     @MonitorRead
     public final void read_short_array(short[] value, int offset, int length) {
         impl.read_short_array(value, offset, length);
     }
 
+    @Override
     @MonitorRead
     public final void read_ushort_array(short[] value, int offset, int length) {
         impl.read_ushort_array(value, offset, length);
     }
 
+    @Override
     @MonitorRead
     public final void read_long_array(int[] value, int offset, int length) {
         impl.read_long_array(value, offset, length);
     }
 
+    @Override
     @MonitorRead
     public final void read_ulong_array(int[] value, int offset, int length) {
         impl.read_ulong_array(value, offset, length);
     }
 
+    @Override
     @MonitorRead
     public final void read_longlong_array(long[] value, int offset, int length) {
         impl.read_longlong_array(value, offset, length);
     }
 
+    @Override
     @MonitorRead
     public final void read_ulonglong_array(long[] value, int offset, int length) {
         impl.read_ulonglong_array(value, offset, length);
     }
 
+    @Override
     @MonitorRead
     public final void read_float_array(float[] value, int offset, int length) {
         impl.read_float_array(value, offset, length);
     }
 
+    @Override
     @MonitorRead
     public final void read_double_array(double[] value, int offset, int length) {
         impl.read_double_array(value, offset, length);
     }
 
+    @Override
     @MonitorRead
     public final org.omg.CORBA.Object read_Object() {
         return impl.read_Object();
     }
 
+    @Override
     @MonitorRead
     public final TypeCode read_TypeCode() {
         return impl.read_TypeCode();
     }
 
+    @Override
     @MonitorRead
     public final Any read_any() {
         return impl.read_any();
@@ -524,93 +553,111 @@ public class CDRInputObject
     }
     // com.sun.corba.ee.impl.encoding.MarshalInputStream
 
+    @Override
     @MonitorRead
     public final void consumeEndian() {
         impl.consumeEndian();
     }
 
+    @Override
     public final int getPosition() {
         return impl.getPosition();
     }
 
     // org.omg.CORBA.DataInputStream
 
+    @Override
     @MonitorRead
     public final java.lang.Object read_Abstract () {
         return impl.read_Abstract();
     }
 
+    @Override
     @MonitorRead
     public final java.io.Serializable read_Value () {
         return impl.read_Value();
     }
 
+    @Override
     @MonitorRead
     public final void read_any_array (org.omg.CORBA.AnySeqHolder seq, int offset, int length) {
         impl.read_any_array(seq, offset, length);
     }
 
+    @Override
     @MonitorRead
     public final void read_boolean_array (org.omg.CORBA.BooleanSeqHolder seq, int offset, int length) {
         impl.read_boolean_array(seq, offset, length);
     }
 
+    @Override
     @MonitorRead
     public final void read_char_array (org.omg.CORBA.CharSeqHolder seq, int offset, int length) {
         impl.read_char_array(seq, offset, length);
     }
 
+    @Override
     @MonitorRead
     public final void read_wchar_array (org.omg.CORBA.WCharSeqHolder seq, int offset, int length) {
         impl.read_wchar_array(seq, offset, length);
     }
 
+    @Override
     @MonitorRead
     public final void read_octet_array (org.omg.CORBA.OctetSeqHolder seq, int offset, int length) {
         impl.read_octet_array(seq, offset, length);
     }
 
+    @Override
     @MonitorRead
     public final void read_short_array (org.omg.CORBA.ShortSeqHolder seq, int offset, int length) {
         impl.read_short_array(seq, offset, length);
     }
 
+    @Override
     @MonitorRead
     public final void read_ushort_array (org.omg.CORBA.UShortSeqHolder seq, int offset, int length) {
         impl.read_ushort_array(seq, offset, length);
     }
 
+    @Override
     @MonitorRead
     public final void read_long_array (org.omg.CORBA.LongSeqHolder seq, int offset, int length) {
         impl.read_long_array(seq, offset, length);
     }
 
+    @Override
     @MonitorRead
     public final void read_ulong_array (org.omg.CORBA.ULongSeqHolder seq, int offset, int length) {
         impl.read_ulong_array(seq, offset, length);
     }
 
+    @Override
     @MonitorRead
     public final void read_ulonglong_array (org.omg.CORBA.ULongLongSeqHolder seq, int offset, int length) {
         impl.read_ulonglong_array(seq, offset, length);
     }
 
+    @Override
     @MonitorRead
     public final void read_longlong_array (org.omg.CORBA.LongLongSeqHolder seq, int offset, int length) {
         impl.read_longlong_array(seq, offset, length);
     }
 
+    @Override
     @MonitorRead
     public final void read_float_array (org.omg.CORBA.FloatSeqHolder seq, int offset, int length) {
         impl.read_float_array(seq, offset, length);
     }
 
+    @Override
     @MonitorRead
     public final void read_double_array (org.omg.CORBA.DoubleSeqHolder seq, int offset, int length) {
         impl.read_double_array(seq, offset, length);
     }
 
     // org.omg.CORBA.portable.ValueBase
+    @Override
     public final String[] _truncatable_ids() {
         return impl._truncatable_ids();
     }
@@ -723,6 +770,7 @@ public class CDRInputObject
      * Trying to unmarshal things requiring repository IDs before calling
      * this will result in NullPtrExceptions.
      */
+    @Override
     public void performORBVersionSpecificInit() {
         // In the case of SystemExceptions, a stream is created
         // with its default constructor (and thus no impl is set).
@@ -737,6 +785,7 @@ public class CDRInputObject
      * converters (probably from its subclasses) when state
      * has changed.
      */
+    @Override
     public void resetCodeSetConverters() {
         impl.resetCodeSetConverters();
     }
@@ -752,11 +801,13 @@ public class CDRInputObject
     }
 
     // ValueInputStream -----------------------------
+    @Override
     @MonitorRead
     public void start_value() {
         impl.start_value();
     }
 
+    @Override
     @MonitorRead
     public void end_value() {
         impl.end_value();

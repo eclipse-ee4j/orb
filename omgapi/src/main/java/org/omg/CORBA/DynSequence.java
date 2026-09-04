@@ -24,7 +24,7 @@ package org.omg.CORBA;
  * with an IDL sequence.
  * @deprecated Use the new <a href="../DynamicAny/DynSequence.html">DynSequence</a> instead
  */
-// @Deprecated
+@Deprecated
 public interface DynSequence extends org.omg.CORBA.Object, org.omg.CORBA.DynAny
 {
 
@@ -34,7 +34,8 @@ public interface DynSequence extends org.omg.CORBA.Object, org.omg.CORBA.DynAny
      *
      * @return the length of the sequence
      */
-    public int length();
+    @Deprecated
+    int length();
 
     /**
      * Sets the length of the sequence represented by this
@@ -42,7 +43,8 @@ public interface DynSequence extends org.omg.CORBA.Object, org.omg.CORBA.DynAny
      *
      * @param arg the length of the sequence
      */
-    public void length(int arg);
+    @Deprecated
+    void length(int arg);
 
     /**
      * Returns the value of every element in this sequence.
@@ -51,7 +53,8 @@ public interface DynSequence extends org.omg.CORBA.Object, org.omg.CORBA.DynAny
          *         the sequence
          * @see #set_elements
      */
-    public org.omg.CORBA.Any[] get_elements();
+    @Deprecated
+    org.omg.CORBA.Any[] get_elements();
 
     /**
      * Sets the values of all elements in this sequence with the given
@@ -61,6 +64,7 @@ public interface DynSequence extends org.omg.CORBA.Object, org.omg.CORBA.DynAny
      * @exception org.omg.CORBA.DynAnyPackage.InvalidSeq if the array of values is bad
      * @see #get_elements
      */
-    public void set_elements(org.omg.CORBA.Any[] value)
+    @Deprecated
+    void set_elements(org.omg.CORBA.Any[] value)
         throws org.omg.CORBA.DynAnyPackage.InvalidSeq;
 }

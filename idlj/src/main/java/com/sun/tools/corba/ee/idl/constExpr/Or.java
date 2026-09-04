@@ -33,6 +33,7 @@ public class Or extends BinaryExpr
     super ("|", leftOperand, rightOperand);
   } // ctor
 
+  @Override
   public Object evaluate () throws com.sun.tools.corba.ee.idl.constExpr.EvaluationException
   {
     try
@@ -49,9 +50,9 @@ public class Or extends BinaryExpr
       {
         // or
         //daz        value (new Long (l.longValue () | r.longValue ()));
-        BigInteger uL = (BigInteger)toUnsigned((BigInteger)l);
-        BigInteger uR = (BigInteger)toUnsigned((BigInteger)r);
-        value((BigInteger)coerceToTarget(uL.or (uR)));
+        BigInteger uL = toUnsigned((BigInteger)l);
+        BigInteger uR = toUnsigned((BigInteger)r);
+        value(coerceToTarget(uL.or (uR)));
       }
     }
     catch (ClassCastException e)

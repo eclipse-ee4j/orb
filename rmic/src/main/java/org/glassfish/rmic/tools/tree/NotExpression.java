@@ -73,6 +73,7 @@ class NotExpression extends UnaryExpression {
     /**
      * Evaluate
      */
+    @Override
     Expression eval(boolean a) {
         return new BooleanExpression(where, !a);
     }
@@ -80,6 +81,7 @@ class NotExpression extends UnaryExpression {
     /**
      * Simplify
      */
+    @Override
     Expression simplify() {
         // Check if the expression can be optimized
         switch (right.op) {

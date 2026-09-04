@@ -71,6 +71,7 @@ public class StubDelegateImpl implements javax.rmi.CORBA.StubDelegate
      * that represent the same remote object.
      * @return the hash code value.
      */
+    @Override
     public synchronized int hashCode(javax.rmi.CORBA.Stub self)
     {
         init(self);
@@ -84,6 +85,7 @@ public class StubDelegateImpl implements javax.rmi.CORBA.StubDelegate
      * @return <code>true</code> if this object is the same as the <code>obj</code>
      *          argument; <code>false</code> otherwise.
      */
+    @Override
     public synchronized boolean equals(javax.rmi.CORBA.Stub self, java.lang.Object obj)
     {
         if (self == obj) {
@@ -143,6 +145,7 @@ public class StubDelegateImpl implements javax.rmi.CORBA.StubDelegate
      * for all stubs that represent the same remote object.
      * @return a string representation of this stub.
      */
+    @Override
     public synchronized String toString(javax.rmi.CORBA.Stub self)
     {
         if (ior == null) {
@@ -163,6 +166,7 @@ public class StubDelegateImpl implements javax.rmi.CORBA.StubDelegate
      * @exception RemoteException if the stub is already connected to a different
      * ORB, or if the stub does not represent an exported remote or local object.
      */
+    @Override
     public synchronized void connect(javax.rmi.CORBA.Stub self, ORB orb)
         throws RemoteException
     {
@@ -172,6 +176,7 @@ public class StubDelegateImpl implements javax.rmi.CORBA.StubDelegate
     /**
      * Serialization method to restore the IOR state.
      */
+    @Override
     public synchronized void readObject(javax.rmi.CORBA.Stub self,
         java.io.ObjectInputStream stream) throws IOException, ClassNotFoundException
     {
@@ -190,6 +195,7 @@ public class StubDelegateImpl implements javax.rmi.CORBA.StubDelegate
      * profile tag (int), followed by the length of the profile data (int), followed
      * by the profile data (byte array).
      */
+    @Override
     public synchronized void writeObject(javax.rmi.CORBA.Stub self,
         java.io.ObjectOutputStream stream) throws IOException
     {

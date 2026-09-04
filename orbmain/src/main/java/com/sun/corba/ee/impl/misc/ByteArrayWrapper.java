@@ -33,6 +33,7 @@ public class ByteArrayWrapper {
         return objKey;
     }
 
+    @Override
     public boolean equals( Object obj ) {
         if (obj == null)
             return false ;
@@ -44,6 +45,7 @@ public class ByteArrayWrapper {
         }
     }
 
+    @Override
     public int hashCode() {
         return Arrays.hashCode(objKey);
 

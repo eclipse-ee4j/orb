@@ -24,6 +24,7 @@ import com.sun.corba.ee.impl.util.RepositoryId;
 import java.io.Serializable;
 
 class Value1 implements Serializable {
+    private static final long serialVersionUID = 5130550343749123102L;
     static final String REPID = RepositoryId.createForJavaType(Value1.class);
     char aChar;
     int anInt;

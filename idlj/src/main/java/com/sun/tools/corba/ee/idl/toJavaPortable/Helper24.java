@@ -45,27 +45,30 @@ public class Helper24 extends Helper
    * Generate the heading, including package, imports, class statements,
    * and open curly.
    **/
+  @Override
   protected void writeHeading ()
   {
     com.sun.tools.corba.ee.idl.toJavaPortable.Util.writePackage (stream, entry, com.sun.tools.corba.ee.idl.toJavaPortable.Util.HelperFile);
     com.sun.tools.corba.ee.idl.toJavaPortable.Util.writeProlog(stream, stream.name());
 
     // Transfer comment to target <30jul1997daz>.
-    if (entry.comment () != null)
-      entry.comment ().generate ("", stream);
+    if (entry.comment () != null) {
+        entry.comment ().generate ("", stream);
+    }
 
     if (entry instanceof ValueBoxEntry) {
         stream.print   ("public final class " + helperClass);
         stream.println (" implements org.omg.CORBA.portable.BoxedValueHelper");
-    }
-    else
+    } else {
         stream.println ("abstract public class " + helperClass);
+    }
     stream.println ('{');
   }
 
   /**
    * Generate the instance variables.
    **/
+  @Override
   protected void writeInstVars ()
   {
     stream.println ("  private static String  _id = \"" + com.sun.tools.corba.ee.idl.toJavaPortable.Util.stripLeadingUnderscoresFromID(entry.repositoryID().ID()) + "\";");
@@ -80,6 +83,7 @@ public class Helper24 extends Helper
     stream.println ();
   } // writeInstVars
 
+  @Override
   protected void writeValueHelperInterface ()
   {
     if (entry instanceof ValueBoxEntry) {
@@ -107,6 +111,7 @@ public class Helper24 extends Helper
     }
   } // writeHelperFactories
 
+  @Override
   protected void writeCtors ()
   {
     if (entry instanceof ValueBoxEntry) {

@@ -32,7 +32,6 @@ public class ForwardValueEntry extends ForwardEntry
 {
   protected ForwardValueEntry ()
   {
-    super ();
   } // ctor
 
   protected ForwardValueEntry (ForwardValueEntry that)
@@ -45,6 +44,7 @@ public class ForwardValueEntry extends ForwardEntry
     super (that, clone);
   } // ctor
 
+  @Override
   public Object clone ()
   {
     return new ForwardValueEntry (this);
@@ -56,6 +56,7 @@ public class ForwardValueEntry extends ForwardEntry
        a subclass of SymtabEntry.
       @param stream the stream to which the generator should sent its output.
       @see com.sun.tools.corba.ee.idl.SymtabEntry */
+  @Override
   public void generate (Hashtable symbolTable, PrintWriter stream)
   {
     forwardValueGen.generate (symbolTable, this, stream);
@@ -64,6 +65,7 @@ public class ForwardValueEntry extends ForwardEntry
   /** Access the interface generator.
       @return an object which implements the ForwardValueGen interface.
       @see com.sun.tools.corba.ee.idl.ValueGen */
+  @Override
   public com.sun.tools.corba.ee.idl.Generator generator ()
   {
      return forwardValueGen;

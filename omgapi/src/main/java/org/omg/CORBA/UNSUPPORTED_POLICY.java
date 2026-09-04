@@ -31,5 +31,5 @@ public interface UNSUPPORTED_POLICY {
     /**
      *  The Error code for PolicyError exception.
      */
-    final short value = (short) (1L);
-};
+    short value = (short) (1L);
+}

@@ -41,23 +41,28 @@ public class RmiIIServantPOA extends PortableRemoteObject implements RmiII {
         this.name = name;
     }
 
+    @Override
     public String sayHello() {
         return "Hello, World!";
     }
 
+    @Override
     public int sendBytes(byte[] x) {
         if (x == null) return -1;
         return x.length;
     }
 
+    @Override
     public Object sendOneObject(Object x) throws RmiIMyException {
         return x;
     }
 
+    @Override
     public Object sendTwoObjects(Object x, Object y) {
         return x;
     }
 
+    @Override
     public String makeColocatedCallFromServant() throws RemoteException {
         return "";
     }
@@ -68,15 +73,18 @@ public class RmiIIServantPOA extends PortableRemoteObject implements RmiII {
         return op + " " + result;
     }
 
+    @Override
     public String colocatedCallFromServant(String a) throws RemoteException {
         String op = "op";
         return op + " " + a;
     }
 
+    @Override
     public String throwThreadDeathInServant(String a) throws RemoteException, ThreadDeath {
         throw new ThreadDeath();
     }
 
+    @Override
     public Object returnObjectFromServer(boolean isSerializable) throws RemoteException {
         return isSerializable ? "" : new RmiIIServantPOA(null, "");
     }

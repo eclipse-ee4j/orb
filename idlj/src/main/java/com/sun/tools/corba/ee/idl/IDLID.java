@@ -38,6 +38,7 @@ public class IDLID extends RepositoryID
     _version = version;
   } // ctor
 
+  @Override
   public String ID ()
   {
     if (_prefix.equals (""))
@@ -108,6 +109,7 @@ public class IDLID extends RepositoryID
     }
   } // replaceName
 
+  @Override
   public Object clone ()
   {
     return new IDLID (_prefix, _name, _version);

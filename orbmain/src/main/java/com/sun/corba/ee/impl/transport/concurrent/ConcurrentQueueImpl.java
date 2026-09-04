@@ -71,6 +71,7 @@ public class ConcurrentQueueImpl<V> implements ConcurrentQueue<V> {
             return entry ;
         }
 
+        @Override
         public V value() {
             return value ;
         }
@@ -78,6 +79,7 @@ public class ConcurrentQueueImpl<V> implements ConcurrentQueue<V> {
         /** Delete the element corresponding to this handle
          * from the queue.  Takes constant time.
          */
+        @Override
         public boolean remove() {
             if (!valid) {
                 return false ;
@@ -97,11 +99,13 @@ public class ConcurrentQueueImpl<V> implements ConcurrentQueue<V> {
             return true ;
         }
 
+        @Override
         public long expiration() {
             return expiration ;
         }
     }
 
+    @Override
     public int size() {
         return count ;
     }
@@ -109,6 +113,7 @@ public class ConcurrentQueueImpl<V> implements ConcurrentQueue<V> {
     /** Add a new element to the tail of the queue.
      * Returns a handle for the element in the queue.
      */
+    @Override
     public Handle<V> offer( V arg ) {
         if (arg == null)
             throw new IllegalArgumentException( "Argument cannot be null" ) ;
@@ -127,10 +132,9 @@ public class ConcurrentQueueImpl<V> implements ConcurrentQueue<V> {
     /** Return an element from the head of the queue.
      * The element is removed from the queue.
      */
+    @Override
     public Handle<V> poll() {
-        Entry<V> first = null ;
-
-        first = head.next ;
+        Entry<V> first = head.next ;
         if (first == head) {
             return null ;
         }
@@ -140,6 +144,7 @@ public class ConcurrentQueueImpl<V> implements ConcurrentQueue<V> {
         return result ;
     }
 
+    @Override
     public Handle<V> peek() {
         Entry<V> first = head.next ;
         if (first == head)

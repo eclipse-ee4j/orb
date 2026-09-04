@@ -20,6 +20,8 @@
 package org.glassfish.rmic.classes.exceptiondetailsc;
 
 public class RmiIException extends Exception {
+    private static final long serialVersionUID = 7178498099681360424L;
+
     RmiIException(String x)
     {
         super(x);

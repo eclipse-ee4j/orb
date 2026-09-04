@@ -28,7 +28,7 @@ public interface LegacyServerSocketEndPointInfo
      * e.g.: "CLEAR_TEXT", "SSL", ...
      * @return type
      */
-    public String getType();
+    String getType();
 
 
     /**
@@ -37,26 +37,26 @@ public interface LegacyServerSocketEndPointInfo
      * into account the value of the ORBServerHost property.
      * @return the host name
      */
-    public String getHostName();
+    String getHostName();
 
-    public int getPort();
+    int getPort();
 
     /**
      * The ORBD's proxy port of this end point.
      * Note: Pre-ORT "port-exchange" model.
      * @return  proxy port
      */
-    public int getLocatorPort();
-    public void setLocatorPort(int port);
+    int getLocatorPort();
+    void setLocatorPort(int port);
 
     // NAME is used while we still have a "port-exchange" ORBD
     // to get what used to be called "default" or "bootstrap" endpoints.
 
-    public static final String DEFAULT_ENDPOINT = "DEFAULT_ENDPOINT";
-    public static final String BOOT_NAMING = "BOOT_NAMING";
-    public static final String NO_NAME = "NO_NAME";
+    String DEFAULT_ENDPOINT = "DEFAULT_ENDPOINT";
+    String BOOT_NAMING = "BOOT_NAMING";
+    String NO_NAME = "NO_NAME";
 
-    public String getName();
+    String getName();
 }
 
 // End of file.

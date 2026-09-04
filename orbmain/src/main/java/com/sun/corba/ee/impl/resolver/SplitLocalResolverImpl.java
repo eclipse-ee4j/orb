@@ -37,15 +37,18 @@ public class SplitLocalResolverImpl implements LocalResolver
         this.localResolver = localResolver ;
     }
 
+    @Override
     public void register( String name,
         NullaryFunction<org.omg.CORBA.Object> closure ) {
         localResolver.register( name, closure ) ;
     }
 
+    @Override
     public org.omg.CORBA.Object resolve( String name ) {
         return resolver.resolve( name ) ;
     }
 
+    @Override
     public Set<String> list() {
         return resolver.list() ;
     }

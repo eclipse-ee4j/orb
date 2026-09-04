@@ -30,4 +30,6 @@ package org.glassfish.rmic.tools.java;
 @SuppressWarnings("serial") // JDK implementation class
 public
 class SyntaxError extends Exception {
+
+    private static final long serialVersionUID = 8944913142511189368L;
 }

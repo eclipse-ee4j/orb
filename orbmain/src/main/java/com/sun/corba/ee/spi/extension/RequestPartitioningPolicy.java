@@ -30,6 +30,8 @@ import org.omg.CORBA.Policy ;
 */
 public class RequestPartitioningPolicy extends LocalObject implements Policy
 {
+    private static final long serialVersionUID = -1302530957193447933L;
+
     private static ORBUtilSystemException wrapper =
         ORBUtilSystemException.self ;
 
@@ -53,16 +55,19 @@ public class RequestPartitioningPolicy extends LocalObject implements Policy
         return value;
     }
 
+    @Override
     public int policy_type()
     {
         return ORBConstants.REQUEST_PARTITIONING_POLICY;
     }
 
+    @Override
     public org.omg.CORBA.Policy copy()
     {
         return this;
     }
 
+    @Override
     public void destroy()
     {
         // NO-OP

@@ -63,7 +63,7 @@ public abstract class StubConnectImpl
             } catch (org.omg.CORBA.BAD_OPERATION err) {
                 if (ior == null) {
                     // No IOR, can we get a Tie for this stub?
-                    Tie tie = (javax.rmi.CORBA.Tie) Utility.getAndForgetTie(proxy);
+                    Tie tie = Utility.getAndForgetTie(proxy);
                     if (tie == null)
                         throw wrapper.connectNoTie() ;
 

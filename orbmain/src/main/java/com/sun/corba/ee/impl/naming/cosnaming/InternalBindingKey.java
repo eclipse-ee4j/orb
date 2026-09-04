@@ -65,6 +65,7 @@ public class InternalBindingKey
     }
 
     // Compare the keys by comparing name's id and kind
+    @Override
     public boolean equals(java.lang.Object o) {
         if (o == null)
             return false;
@@ -89,6 +90,7 @@ public class InternalBindingKey
         }
     }
     // Return precomputed value
+    @Override
     public int hashCode() {
         return this.hashVal;
     }

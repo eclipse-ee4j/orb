@@ -27,9 +27,9 @@ import org.omg.CORBA.portable.ServantObject;
 
 public interface LocalClientRequestDispatcher
 {
-    public boolean useLocalInvocation(org.omg.CORBA.Object self);
+    boolean useLocalInvocation(org.omg.CORBA.Object self);
 
-    public boolean is_local(org.omg.CORBA.Object self);
+    boolean is_local(org.omg.CORBA.Object self);
 
     /**
      * Returns a Java reference to the servant which should be used for this
@@ -56,11 +56,11 @@ public interface LocalClientRequestDispatcher
      * this optimization (e.g. due to security, transactions, etc).
      * The method must return null if the servant is not of the expected type.
      */
-    public ServantObject servant_preinvoke(org.omg.CORBA.Object self,
+    ServantObject servant_preinvoke(org.omg.CORBA.Object self,
                                            String operation,
                                            Class expectedType);
 
-    public void servant_postinvoke(org.omg.CORBA.Object self,
+    void servant_postinvoke(org.omg.CORBA.Object self,
                                    ServantObject servant);
 }
 

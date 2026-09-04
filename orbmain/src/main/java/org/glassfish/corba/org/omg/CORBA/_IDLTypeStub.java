@@ -33,21 +33,22 @@ package org.glassfish.corba.org.omg.CORBA;
 //public class _IDLTypeStub extends org.omg.CORBA.portable.ObjectImpl implements com.sun.org.omg.CORBA.IDLType
 public class _IDLTypeStub extends org.omg.CORBA.portable.ObjectImpl implements org.omg.CORBA.IDLType
 {
+    private static final long serialVersionUID = -4958565293243616754L;
+
     // Constructors
     // NOTE:  If the default constructor is used, the
     //        object is useless until _set_delegate (...)
     //        is called.
     public _IDLTypeStub ()
     {
-        super ();
     }
 
     public _IDLTypeStub (org.omg.CORBA.portable.Delegate delegate)
     {
-        super ();
         _set_delegate (delegate);
     }
 
+    @Override
     public org.omg.CORBA.TypeCode type ()
     {
         org.omg.CORBA.portable.InputStream _in = null;
@@ -71,6 +72,7 @@ public class _IDLTypeStub extends org.omg.CORBA.portable.ObjectImpl implements o
     // read interface
     // _CHANGED_
     //public com.sun.org.omg.CORBA.DefinitionKind def_kind ()
+    @Override
     public org.omg.CORBA.DefinitionKind def_kind ()
     {
         org.omg.CORBA.portable.InputStream _in = null;
@@ -94,6 +96,7 @@ public class _IDLTypeStub extends org.omg.CORBA.portable.ObjectImpl implements o
 
 
     // write interface
+    @Override
     public void destroy ()
     {
         org.omg.CORBA.portable.InputStream _in = null;
@@ -116,9 +119,10 @@ public class _IDLTypeStub extends org.omg.CORBA.portable.ObjectImpl implements o
         "IDL:omg.org/CORBA/IDLType:1.0",
         "IDL:omg.org/CORBA/IRObject:1.0"};
 
+    @Override
     public String[] _ids ()
     {
-        return (String[])__ids.clone ();
+        return __ids.clone ();
     }
 
     private void readObject (java.io.ObjectInputStream s)

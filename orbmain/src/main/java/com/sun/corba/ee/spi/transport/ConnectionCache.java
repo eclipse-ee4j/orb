@@ -24,25 +24,25 @@ package com.sun.corba.ee.spi.transport;
  */
 public interface ConnectionCache
 {
-    public String getMonitoringName();
+    String getMonitoringName();
 
-    public String getCacheType();
+    String getCacheType();
 
-    public void stampTime(Connection connection);
+    void stampTime(Connection connection);
 
-    public long numberOfConnections();
+    long numberOfConnections();
 
-    public long numberOfIdleConnections();
+    long numberOfIdleConnections();
 
-    public long numberOfBusyConnections();
+    long numberOfBusyConnections();
 
-    public boolean reclaim();
+    boolean reclaim();
 
     /** Close all connections in the connection cache.
      * This is used as a final cleanup, and will result
      * in abrupt termination of any pending communications.
      */
-    public void close() ;
+    void close() ;
 }
 
 // End of file.

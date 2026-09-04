@@ -163,6 +163,7 @@ public class POAFactory implements ObjectAdapterFactory
 
 // Implementation of ObjectAdapterFactory interface
 
+    @Override
     public void init( ORB orb )
     {
         this.orb = orb ;
@@ -179,6 +180,7 @@ public class POAFactory implements ObjectAdapterFactory
         }
     }
 
+    @Override
     public ObjectAdapter find( ObjectAdapterId oaid )
     {
         POA poa=null;
@@ -215,6 +217,7 @@ public class POAFactory implements ObjectAdapterFactory
         return (ObjectAdapter)poa;
     }
 
+    @Override
     public void shutdown( boolean waitForCompletion )
     {
         // It is important to copy the list of POAManagers first because
@@ -259,6 +262,7 @@ public class POAFactory implements ObjectAdapterFactory
         // The Future guarantees that makeRootPOA is only called once.
         NullaryFunction<org.omg.CORBA.Object> rpClosure =
             new NullaryFunction<org.omg.CORBA.Object>() {
+                @Override
                 public org.omg.CORBA.Object evaluate() {
                     return POAImpl.makeRootPOA( orb ) ;
                 }
@@ -297,6 +301,7 @@ public class POAFactory implements ObjectAdapterFactory
         return poaId++ ;
     }
 
+    @Override
     public ORB getORB()
     {
         return orb ;

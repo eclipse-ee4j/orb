@@ -271,7 +271,7 @@ public final class TCUtility {
                                                                 typeCode.fixed_scale());
                 } else {
                     BigDecimal bigDecimal = s.read_fixed();
-                    o = bigDecimal.movePointLeft((int)typeCode.fixed_scale());
+                    o = bigDecimal.movePointLeft(typeCode.fixed_scale());
                 }
             } catch (BadKind badKind) { // impossible
             }

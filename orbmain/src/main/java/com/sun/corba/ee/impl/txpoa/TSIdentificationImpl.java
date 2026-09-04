@@ -32,6 +32,7 @@ public class TSIdentificationImpl extends org.omg.CORBA.LocalObject
         identify_sender may throw a AlreadyIdentified exception if
         the registration has already been done previously.
     */
+    @Override
     public void
         identify_sender(org.omg.CosTSPortability.Sender senderOTS)
         throws org.omg.CORBA.TSIdentificationPackage.NotAvailable,
@@ -49,6 +50,7 @@ public class TSIdentificationImpl extends org.omg.CORBA.LocalObject
         identify_receiver may throw a AlreadyIdentified exception if
         the registration has already been done previously.
     */
+    @Override
     public void
         identify_receiver(org.omg.CosTSPortability.Receiver receiverOTS)
         throws org.omg.CORBA.TSIdentificationPackage.NotAvailable,

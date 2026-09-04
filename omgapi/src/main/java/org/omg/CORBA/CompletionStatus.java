@@ -49,6 +49,9 @@ package org.omg.CORBA;
 // @SuppressWarnings({"serial"})
 public final class CompletionStatus implements org.omg.CORBA.portable.IDLEntity
 {
+private static final long serialVersionUID = -9047319660881406859L;
+
+
 /**
  * The constant indicating that a method completed running
  * before a <code>SystemException</code> was thrown.

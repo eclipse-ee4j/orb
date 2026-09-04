@@ -407,6 +407,7 @@ public String getTypeDescription() {
     }
 }
 
+@Override
 public String toString () {
     if (element != null) {
         return ContextStack.getContextCodeString(code) + element.getElementName();

@@ -116,6 +116,7 @@ class CatchStatement extends Statement {
     /**
      * Create a copy of the statement for method inlining
      */
+    @Override
     public Statement copyInline(Context ctx, boolean valNeeded) {
         CatchStatement s = (CatchStatement)clone();
         if (body != null) {
@@ -158,6 +159,7 @@ class CatchStatement extends Statement {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out, int indent) {
         super.print(out, indent);
         out.print("catch (");

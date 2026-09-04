@@ -46,22 +46,26 @@ public abstract class GenericIdentifiable implements Identifiable
         data = EncapsulationUtility.readOctets( is ) ;
     }
 
+    @Override
     public int getId()
     {
         return id ;
     }
 
+    @Override
     public void write(OutputStream os)
     {
         os.write_ulong( data.length ) ;
         os.write_octet_array( data, 0, data.length ) ;
     }
 
+    @Override
     public String toString()
     {
         return "GenericIdentifiable[id=" + getId() + "]" ;
     }
 
+    @Override
     public boolean equals(Object obj)
     {
         if (obj == null)
@@ -76,6 +80,7 @@ public abstract class GenericIdentifiable implements Identifiable
             Arrays.equals( data, encaps.data ) ;
     }
 
+    @Override
     public int hashCode()
     {
         int result = 17 ;
@@ -87,13 +92,13 @@ public abstract class GenericIdentifiable implements Identifiable
     public GenericIdentifiable(int id, byte[] data)
     {
         this.id = id ;
-        this.data = (byte[])(data.clone()) ;
+        this.data = (data.clone()) ;
     }
 
     @ManagedAttribute
     @Description( "The tagged component or profile CDR encoded data" )
     public byte[] getData()
     {
-        return (byte[])data.clone() ;
+        return data.clone() ;
     }
 }

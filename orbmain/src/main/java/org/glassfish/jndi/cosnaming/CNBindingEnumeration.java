@@ -96,6 +96,7 @@ final class CNBindingEnumeration
      * @exception NamingException any naming exception.
      */
 
+    @Override
     public javax.naming.Binding next() throws NamingException {
         if (more && counter >= _bindingList.value.length) {
             getMore();
@@ -115,6 +116,7 @@ final class CNBindingEnumeration
     * @return boolean value
     */
 
+    @Override
     public boolean hasMore() throws NamingException {
         // If there's more, check whether current bindingList has been exhausted,
         // and if so, try to get more.
@@ -128,6 +130,7 @@ final class CNBindingEnumeration
      * @return boolean value
      */
 
+    @Override
     public boolean hasMoreElements() {
         try {
             return hasMore();
@@ -142,6 +145,7 @@ final class CNBindingEnumeration
     * list is reached.
     */
 
+    @Override
     public javax.naming.Binding nextElement() {
         try {
             return next();
@@ -150,6 +154,7 @@ final class CNBindingEnumeration
         }
     }
 
+    @Override
     public void close() throws NamingException {
         more = false;
         if (_bindingIter != null) {
@@ -170,6 +175,7 @@ final class CNBindingEnumeration
         }
     }
 
+    @Override
     protected void finalize() {
         try {
             close();

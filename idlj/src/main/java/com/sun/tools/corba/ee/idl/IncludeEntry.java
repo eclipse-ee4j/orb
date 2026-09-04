@@ -34,7 +34,6 @@ public class IncludeEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
 {
   protected IncludeEntry ()
   {
-    super ();
     repositoryID (Util.emptyID);
   } // ctor
 

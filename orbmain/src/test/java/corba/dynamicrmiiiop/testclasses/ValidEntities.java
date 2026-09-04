@@ -28,8 +28,12 @@ public class ValidEntities {
         ValidEntity1.class, ValidEntity2.class
     };
 
-    public class ValidEntity1 implements org.omg.CORBA.portable.IDLEntity {}
+    public class ValidEntity1 implements org.omg.CORBA.portable.IDLEntity {
 
-    public class ValidEntity2 extends ValidEntity1 {}
+        private static final long serialVersionUID = 2091312654204210465L;}
+
+    public class ValidEntity2 extends ValidEntity1 {
+
+        private static final long serialVersionUID = -2531549983369052861L;}
 
 }

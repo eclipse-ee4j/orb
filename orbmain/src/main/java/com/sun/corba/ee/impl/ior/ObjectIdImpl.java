@@ -58,23 +58,27 @@ public final class ObjectIdImpl implements ObjectId
         if (id == null) {
             this.id = null ;
         } else {
-            this.id = (byte[])id.clone() ;
+            this.id = id.clone() ;
         }
     }
 
+    @Override
     public String getIdString() {
         return ORBUtility.dumpBinary( id ) ;
     }
 
+    @Override
     public String toString() {
         return "ObjectIdImpl[" + getIdString() + "]" ;
     }
 
+    @Override
     public byte[] getId()
     {
-        return (byte[])id.clone() ;
+        return id.clone() ;
     }
 
+    @Override
     public void write( OutputStream os )
     {
         os.write_long( id.length ) ;

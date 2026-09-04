@@ -112,6 +112,7 @@ class ForStatement extends Statement {
     /**
      * Create a copy of the statement for method inlining
      */
+    @Override
     public Statement copyInline(Context ctx, boolean valNeeded) {
         ForStatement s = (ForStatement)clone();
         if (init != null) {
@@ -185,6 +186,7 @@ class ForStatement extends Statement {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out, int indent) {
         super.print(out, indent);
         out.print("for (");

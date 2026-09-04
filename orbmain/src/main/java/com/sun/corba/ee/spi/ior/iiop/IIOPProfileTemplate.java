@@ -38,7 +38,7 @@ public interface IIOPProfileTemplate extends TaggedProfileTemplate
      *
      * @return the GIOP version
     */
-    public GIOPVersion getGIOPVersion() ;
+    GIOPVersion getGIOPVersion() ;
 
     /** Return the IIOP address from the IIOP profile.  This is called the
     * primary address here since other addresses may be contained in
@@ -48,7 +48,7 @@ public interface IIOPProfileTemplate extends TaggedProfileTemplate
     */
     @ManagedAttribute
     @Description( "The host and port of the IP address for the primary endpoint of this profile" )
-    public IIOPAddress getPrimaryAddress()  ;
+    IIOPAddress getPrimaryAddress()  ;
 
     /**
      * Returns the description of a socket to create to access the associated endpoint. Its host and port

@@ -63,6 +63,7 @@ public class DynFixedImpl extends DynAnyBasicImpl implements DynFixed
     // DynFixed interface methods
     //
 
+    @Override
     public String get_value () {
         if (status == STATUS_DESTROYED) {
             throw wrapper.dynAnyDestroyed() ;
@@ -87,6 +88,7 @@ public class DynFixedImpl extends DynAnyBasicImpl implements DynFixed
     // If val does not contain a valid fixed-point literal or contains extraneous characters
     // other than leading or trailing white space, the operation raises TypeMismatch.
     //
+    @Override
     public boolean set_value (String val)
         throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch,
                org.omg.DynamicAny.DynAnyPackage.InvalidValue

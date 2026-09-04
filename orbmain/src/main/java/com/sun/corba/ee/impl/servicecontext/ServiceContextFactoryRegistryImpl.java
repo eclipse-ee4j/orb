@@ -42,6 +42,7 @@ public class ServiceContextFactoryRegistryImpl
         this.orb = orb ;
     }
 
+    @Override
     public void register( ServiceContext.Factory factory )
     {
         if (scMap.get(factory.getId()) == null) {
@@ -51,6 +52,7 @@ public class ServiceContextFactoryRegistryImpl
         } // BAD_PARAM
     }
 
+    @Override
     public ServiceContext.Factory find( int scId )
     {
         ServiceContext.Factory result = scMap.get( scId ) ;

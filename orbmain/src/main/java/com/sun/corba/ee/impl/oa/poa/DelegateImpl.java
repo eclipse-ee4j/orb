@@ -40,11 +40,13 @@ public class DelegateImpl implements org.omg.PortableServer.portable.Delegate
         this.factory = factory;
     }
 
+    @Override
     public org.omg.CORBA.ORB orb(Servant self)
     {
         return orb;
     }
 
+    @Override
     public org.omg.CORBA.Object this_object(Servant self)
     {
         byte[] oid;
@@ -81,6 +83,7 @@ public class DelegateImpl implements org.omg.PortableServer.portable.Delegate
         }
     }
 
+    @Override
     public POA poa(Servant self)
     {
         try {
@@ -95,6 +98,7 @@ public class DelegateImpl implements org.omg.PortableServer.portable.Delegate
         }
     }
 
+    @Override
     public byte[] object_id(Servant self)
     {
         try{
@@ -104,11 +108,13 @@ public class DelegateImpl implements org.omg.PortableServer.portable.Delegate
         }
     }
 
+    @Override
     public POA default_POA(Servant self)
     {
         return factory.getRootPOA();
     }
 
+    @Override
     public boolean is_a(Servant self, String repId)
     {
         String[] repositoryIds = self._all_interfaces(poa(self),object_id(self));
@@ -121,6 +127,7 @@ public class DelegateImpl implements org.omg.PortableServer.portable.Delegate
         return false;
     }
 
+    @Override
     public boolean non_existent(Servant self)
     {
         //REVISIT
@@ -134,6 +141,7 @@ public class DelegateImpl implements org.omg.PortableServer.portable.Delegate
 
     // The get_interface() method has been replaced by get_interface_def()
 
+    @Override
     public org.omg.CORBA.Object get_interface_def(Servant Self)
     {
         throw wrapper.methodNotImplemented() ;

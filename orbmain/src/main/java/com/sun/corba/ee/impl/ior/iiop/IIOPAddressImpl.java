@@ -51,11 +51,13 @@ public final class IIOPAddressImpl extends IIOPAddressBase
         port = shortToInt( thePort ) ;
     }
 
+    @Override
     public String getHost()
     {
         return host ;
     }
 
+    @Override
     public int getPort()
     {
         return port ;

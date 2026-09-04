@@ -32,7 +32,6 @@ public class ValueBoxEntry extends ValueEntry
 {
   protected ValueBoxEntry ()
   {
-    super ();
   } // ctor
 
   protected ValueBoxEntry (ValueBoxEntry that)
@@ -45,6 +44,7 @@ public class ValueBoxEntry extends ValueEntry
     super (that, clone);
   } // ctor
 
+  @Override
   public Object clone ()
   {
     return new ValueBoxEntry (this);
@@ -56,6 +56,7 @@ public class ValueBoxEntry extends ValueEntry
        SymtabEntry.
       @param stream the stream to which the generator should sent its output.
       @see com.sun.tools.corba.ee.idl.SymtabEntry */
+  @Override
   public void generate (Hashtable symbolTable, PrintWriter stream)
   {
      valueBoxGen.generate (symbolTable, this, stream);
@@ -64,6 +65,7 @@ public class ValueBoxEntry extends ValueEntry
   /** Access the value generator.
       @return an object which implements the ValueGen interface.
       @see com.sun.tools.corba.ee.idl.ValueGen */
+  @Override
   public com.sun.tools.corba.ee.idl.Generator generator ()
   {
     return valueBoxGen;

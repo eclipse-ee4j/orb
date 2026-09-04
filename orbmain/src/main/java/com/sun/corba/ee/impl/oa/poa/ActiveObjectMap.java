@@ -50,7 +50,7 @@ public abstract class ActiveObjectMap
         public String toString() {
             StringBuilder buffer = new StringBuilder();
             for(int i = 0; i < id.length; i++) {
-                buffer.append(Integer.toString((int) id[i], 16));
+                buffer.append(Integer.toString(id[i], 16));
                 if (i != id.length-1) {
                     buffer.append(":");
                 }
@@ -192,6 +192,7 @@ class SingleObjectMap extends ActiveObjectMap
         super( poa ) ;
     }
 
+    @Override
     public  Key getKey(AOMEntry value) throws WrongPolicy
     {
         return entryToKey.get(value) ;
@@ -205,12 +206,14 @@ class SingleObjectMap extends ActiveObjectMap
         entryToKey.put( value, key ) ;
     }
 
+    @Override
     public  boolean hasMultipleIDs(AOMEntry value)
     {
         return false;
     }
 
     // This case does not need the key.
+    @Override
     protected void removeEntry(AOMEntry entry, Key key)
     {
         entryToKey.remove( entry ) ;
@@ -234,6 +237,7 @@ class MultipleObjectMap extends ActiveObjectMap
         super( poa ) ;
     }
 
+    @Override
     public  Key getKey(AOMEntry value) throws WrongPolicy
     {
         throw new WrongPolicy() ;
@@ -252,6 +256,7 @@ class MultipleObjectMap extends ActiveObjectMap
         set.add( key ) ;
     }
 
+    @Override
     public  boolean hasMultipleIDs(AOMEntry value)
     {
         Set<Key> set = entryToKeys.get( value ) ;
@@ -261,6 +266,7 @@ class MultipleObjectMap extends ActiveObjectMap
         return set.size() > 1 ;
     }
 
+    @Override
     protected void removeEntry(AOMEntry entry, Key key)
     {
         Set<Key> keys = entryToKeys.get( entry ) ;

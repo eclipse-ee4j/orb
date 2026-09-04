@@ -67,22 +67,27 @@ public final class LocateReplyMessage_1_1 extends Message_1_1
 
     // Accessor methods
 
+    @Override
     public int getRequestId() {
         return this.request_id;
     }
 
+    @Override
     public int getReplyStatus() {
         return this.reply_status;
     }
 
+    @Override
     public short getAddrDisposition() {
         return KeyAddr.value;
     }
 
+    @Override
     public SystemException getSystemException(String message) {
         return null; // 1.0 LocateReply body does not contain SystemException
     }
 
+    @Override
     public IOR getIOR() {
         return this.ior;
     }
@@ -99,7 +104,7 @@ public final class LocateReplyMessage_1_1 extends Message_1_1
         // The code below reads the reply body if status is OBJECT_FORWARD
         if (this.reply_status == OBJECT_FORWARD) {
             CDRInputObject cdr = (CDRInputObject) istream;
-            this.ior = IORFactories.makeIOR( orb, (InputStream)cdr ) ;
+            this.ior = IORFactories.makeIOR( orb, cdr ) ;
         }
     }
 
@@ -125,6 +130,7 @@ public final class LocateReplyMessage_1_1 extends Message_1_1
         }
     }
 
+    @Override
     public void callback(MessageHandler handler)
         throws java.io.IOException
     {

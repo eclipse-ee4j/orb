@@ -33,11 +33,12 @@ package org.omg.CORBA.TypeCodePackage;
 
 // @SuppressWarnings({"serial"})
 public final class BadKind extends org.omg.CORBA.UserException {
+    private static final long serialVersionUID = 1030443154456771956L;
+
     /**
      * Constructs a <code>BadKind</code> exception with no reason message.
      */
     public BadKind() {
-        super();
     }
 
     /**

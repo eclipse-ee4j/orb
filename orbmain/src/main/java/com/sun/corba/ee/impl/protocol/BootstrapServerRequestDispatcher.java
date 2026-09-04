@@ -66,16 +66,14 @@ public class BootstrapServerRequestDispatcher
      */
     public void dispatch(MessageMediator messageMediator)
     {
-        MessageMediator request = (MessageMediator) messageMediator;
+        MessageMediator request = messageMediator;
         MessageMediator response = null;
 
         try {
-            MarshalInputStream is = (MarshalInputStream)
-                request.getInputObject();
+            MarshalInputStream is = request.getInputObject();
             String method = request.getOperationName();
             response = request.getProtocolHandler().createResponse(request, null);
-            MarshalOutputStream os = (MarshalOutputStream)
-                response.getOutputObject();
+            MarshalOutputStream os = response.getOutputObject();
 
             if (method.equals("get")) {
                 // Get the name of the requested service

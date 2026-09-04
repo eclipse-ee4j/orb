@@ -31,8 +31,8 @@ public interface Constants extends org.glassfish.rmic.tools.java.Constants {
     /*
      * Identifiers potentially useful for all Generators
      */
-    public static final Identifier idRemote =
+    Identifier idRemote =
         Identifier.lookup("java.rmi.Remote");
-    public static final Identifier idRemoteException =
+    Identifier idRemoteException =
         Identifier.lookup("java.rmi.RemoteException");
 }

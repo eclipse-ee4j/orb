@@ -1082,7 +1082,7 @@ public class Preprocessor
 
     macroDef = scanner.getStringToEOL ();
     for (int i = 0; i < parmNames.size (); ++i)
-      macroDef = replaceAll (macroDef, (String)parmNames.elementAt (i), (String)parmValues.elementAt (i));
+      macroDef = replaceAll (macroDef, parmNames.elementAt (i), parmValues.elementAt (i));
     return removeDoublePound (macroDef);
   } // expandMacro
 

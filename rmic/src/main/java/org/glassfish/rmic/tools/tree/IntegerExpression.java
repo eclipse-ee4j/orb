@@ -64,6 +64,7 @@ class IntegerExpression extends ConstantExpression {
     /**
      * Get the value
      */
+    @Override
     public Object getValue() {
         return value;
     }
@@ -71,6 +72,7 @@ class IntegerExpression extends ConstantExpression {
     /**
      * Check if the expression is equal to a value
      */
+    @Override
     public boolean equals(int i) {
         return value == i;
     }
@@ -78,6 +80,7 @@ class IntegerExpression extends ConstantExpression {
     /**
      * Check if the expression is equal to its default static value
      */
+    @Override
     public boolean equalsDefault() {
         return value == 0;
     }

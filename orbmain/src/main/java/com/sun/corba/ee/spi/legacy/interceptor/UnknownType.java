@@ -23,9 +23,10 @@ public class UnknownType
     extends
         Exception
 {
+    private static final long serialVersionUID = 4340209008546145621L;
+
     public UnknownType()
     {
-        super();
     }
 
     public UnknownType(String msg)

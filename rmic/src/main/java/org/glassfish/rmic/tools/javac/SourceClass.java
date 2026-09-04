@@ -85,26 +85,31 @@ class SourceClass extends ClassDefinition {
     /**
      * The default constructor
      */
+    @Deprecated
     SourceMember defConstructor;
 
     /**
      * The constant pool
      */
+    @Deprecated
     ConstantPool tab = new ConstantPool();
 
    /**
      * The list of class dependencies
      */
+    @Deprecated
     Hashtable<ClassDeclaration, ClassDeclaration> deps = new Hashtable<>(11);
 
     /**
      * The field used to represent "this" in all of my code.
      */
+    @Deprecated
     LocalMember thisArg;
 
     /**
      * Last token of class, as reported by parser.
      */
+    @Deprecated
     long endPosition;
 
     /**
@@ -212,10 +217,12 @@ class SourceClass extends ClassDefinition {
      * Return last position in this class.
      * @see #getWhere
      */
+    @Deprecated
     public long getEndPosition() {
         return endPosition;
     }
 
+    @Deprecated
     public void setEndPosition(long endPosition) {
         this.endPosition = endPosition;
     }
@@ -225,6 +232,7 @@ class SourceClass extends ClassDefinition {
     /**
      * Return absolute name of source file
      */
+    @Deprecated
     public String getAbsoluteName() {
         String AbsName = ((ClassFile)getSource()).getAbsoluteName();
 
@@ -242,6 +250,7 @@ class SourceClass extends ClassDefinition {
     /**
      * Find or create my "this" argument, which is used for all methods.
      */
+    @Deprecated
     public LocalMember getThisArgument() {
         if (thisArg == null) {
             thisArg = new LocalMember(where, this, 0, getType(), idThis);
@@ -252,6 +261,8 @@ class SourceClass extends ClassDefinition {
     /**
      * Add a dependency
      */
+    @Deprecated
+    @Override
     public void addDependency(ClassDeclaration c) {
         if (tab != null) {
             tab.put(c);
@@ -1523,6 +1534,7 @@ class SourceClass extends ClassDefinition {
           "INTERFACE", "ABSTRACT", "SUPER", "ANONYMOUS", "LOCAL",
           "STRICTFP", "STRICT"};
 
+    @Deprecated
     static String classModifierString(int mods) {
         String s = "";
         for (int i = 0; i < classModifierBits.length; i++) {
@@ -1647,7 +1659,7 @@ class SourceClass extends ClassDefinition {
                         toplevelEnv.getClassDefinition(idJavaLangObject);
                     dummyClass.checkLocalClass(toplevelEnv, null,
                                                new Vset(), supcls, argsX, argTypesX);
-                } catch (ClassNotFound ee) {};
+                } catch (ClassNotFound ee) {}
                 // Get class type.
                 dummyType = dummyClass.getType();
                 outerMostClass.dummyArgumentType = dummyType;
@@ -1887,6 +1899,7 @@ class SourceClass extends ClassDefinition {
      * Result is always an actual class, never an interface.
      * Returns null if none found.
      */
+    @Deprecated
     SourceClass findLookupContext() {
         // Look for an immediate inner class.
         for (MemberDefinition f = getFirstMember();
@@ -1923,6 +1936,8 @@ class SourceClass extends ClassDefinition {
     /**
      * Get helper method for class literal lookup.
      */
+    @Deprecated
+    @Override
     public MemberDefinition getClassLiteralLookup(long fwhere) {
 
         // If we have already created a lookup method, reuse it.
@@ -2052,7 +2067,7 @@ class SourceClass extends ClassDefinition {
                     toplevelEnv.getClassDefinition(idJavaLangObject);
                 c.checkLocalClass(toplevelEnv, null,
                                   new Vset(), sup, argsX, argTypesX);
-            } catch (ClassNotFound ee) {};
+            } catch (ClassNotFound ee) {}
         }
 
         return lookup;
@@ -2069,6 +2084,7 @@ class SourceClass extends ClassDefinition {
     /**
      * Compile this class
      */
+    @Deprecated
     public void compile(OutputStream out)
                 throws InterruptedException, IOException {
         Environment env = toplevelEnv;

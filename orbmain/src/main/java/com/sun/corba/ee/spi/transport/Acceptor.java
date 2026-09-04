@@ -38,7 +38,7 @@ import org.glassfish.gmbal.ManagedObject ;
  */
 @ManagedObject
 @Description( "An Acceptor represents an endpoint on which the ORB handles incoming connections" )
-public abstract interface Acceptor
+public interface Acceptor
 {
     @ManagedAttribute
     @Description( "The TCP port of this Acceptor" )

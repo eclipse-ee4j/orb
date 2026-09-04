@@ -61,6 +61,7 @@ public class PortableRemoteObject
      * @param obj the server object to export.
      * @exception RemoteException if export fails.
      */
+    @Override
     public void exportObject(Remote obj)
         throws RemoteException {
 
@@ -104,6 +105,7 @@ public class PortableRemoteObject
      * @return the most derived stub for the object.
      * @exception NoSuchObjectException if a stub cannot be located for the given server object.
      */
+    @Override
     public Remote toStub (Remote obj)
         throws NoSuchObjectException
     {
@@ -147,6 +149,7 @@ public class PortableRemoteObject
      * @exception NoSuchObjectException if the remote object is not
      * currently exported.
      */
+    @Override
     public void unexportObject(Remote obj)
         throws NoSuchObjectException {
 
@@ -180,6 +183,7 @@ public class PortableRemoteObject
      * @return an object which can be cast to the desired type.
      * @throws ClassCastException if narrowFrom cannot be cast to narrowTo.
      */
+    @Override
     public java.lang.Object narrow ( java.lang.Object narrowFrom,
         java.lang.Class narrowTo) throws ClassCastException
     {
@@ -236,6 +240,7 @@ public class PortableRemoteObject
      * or if <code>target</code> is already connected to a different ORB than
      * <code>source</code>.
      */
+    @Override
     public void connect (Remote target, Remote source)
         throws RemoteException
     {

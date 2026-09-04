@@ -46,6 +46,7 @@ public class TemporarySelectorStateOpen implements TemporarySelectorState {
     public TemporarySelectorStateOpen() {
     }
 
+    @Override
     @Transport
     public int select(Selector theSelector, long theTimeout) throws IOException {
         int result;
@@ -64,6 +65,7 @@ public class TemporarySelectorStateOpen implements TemporarySelectorState {
         return result;
     }
 
+    @Override
     @Transport
     public SelectionKey registerChannel(Selector theSelector,
         SelectableChannel theSelectableChannel, int theOps) throws IOException {
@@ -79,6 +81,7 @@ public class TemporarySelectorStateOpen implements TemporarySelectorState {
         return key;
     }
 
+    @Override
     @Transport
     public TemporarySelectorState cancelKeyAndFlushSelector(Selector theSelector,
                               SelectionKey theSelectionKey) throws IOException {
@@ -96,12 +99,14 @@ public class TemporarySelectorStateOpen implements TemporarySelectorState {
         return this;
     }
 
+    @Override
     @Transport
     public TemporarySelectorState close(Selector theSelector) throws IOException {
         theSelector.close();
         return new TemporarySelectorStateClosed();
     }
 
+    @Override
     @Transport
     public TemporarySelectorState removeSelectedKey(Selector theSelector,
                               SelectionKey theSelectionKey) throws IOException {

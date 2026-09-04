@@ -54,11 +54,9 @@ abstract public class TargetAddressHelper
       _disTypeCode0 = org.omg.CORBA.ORB.init ().create_alias_tc (com.sun.corba.ee.impl.protocol.giopmsgheaders.AddressingDispositionHelper.id (), "AddressingDisposition", _disTypeCode0);
       org.omg.CORBA.UnionMember[] _members0 = new org.omg.CORBA.UnionMember [3];
       org.omg.CORBA.TypeCode _tcOf_members0;
-      org.omg.CORBA.Any _anyOf_members0;
+      org.omg.CORBA.Any _anyOf_members0 = org.omg.CORBA.ORB.init ().create_any ();
 
-      // Branch for object_key
-      _anyOf_members0 = org.omg.CORBA.ORB.init ().create_any ();
-      _anyOf_members0.insert_short ((short)com.sun.corba.ee.impl.protocol.giopmsgheaders.KeyAddr.value);
+      _anyOf_members0.insert_short (com.sun.corba.ee.impl.protocol.giopmsgheaders.KeyAddr.value);
       _tcOf_members0 = org.omg.CORBA.ORB.init ().get_primitive_tc (org.omg.CORBA.TCKind.tk_octet);
       _tcOf_members0 = org.omg.CORBA.ORB.init ().create_sequence_tc (0, _tcOf_members0);
       _members0[0] = new org.omg.CORBA.UnionMember (
@@ -69,7 +67,7 @@ abstract public class TargetAddressHelper
 
       // Branch for profile
       _anyOf_members0 = org.omg.CORBA.ORB.init ().create_any ();
-      _anyOf_members0.insert_short ((short)com.sun.corba.ee.impl.protocol.giopmsgheaders.ProfileAddr.value);
+      _anyOf_members0.insert_short (com.sun.corba.ee.impl.protocol.giopmsgheaders.ProfileAddr.value);
       _tcOf_members0 = org.omg.IOP.TaggedProfileHelper.type ();
       _members0[1] = new org.omg.CORBA.UnionMember (
         "profile",
@@ -79,7 +77,7 @@ abstract public class TargetAddressHelper
 
       // Branch for ior
       _anyOf_members0 = org.omg.CORBA.ORB.init ().create_any ();
-      _anyOf_members0.insert_short ((short)com.sun.corba.ee.impl.protocol.giopmsgheaders.ReferenceAddr.value);
+      _anyOf_members0.insert_short (com.sun.corba.ee.impl.protocol.giopmsgheaders.ReferenceAddr.value);
       _tcOf_members0 = com.sun.corba.ee.impl.protocol.giopmsgheaders.IORAddressingInfoHelper.type ();
       _members0[2] = new org.omg.CORBA.UnionMember (
         "ior",
@@ -104,20 +102,17 @@ abstract public class TargetAddressHelper
     switch (_dis0)
     {
       case com.sun.corba.ee.impl.protocol.giopmsgheaders.KeyAddr.value:
-        byte _object_key[] = null;
-        int _len1 = istream.read_long ();
-        _object_key = new byte[_len1];
+            int _len1 = istream.read_long ();
+            byte _object_key[] = new byte[_len1];
         istream.read_octet_array (_object_key, 0, _len1);
         value.object_key (_object_key);
         break;
       case com.sun.corba.ee.impl.protocol.giopmsgheaders.ProfileAddr.value:
-        org.omg.IOP.TaggedProfile _profile = null;
-        _profile = org.omg.IOP.TaggedProfileHelper.read (istream);
+            org.omg.IOP.TaggedProfile _profile = org.omg.IOP.TaggedProfileHelper.read (istream);
         value.profile (_profile);
         break;
       case com.sun.corba.ee.impl.protocol.giopmsgheaders.ReferenceAddr.value:
-        com.sun.corba.ee.impl.protocol.giopmsgheaders.IORAddressingInfo _ior = null;
-        _ior = com.sun.corba.ee.impl.protocol.giopmsgheaders.IORAddressingInfoHelper.read (istream);
+            com.sun.corba.ee.impl.protocol.giopmsgheaders.IORAddressingInfo _ior = com.sun.corba.ee.impl.protocol.giopmsgheaders.IORAddressingInfoHelper.read (istream);
         value.ior (_ior);
         break;
       default:

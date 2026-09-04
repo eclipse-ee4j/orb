@@ -30,5 +30,5 @@ public interface VM_CUSTOM {
     /** The value representing a custom marshalled value type in
     * a typecode.
     */
-    final short value = (short) (1L);
+    short value = (short) (1L);
 }

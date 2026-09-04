@@ -83,6 +83,7 @@ class AssignExpression extends BinaryAssignExpression {
     /**
      * Create a copy of the expression for method inlining
      */
+    @Override
     public Expression copyInline(Context ctx) {
         if (implementation != null)
             return implementation.copyInline(ctx);

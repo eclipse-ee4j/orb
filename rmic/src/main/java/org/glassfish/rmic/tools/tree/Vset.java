@@ -486,6 +486,7 @@ class Vset implements Constants {
         return result;
     }
 
+    @Override
     public String toString() {
         if (this == DEAD_END)
             return "{DEAD_END}";

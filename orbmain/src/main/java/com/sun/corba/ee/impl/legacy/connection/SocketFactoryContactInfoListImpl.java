@@ -43,6 +43,7 @@ public class SocketFactoryContactInfoListImpl
         super(orb, targetIOR);
     }
 
+    @Override
     public Iterator iterator()
     {
         return new SocketFactoryContactInfoListIteratorImpl(orb, this);

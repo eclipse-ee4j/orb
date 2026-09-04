@@ -582,6 +582,7 @@ public class CDRInputTest extends EncodingTestBase {
 
         whileWaitingForFragmentsDo(new AsynchronousAction() {
             int iteration = 0;
+            @Override
             public void exec() {
                 if (iteration++ == 0)
                     Thread.currentThread().interrupt();
@@ -601,6 +602,7 @@ public class CDRInputTest extends EncodingTestBase {
         expectMoreFragments();
 
         whileWaitingForFragmentsDo(new AsynchronousAction() {
+            @Override
             public void exec() {
                 addFragment(0, 0, 0, 7);
                 getInputObject().cancelProcessing(0);

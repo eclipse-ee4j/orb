@@ -45,6 +45,8 @@ package org.omg.CORBA;
 // @SuppressWarnings({"serial"})
 public class SetOverrideType implements org.omg.CORBA.portable.IDLEntity {
 
+    private static final long serialVersionUID = -2761857189425106972L;
+
     /**
      * The <code>int</code> constant for the enum value SET_OVERRIDE.
      */

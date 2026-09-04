@@ -557,11 +557,6 @@ class Scanner
    **/
   private com.sun.tools.corba.ee.idl.Token getCharacterToken(boolean isWide) throws IOException
   {
-    // The token name returned contains a string with two elements:
-    // first the character appears, then the representation of the
-    // character.  These are typically the same, but they CAN be
-    // different, for example "O\117"
-    com.sun.tools.corba.ee.idl.Token token = null;
     readChar ();
     if ( data.ch == '\\' )
     {
@@ -581,7 +576,7 @@ class Scanner
       }
       return singleCharEscapeSequence (isWide);
     }
-    token = new com.sun.tools.corba.ee.idl.Token(com.sun.tools.corba.ee.idl.Token.CharacterLiteral, "" + data.ch + data.ch, isWide );
+    com.sun.tools.corba.ee.idl.Token token = new com.sun.tools.corba.ee.idl.Token(com.sun.tools.corba.ee.idl.Token.CharacterLiteral, "" + data.ch + data.ch, isWide );
     readChar ();
     return token;
   } // getCharacterToken

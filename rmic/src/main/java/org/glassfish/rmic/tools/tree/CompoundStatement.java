@@ -135,6 +135,7 @@ class CompoundStatement extends Statement {
     /**
      * Create a copy of the statement for method inlining
      */
+    @Override
     public Statement copyInline(Context ctx, boolean valNeeded) {
         CompoundStatement s = (CompoundStatement)clone();
         s.args = new Statement[args.length];
@@ -169,6 +170,7 @@ class CompoundStatement extends Statement {
     /**
      * Check if the first thing is a constructor invocation
      */
+    @Override
     public Expression firstConstructor() {
         return (args.length > 0) ? args[0].firstConstructor() : null;
     }
@@ -176,6 +178,7 @@ class CompoundStatement extends Statement {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out, int indent) {
         super.print(out, indent);
         out.print("{\n");

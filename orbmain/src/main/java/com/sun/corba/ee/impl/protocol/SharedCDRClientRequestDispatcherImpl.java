@@ -63,12 +63,10 @@ public class SharedCDRClientRequestDispatcherImpl
             ApplicationException,
             org.omg.CORBA.portable.RemarshalException
     {
-        MessageMediator messageMediator = null;
-        messageMediator = (MessageMediator)
-            outputObject.getMessageMediator();
+        MessageMediator messageMediator = outputObject.getMessageMediator();
         operationAndId( messageMediator.getOperationName(),
             messageMediator.getRequestId() ) ;
-        final ORB orb = (ORB) messageMediator.getBroker();
+        final ORB orb = messageMediator.getBroker();
         operationAndId(messageMediator.getOperationName(),
             messageMediator.getRequestId());
 

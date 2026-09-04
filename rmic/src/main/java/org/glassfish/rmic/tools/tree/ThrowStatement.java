@@ -90,6 +90,7 @@ class ThrowStatement extends Statement {
     /**
      * Create a copy of the statement for method inlining
      */
+    @Override
     public Statement copyInline(Context ctx, boolean valNeeded) {
         ThrowStatement s = (ThrowStatement)clone();
         s.expr = expr.copyInline(ctx);
@@ -114,6 +115,7 @@ class ThrowStatement extends Statement {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out, int indent) {
         super.print(out, indent);
         out.print("throw ");

@@ -40,16 +40,19 @@ public class ContextListImpl extends ContextList
         _contexts = new ArrayList<String>(INITIAL_CAPACITY);
     }
 
+    @Override
     public synchronized int count()
     {
         return _contexts.size();
     }
 
+    @Override
     public synchronized void add(String ctxt)
     {
         _contexts.add(ctxt);
     }
 
+    @Override
     public synchronized String item(int index)
         throws Bounds
     {
@@ -60,6 +63,7 @@ public class ContextListImpl extends ContextList
         }
     }
 
+    @Override
     public synchronized void remove(int index)
         throws Bounds
     {

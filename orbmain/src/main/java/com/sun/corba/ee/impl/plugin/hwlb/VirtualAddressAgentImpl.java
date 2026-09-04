@@ -91,6 +91,7 @@ public class VirtualAddressAgentImpl
         private String _host = null ;
         private int _port = 0 ;
 
+        @Override
         public PropertyParser makeParser() {
             PropertyParser parser = new PropertyParser() ;
             parser.add( VAA_HOST_PROPERTY, OperationFactory.stringAction(),
@@ -111,12 +112,14 @@ public class VirtualAddressAgentImpl
     @InfoMethod
     private void agentAddress( IIOPAddress addr ) { }
 
+    @Override
     @Subcontract
     public void configure( DataCollector dc, final ORB orb ) {
         this.orb = orb ;
 
         orb.setBadServerIdHandler(
             new BadServerIdHandler() {
+                @Override
                 public void handle( ObjectKey objectkey ) {
                     // NO-OP
                 }
@@ -138,6 +141,7 @@ public class VirtualAddressAgentImpl
             orb.getTaggedProfileFactoryFinder() ;
         finder.registerFactory(
             new EncapsulationFactoryBase( TAG_INTERNET_IOP.value ) {
+                @Override
                 public Identifiable readContents( InputStream in ) {
                     Identifiable result = new SpecialIIOPProfileImpl( in ) ;
                     return result ;
@@ -163,6 +167,7 @@ public class VirtualAddressAgentImpl
         // REVISIT: AS 9 has an ORB API for setting ORBInitializers.
         AccessController.doPrivileged(
             new PrivilegedAction() {
+                @Override
                 public Object run() {
                     try {
                         final Field fld =
@@ -179,11 +184,13 @@ public class VirtualAddressAgentImpl
         )  ;
     }
 
+    @Override
     @Subcontract
     public void pre_init( ORBInitInfo info ) {
         // NO-OP
     }
 
+    @Override
     @Subcontract
     public void post_init( ORBInitInfo info ) {
         // register this object as an IORInterceptor.
@@ -194,6 +201,7 @@ public class VirtualAddressAgentImpl
         }
     }
 
+    @Override
     @Subcontract
     public void establish_components( IORInfo info ) {
         // NO-OP
@@ -296,6 +304,7 @@ public class VirtualAddressAgentImpl
         }
     }
 
+    @Override
     @Subcontract
     public void components_established( IORInfo info ) {
         // Cast this to the implementation class in case we are building
@@ -330,20 +339,24 @@ public class VirtualAddressAgentImpl
         myInfo.current_factory( newOrt );
     }
 
+    @Override
     public void adapter_manager_state_changed( int id,
         short state ) {
         // NO-OP
     }
 
+    @Override
     public void adapter_state_changed( ObjectReferenceTemplate[] templates,
         short state ) {
         // NO-OP
     }
 
+    @Override
     public String name() {
         return this.getClass().getName() ;
     }
 
+    @Override
     public void destroy() {
         // NO-OP
     }

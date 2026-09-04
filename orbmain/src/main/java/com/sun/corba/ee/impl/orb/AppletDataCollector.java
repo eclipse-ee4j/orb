@@ -32,11 +32,13 @@ public class AppletDataCollector extends DataCollectorBase {
         this.applet = app ;
     }
 
+    @Override
     public boolean isApplet()
     {
         return true ;
     }
 
+    @Override
     protected void collect( )
     {
         checkPropertyDefaults() ;

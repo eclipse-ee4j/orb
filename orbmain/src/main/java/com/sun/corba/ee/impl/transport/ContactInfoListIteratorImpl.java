@@ -124,6 +124,7 @@ public class ContactInfoListIteratorImpl
     // java.util.Iterator
     //
 
+    @Override
     @Transport
     public boolean hasNext() {
         boolean result = false;
@@ -175,6 +176,7 @@ public class ContactInfoListIteratorImpl
         return result;
     }
 
+    @Override
     @Transport
     public ContactInfo next() {
         if (retryWithPreviousContactInfo) {
@@ -193,10 +195,9 @@ public class ContactInfoListIteratorImpl
         // We also hold onto it for the sticky manager.
 
         if (primaryToContactInfo != null) {
-            previousContactInfo = (ContactInfo)
-                primaryToContactInfo.next(primaryContactInfo,
-                                          previousContactInfo,
-                                          listOfContactInfos);
+            previousContactInfo = primaryToContactInfo.next(primaryContactInfo,
+                                      previousContactInfo,
+                                      listOfContactInfos);
         } else {
             previousContactInfo = effectiveTargetIORIterator.next();
         }
@@ -213,16 +214,19 @@ public class ContactInfoListIteratorImpl
         return previousContactInfo;
     }
 
+    @Override
     public void remove()
     {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public ContactInfoList getContactInfoList()
     {
         return contactInfoList;
     }
 
+    @Override
     @Transport
     public void reportSuccess(ContactInfo contactInfo)
     {
@@ -231,6 +235,7 @@ public class ContactInfoListIteratorImpl
         waiter.reset() ; // not strictly necessary
     }
 
+    @Override
     @Transport
     public boolean reportException(ContactInfo contactInfo,
                                    RuntimeException ex) {
@@ -280,6 +285,7 @@ public class ContactInfoListIteratorImpl
         return result;
     }
 
+    @Override
     public RuntimeException getFailureException()
     {
         if (failureException == null) {
@@ -294,6 +300,7 @@ public class ContactInfoListIteratorImpl
     // spi.CorbaContactInfoListIterator
     //
 
+    @Override
     @Transport
     public void reportAddrDispositionRetry(ContactInfo contactInfo,
                                            short disposition)
@@ -303,6 +310,7 @@ public class ContactInfoListIteratorImpl
         waiter.reset() ; // necessary
     }
 
+    @Override
     @Transport
     public void reportRedirect(ContactInfo contactInfo,
                                IOR forwardedIOR)

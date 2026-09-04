@@ -204,6 +204,7 @@ public class CDROutputObject extends org.omg.CORBA_2_3.portable.OutputStream
     }
 
     /** overrides create_input_stream from CDROutputStream */
+    @Override
     public org.omg.CORBA.portable.InputStream create_input_stream() {
         // XREVISIT
         return null;
@@ -357,95 +358,125 @@ public class CDROutputObject extends org.omg.CORBA_2_3.portable.OutputStream
 
     // org.omg.CORBA.portable.OutputStream
 
+    @Override
     public final void write_boolean(boolean value) {
         impl.write_boolean(value);
     }
+    @Override
     public final void write_char(char value) {
         impl.write_char(value);
     }
+    @Override
     public final void write_wchar(char value) {
         impl.write_wchar(value);
     }
+    @Override
     public final void write_octet(byte value) {
         impl.write_octet(value);
     }
+    @Override
     public final void write_short(short value) {
         impl.write_short(value);
     }
+    @Override
     public final void write_ushort(short value) {
         impl.write_ushort(value);
     }
+    @Override
     public final void write_long(int value) {
         impl.write_long(value);
     }
+    @Override
     public final void write_ulong(int value) {
         impl.write_ulong(value);
     }
+    @Override
     public final void write_longlong(long value) {
         impl.write_longlong(value);
     }
+    @Override
     public final void write_ulonglong(long value) {
         impl.write_ulonglong(value);
     }
+    @Override
     public final void write_float(float value) {
         impl.write_float(value);
     }
+    @Override
     public final void write_double(double value) {
         impl.write_double(value);
     }
+    @Override
     public final void write_string(String value) {
         impl.write_string(value);
     }
+    @Override
     public final void write_wstring(String value) {
         impl.write_wstring(value);
     }
 
+    @Override
     public final void write_boolean_array(boolean[] value, int offset, int length) {
         impl.write_boolean_array(value, offset, length);
     }
+    @Override
     public final void write_char_array(char[] value, int offset, int length) {
         impl.write_char_array(value, offset, length);
     }
+    @Override
     public final void write_wchar_array(char[] value, int offset, int length) {
         impl.write_wchar_array(value, offset, length);
     }
+    @Override
     public final void write_octet_array(byte[] value, int offset, int length) {
         impl.write_octet_array(value, offset, length);
     }
+    @Override
     public final void write_short_array(short[] value, int offset, int length) {
         impl.write_short_array(value, offset, length);
     }
+    @Override
     public final void write_ushort_array(short[] value, int offset, int length){
         impl.write_ushort_array(value, offset, length);
     }
+    @Override
     public final void write_long_array(int[] value, int offset, int length) {
         impl.write_long_array(value, offset, length);
     }
+    @Override
     public final void write_ulong_array(int[] value, int offset, int length) {
         impl.write_ulong_array(value, offset, length);
     }
+    @Override
     public final void write_longlong_array(long[] value, int offset, int length) {
         impl.write_longlong_array(value, offset, length);
     }
+    @Override
     public final void write_ulonglong_array(long[] value, int offset,int length) {
         impl.write_ulonglong_array(value, offset, length);
     }
+    @Override
     public final void write_float_array(float[] value, int offset, int length) {
         impl.write_float_array(value, offset, length);
     }
+    @Override
     public final void write_double_array(double[] value, int offset, int length) {
         impl.write_double_array(value, offset, length);
     }
+    @Override
     public final void write_Object(org.omg.CORBA.Object value) {
         impl.write_Object(value);
     }
+    @Override
     public final void write_TypeCode(TypeCode value) {
         impl.write_TypeCode(value);
     }
+    @Override
     public final void write_any(Any value) {
         impl.write_any(value);
     }
 
+    @Override
     @SuppressWarnings({"deprecation"})
     public final void write_Principal(org.omg.CORBA.Principal value) {
         impl.write_Principal(value);
@@ -523,24 +554,29 @@ public class CDROutputObject extends org.omg.CORBA_2_3.portable.OutputStream
     }
 
     // com.sun.corba.ee.impl.encoding.MarshalOutputStream
+    @Override
     public final void start_block() {
         impl.start_block();
     }
 
+    @Override
     public final void end_block() {
         impl.end_block();
     }
 
+    @Override
     public final void putEndian() {
         impl.putEndian();
     }
 
+    @Override
     public void writeTo(java.io.OutputStream s)
         throws IOException
     {
         impl.writeTo(s);
     }
 
+    @Override
     public final byte[] toByteArray() {
         return impl.toByteArray();
     }
@@ -555,19 +591,23 @@ public class CDROutputObject extends org.omg.CORBA_2_3.portable.OutputStream
     }
 
     // org.omg.CORBA.DataOutputStream
+    @Override
     public final void write_Abstract (java.lang.Object value) {
         impl.write_Abstract(value);
     }
 
+    @Override
     public final void write_Value (java.io.Serializable value) {
         impl.write_Value(value);
     }
 
+    @Override
     public final void write_any_array(org.omg.CORBA.Any[] seq, int offset, int length) {
         impl.write_any_array(seq, offset, length);
     }
 
     // org.omg.CORBA.portable.ValueBase
+    @Override
     public final String[] _truncatable_ids() {
         return impl._truncatable_ids();
     }
@@ -622,10 +662,12 @@ public class CDROutputObject extends org.omg.CORBA_2_3.portable.OutputStream
 
     // ValueOutputStream -----------------------------
 
+    @Override
     public void start_value(String rep_id) {
         impl.start_value(rep_id);
     }
 
+    @Override
     public void end_value() {
         impl.end_value();
     }

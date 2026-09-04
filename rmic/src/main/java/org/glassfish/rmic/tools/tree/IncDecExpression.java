@@ -46,6 +46,7 @@ class IncDecExpression extends UnaryExpression {
     /**
      * Check an increment or decrement expression
      */
+    @Override
     public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         vset = right.checkAssignOp(env, ctx, vset, exp, this);
         if (right.type.inMask(TM_NUMBER)) {
@@ -63,6 +64,7 @@ class IncDecExpression extends UnaryExpression {
     /**
      * Check void expression
      */
+    @Override
     public Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         return checkValue(env, ctx, vset, exp);
     }
@@ -70,9 +72,11 @@ class IncDecExpression extends UnaryExpression {
     /**
      * Inline
      */
+    @Override
     public Expression inline(Environment env, Context ctx) {
         return inlineValue(env, ctx);
     }
+    @Override
     public Expression inlineValue(Environment env, Context ctx) {
         // Why not inlineLHS?  But that does not work.
         right = right.inlineValue(env, ctx);
@@ -82,6 +86,7 @@ class IncDecExpression extends UnaryExpression {
         return this;
     }
 
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
         if (updater == null) {
             if ((right.op == IDENT) && type.isType(TC_INT) &&

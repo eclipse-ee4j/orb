@@ -335,6 +335,7 @@ class Statement extends Node {
                 out.print(labels[i] + ": ");
         }
     }
+    @Override
     public void print(PrintStream out) {
         print(out, 0);
     }

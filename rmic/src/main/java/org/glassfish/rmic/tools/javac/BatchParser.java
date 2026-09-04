@@ -46,6 +46,7 @@ class BatchParser extends Parser {
     /**
      * The current package
      */
+    @Deprecated
     protected Identifier pkg;
 
     /**
@@ -56,12 +57,14 @@ class BatchParser extends Parser {
     /**
      * The classes defined in this file
      */
+    @Deprecated
     protected Vector<SourceClass> classes;
 
 
     /**
      * The current class
      */
+    @Deprecated
     protected SourceClass sourceClass;
 
     /**
@@ -83,6 +86,7 @@ class BatchParser extends Parser {
     /**
      * Package declaration
      */
+    @Deprecated
     public void packageDeclaration(long where, IdentifierToken t) {
         Identifier nm = t.getName();
         //System.out.println("package " + nm);
@@ -100,6 +104,7 @@ class BatchParser extends Parser {
     /**
      * Import class
      */
+    @Deprecated
     public void importClass(long pos, IdentifierToken t) {
         //System.out.println("import class " + t);
         imports.addClass(t);
@@ -108,6 +113,7 @@ class BatchParser extends Parser {
     /**
      * Import package
      */
+    @Deprecated
     public void importPackage(long pos, IdentifierToken t) {
         //System.out.println("import package " + t);
         imports.addPackage(t);
@@ -116,6 +122,7 @@ class BatchParser extends Parser {
     /**
      * Define class
      */
+    @Deprecated
     public ClassDefinition beginClass(long where, String doc, int mod,
                                       IdentifierToken t,
                                       IdentifierToken sup,
@@ -219,6 +226,7 @@ class BatchParser extends Parser {
     /**
      * Report the current class under construction.
      */
+    @Deprecated
     public ClassDefinition getCurrentClass() {
         return sourceClass;
     }
@@ -226,6 +234,7 @@ class BatchParser extends Parser {
     /**
      * End class
      */
+    @Deprecated
     public void endClass(long where, ClassDefinition c) {
 
         if (tracing) toplevelEnv.dtEnter("endClass: " + sourceClass);
@@ -244,6 +253,7 @@ class BatchParser extends Parser {
     /**
      * Define a method
      */
+    @Deprecated
     public void defineField(long where, ClassDefinition c,
                             String doc, int mod, Type t,
                             IdentifierToken name, IdentifierToken args[],

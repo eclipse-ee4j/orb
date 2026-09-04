@@ -43,6 +43,7 @@ public class TemporarySelectorStateClosed implements TemporarySelectorState {
     public TemporarySelectorStateClosed() {
     }
 
+    @Override
     public int select(Selector theSelector, long theTimeout) throws IOException {
         String selectorToString = getSelectorToString(theSelector);
         throw new TemporarySelectorClosedException("Temporary Selector " +
@@ -50,6 +51,7 @@ public class TemporarySelectorStateClosed implements TemporarySelectorState {
                                                    " closed");
     }
 
+    @Override
     public SelectionKey registerChannel(Selector theSelector,
                                         SelectableChannel theSelectableChannel,
                                         int theOps) throws IOException {
@@ -59,6 +61,7 @@ public class TemporarySelectorStateClosed implements TemporarySelectorState {
                                                    " closed");
     }
 
+    @Override
     public TemporarySelectorState cancelKeyAndFlushSelector(Selector theSelector,
                               SelectionKey theSelectionKey) throws IOException {
         String selectorToString = getSelectorToString(theSelector);
@@ -67,6 +70,7 @@ public class TemporarySelectorStateClosed implements TemporarySelectorState {
                                                    " closed");
     }
 
+    @Override
     @Transport
     public TemporarySelectorState close(Selector theSelector) throws IOException {
         if (theSelector != null && theSelector.isOpen()) {
@@ -75,6 +79,7 @@ public class TemporarySelectorStateClosed implements TemporarySelectorState {
         return this;
     }
 
+    @Override
     public TemporarySelectorState removeSelectedKey(Selector theSelector,
                               SelectionKey theSelectionKey) throws IOException {
         String selectorToString = getSelectorToString(theSelector);

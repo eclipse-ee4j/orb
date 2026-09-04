@@ -29,6 +29,7 @@ package com.sun.corba.ee.impl.protocol.giopmsgheaders;
 
 public final class TargetAddress implements org.omg.CORBA.portable.IDLEntity
 {
+  private static final long serialVersionUID = 8331453100625767949L;
   private byte[] ___object_key;
   private org.omg.IOP.TaggedProfile ___profile;
   private com.sun.corba.ee.impl.protocol.giopmsgheaders.IORAddressingInfo ___ior;

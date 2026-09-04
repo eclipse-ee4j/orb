@@ -31,7 +31,7 @@ public final class CancelRequestMessage_1_0 extends Message_1_0
 
     // Instance variables
 
-    private int request_id = (int) 0;
+    private int request_id = 0;
 
     // Constructors
 
@@ -45,17 +45,20 @@ public final class CancelRequestMessage_1_0 extends Message_1_0
 
     // Accessor methods
 
+    @Override
     public int getRequestId() {
         return this.request_id;
     }
 
     // IO methods
 
+    @Override
     public void read(org.omg.CORBA.portable.InputStream istream) {
         super.read(istream);
         this.request_id = istream.read_ulong();
     }
 
+    @Override
     public void write(org.omg.CORBA.portable.OutputStream ostream) {
         super.write(ostream);
         ostream.write_ulong(this.request_id);

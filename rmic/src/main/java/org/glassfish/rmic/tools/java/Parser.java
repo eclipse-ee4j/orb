@@ -198,6 +198,7 @@ class Parser extends Scanner implements ParserActions, Constants {
      * package declaration
      * @deprecated
      */
+    @Override
     @Deprecated
     public void packageDeclaration(long off, IdentifierToken nm) {
         // By default, call the deprecated version.
@@ -216,6 +217,7 @@ class Parser extends Scanner implements ParserActions, Constants {
      * import class
      * @deprecated
      */
+    @Override
     @Deprecated
     public void importClass(long off, IdentifierToken nm) {
         // By default, call the deprecated version.
@@ -234,6 +236,7 @@ class Parser extends Scanner implements ParserActions, Constants {
      * import package
      * @deprecated
      */
+    @Override
     @Deprecated
     public void importPackage(long off, IdentifierToken nm) {
         // By default, call the deprecated version.
@@ -252,6 +255,7 @@ class Parser extends Scanner implements ParserActions, Constants {
      * Define class
      * @deprecated
      */
+    @Override
     @Deprecated
     public ClassDefinition beginClass(long off, String doc,
                                       int mod, IdentifierToken nm,
@@ -292,6 +296,7 @@ class Parser extends Scanner implements ParserActions, Constants {
      * End class
      * @deprecated
      */
+    @Override
     @Deprecated
     public void endClass(long off, ClassDefinition c) {
         // By default, call the deprecated version.
@@ -310,6 +315,7 @@ class Parser extends Scanner implements ParserActions, Constants {
      * Define a field
      * @deprecated
      */
+    @Override
     @Deprecated
     public void defineField(long where, ClassDefinition c,
                             String doc, int mod, Type t,
@@ -2186,6 +2192,7 @@ class Parser extends Scanner implements ParserActions, Constants {
     // and class building into distinct responsibility areas.
     // (Perhaps tree building could be virtualized too.)
 
+    @Override
     public long scan() throws IOException {
         if (scanner != this && scanner != null) {
             long result = scanner.scan();
@@ -2196,6 +2203,7 @@ class Parser extends Scanner implements ParserActions, Constants {
         return super.scan();
     }
 
+    @Override
     public void match(int open, int close) throws IOException {
         if (scanner != this) {
             scanner.match(open, close);

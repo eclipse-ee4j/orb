@@ -24,6 +24,6 @@ import com.sun.corba.ee.spi.ior.TaggedComponent;
 
 public interface ClusterInstanceInfoComponent extends TaggedComponent
 {
-    public ClusterInstanceInfo getClusterInstanceInfo();
+    ClusterInstanceInfo getClusterInstanceInfo();
 }
 

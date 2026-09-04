@@ -69,9 +69,8 @@ public final class ContextIdSeqHelper
 
     public static String[] read (org.omg.CORBA.portable.InputStream istream)
     {
-        String value[] = null;
         int _len0 = istream.read_long ();
-        value = new String[_len0];
+        String value[] = new String[_len0];
         for (int _o1 = 0;_o1 < value.length; ++_o1)
             value[_o1] = com.sun.org.omg.CORBA.ContextIdentifierHelper.read (istream);
         return value;

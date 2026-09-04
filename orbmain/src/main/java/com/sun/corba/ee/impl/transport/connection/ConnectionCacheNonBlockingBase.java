@@ -44,18 +44,22 @@ abstract class ConnectionCacheNonBlockingBase<C extends Connection>
             ConcurrentQueueFactory.<C>makeBlockingConcurrentQueue( ttl ) ;
     }
 
+    @Override
     public long numberOfConnections() {
         return totalIdle.get() + totalBusy.get() ;
     }
 
+    @Override
     public long numberOfIdleConnections() {
         return totalIdle.get() ;
     }
 
+    @Override
     public long numberOfBusyConnections() {
         return totalBusy.get() ;
     }
 
+    @Override
     public long numberOfReclaimableConnections() {
         return reclaimableConnections.size() ;
     }

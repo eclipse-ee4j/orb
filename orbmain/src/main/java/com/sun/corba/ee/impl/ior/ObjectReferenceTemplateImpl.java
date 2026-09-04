@@ -86,11 +86,13 @@ public class ObjectReferenceTemplateImpl extends ObjectReferenceProducerBase
     public static final String repositoryId =
         "IDL:com/sun/corba/ee/impl/ior/ObjectReferenceTemplateImpl:1.0" ;
 
+    @Override
     public String[] _truncatable_ids()
     {
         return new String[] { repositoryId } ;
     }
 
+    @Override
     public TypeCode _type()
     {
         return ObjectReferenceTemplateHelper.type() ;
@@ -98,6 +100,7 @@ public class ObjectReferenceTemplateImpl extends ObjectReferenceProducerBase
 
     // Read the data into a (presumably) empty ORTImpl.  This sets the
     // orb to the ORB of the InputStream.
+    @Override
     public void _read( InputStream is )
     {
         org.omg.CORBA_2_3.portable.InputStream istr =
@@ -106,6 +109,7 @@ public class ObjectReferenceTemplateImpl extends ObjectReferenceProducerBase
         orb = (ORB)(istr.orb()) ;
     }
 
+    @Override
     public void _write( OutputStream os )
     {
         org.omg.CORBA_2_3.portable.OutputStream ostr =
@@ -114,17 +118,20 @@ public class ObjectReferenceTemplateImpl extends ObjectReferenceProducerBase
         iorTemplate.write( ostr ) ;
     }
 
+    @Override
     public String server_id ()
     {
         int val = iorTemplate.getObjectKeyTemplate().getServerId() ;
         return Integer.toString( val ) ;
     }
 
+    @Override
     public String orb_id ()
     {
         return iorTemplate.getObjectKeyTemplate().getORBId() ;
     }
 
+    @Override
     public String[] adapter_name()
     {
         ObjectAdapterId poaid =
@@ -133,11 +140,13 @@ public class ObjectReferenceTemplateImpl extends ObjectReferenceProducerBase
         return poaid.getAdapterName() ;
     }
 
+    @Override
     public IORFactory getIORFactory()
     {
         return iorTemplate ;
     }
 
+    @Override
     public IORTemplateList getIORTemplateList()
     {
         IORTemplateList tl = IORFactories.makeIORTemplateList() ;

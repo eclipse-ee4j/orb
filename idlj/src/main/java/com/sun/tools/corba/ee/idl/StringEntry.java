@@ -31,7 +31,6 @@ public class StringEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
 {
   protected StringEntry ()
   {
-    super ();
     String override = (String) com.sun.tools.corba.ee.idl.Parser.overrideNames.get ("string");
     if (override == null)
       name ("string");
@@ -59,6 +58,7 @@ public class StringEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
     repositoryID (com.sun.tools.corba.ee.idl.Util.emptyID);
   } // ctor
 
+  @Override
   public Object clone ()
   {
     return new StringEntry (this);
@@ -70,6 +70,7 @@ public class StringEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
        a subclass of SymtabEntry.
       @param stream the stream to which the generator should sent its output.
       @see com.sun.tools.corba.ee.idl.SymtabEntry */
+  @Override
   public void generate (Hashtable symbolTable, PrintWriter stream)
   {
     stringGen.generate (symbolTable, this, stream);

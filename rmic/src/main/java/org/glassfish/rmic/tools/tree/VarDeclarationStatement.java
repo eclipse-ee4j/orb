@@ -207,6 +207,7 @@ class VarDeclarationStatement extends Statement {
     /**
      * Create a copy of the statement for method inlining
      */
+    @Override
     public Statement copyInline(Context ctx, boolean valNeeded) {
         VarDeclarationStatement s = (VarDeclarationStatement)clone();
         if (expr != null) {
@@ -260,6 +261,7 @@ class VarDeclarationStatement extends Statement {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out, int indent) {
         out.print("local ");
         if (field != null) {

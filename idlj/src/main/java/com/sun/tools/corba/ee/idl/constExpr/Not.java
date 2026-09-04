@@ -33,6 +33,7 @@ public class Not extends UnaryExpr
     super ("~", operand);
   } // ctor
 
+  @Override
   public Object evaluate () throws com.sun.tools.corba.ee.idl.constExpr.EvaluationException
   {
     try
@@ -48,7 +49,7 @@ public class Not extends UnaryExpr
       {
         // Complement (~)
         //daz        value (new Long (~op.longValue ()));
-        BigInteger b = (BigInteger)coerceToTarget((BigInteger)op);
+        BigInteger b = (BigInteger)coerceToTarget(op);
 
         // Compute according to CORBA 2.1 specifications for specified type.
         if (type ().equals ("short") || type ().equals ("long") || type ().equals ("long long"))

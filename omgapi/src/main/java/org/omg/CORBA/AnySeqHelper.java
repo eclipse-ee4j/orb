@@ -78,9 +78,8 @@ public abstract class AnySeqHelper
 
     public static org.omg.CORBA.Any[] read (org.omg.CORBA.portable.InputStream istream)
     {
-        org.omg.CORBA.Any value[] = null;
         int _len0 = istream.read_long ();
-        value = new org.omg.CORBA.Any[_len0];
+        org.omg.CORBA.Any value[] = new org.omg.CORBA.Any[_len0];
         for (int _o1 = 0;_o1 < value.length; ++_o1)
             value[_o1] = istream.read_any ();
         return value;

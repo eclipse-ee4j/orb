@@ -119,14 +119,17 @@ public class SequenceGen implements com.sun.tools.corba.ee.idl.SequenceGen, com.
     return index;
   } // type
 
+  @Override
   public void helperRead (String entryName, SymtabEntry entry, PrintWriter stream)
   {
   } // helperRead
 
+  @Override
   public void helperWrite (SymtabEntry entry, PrintWriter stream)
   {
   } // helperWrite
 
+  @Override
   public int read (int index, String indent, String name, SymtabEntry entry, PrintWriter stream)
   {
     SequenceEntry seq = (SequenceEntry)entry;
@@ -205,6 +208,7 @@ public class SequenceGen implements com.sun.tools.corba.ee.idl.SequenceGen, com.
     return index;
   } // read
 
+  @Override
   public int write (int index, String indent, String name, SymtabEntry entry, PrintWriter stream)
   {
     SequenceEntry seq = (SequenceEntry)entry;

@@ -402,6 +402,7 @@ public class EncodingTestBase {
             this.orbData = orbData;
         }
 
+        @Override
         public void setORBVersion(ORBVersion version) {
             this.version = version;
         }
@@ -439,6 +440,8 @@ public class EncodingTestBase {
     //-------------------------------------- fake implementation of a Codebase -----------------------------------------
 
     static abstract class CodeBaseFake implements CodeBase {
+        private static final long serialVersionUID = 6715131908893287502L;
+
         @Override
         public String implementation(String s) {
             return null;
@@ -593,6 +596,7 @@ public class EncodingTestBase {
             }
         }
 
+        @Override
         public int getHeaderLength() {
             return Message.GIOPMessageHeaderLength;
         }

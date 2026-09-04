@@ -43,6 +43,8 @@ package org.omg.CORBA;
 // @SuppressWarnings({"serial"})
 public class DefinitionKind implements org.omg.CORBA.portable.IDLEntity {
 
+private static final long serialVersionUID = -8601167576704143376L;
+
 /**
  * The constant that indicates that an Interface Repository object
  * does not have a definition kind.

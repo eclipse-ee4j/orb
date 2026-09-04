@@ -30,7 +30,7 @@ public interface IdentifiableFactory<E extends Identifiable> {
      * of any create call.
      * @return factory id
      */
-    public int getId() ;
+    int getId() ;
 
     /** Construct the appropriate Identifiable object with the
      * given id from the InputStream is.
@@ -38,5 +38,5 @@ public interface IdentifiableFactory<E extends Identifiable> {
      * @param in stream to construct object from
      * @return constructed Identifiable
      */
-    public E create( ORB orb, InputStream in ) ;
+    E create( ORB orb, InputStream in ) ;
 }

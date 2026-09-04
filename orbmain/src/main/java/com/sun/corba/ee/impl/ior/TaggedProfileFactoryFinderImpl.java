@@ -32,6 +32,7 @@ public class TaggedProfileFactoryFinderImpl extends
         super( orb ) ;
     }
 
+    @Override
     public TaggedProfile handleMissingFactory( int id, InputStream is)
     {
         return new GenericTaggedProfile( id, is ) ;

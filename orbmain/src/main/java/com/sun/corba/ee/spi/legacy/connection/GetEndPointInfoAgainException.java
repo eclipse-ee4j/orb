@@ -32,6 +32,7 @@ import com.sun.corba.ee.spi.transport.SocketInfo;
 public class GetEndPointInfoAgainException
     extends Exception
 {
+    private static final long serialVersionUID = -1243521033908960785L;
     private SocketInfo socketInfo;
 
     public GetEndPointInfoAgainException(SocketInfo socketInfo)

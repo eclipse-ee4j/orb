@@ -25,5 +25,5 @@ package org.glassfish.rmic.iiop;
  * @author      Bryan Atsatt
  */
 public interface ContextElement {
-    public String getElementName();
+    String getElementName();
 }

@@ -284,7 +284,7 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
     else if (entry instanceof ValueBoxEntry)
     {
       ValueBoxEntry v = (ValueBoxEntry) entry;
-      TypedefEntry member = ((InterfaceState) v.state ().elementAt (0)).entry;
+      TypedefEntry member = v.state ().elementAt (0).entry;
       SymtabEntry mType = member.type ();
       if (mType instanceof PrimitiveEntry)
       {
@@ -466,7 +466,7 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
    **/
   static void fillValueBoxInfo (ValueBoxEntry vb)
   {
-    SymtabEntry stateMember = (((InterfaceState) vb.state ().elementAt (0)).entry);
+    SymtabEntry stateMember = (vb.state ().elementAt (0).entry);
     if (stateMember.type() != null)
       Util.fillInfo (stateMember.type ());
     Util.fillInfo (stateMember);
@@ -814,7 +814,7 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
           if (index >= 0)
             name = name.substring (0, index);
           // See if the base type should be added to the list.
-          SymtabEntry typeEntry = (SymtabEntry)symbolTable.get (name);
+          SymtabEntry typeEntry = symbolTable.get (name);
           if (typeEntry != null && importTypes.contains (typeEntry))
             addTo (importList, typeEntry.name () + "Helper");
         }
@@ -864,7 +864,7 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
     while (en.hasMoreElements ())
     {
       String name = en.nextElement();
-      SymtabEntry e = (SymtabEntry)symbolTable.get (name);
+      SymtabEntry e = symbolTable.get (name);
       if (e != null && e instanceof TypedefEntry)
       {
         TypedefEntry t = (TypedefEntry)e;
@@ -899,7 +899,7 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
       }
 
       // See if the base type should be added to the list.
-      SymtabEntry typeEntry = (SymtabEntry)symbolTable.get (name);
+      SymtabEntry typeEntry = symbolTable.get (name);
       if (typeEntry != null && importTypes.contains (typeEntry))
         addTo (importList, typeEntry.name ());
     }
@@ -1219,7 +1219,7 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
       // below walks up the alias chain to get to the primitive type.
 
       // Get the symbol table entry corresponding to the 'type'.
-      SymtabEntry typeEntry = (SymtabEntry) symbolTable.get(e.type());
+      SymtabEntry typeEntry = symbolTable.get(e.type());
 
       // Get to the primitive type.
       while (typeEntry.type() != null) {

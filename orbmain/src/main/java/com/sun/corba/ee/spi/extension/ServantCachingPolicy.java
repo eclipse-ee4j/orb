@@ -50,6 +50,8 @@ import org.omg.CORBA.Policy ;
 */
 public class ServantCachingPolicy extends LocalObject implements Policy
 {
+    private static final long serialVersionUID = 4650785706532821831L;
+
     /** Do not cache servants in the ClientRequestDispatcher.  This will
      * always support the full POA semantics, including changing the
      * servant that handles requests on a particular objref.
@@ -93,6 +95,7 @@ public class ServantCachingPolicy extends LocalObject implements Policy
         }
     }
 
+    @Override
     public String toString()
     {
         return "ServantCachingPolicy[" + typeToName() + "]" ;
@@ -140,16 +143,19 @@ public class ServantCachingPolicy extends LocalObject implements Policy
         return minimalPolicy ;
     }
 
+    @Override
     public int policy_type ()
     {
         return ORBConstants.SERVANT_CACHING_POLICY ;
     }
 
+    @Override
     public org.omg.CORBA.Policy copy ()
     {
         return this ;
     }
 
+    @Override
     public void destroy ()
     {
         // NO-OP

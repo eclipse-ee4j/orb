@@ -74,6 +74,7 @@ public class ResponseWaitingRoomImpl
                Collections.synchronizedMap(new HashMap<Integer, OutCallDesc>());
     }
 
+    @Override
     @Transport
     public void registerWaiter(MessageMediator messageMediator)
     {
@@ -90,11 +91,12 @@ public class ResponseWaitingRoomImpl
         if (exists != null) {
             wrapper.duplicateRequestIdsInResponseWaitingRoom(
                        ORBUtility.operationNameAndRequestId(
-                           (MessageMediator)exists.messageMediator),
+                           exists.messageMediator),
                        ORBUtility.operationNameAndRequestId(messageMediator));
         }
     }
 
+    @Override
     @Transport
     public void unregisterWaiter(MessageMediator mediator)
     {
@@ -109,6 +111,7 @@ public class ResponseWaitingRoomImpl
         out_calls.remove(requestId);
     }
 
+    @Override
     @Transport
     public CDRInputObject waitForResponse(MessageMediator messageMediator) {
         CDRInputObject returnStream = null;
@@ -168,7 +171,7 @@ public class ResponseWaitingRoomImpl
                                     ORBConstants.JAVA_ENC_VERSION);
                         }
                     }
-                } catch (InterruptedException ie) {};
+                } catch (InterruptedException ie) {}
             }
             if (call.exception != null) {
                 display( "Exception from call", call.exception ) ;
@@ -189,7 +192,7 @@ public class ResponseWaitingRoomImpl
             // If the header was already unmarshaled, this won't
             // do anything
             // REVISIT: cast - need interface method.
-            ((CDRInputObject)returnStream).unmarshalHeader();
+            returnStream.unmarshalHeader();
         }
 
         return returnStream;
@@ -204,10 +207,11 @@ public class ResponseWaitingRoomImpl
     @InfoMethod
     private void display( String msg, Object value ) { }
 
+    @Override
     @Transport
     public void responseReceived(CDRInputObject is)
     {
-        CDRInputObject inputObject = (CDRInputObject) is;
+        CDRInputObject inputObject = is;
         LocateReplyOrReplyMessage header = (LocateReplyOrReplyMessage)
             inputObject.getMessageHeader();
         display( "requestId", header.getRequestId()) ;
@@ -237,7 +241,7 @@ public class ResponseWaitingRoomImpl
         try {
             call.lock.lock();
             MessageMediator messageMediator =
-                           (MessageMediator)call.messageMediator;
+                           call.messageMediator;
 
             display( "Notifying waiters") ;
             display( "messageMediator request ID",
@@ -255,6 +259,7 @@ public class ResponseWaitingRoomImpl
         }
     }
 
+    @Override
     public int numberRegistered()
     {
         return out_calls.size();
@@ -265,6 +270,7 @@ public class ResponseWaitingRoomImpl
     // CorbaResponseWaitingRoom
     //
 
+    @Override
     @Transport
     public void signalExceptionToAllWaiters(SystemException systemException) {
         OutCallDesc call;
@@ -274,7 +280,7 @@ public class ResponseWaitingRoomImpl
                 call = itr.next();
                 try {
                     call.lock.lock();
-                    ((MessageMediator)call.messageMediator).cancelRequest();
+                    call.messageMediator.cancelRequest();
                     call.inputObject = null;
                     call.exception = systemException;
                     call.condition.signal();
@@ -285,6 +291,7 @@ public class ResponseWaitingRoomImpl
         }
     }
 
+    @Override
     public MessageMediator getMessageMediator(int requestId)
     {
         OutCallDesc call = out_calls.get(requestId);

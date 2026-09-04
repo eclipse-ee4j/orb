@@ -204,6 +204,7 @@ class TryStatement extends Statement {
     /**
      * Create a copy of the statement for method inlining
      */
+    @Override
     public Statement copyInline(Context ctx, boolean valNeeded) {
         TryStatement s = (TryStatement)clone();
         if (body != null) {
@@ -299,6 +300,7 @@ class TryStatement extends Statement {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out, int indent) {
         super.print(out, indent);
         out.print("try ");

@@ -74,6 +74,7 @@ public class IORTemplateImpl
         return super.hashCode() ^ oktemp.hashCode() ;
     }
 
+    @Override
     public ObjectKeyTemplate getObjectKeyTemplate()
     {
         return oktemp ;
@@ -84,11 +85,13 @@ public class IORTemplateImpl
         this.oktemp = oktemp ;
     }
 
+    @Override
     public IOR makeIOR( ORB orb, String typeid, ObjectId oid )
     {
         return new IORImpl( orb, typeid, this, oid ) ;
     }
 
+    @Override
     public boolean isEquivalent( IORFactory other )
     {
         if (!(other instanceof IORTemplate))
@@ -120,6 +123,7 @@ public class IORTemplateImpl
         super.makeImmutable() ;
     }
 
+    @Override
     public void write( OutputStream os )
     {
         oktemp.write( os ) ;

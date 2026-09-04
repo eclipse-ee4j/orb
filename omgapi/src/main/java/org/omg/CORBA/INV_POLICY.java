@@ -33,6 +33,8 @@ package org.omg.CORBA;
  */
 
 public final class INV_POLICY extends SystemException {
+    private static final long serialVersionUID = 3886934897528057200L;
+
     /**
      * Constructs a <code>INV_POLICY</code> exception with a default minor code
      * of 0, a completion state of CompletionStatus.COMPLETED_NO,

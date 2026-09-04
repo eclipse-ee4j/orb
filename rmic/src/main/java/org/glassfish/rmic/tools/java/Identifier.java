@@ -150,6 +150,7 @@ class Identifier implements Constants {
     /**
      * Convert to a string.
      */
+    @Override
     public String toString() {
         return name;
     }

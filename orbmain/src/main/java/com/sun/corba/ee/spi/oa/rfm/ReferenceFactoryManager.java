@@ -62,25 +62,25 @@ public interface ReferenceFactoryManager extends org.omg.CORBA.Object,
     /** The state of the ReferenceFactoryManager.
      * @return whether the manager is READY or SUSPENDED
      */
-    public RFMState getState();
+    RFMState getState();
 
     /** Must be called before any other operation.
      * Used to activate the ORB reference creation function.
      */
-    public void activate() ;
+    void activate() ;
 
     /** Suspend all CORBA request processing on all references created
      * by ReferenceFactory instances that were created by this
      * ReferenceFactoryManager.  This call does not return until
      * after all currently executing calls have completed.
      */
-    public void suspend() ;
+    void suspend() ;
 
     /** Resume all CORBA request processing on all references created
      * by ReferenceFactory instances that were created by this
      * ReferenceFactoryManager.
      */
-    public void resume() ;
+    void resume() ;
 
     /** Create a new reference factory with the given policies.
      * All such reference factories will be persistent.  The
@@ -105,7 +105,7 @@ public interface ReferenceFactoryManager extends org.omg.CORBA.Object,
      * @param manager locator to use for the reference
      * @return resulting ReferenceFactory with given policies
      */
-    public ReferenceFactory create( String name, String repositoryId, List<Policy> policies,
+    ReferenceFactory create( String name, String repositoryId, List<Policy> policies,
         ServantLocator manager ) ;
 
     /** Get the ReferenceFactory name from a String[] adapterName, if
@@ -113,26 +113,26 @@ public interface ReferenceFactoryManager extends org.omg.CORBA.Object,
      * @param adapterName of factory
      * @return found ReferenceFactory, null otherwise
      */
-    public ReferenceFactory find( String[] adapterName ) ;
+    ReferenceFactory find( String[] adapterName ) ;
 
     /** Find the ReferenceFactory with the given name.
      * If no such ReferenceFactory exists, return null.
      * @param name of factory
      * @return found ReferenceFactory, null otherwise
      */
-    public ReferenceFactory find( String name ) ;
+    ReferenceFactory find( String name ) ;
 
     /** Restart all ReferenceFactories.
      * @param updates is a map giving the updated policies for
      * some or all of the ReferenceFactory instances in this ReferenceFactoryManager.
      * This parameter must not be null.
      */
-    public void restartFactories( Map<String,Pair<ServantLocator,List<Policy>>> updates ) ;
+    void restartFactories( Map<String,Pair<ServantLocator,List<Policy>>> updates ) ;
 
     /** Restart all ReferenceFactories.
      * Equivalent to calling restartFactories( new Map() ).
      */
-    public void restartFactories() ;
+    void restartFactories() ;
 
     /** Restart all ReferenceFactories.  This is done safely, so that
      * any request against object references created from these factories
@@ -150,15 +150,15 @@ public interface ReferenceFactoryManager extends org.omg.CORBA.Object,
      * some or all of the ReferenceFactory instances in this ReferenceFactoryManager.
      * This parameter must not be null.
      */
-    public void restart( Map<String,Pair<ServantLocator,List<Policy>>> updates ) ;
+    void restart( Map<String,Pair<ServantLocator,List<Policy>>> updates ) ;
 
     /** Restart all ReferenceFactories.  This is done safely, so that
      * any request against object references created from these factories
      * complete correctly.  Restart does not return until all restart
      * activity completes.  Equivalent to calling restart( new Map() ).
      */
-    public void restart() ;
+    void restart() ;
 
-    public boolean isRfmName( String[] adapterName ) ;
+    boolean isRfmName( String[] adapterName ) ;
 
 }

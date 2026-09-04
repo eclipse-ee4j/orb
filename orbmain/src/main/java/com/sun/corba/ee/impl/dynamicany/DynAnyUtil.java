@@ -159,11 +159,11 @@ public class DynAnyUtil
                 break;
             case TCKind._tk_longlong:
                 // zero for numeric types
-                returnValue.insert_longlong((long)0);
+                returnValue.insert_longlong(0);
                 break;
             case TCKind._tk_ulonglong:
                 // zero for numeric types
-                returnValue.insert_ulonglong((long)0);
+                returnValue.insert_ulonglong(0);
                 break;
             case TCKind._tk_float:
                 // zero for numeric types

@@ -41,6 +41,7 @@ public final class InboundConnectionCacheBlockingImpl<C extends Connection>
 
     private final Map<C,ConnectionState<C>> connectionMap ;
 
+    @Override
     protected String thisClassName() {
         return "InboundConnectionCacheBlockingImpl" ;
     }
@@ -83,6 +84,7 @@ public final class InboundConnectionCacheBlockingImpl<C extends Connection>
     @InfoMethod
     private void msg( String msg ) {}
 
+    @Override
     @Transport
     public synchronized void requestReceived( final C conn ) {
         ConnectionState<C> cs = getConnectionState( conn ) ;
@@ -106,6 +108,7 @@ public final class InboundConnectionCacheBlockingImpl<C extends Connection>
         }
     }
 
+    @Override
     @Transport
     public synchronized void requestProcessed( final C conn,
         final int numResponsesExpected ) {
@@ -143,6 +146,7 @@ public final class InboundConnectionCacheBlockingImpl<C extends Connection>
     /** Decrement the number of expected responses.  When a connection is idle
      * and has no expected responses, it can be reclaimed.
      */
+    @Override
     @Transport
     public synchronized void responseSent( final C conn ) {
         final ConnectionState<C> cs = connectionMap.get( conn ) ;
@@ -164,6 +168,7 @@ public final class InboundConnectionCacheBlockingImpl<C extends Connection>
     /** Close a connection, regardless of whether the connection is busy
      * or not.
      */
+    @Override
     @Transport
     public synchronized void close( final C conn ) {
         final ConnectionState<C> cs = connectionMap.remove( conn ) ;

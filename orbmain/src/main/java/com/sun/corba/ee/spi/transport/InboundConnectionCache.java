@@ -25,11 +25,11 @@ package com.sun.corba.ee.spi.transport;
  */
 public interface InboundConnectionCache extends ConnectionCache
 {
-    public Connection get(Acceptor acceptor); // REVISIT
+    Connection get(Acceptor acceptor); // REVISIT
 
-    public void put(Acceptor acceptor, Connection connection);
+    void put(Acceptor acceptor, Connection connection);
 
-    public void remove( Connection connection ) ;
+    void remove( Connection connection ) ;
 }
 
 // End of file.

@@ -54,14 +54,17 @@ class MethodType extends Type {
         this.argTypes = argTypes;
     }
 
+    @Override
     public Type getReturnType() {
         return returnType;
     }
 
+    @Override
     public Type getArgumentTypes()[] {
         return argTypes;
     }
 
+    @Override
     public boolean equalArguments(Type t) {
         if (t.getTypeCode() != TC_METHOD) {
             return false;
@@ -78,6 +81,7 @@ class MethodType extends Type {
         return true;
     }
 
+    @Override
     public int stackSize() {
         int n = 0;
         for (int i = 0 ; i < argTypes.length ; i++) {
@@ -86,6 +90,7 @@ class MethodType extends Type {
         return n;
     }
 
+    @Override
     public String typeString(String id, boolean abbrev, boolean ret) {
         StringBuilder sb = new StringBuilder();
         sb.append(id);

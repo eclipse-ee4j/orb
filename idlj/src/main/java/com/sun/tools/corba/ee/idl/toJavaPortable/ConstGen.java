@@ -50,6 +50,7 @@ public class ConstGen implements com.sun.tools.corba.ee.idl.ConstGen
    * a new class only when it is not a member of an interface; otherwise
    * it written to the interface class in which it resides.
    **/
+  @Override
   public void generate (Hashtable symbolTable, ConstEntry c, PrintWriter s)
   {
     this.symbolTable = symbolTable;

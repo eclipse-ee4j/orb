@@ -544,7 +544,7 @@ class Parser
   public boolean isModuleLegalType ()
   {
     return _isModuleLegalType;
-  }; // moduleIsLegaType
+  } // moduleIsLegaType
 
   /**
    *
@@ -552,7 +552,7 @@ class Parser
   public void isModuleLegalType (boolean b)
   {
     _isModuleLegalType = b;
-  }; // moduleIsLegalType
+  } // moduleIsLegalType
 
   /**
    *
@@ -1159,7 +1159,7 @@ class Parser
         if (n.longValue () > (long)Integer.MAX_VALUE*2+1 || n.longValue() < 0)
             outOfRange = true;
     } else if (t == qualifiedEntry ("unsigned short")) {
-        if (n.intValue () > (int) Short.MAX_VALUE*2+1 || n.intValue () < 0)
+        if (n.intValue () > Short.MAX_VALUE*2+1 || n.intValue () < 0)
             outOfRange = true;
     } else if (t == qualifiedEntry ("long long")) {
         // BigInteger required because value being compared may exceed
@@ -3041,7 +3041,7 @@ class Parser
     entry.name (token.name);
     // If this named module already exists, just reopen it.
     /* <46082.46.01> if cppModule, always create new module entry */
-    com.sun.tools.corba.ee.idl.SymtabEntry prevEntry = (com.sun.tools.corba.ee.idl.SymtabEntry) symbolTable.get (entry.fullName ());
+    com.sun.tools.corba.ee.idl.SymtabEntry prevEntry = symbolTable.get (entry.fullName ());
     if (!cppModule && prevEntry != null && prevEntry instanceof com.sun.tools.corba.ee.idl.ModuleEntry)
     {
       // A module has been reopened, return that ModuleEntry.
@@ -3126,7 +3126,7 @@ class Parser
             // It is an error is this name already exists in the symbol
             // table, unless this is a redefinition of a forward decl.
             // Re-opening a module is also legal, but not handled here.
-            com.sun.tools.corba.ee.idl.SymtabEntry oldEntry = (com.sun.tools.corba.ee.idl.SymtabEntry) symbolTable.get (fullName);
+            com.sun.tools.corba.ee.idl.SymtabEntry oldEntry = symbolTable.get (fullName);
 
             if (oldEntry == null) {
                 updateSymbolTable( fullName, entry, true ) ;
@@ -3328,7 +3328,7 @@ class Parser
       // for the thing itself (this is the meat of the method):
       type = searchOverrideNames (typeName);
       if (type == null)
-        type = (com.sun.tools.corba.ee.idl.SymtabEntry) symbolTable.get (typeName); // search global scope:
+        type = symbolTable.get (typeName); // search global scope:
       if (type == null)
         type = searchGlobalInheritanceScope (typeName);
     }
@@ -3449,7 +3449,7 @@ class Parser
     if ((typeName != null) && !typeName.equals ("void"))
     {
       // Search local scope:
-      type = (com.sun.tools.corba.ee.idl.SymtabEntry)symbolTable.get (container.fullName () + '/' + typeName);
+      type = symbolTable.get (container.fullName () + '/' + typeName);
       if (type == null)
         type = searchLocalInheritanceScope (typeName, container);
       if (type == null)
@@ -3483,7 +3483,7 @@ class Parser
             cname = "";
         } else {
             cname = cname.substring (0, index);
-            ptype = (com.sun.tools.corba.ee.idl.SymtabEntry) symbolTable.get(cname);
+            ptype = symbolTable.get(cname);
         }
     }
 
@@ -3493,7 +3493,7 @@ class Parser
 
     // check if the enclosing interface supports the type definition.
     String fullName = ptype.fullName () + '/' + name;
-    com.sun.tools.corba.ee.idl.SymtabEntry type = (com.sun.tools.corba.ee.idl.SymtabEntry) symbolTable.get (fullName);
+    com.sun.tools.corba.ee.idl.SymtabEntry type = symbolTable.get (fullName);
     if (type != null) {
         return type; // found type definition.
     }
@@ -3513,7 +3513,7 @@ class Parser
     if (index >= 0)
     {
       String containerName = name.substring (0, index);
-      entry = (com.sun.tools.corba.ee.idl.SymtabEntry)symbolTable.get (containerName);
+      entry = symbolTable.get (containerName);
       entry = (entry instanceof com.sun.tools.corba.ee.idl.InterfaceEntry)
           // It's an interface, now look in its inheritance scope:
           ? searchLocalInheritanceScope (name.substring (index + 1), entry)
@@ -3550,7 +3550,7 @@ class Parser
   {
     String      module   = container.fullName ();
     String      fullName = module + '/' + name;
-    com.sun.tools.corba.ee.idl.SymtabEntry type     = (com.sun.tools.corba.ee.idl.SymtabEntry)symbolTable.get (fullName);
+    com.sun.tools.corba.ee.idl.SymtabEntry type     = symbolTable.get (fullName);
     while ((type == null) && !module.equals (""))
     {
       int index = module.lastIndexOf ('/');
@@ -3560,7 +3560,7 @@ class Parser
       {
         module   = module.substring (0, index);
         fullName = module + '/' + name;
-        type     = (com.sun.tools.corba.ee.idl.SymtabEntry)symbolTable.get (fullName);
+        type     = symbolTable.get (fullName);
       }
     }
     return (type == null) ? (com.sun.tools.corba.ee.idl.SymtabEntry)symbolTable.get (name) : type;
@@ -3578,7 +3578,7 @@ class Parser
       {
         com.sun.tools.corba.ee.idl.InterfaceEntry parent = (com.sun.tools.corba.ee.idl.InterfaceEntry)tmp;
         String fullName = parent.fullName () + '/' + name;
-        com.sun.tools.corba.ee.idl.SymtabEntry type = (com.sun.tools.corba.ee.idl.SymtabEntry)symbolTable.get (fullName);
+        com.sun.tools.corba.ee.idl.SymtabEntry type = symbolTable.get (fullName);
         if (type != null)
           return type;
         type = searchDerivedFrom (name, parent);

@@ -74,6 +74,7 @@ class InlineMethodExpression extends Expression {
     /**
      * Create a copy of the expression for method inlining
      */
+    @Override
     public Expression copyInline(Context ctx) {
         InlineMethodExpression e = (InlineMethodExpression)clone();
         if (body != null) {
@@ -98,6 +99,7 @@ class InlineMethodExpression extends Expression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print("(" + opNames[op] + "\n");
         body.print(out, 1);

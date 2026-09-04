@@ -30,6 +30,7 @@ package org.glassfish.rmic.tools.java;
 @SuppressWarnings("serial") // JDK implementation class
 public
 class AmbiguousMember extends Exception {
+    private static final long serialVersionUID = 6815297217413916496L;
     /**
      * The field that was not found
      */

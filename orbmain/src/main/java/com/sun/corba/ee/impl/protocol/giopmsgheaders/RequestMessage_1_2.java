@@ -76,10 +76,12 @@ public final class RequestMessage_1_2 extends Message_1_2
 
     // Accessor methods (RequestMessage interface)
 
+    @Override
     public int getRequestId() {
         return this.request_id;
     }
 
+    @Override
     public boolean isResponseExpected() {
         /*
         case 1: LSBit[1] == 1
@@ -100,10 +102,12 @@ public final class RequestMessage_1_2 extends Message_1_2
         return false;
     }
 
+    @Override
     public byte[] getReserved() {
         return this.reserved;
     }
 
+    @Override
     public ObjectKeyCacheEntry getObjectKeyCacheEntry() {
         if (this.entry == null) {
             // this will raise a MARSHAL exception upon errors.
@@ -113,26 +117,31 @@ public final class RequestMessage_1_2 extends Message_1_2
         return this.entry;
     }
 
+    @Override
     public String getOperation() {
         return this.operation;
     }
 
+    @Override
     @SuppressWarnings({"deprecation"})
     public org.omg.CORBA.Principal getPrincipal() {
         // REVISIT Should we throw an exception or return null ?
         return null;
     }
 
+    @Override
     public ServiceContexts getServiceContexts() {
         return this.service_contexts;
     }
 
+    @Override
     public void setServiceContexts(ServiceContexts sc) {
         this.service_contexts = sc;
     }
 
     // IO methods
 
+    @Override
     @Transport
     public void read(org.omg.CORBA.portable.InputStream istream) {
         super.read(istream);
@@ -157,6 +166,7 @@ public final class RequestMessage_1_2 extends Message_1_2
 
     }
 
+    @Override
     @Transport
     public void write(org.omg.CORBA.portable.OutputStream ostream) {
         super.write(ostream);
@@ -184,6 +194,7 @@ public final class RequestMessage_1_2 extends Message_1_2
         ((CDROutputObject) ostream).setHeaderPadding(true);
     }
 
+    @Override
     public void callback(MessageHandler handler)
             throws java.io.IOException {
         handler.handleInput(this);

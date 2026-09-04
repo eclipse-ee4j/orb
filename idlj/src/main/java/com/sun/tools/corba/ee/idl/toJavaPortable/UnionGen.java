@@ -317,7 +317,7 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
         // which are NOT covered by the cases, pick one as the
         // default.
         if (enumList.size () == 0)
-            ret = typePackage + (String)enumEntry.elements ().lastElement ();
+            ret = typePackage + enumEntry.elements ().lastElement ();
         else
             ret = typePackage + (String)enumList.firstElement ();
     } else if (utype.name ().equals ("octet")) {
@@ -462,9 +462,9 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
     {
       // This is a non-default branch
       if (unionIsEnum)
-        stream.println ("    __discriminator = " + typePackage + com.sun.tools.corba.ee.idl.toJavaPortable.Util.parseExpression((Expression) branch.labels.firstElement()) + ";");
+        stream.println ("    __discriminator = " + typePackage + com.sun.tools.corba.ee.idl.toJavaPortable.Util.parseExpression(branch.labels.firstElement()) + ";");
       else
-        stream.println ("    __discriminator = " + cast ((Expression)branch.labels.firstElement (), u.type ()) + ";");
+        stream.println ("    __discriminator = " + cast (branch.labels.firstElement (), u.type ()) + ";");
     }
     stream.println ("    ___" + branch.typedef.name () + " = value;");
     stream.println ("    __uninitialized = false;");
@@ -570,6 +570,7 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
     return size ;
   }
 
+  @Override
   public int helperType (int index, String indent, com.sun.tools.corba.ee.idl.toJavaPortable.TCOffsets tcoffsets,
     String name, SymtabEntry entry, PrintWriter stream)
   {
@@ -595,7 +596,7 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
     innerOffsets.set (entry);
     int offsetForUnion = innerOffsets.currentOffset ();
     for (int i = 0; i < u.branches ().size (); ++i) {
-        UnionBranch branch = (UnionBranch)u.branches ().elementAt (i);
+        UnionBranch branch = u.branches ().elementAt (i);
         TypedefEntry member = branch.typedef;
         Vector labels = branch.labels;
         String memberName = com.sun.tools.corba.ee.idl.toJavaPortable.Util.stripLeadingUnderscores(member.name());
@@ -721,11 +722,11 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
     private int readBoolean (String disName, int index, String indent,
         String name, UnionEntry u, PrintWriter stream)
     {
-        UnionBranch firstBranch = (UnionBranch)u.branches ().firstElement ();
+        UnionBranch firstBranch = u.branches ().firstElement ();
         UnionBranch secondBranch;
 
         if (u.branches ().size () == 2)
-            secondBranch = (UnionBranch)u.branches ().lastElement ();
+            secondBranch = u.branches ().lastElement ();
         else
             secondBranch = null;
 
@@ -866,6 +867,7 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
   /**
    *
    **/
+  @Override
   public int write (int index, String indent, String name, SymtabEntry entry, PrintWriter stream)
   {
     UnionEntry u = (UnionEntry)entry;
@@ -887,10 +889,10 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
   private int writeBoolean (String disName, int index, String indent, String name, UnionEntry u, PrintWriter stream)
   {
     SymtabEntry utype = com.sun.tools.corba.ee.idl.toJavaPortable.Util.typeOf(u.type());
-    UnionBranch firstBranch = (UnionBranch)u.branches ().firstElement ();
+    UnionBranch firstBranch = u.branches ().firstElement ();
     UnionBranch secondBranch;
     if (u.branches ().size () == 2)
-      secondBranch = (UnionBranch)u.branches ().lastElement ();
+      secondBranch = u.branches ().lastElement ();
     else
       secondBranch = null;
     boolean firstBranchIsTrue = false;
@@ -900,7 +902,7 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
       if (u.branches ().size () == 1 && (u.defaultBranch () != null || firstBranch.labels.size () == 2))
         noCases = true;
       else
-        firstBranchIsTrue = ((Boolean)((Expression)firstBranch.labels.firstElement ()).evaluate ()).booleanValue ();
+        firstBranchIsTrue = ((Boolean)firstBranch.labels.firstElement ().evaluate ()).booleanValue ();
     }
     catch (EvaluationException ex)
     {}

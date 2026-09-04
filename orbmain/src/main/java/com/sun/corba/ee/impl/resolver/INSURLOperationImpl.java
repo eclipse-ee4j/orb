@@ -108,6 +108,7 @@ public class INSURLOperationImpl implements Operation
         return s.read_Object() ;
     }
 
+    @Override
     public Object operate( Object arg )
     {
         if (arg instanceof String) {
@@ -266,11 +267,12 @@ public class INSURLOperationImpl implements Operation
 
         // Create a comparator that can sort in decending order (1.2, 1.1, ...)
         Comparator comp = new Comparator() {
+            @Override
             public int compare(Object o1, Object o2) {
                 GIOPVersion gv1 = (GIOPVersion)o1;
                 GIOPVersion gv2 = (GIOPVersion)o2;
                 return (gv1.lessThan(gv2) ? 1 : (gv1.equals(gv2) ? 0 : -1));
-            };
+            }
         };
 
         // Now sort using the above comparator

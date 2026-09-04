@@ -102,9 +102,8 @@ public class WStringValueHelper implements org.omg.CORBA.portable.BoxedValueHelp
 
   public java.io.Serializable read_value (org.omg.CORBA.portable.InputStream istream)
     {
-    String tmp;
-    tmp = istream.read_wstring ();
-    return (java.io.Serializable) tmp;
+    String tmp = istream.read_wstring ();
+    return tmp;
     }
 
   public static void write (org.omg.CORBA.portable.OutputStream ostream, String value)

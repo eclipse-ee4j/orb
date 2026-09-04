@@ -46,6 +46,7 @@ public final class CDREncapsCodec
     extends org.omg.CORBA.LocalObject
     implements Codec
 {
+    private static final long serialVersionUID = -3532099145859319027L;
     // The ORB that created the factory this codec was created from
     private transient ORB orb;
     static final ORBUtilSystemException wrapper =
@@ -78,6 +79,7 @@ public final class CDREncapsCodec
     /**
      * Convert the given any into a CDR encapsulated octet sequence
      */
+    @Override
     public byte[] encode( Any data )
         throws InvalidTypeForEncoding
     {
@@ -90,6 +92,7 @@ public final class CDREncapsCodec
      * Decode the given octet sequence into an any based on a CDR
      * encapsulated octet sequence.
      */
+    @Override
     public Any decode ( byte[] data )
         throws FormatMismatch
     {
@@ -102,6 +105,7 @@ public final class CDREncapsCodec
      * Convert the given any into a CDR encapsulated octet sequence.  Only
      * the data is stored.  The type code is not.
      */
+    @Override
     public byte[] encode_value( Any data )
         throws InvalidTypeForEncoding
     {
@@ -115,6 +119,7 @@ public final class CDREncapsCodec
      * encapsulated octet sequence.  The type code is expected not to appear
      * in the octet sequence, and the given type code is used instead.
      */
+    @Override
     public Any decode_value( byte[] data, TypeCode tc )
         throws FormatMismatch, TypeMismatch
     {

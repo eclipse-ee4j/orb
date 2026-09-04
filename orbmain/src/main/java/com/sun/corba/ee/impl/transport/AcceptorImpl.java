@@ -51,6 +51,7 @@ import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
         super( orb, port, name, type ) ;
     }
 
+    @Override
     @Transport
     public synchronized boolean initialize() {
         if (initialized) {
@@ -115,6 +116,7 @@ import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
     @InfoMethod
     private void usingServerSocketChannel( ServerSocketChannel ssc ) { }
 
+    @Override
     @Transport
     public Socket getAcceptedSocket() {
         SocketChannel socketChannel = null;
@@ -165,6 +167,7 @@ import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
     @InfoMethod
     private void closeException( IOException exc ) { }
 
+    @Override
     @Transport
     public void close () {
         try {
@@ -185,6 +188,7 @@ import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
     // EventHandler methods
     //
 
+    @Override
     public SelectableChannel getChannel() {
         return serverSocketChannel;
     }
@@ -198,12 +202,14 @@ import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
         processSocket( getAcceptedSocket() ) ;
     }
 
+    @Override
     @Transport
     public void doWork() {
         try {
             if (selectionKey.isAcceptable()) {
                 AccessController.doPrivileged(
                     new PrivilegedAction<Object>() {
+                        @Override
                         public java.lang.Object run() {
                             accept() ;
                             return null;
@@ -249,6 +255,7 @@ import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
     // SocketOrChannelAcceptor
     //
 
+    @Override
     public ServerSocket getServerSocket()
     {
         return serverSocket;

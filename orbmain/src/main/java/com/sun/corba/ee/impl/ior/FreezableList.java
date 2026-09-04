@@ -89,11 +89,13 @@ public class FreezableList<E> extends AbstractList<E> {
 
     // Methods overridden from AbstractList
 
+    @Override
     public int size()
     {
         return delegate.size() ;
     }
 
+    @Override
     public E get(int index)
     {
         return delegate.get(index) ;

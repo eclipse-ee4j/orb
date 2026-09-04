@@ -39,7 +39,7 @@ public interface BufferManagerRead
      * @param byteBuffer buffer to read from
      * @param header header of fragment
      */
-    public void processFragment ( ByteBuffer byteBuffer,
+    void processFragment ( ByteBuffer byteBuffer,
         FragmentMessage header);
 
 
@@ -74,23 +74,23 @@ public interface BufferManagerRead
      * it begins processing.
      * @param header message header
      */
-    public void init(Message header);
+    void init(Message header);
 
     /**
      * Returns the mark/reset handler for this stream.
      * @return The mark/reset handler for this stream.
      */
-    public MarkAndResetHandler getMarkAndResetHandler();
+    MarkAndResetHandler getMarkAndResetHandler();
 
     /**
      * Signals that the processing be cancelled.
      * @param requestId ID of the request to cancel
      */
-    public void cancelProcessing(int requestId);
+    void cancelProcessing(int requestId);
 
     /**
      * Close BufferManagerRead and perform any outstanding cleanup.
      * @param byteBuffer buffer to return to the pool
      */
-    public void close(ByteBuffer byteBuffer);
+    void close(ByteBuffer byteBuffer);
 }

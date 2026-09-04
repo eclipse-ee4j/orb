@@ -21,6 +21,8 @@ package com.sun.corba.ee.spi.threadpool;
 
 public class NoSuchThreadPoolException extends Exception
 {
+
+    private static final long serialVersionUID = -5259468558464059593L;
 }
 
 // End of file.

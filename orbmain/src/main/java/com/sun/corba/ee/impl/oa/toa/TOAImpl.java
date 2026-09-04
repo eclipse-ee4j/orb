@@ -119,12 +119,14 @@ public class TOAImpl extends ObjectAdapterBase implements TOA
 
     // Methods required for dispatching requests
 
+    @Override
     public ObjectCopierFactory getObjectCopierFactory()
     {
         CopierManager cm = getORB().getCopierManager() ;
         return cm.getDefaultObjectCopierFactory() ;
     }
 
+    @Override
     public org.omg.CORBA.Object getLocalServant( byte[] objectId )
     {
         return (org.omg.CORBA.Object)(servants.lookupServant( objectId ) ) ;
@@ -147,6 +149,7 @@ public class TOAImpl extends ObjectAdapterBase implements TOA
         info.setServant( servant ) ;
     }
 
+    @Override
     public void returnServant()
     {
         // NO-OP
@@ -154,36 +157,43 @@ public class TOAImpl extends ObjectAdapterBase implements TOA
 
     /** Return the most derived interface for the given servant and objectId.
     */
+    @Override
     public String[] getInterfaces( Object servant, byte[] objectId )
     {
         return StubAdapter.getTypeIds( servant ) ;
     }
 
+    @Override
     public Policy getEffectivePolicy( int type )
     {
         return null ;
     }
 
+    @Override
     public int getManagerId()
     {
         return -1 ;
     }
 
+    @Override
     public short getState()
     {
         return ACTIVE.value ;
     }
 
+    @Override
     public void enter() throws OADestroyed
     {
     }
 
+    @Override
     public void exit()
     {
     }
 
     // Methods unique to the TOA
 
+    @Override
     public void connect( org.omg.CORBA.Object objref)
     {
         // Store the objref and get a userkey allocated by the transient
@@ -215,6 +225,7 @@ public class TOAImpl extends ObjectAdapterBase implements TOA
         StubAdapter.setDelegate( objref, delegate ) ;
     }
 
+    @Override
     public void disconnect( org.omg.CORBA.Object objref )
     {
         // Get the delegate, then ior, then transientKey, then delete servant

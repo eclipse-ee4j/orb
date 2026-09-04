@@ -23,4 +23,6 @@ package com.sun.corba.ee.spi.oa;
  * fails because the ObjectAdapter was destroyed during the operation.
  */
 public class OADestroyed extends java.lang.Exception {
+
+    private static final long serialVersionUID = 7587665548997478332L;
 }

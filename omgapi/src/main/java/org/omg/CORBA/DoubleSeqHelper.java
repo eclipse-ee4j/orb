@@ -78,9 +78,8 @@ public abstract class DoubleSeqHelper
 
     public static double[] read (org.omg.CORBA.portable.InputStream istream)
     {
-        double value[] = null;
         int _len0 = istream.read_long ();
-        value = new double[_len0];
+        double value[] = new double[_len0];
         istream.read_double_array (value, 0, _len0);
         return value;
     }
