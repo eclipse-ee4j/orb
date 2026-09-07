@@ -58,6 +58,7 @@ import java.lang.reflect.Proxy;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.nio.ByteOrder;
 import java.rmi.server.RMIClassLoader;
 import java.security.AccessController;
@@ -453,12 +454,81 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
             return newEmptyString();
         }
 
-        char[] result = getConvertedChars(len - 1, getCharConverter());
+        CodeSetConversion.BTCConverter converter = getCharConverter();
+
+        Charset singleByteCharset = converter.getSingleByteCharset();
+        if (singleByteCharset != null) {
+            String result = readSingleByteString(len - 1, singleByteCharset);
+
+            // Skip over the 1 byte null
+            read_octet();
+
+            return result;
+        }
+
+        char[] result = getConvertedChars(len - 1, converter);
 
         // Skip over the 1 byte null
         read_octet();
 
-        return new String(result, 0, getCharConverter().getNumChars());
+        return new String(result, 0, converter.getNumChars());
+    }
+
+    /**
+     * Reads a string whose transmission code set is one byte per character,
+     * going straight from the CDR bytes to the String.
+     *
+     * <p>The general path is {@link #getConvertedChars} followed by
+     * {@code new String(char[], int, int)}, which for every string on the
+     * wire runs a CharsetDecoder and allocates three arrays: the decoder's
+     * own CharBuffer, the char[] copied out of it, and then the String's
+     * internal storage. That last copy is not free either - since compact
+     * strings arrived in JDK 9 a Latin-1 String holds a byte[], so the
+     * constructor has to compress the chars back down to the bytes we
+     * started from.
+     *
+     * <p>For a single byte code set none of that is necessary.
+     * {@code new String(bytes, offset, length, ISO_8859_1)} is one array
+     * copy, and for UTF-8 the same constructor reaches HotSpot's
+     * {@code countPositives} intrinsic, which is a vectorised "is this all
+     * ASCII" scan - already faster than anything worth hand writing.
+     *
+     * @param numBytes the string's length, excluding the null terminator
+     * @param charset  the single byte charset to decode with
+     * @return the decoded string
+     */
+    private String readSingleByteString(int numBytes, Charset charset) {
+        if (numBytes == 0) {
+            return newEmptyString();
+        }
+
+        if (byteBuffer.remaining() >= numBytes) {
+            // Wholly inside the current buffer, so it can be read in place.
+            // Note this deliberately does not call read_octet_array: neither
+            // does the equivalent branch of getConvertedChars, and a string
+            // is guaranteed not to straddle a chunk boundary.
+            int position = byteBuffer.position();
+            String result;
+            if (byteBuffer.hasArray()) {
+                result = new String(byteBuffer.array(),
+                        byteBuffer.arrayOffset() + position, numBytes, charset);
+            } else {
+                // A direct buffer cannot be read from without copying, but
+                // one copy plus one String copy still beats a decoder run
+                // plus three.
+                byte[] bytes = new byte[numBytes];
+                byteBuffer.get(bytes, 0, numBytes);
+                result = new String(bytes, charset);
+            }
+            byteBuffer.position(position + numBytes);
+            return result;
+        }
+
+        // Straddles a fragment boundary. Collect the bytes first, exactly as
+        // getConvertedChars does in the same situation.
+        byte[] bytes = new byte[numBytes];
+        read_octet_array(bytes, 0, numBytes);
+        return new String(bytes, charset);
     }
 
     public final String read_string() {
@@ -1598,6 +1668,24 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
     }
 
     public final void read_char_array(char[] value, int offset, int length) {
+        if (length == 0) {
+            return;
+        }
+
+        CodeSetConversion.BTCConverter converter = getCharConverter();
+        if (converter.getSingleByteCharset() != null) {
+            // Convert the whole array in one pass. Reading it a character at
+            // a time meant one CharsetDecoder invocation, one CharBuffer and
+            // one char[1] per character, so a ten thousand element sequence
+            // produced some twenty thousand short lived objects.
+            char[] converted = getConvertedChars(length, converter);
+            System.arraycopy(converted, 0, value, offset, length);
+            return;
+        }
+
+        // A multi byte char code set is outside what CORBA defines for the
+        // char type, and the byte count would not equal the char count. Keep
+        // the original behaviour rather than guess.
         for(int i=0; i < length; i++) {
             value[i+offset] = read_char();
         }
@@ -1609,9 +1697,47 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         }
     }
 
+    /**
+     * Transfers {@code length} elements of {@code elementSize} bytes into a
+     * primitive array using the buffer's bulk operations.
+     *
+     * <p>Reading these arrays an element at a time meant an
+     * {@link #alignAndCheck} - and with it a chunk boundary test - per
+     * element, and denied the JIT any chance to vectorise. The bulk view
+     * operations lower to a memory copy, which is where a SIMD implementation
+     * already exists inside the JDK; there is nothing to gain from writing
+     * one here.
+     *
+     * <p>Correctness rests on the guarantee stated at
+     * {@link #checkBlockLength}: a chunk may end at arbitrary points
+     * <em>except</em> within an array of primitives. So once the first
+     * element is aligned and present, the only boundary that can interrupt
+     * the transfer is the end of the current buffer, which is what the loop
+     * handles - each pass re-aligns and grows exactly as the per element
+     * version did, then moves as many whole elements as the buffer holds.
+     *
+     * @param elementSize the CDR size and alignment of one element
+     * @param length number of elements still to read
+     * @return the number of elements that can be transferred in this pass
+     */
+    private int beginBulkRead(int elementSize, int length) {
+        alignAndCheck(elementSize, elementSize);
+        // alignAndCheck guarantees at least one element is available, so this
+        // is never zero and the caller's loop always makes progress.
+        return Math.min(byteBuffer.remaining() / elementSize, length);
+    }
+
+    private void advance(int elementSize, int count) {
+        byteBuffer.position(byteBuffer.position() + (count * elementSize));
+    }
+
     public final void read_short_array(short[] value, int offset, int length) {
-        for(int i=0; i < length; i++) {
-            value[i+offset] = read_short();
+        int done = 0;
+        while (done < length) {
+            int batch = beginBulkRead(2, length - done);
+            byteBuffer.asShortBuffer().get(value, offset + done, batch);
+            advance(2, batch);
+            done += batch;
         }
     }
 
@@ -1620,8 +1746,12 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
     }
 
     public final void read_long_array(int[] value, int offset, int length) {
-        for(int i=0; i < length; i++) {
-            value[i+offset] = read_long();
+        int done = 0;
+        while (done < length) {
+            int batch = beginBulkRead(4, length - done);
+            byteBuffer.asIntBuffer().get(value, offset + done, batch);
+            advance(4, batch);
+            done += batch;
         }
     }
 
@@ -1630,8 +1760,12 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
     }
 
     public final void read_longlong_array(long[] value, int offset, int length) {
-        for(int i=0; i < length; i++) {
-            value[i+offset] = read_longlong();
+        int done = 0;
+        while (done < length) {
+            int batch = beginBulkRead(8, length - done);
+            byteBuffer.asLongBuffer().get(value, offset + done, batch);
+            advance(8, batch);
+            done += batch;
         }
     }
 
@@ -1640,14 +1774,22 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
     }
 
     public final void read_float_array(float[] value, int offset, int length) {
-        for(int i=0; i < length; i++) {
-            value[i+offset] = read_float();
+        int done = 0;
+        while (done < length) {
+            int batch = beginBulkRead(4, length - done);
+            byteBuffer.asFloatBuffer().get(value, offset + done, batch);
+            advance(4, batch);
+            done += batch;
         }
     }
 
     public final void read_double_array(double[] value, int offset, int length) {
-        for(int i=0; i < length; i++) {
-            value[i+offset] = read_double();
+        int done = 0;
+        while (done < length) {
+            int batch = beginBulkRead(8, length - done);
+            byteBuffer.asDoubleBuffer().get(value, offset + done, batch);
+            advance(8, batch);
+            done += batch;
         }
     }
 

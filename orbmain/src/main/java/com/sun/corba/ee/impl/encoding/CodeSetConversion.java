@@ -120,6 +120,36 @@ public class CodeSetConversion
         public abstract char[] getChars(byte[] bytes, int offset, int length);
         public abstract char[] getChars(ByteBuffer byteBuffer, int offset, int length);
 
+        /**
+         * The Java charset of this converter, but only when every byte value
+         * is a valid character in it - in practice ISO 8859-1, which is the
+         * default char code set and the overwhelming majority of traffic.
+         *
+         * <p>The restriction is about error behaviour, not width. On a code
+         * set where some byte values are illegal - US-ASCII, where anything
+         * above 0x7F is malformed - the CharsetDecoder path throws, and the
+         * ORB turns that into the CORBA exception the specification requires
+         * (formal 00-11-03). {@code new String(bytes, charset)} instead
+         * substitutes U+FFFD and returns normally. Taking the shortcut there
+         * would silently accept corrupt data, so it is offered only where
+         * the two are exactly equivalent.
+         *
+         * <p>A caller that holds the bytes can then build a String directly
+         * with {@code new String(bytes, offset, length, charset)} and skip
+         * this converter altogether. That matters because for a single byte
+         * charset the JDK reduces that constructor to one array copy: since
+         * compact strings arrived in JDK 9 a Latin-1 String <em>is</em> a
+         * byte array, so there is nothing to decode and nothing to compress
+         * afterwards. Going through {@link #getChars} instead costs a
+         * CharsetDecoder run, a CharBuffer, a second char[], and then the
+         * char-to-byte compression that the String constructor has to do to
+         * store the result.
+         *
+         * @return the charset, or null when the code set is not single byte
+         */
+        public Charset getSingleByteCharset() {
+            return null;
+        }
     }
 
     /**
@@ -306,9 +336,34 @@ public class CodeSetConversion
     private class JavaBTCConverter extends BTCConverter {
         protected CharsetDecoder decoder;
         private int resultingNumChars;
+        private Charset singleByteCharset;
 
         public JavaBTCConverter(OSFCodeSetRegistry.Entry codeset) {
             decoder = this.getConverter(codeset.getName());
+            singleByteCharset = resolveSingleByteCharset(codeset);
+        }
+
+        private Charset resolveSingleByteCharset(OSFCodeSetRegistry.Entry codeset) {
+            // Only ISO 8859-1: it is fixed width, one byte per character, and
+            // - the part that matters - it has no illegal byte values, so
+            // decoding it directly cannot differ from decoding it through the
+            // CharsetDecoder. See getSingleByteCharset for why that is the
+            // condition rather than the width.
+            if (codeset != OSFCodeSetRegistry.ISO_8859_1) {
+                return null;
+            }
+            try {
+                return Charset.forName(codeset.getName());
+            } catch (IllegalCharsetNameException | UnsupportedCharsetException e) {
+                // getConverter above would already have failed on a name this
+                // broken; losing the fast path is not worth failing the stream.
+                return null;
+            }
+        }
+
+        @Override
+        public Charset getSingleByteCharset() {
+            return singleByteCharset;
         }
 
         public final int getNumChars() {

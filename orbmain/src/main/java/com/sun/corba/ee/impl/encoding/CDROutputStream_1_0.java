@@ -999,6 +999,33 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
         handleSpecialChunkEnd();
     }
 
+    /**
+     * Reserves space for the next run of a primitive array and reports how
+     * many whole elements fit in the current buffer.
+     *
+     * <p>Writing these arrays an element at a time meant an
+     * {@link #alignAndReserve} per element and left the JIT nothing to
+     * vectorise. The bulk put operations lower to a memory copy, which is
+     * where the JDK's own vectorised implementation lives.
+     *
+     * <p>Each pass re-aligns and grows exactly as the per element version
+     * did, so a fragmenting buffer manager still gets to emit a fragment at
+     * the same points; within a pass the elements are contiguous and
+     * self-aligned, and a chunk cannot end inside an array of primitives.
+     *
+     * @param elementSize the CDR size and alignment of one element
+     * @param remaining number of elements still to write
+     * @return the number of elements to transfer in this pass, never zero
+     */
+    private int beginBulkWrite(int elementSize, int remaining) {
+        alignAndReserve(elementSize, elementSize);
+        return Math.min(byteBuffer.remaining() / elementSize, remaining);
+    }
+
+    private void advance(int elementSize, int count) {
+        byteBuffer.position(byteBuffer.position() + (count * elementSize));
+    }
+
     @CdrWrite
     public void write_wchar_array(char[] value, int offset, int length) {
         if (value == null) {
@@ -1025,8 +1052,12 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
         // This will only have an effect if we're already chunking
         handleSpecialChunkBegin(computeAlignment(2) + (length * 2));
 
-        for (int i = 0; i < length; i++) {
-            write_short(value[offset + i]);
+        int done = 0;
+        while (done < length) {
+            int batch = beginBulkWrite(2, length - done);
+            byteBuffer.asShortBuffer().put(value, offset + done, batch);
+            advance(2, batch);
+            done += batch;
         }
 
         // This will only have an effect if we're already chunking
@@ -1046,8 +1077,12 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
         // This will only have an effect if we're already chunking
         handleSpecialChunkBegin(computeAlignment(4) + (length * 4));
 
-        for (int i = 0; i < length; i++) {
-            write_long(value[offset + i]);
+        int done = 0;
+        while (done < length) {
+            int batch = beginBulkWrite(4, length - done);
+            byteBuffer.asIntBuffer().put(value, offset + done, batch);
+            advance(4, batch);
+            done += batch;
         }
 
         // This will only have an effect if we're already chunking
@@ -1067,8 +1102,12 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
         // This will only have an effect if we're already chunking
         handleSpecialChunkBegin(computeAlignment(8) + (length * 8));
 
-        for (int i = 0; i < length; i++) {
-            write_longlong(value[offset + i]);
+        int done = 0;
+        while (done < length) {
+            int batch = beginBulkWrite(8, length - done);
+            byteBuffer.asLongBuffer().put(value, offset + done, batch);
+            advance(8, batch);
+            done += batch;
         }
 
         // This will only have an effect if we're already chunking
@@ -1088,8 +1127,12 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
         // This will only have an effect if we're already chunking
         handleSpecialChunkBegin(computeAlignment(4) + (length * 4));
 
-        for (int i = 0; i < length; i++) {
-            write_float(value[offset + i]);
+        int done = 0;
+        while (done < length) {
+            int batch = beginBulkWrite(4, length - done);
+            byteBuffer.asFloatBuffer().put(value, offset + done, batch);
+            advance(4, batch);
+            done += batch;
         }
 
         // This will only have an effect if we're already chunking
@@ -1105,8 +1148,12 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
         // This will only have an effect if we're already chunking
         handleSpecialChunkBegin(computeAlignment(8) + (length * 8));
 
-        for (int i = 0; i < length; i++) {
-            write_double(value[offset + i]);
+        int done = 0;
+        while (done < length) {
+            int batch = beginBulkWrite(8, length - done);
+            byteBuffer.asDoubleBuffer().put(value, offset + done, batch);
+            advance(8, batch);
+            done += batch;
         }
 
         // This will only have an effect if we're already chunking
