@@ -515,6 +515,11 @@ public class ThreadPoolImpl implements ThreadPool
 
                     performWork() ;
 
+                    // Discard an interrupt left behind by the work item unless it's set by the pool during shutdown
+                    if (Thread.interrupted() && closeCalled) {
+                        interrupt() ;
+                    }
+
                     // set currentWork to null so that the work item can be
                     // garbage collected without waiting for the next work item.
                     currentWork = null;
