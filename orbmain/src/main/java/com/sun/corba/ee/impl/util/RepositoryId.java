@@ -21,6 +21,8 @@
 
 package com.sun.corba.ee.impl.util;
 
+import com.sun.corba.ee.impl.misc.ConcurrentSoftCache;
+
 import com.sun.corba.ee.impl.io.ObjectStreamClass;
 import com.sun.corba.ee.impl.javax.rmi.CORBA.Util;
 import com.sun.corba.ee.impl.misc.ClassInfoCache ;
@@ -34,7 +36,6 @@ import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-import org.glassfish.pfl.basic.concurrent.SoftCache;
 
 public class RepositoryId {
 
@@ -77,7 +78,14 @@ public class RepositoryId {
     private static final Map<Class<?>, String> classSeqToRepStr = new WeakHashMap<>();
 
     private static final Map<String, byte[]> repStrToByteArray = new IdentityHashMap<>();
-    private static final Map<String, Class<?>> repStrToClass = new SoftCache<>();
+    /*
+     * Read by getAnyClassFromType with no lock at all, while the writes below
+     * happen under the classToRepStr monitor. With the previous SoftCache -
+     * a bare HashMap that mutates itself even inside get() - that was a data
+     * race, and two concurrent readers were enough to corrupt it.
+     */
+    private static final ConcurrentSoftCache<String, Class<?>> repStrToClass =
+        new ConcurrentSoftCache<>();
 
     private String repId = null;
     private boolean isSupportedFormat = true;
@@ -779,6 +787,7 @@ public class RepositoryId {
                 createHashString(clazz);
 
             classToRepStr.put(clazz, repid);
+            repStrToClass.purge();
             repStrToClass.put(repid, clazz);
             return repid;
         }
@@ -815,6 +824,7 @@ public class RepositoryId {
                 createHashString(clz);
 
             classToRepStr.put(clz, repid);
+            repStrToClass.purge();
             repStrToClass.put(repid, clz);
             return repid;
         }

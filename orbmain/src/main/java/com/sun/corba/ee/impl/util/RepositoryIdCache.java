@@ -20,18 +20,35 @@
 
 package com.sun.corba.ee.impl.util;
 
-import java.util.Hashtable;
+import java.util.concurrent.ConcurrentHashMap;
 
-public class RepositoryIdCache extends Hashtable<String, RepositoryId> {
-    public final synchronized RepositoryId getId(String key) {
-        RepositoryId repId = super.get(key);
+/**
+ * Interns {@link RepositoryId} instances by their string form.
+ *
+ * <p>This was a {@code Hashtable} with a {@code synchronized getId} on top,
+ * held in a static field on {@link RepositoryId}, so every value type
+ * marshalled anywhere in the process took the same monitor twice - once for
+ * the method and once inside the Hashtable itself. The map is now concurrent
+ * and the hit path takes no lock.
+ */
+public class RepositoryIdCache extends ConcurrentHashMap<String, RepositoryId> {
 
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * @param key the repository id string
+     * @return the interned RepositoryId for that string, creating one if this
+     *         is the first time it has been seen
+     */
+    public final RepositoryId getId(String key) {
+        // Look before computing: computeIfAbsent locks a bin even when the key
+        // is present, and present is what almost every call finds.
+        RepositoryId repId = get(key);
         if (repId != null) {
             return repId;
-        } else {
-            repId = new RepositoryId(key);
-            put(key, repId);
-            return repId;
         }
+        // RepositoryId's constructor only parses the string it is given, so it
+        // cannot re-enter this map - which computeIfAbsent would not tolerate.
+        return computeIfAbsent(key, RepositoryId::new);
     }
 }

@@ -22,6 +22,7 @@
 package com.sun.corba.ee.impl.io;
 
 import com.sun.corba.ee.impl.misc.ClassInfoCache;
+import com.sun.corba.ee.impl.misc.ConcurrentSoftCache;
 import com.sun.corba.ee.impl.util.RepositoryId;
 import com.sun.corba.ee.spi.trace.TraceValueHandler;
 
@@ -46,8 +47,8 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ConcurrentMap;
 
-import org.glassfish.pfl.basic.concurrent.SoftCache;
 import org.glassfish.pfl.basic.reflection.Bridge;
 import org.omg.CORBA.ValueMember;
 
@@ -99,13 +100,39 @@ public class ObjectStreamClass implements java.io.Serializable {
      */
     static ObjectStreamClass lookupInternal(Class<?> cl)
     {
+        /* A descriptor that is present and fully initialized can be returned
+         * without any lock at all, and in a running system that is very nearly
+         * every lookup: descriptors are created once per class and then read
+         * for the life of the process.
+         *
+         * The lock below is a single process wide monitor which every
+         * marshalled and unmarshalled object had to pass through, so removing
+         * it from the steady state path is the point of this fast path. It
+         * also has to be a fast path rather than a rewrite of what follows:
+         * the comment on init() records that moving initialization out of this
+         * monitor was tried and reverted because it deadlocks (bug 5104239),
+         * so the slow path is deliberately left exactly as it was.
+         *
+         * Correctness rests on two things. 'initialized' is volatile and is
+         * assigned last in init(), so seeing it true means every field written
+         * during initialization is visible. And a descriptor is published into
+         * the cache by the constructor, before init() runs, precisely so that
+         * recursive lookups find it - which is why it is not enough for the
+         * entry to exist, it must also report itself initialized.
+         */
+        ObjectStreamClass cached = descriptorFor.get(cl);
+        if (cached != null && cached.initialized) {
+            return cached;
+        }
+
         /* Synchronize on the hashtable so no two threads will do
          * this at the same time.
          */
         ObjectStreamClass desc = null;
         synchronized (descriptorFor) {
+            descriptorFor.purge();
             /* Find the matching descriptor if it already known */
-            desc = (ObjectStreamClass)descriptorFor.get( cl ) ;
+            desc = descriptorFor.get( cl ) ;
             if (desc == null) {
                 /* Check if it's serializable */
                 ClassInfoCache.ClassInfo cinfo = ClassInfoCache.get( cl ) ;
@@ -641,7 +668,15 @@ public class ObjectStreamClass implements java.io.Serializable {
         superclass = null;
     }
 
-    public static final synchronized ObjectStreamField[] translateFields(
+    /**
+     * @param fields the fields to translate
+     * @return the translated fields
+     */
+    // Not synchronized: PersistentFieldsValue.translateFields allocates a new
+    // array and reads only its argument, so the monitor this used to take -
+    // on the ObjectStreamClass class object, shared with every other static
+    // synchronized member - guarded nothing.
+    public static final ObjectStreamField[] translateFields(
             java.io.ObjectStreamField fields[]) {
         return PersistentFieldsValue.translateFields(fields);
     }
@@ -1194,11 +1229,18 @@ public class ObjectStreamClass implements java.io.Serializable {
         return sb.toString();
     }
 
-    /*
-     * Cache of Class -> ClassDescriptor Mappings.
+    /**
+     * Cache of Class to ObjectStreamClass mappings.
+     *
+     * <p>This used to be {@code org.glassfish.pfl.basic.concurrent.SoftCache},
+     * a bare HashMap that was safe only because {@link #lookupInternal} took a
+     * process wide monitor around every access. Reads have to be lock free for
+     * that method's fast path to exist. The values stay soft: an
+     * ObjectStreamClass holds its Class, so a strong map would form a key to
+     * value to key cycle pinning the application class loader.
      */
-    static private final SoftCache<Class<?>,ObjectStreamClass> descriptorFor =
-        new SoftCache<Class<?>,ObjectStreamClass>() ;
+    private static final ConcurrentSoftCache<Class<?>, ObjectStreamClass> descriptorFor =
+        new ConcurrentSoftCache<>();
 
     /*
      * The name of this descriptor
@@ -1258,7 +1300,10 @@ public class ObjectStreamClass implements java.io.Serializable {
      * try to fix bug 4373844.  Working to move to
      * reusing java.io.ObjectStreamClass for JDK 1.5.
      */
-    private boolean initialized = false;
+    // Read without holding any lock by lookupInternal's fast path, and
+    // assigned last by init(), so it doubles as the publication fence for
+    // every other field this descriptor computes.
+    private volatile boolean initialized = false;
 
     /* Internal lock object. */
     private final Object lock = new Object();
