@@ -40,6 +40,23 @@ import com.sun.corba.ee.impl.protocol.giopmsgheaders.Message;
  */
 public class CDRWStringTest extends EncodingTestBase {
 
+    @Test
+    public void surrogate_filter_covers_every_code_unit_in_every_lane_and_tail() {
+        char[] chars = new char[13];
+        for (int value = 0; value <= Character.MAX_VALUE; value++) {
+            for (int index = 1; index < 12; index++) {
+                chars[index] = (char) value;
+                assertEquals(value >= 0xD800,
+                        CDROutputStream_1_0.mayContainSurrogate(chars, 1, 12));
+                chars[index] = 0;
+            }
+        }
+        chars[0] = chars[12] = '\uFFFF';
+        for (int length = 0; length <= 11; length++) {
+            assertEquals(false, CDROutputStream_1_0.mayContainSurrogate(chars, 1, 1 + length));
+        }
+    }
+
     private static final String LATIN = "Grüße, ça va? naïve café";
     private static final String CJK = "漢字とかな、한국어";
     private static final String WITH_PAIR = "a😀b";   // U+1F600 as a surrogate pair

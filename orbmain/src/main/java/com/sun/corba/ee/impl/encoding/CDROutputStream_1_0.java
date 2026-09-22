@@ -1165,8 +1165,19 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
      * they merely take the exact check.
      */
     static boolean mayContainSurrogate(char[] chars, int from, int to) {
-        int carry = 0;
-        for (int i = from; i < to; i++) {
+        // Independent reductions avoid a dependency on the previous char
+        // for every addition. Keep the same conservative filter and leave
+        // exact surrogate validation to the caller.
+        int a = 0, b = 0, c = 0, d = 0;
+        int i = from;
+        for (; i <= to - 4; i += 4) {
+            a |= chars[i] + 0x2800;
+            b |= chars[i + 1] + 0x2800;
+            c |= chars[i + 2] + 0x2800;
+            d |= chars[i + 3] + 0x2800;
+        }
+        int carry = a | b | c | d;
+        for (; i < to; i++) {
             carry |= chars[i] + 0x2800;
         }
         return (carry >>> 16) != 0;
