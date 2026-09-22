@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.spi.logex.corba ;
 
-import org.omg.CORBA.CompletionStatus ;
+import org.omg.CORBA.CompletionStatus;
 
 /** Enum corresponding to CompletionStatus that can be used in annotations.
  *

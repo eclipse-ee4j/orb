@@ -33,7 +33,7 @@ import com.sun.corba.ee.spi.folb.GroupInfoServiceObserver;
 
 import com.sun.corba.ee.spi.orb.ORB;
 
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 
 import com.sun.corba.ee.impl.folb.ClientGroupManager;
 
@@ -44,9 +44,9 @@ import corba.folb_8_1.SocketFactoryImpl;
 import corba.framework.TestngRunner;
 import corba.hcks.U;
 
-import org.testng.Assert ;
+import org.testng.Assert;
 
-import org.omg.CORBA.SystemException ;
+import org.omg.CORBA.SystemException;
 
 /**
  * @author Harold Carr

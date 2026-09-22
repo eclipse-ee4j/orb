@@ -19,8 +19,8 @@
 
 package corba.cmvt;
 
-import java.rmi.Remote ;
-import java.rmi.RemoteException ;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 import org.omg.CORBA.*;
 
 public interface GIOPCombo extends Remote {

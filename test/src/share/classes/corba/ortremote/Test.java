@@ -19,18 +19,18 @@
 
 package corba.ortremote ;
 
-import com.sun.corba.ee.spi.oa.ObjectAdapter ;
-import java.rmi.RemoteException ;
-import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
-import org.omg.PortableInterceptor.ObjectReferenceFactory ;
-import org.omg.PortableServer.ServantLocatorPackage.CookieHolder ;
-import java.util.Properties ;
-import org.omg.CORBA.ORB ;
-import org.omg.CORBA.Policy ;
-import javax.rmi.PortableRemoteObject ;
-import javax.rmi.CORBA.Util ;
+import com.sun.corba.ee.spi.oa.ObjectAdapter;
+import java.rmi.RemoteException;
+import org.omg.PortableInterceptor.ObjectReferenceTemplate;
+import org.omg.PortableInterceptor.ObjectReferenceFactory;
+import org.omg.PortableServer.ServantLocatorPackage.CookieHolder;
+import java.util.Properties;
+import org.omg.CORBA.ORB;
+import org.omg.CORBA.Policy;
+import javax.rmi.PortableRemoteObject;
+import javax.rmi.CORBA.Util;
 import org.glassfish.pfl.basic.func.NullaryFunction;
-import org.omg.CORBA.LocalObject ;
+import org.omg.CORBA.LocalObject;
 import org.omg.CORBA.ORBPackage.InvalidName;
 import org.omg.PortableServer.ForwardRequest;
 import org.omg.PortableServer.LifespanPolicyValue;

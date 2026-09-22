@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.spi.ior ;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
 /** An IORFactory provides the capability of creating IORs.  It contains
  * some collection of TaggedProfileTemplates, which can be iterated over

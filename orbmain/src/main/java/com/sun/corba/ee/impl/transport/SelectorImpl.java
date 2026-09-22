@@ -43,9 +43,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.glassfish.gmbal.Description ;
-import org.glassfish.gmbal.ManagedAttribute ;
-import org.glassfish.gmbal.ManagedObject ;
+import org.glassfish.gmbal.Description;
+import org.glassfish.gmbal.ManagedAttribute;
+import org.glassfish.gmbal.ManagedObject;
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 
 /**

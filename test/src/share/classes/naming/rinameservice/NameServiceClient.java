@@ -24,7 +24,7 @@ import org.omg.CORBA.*;
 import corba.framework.*;
 import java.util.*;
 import java.io.*;
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 
 /**
  * NameServiceClient just tests that StandAlone Name Service that we

@@ -19,10 +19,10 @@
 
 package com.sun.corba.ee.spi.transport;
 
-import com.sun.corba.ee.spi.ior.IOR ;
-import com.sun.corba.ee.spi.protocol.LocalClientRequestDispatcher ;
+import com.sun.corba.ee.spi.ior.IOR;
+import com.sun.corba.ee.spi.protocol.LocalClientRequestDispatcher;
 
-import java.util.Iterator ;
+import java.util.Iterator;
 
 
 /**

@@ -26,9 +26,9 @@ import org.omg.CosNaming.NamingContext;
 import org.omg.CosNaming.NamingContextHelper;
 import org.omg.PortableServer.*;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 
 /**
  * @version     1.3, 00/04/06

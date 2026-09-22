@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.spi.threadpool;
 
-import com.sun.corba.ee.impl.threadpool.ThreadPoolImpl ;
+import com.sun.corba.ee.impl.threadpool.ThreadPoolImpl;
 
 public class ThreadPoolFactory {
     /** Create an unbounded thread pool in the current thread group

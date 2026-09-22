@@ -20,16 +20,16 @@
 
 package corba.dynamicrmiiiop ;
 
-import junit.framework.TestCase ;
-import junit.framework.Test ;
-import junit.framework.TestSuite ;
+import junit.framework.TestCase;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
-import java.lang.reflect.Method ;
-import java.lang.reflect.InvocationTargetException ;
+import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
 
-import java.security.ProtectionDomain ;
+import java.security.ProtectionDomain;
 
-import com.sun.corba.ee.impl.presentation.rmi.codegen.CodegenProxyCreator ;
+import com.sun.corba.ee.impl.presentation.rmi.codegen.CodegenProxyCreator;
 
 /** Test for the codegen-based ProxyCreator.
  * Steps to test:

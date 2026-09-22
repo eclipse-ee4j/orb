@@ -19,16 +19,16 @@
 
 package corba.simpledynamic;
 
-import java.util.Map ;
-import java.util.HashMap ;
+import java.util.Map;
+import java.util.HashMap;
 
-import java.rmi.Remote ;
-import java.rmi.RemoteException ;
-import javax.rmi.PortableRemoteObject ;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import javax.rmi.PortableRemoteObject;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
-import com.sun.corba.ee.spi.logging.UtilSystemException ;
+import com.sun.corba.ee.spi.logging.UtilSystemException;
 
 import corba.misc.BuckPasserAL  ;
 import corba.misc.BuckPasserV  ;

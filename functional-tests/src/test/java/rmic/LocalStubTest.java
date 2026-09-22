@@ -34,7 +34,7 @@ import org.omg.CORBA.BAD_OPERATION;
 import java.io.File;
 import com.sun.corba.ee.impl.util.JDKBridge;
 import java.rmi.MarshalException;
-import com.sun.corba.ee.spi.presentation.rmi.StubAdapter ;
+import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
 import org.glassfish.pfl.test.JUnitReportHelper;
 
 /*

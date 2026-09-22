@@ -39,10 +39,10 @@ import org.omg.CORBA.Request;
 import org.omg.CORBA.SystemException;
 import org.omg.CORBA.TCKind;
 import org.omg.CORBA.TypeCode;
-import org.omg.CORBA.portable.ApplicationException ;
-import org.omg.CORBA.portable.InputStream ;
-import org.omg.CORBA.portable.OutputStream ;
-import org.omg.CORBA.portable.RemarshalException ;
+import org.omg.CORBA.portable.ApplicationException;
+import org.omg.CORBA.portable.InputStream;
+import org.omg.CORBA.portable.OutputStream;
+import org.omg.CORBA.portable.RemarshalException;
 
 public class RequestImpl
     extends Request

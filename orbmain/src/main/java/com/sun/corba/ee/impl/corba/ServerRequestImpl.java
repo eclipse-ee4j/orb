@@ -20,8 +20,8 @@
 
 package com.sun.corba.ee.impl.corba;
 
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.protocol.MessageMediator;
 
 import org.omg.CORBA.Any;

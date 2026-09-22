@@ -50,11 +50,11 @@ package com.sun.tools.corba.ee.idl;
 import java.io.EOFException;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.util.ArrayList ;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Iterator ;
-import java.util.List ;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Stack;
 import java.util.Vector;
 

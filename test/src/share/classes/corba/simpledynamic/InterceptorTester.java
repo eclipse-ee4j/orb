@@ -19,22 +19,22 @@
 
 package corba.simpledynamic;
 
-import org.omg.PortableInterceptor.ORBInitializer ;
-import org.omg.PortableInterceptor.ClientRequestInterceptor ;
-import org.omg.PortableInterceptor.ClientRequestInfo ;
-import org.omg.PortableInterceptor.ORBInitInfo ;
-import org.omg.PortableInterceptor.ForwardRequest ;
+import org.omg.PortableInterceptor.ORBInitializer;
+import org.omg.PortableInterceptor.ClientRequestInterceptor;
+import org.omg.PortableInterceptor.ClientRequestInfo;
+import org.omg.PortableInterceptor.ORBInitInfo;
+import org.omg.PortableInterceptor.ForwardRequest;
 
-import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName ;
+import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 
-import org.omg.CORBA.LocalObject ;
-import org.omg.CORBA.SystemException ;
-import org.omg.CORBA.INTERNAL ;
-import org.omg.CORBA.COMM_FAILURE ;
-import org.omg.CORBA.ORB ;
-import org.omg.CORBA.Any ;
+import org.omg.CORBA.LocalObject;
+import org.omg.CORBA.SystemException;
+import org.omg.CORBA.INTERNAL;
+import org.omg.CORBA.COMM_FAILURE;
+import org.omg.CORBA.ORB;
+import org.omg.CORBA.Any;
 
-import com.sun.corba.ee.impl.misc.ORBUtility ;
+import com.sun.corba.ee.impl.misc.ORBUtility;
 
 public class InterceptorTester extends LocalObject implements
     ORBInitializer, ClientRequestInterceptor {

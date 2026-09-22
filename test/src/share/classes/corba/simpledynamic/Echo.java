@@ -19,8 +19,8 @@
 
 package corba.simpledynamic;
 
-import java.rmi.Remote ;
-import java.rmi.RemoteException ;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 import corba.misc.BuckPasserAL  ;
 import corba.misc.BuckPasserV  ;

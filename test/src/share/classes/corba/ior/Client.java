@@ -19,97 +19,97 @@
 
 package corba.ior;
 
-import java.io.PrintStream ;
+import java.io.PrintStream;
 
-import java.util.Properties ;
-import java.util.NoSuchElementException ;
-import java.util.List ;
-import java.util.LinkedList ;
-import java.util.Iterator ;
-import java.util.StringTokenizer ;
-import java.util.ArrayList ;
+import java.util.Properties;
+import java.util.NoSuchElementException;
+import java.util.List;
+import java.util.LinkedList;
+import java.util.Iterator;
+import java.util.StringTokenizer;
+import java.util.ArrayList;
 
-import org.omg.PortableServer.POA ;
-import org.omg.PortableServer.IdAssignmentPolicyValue ;
+import org.omg.PortableServer.POA;
+import org.omg.PortableServer.IdAssignmentPolicyValue;
 
-import org.omg.CORBA.Policy ;
-import org.omg.CORBA.BAD_PARAM ;
-import org.omg.CORBA.INTERNAL ;
-import org.omg.CORBA.OctetSeqHolder ;
+import org.omg.CORBA.Policy;
+import org.omg.CORBA.BAD_PARAM;
+import org.omg.CORBA.INTERNAL;
+import org.omg.CORBA.OctetSeqHolder;
 
-import org.omg.CORBA_2_3.portable.OutputStream ;
-import org.omg.CORBA_2_3.portable.InputStream ;
+import org.omg.CORBA_2_3.portable.OutputStream;
+import org.omg.CORBA_2_3.portable.InputStream;
 
-import org.omg.IOP.TAG_ALTERNATE_IIOP_ADDRESS ;
-import org.omg.IOP.TAG_CODE_SETS ;
-import org.omg.IOP.TAG_JAVA_CODEBASE ;
-import org.omg.IOP.TAG_ORB_TYPE ;
-import org.omg.IOP.TAG_INTERNET_IOP ;
+import org.omg.IOP.TAG_ALTERNATE_IIOP_ADDRESS;
+import org.omg.IOP.TAG_CODE_SETS;
+import org.omg.IOP.TAG_JAVA_CODEBASE;
+import org.omg.IOP.TAG_ORB_TYPE;
+import org.omg.IOP.TAG_INTERNET_IOP;
 
 
-import com.sun.corba.ee.spi.ior.Identifiable ;
-import com.sun.corba.ee.spi.ior.IdentifiableFactory ;
-import com.sun.corba.ee.spi.ior.IdentifiableFactoryFinder ;
-import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
-import com.sun.corba.ee.spi.ior.TaggedComponent ;
-import com.sun.corba.ee.spi.ior.TaggedComponentFactoryFinder ;
-import com.sun.corba.ee.spi.ior.ObjectId ;
-import com.sun.corba.ee.spi.ior.ObjectKey ;
-import com.sun.corba.ee.spi.ior.IOR ;
-import com.sun.corba.ee.spi.ior.IORFactory ;
-import com.sun.corba.ee.spi.ior.ObjectAdapterId ;
-import com.sun.corba.ee.spi.ior.IdentifiableContainerBase ;
-import com.sun.corba.ee.spi.ior.IORTemplate ;
-import com.sun.corba.ee.spi.ior.IORTemplateList ;
-import com.sun.corba.ee.spi.ior.IORFactories ;
-import com.sun.corba.ee.spi.ior.TaggedProfileTemplate ;
+import com.sun.corba.ee.spi.ior.Identifiable;
+import com.sun.corba.ee.spi.ior.IdentifiableFactory;
+import com.sun.corba.ee.spi.ior.IdentifiableFactoryFinder;
+import com.sun.corba.ee.spi.ior.ObjectKeyTemplate;
+import com.sun.corba.ee.spi.ior.TaggedComponent;
+import com.sun.corba.ee.spi.ior.TaggedComponentFactoryFinder;
+import com.sun.corba.ee.spi.ior.ObjectId;
+import com.sun.corba.ee.spi.ior.ObjectKey;
+import com.sun.corba.ee.spi.ior.IOR;
+import com.sun.corba.ee.spi.ior.IORFactory;
+import com.sun.corba.ee.spi.ior.ObjectAdapterId;
+import com.sun.corba.ee.spi.ior.IdentifiableContainerBase;
+import com.sun.corba.ee.spi.ior.IORTemplate;
+import com.sun.corba.ee.spi.ior.IORTemplateList;
+import com.sun.corba.ee.spi.ior.IORFactories;
+import com.sun.corba.ee.spi.ior.TaggedProfileTemplate;
 
-import com.sun.corba.ee.spi.ior.iiop.IIOPFactories ;
-import com.sun.corba.ee.spi.ior.iiop.IIOPAddress ;
-import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate ;
-import com.sun.corba.ee.spi.ior.iiop.IIOPProfile ;
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion ;
+import com.sun.corba.ee.spi.ior.iiop.IIOPFactories;
+import com.sun.corba.ee.spi.ior.iiop.IIOPAddress;
+import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate;
+import com.sun.corba.ee.spi.ior.iiop.IIOPProfile;
+import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 
-import com.sun.corba.ee.spi.activation.POANameHelper ;
+import com.sun.corba.ee.spi.activation.POANameHelper;
 
-import com.sun.corba.ee.spi.extension.ZeroPortPolicy ;
+import com.sun.corba.ee.spi.extension.ZeroPortPolicy;
 
 import com.sun.corba.ee.spi.orb.ORB;
-import com.sun.corba.ee.spi.orb.ORBVersion ;
-import com.sun.corba.ee.spi.orb.ORBVersionFactory ;
+import com.sun.corba.ee.spi.orb.ORBVersion;
+import com.sun.corba.ee.spi.orb.ORBVersionFactory;
 
-import com.sun.corba.ee.spi.ior.iiop.AlternateIIOPAddressComponent ;
-import com.sun.corba.ee.spi.ior.iiop.CodeSetsComponent ;
-import com.sun.corba.ee.spi.ior.iiop.ORBTypeComponent ;
-import com.sun.corba.ee.spi.ior.iiop.JavaCodebaseComponent ;
+import com.sun.corba.ee.spi.ior.iiop.AlternateIIOPAddressComponent;
+import com.sun.corba.ee.spi.ior.iiop.CodeSetsComponent;
+import com.sun.corba.ee.spi.ior.iiop.ORBTypeComponent;
+import com.sun.corba.ee.spi.ior.iiop.JavaCodebaseComponent;
 
-import com.sun.corba.ee.impl.ior.GenericTaggedProfile ;
-import com.sun.corba.ee.impl.ior.GenericTaggedComponent ;
-import com.sun.corba.ee.impl.ior.FreezableList ;
-import com.sun.corba.ee.impl.ior.OldJIDLObjectKeyTemplate ;
-import com.sun.corba.ee.impl.ior.OldPOAObjectKeyTemplate ;
-import com.sun.corba.ee.impl.ior.JIDLObjectKeyTemplate ;
-import com.sun.corba.ee.impl.ior.POAObjectKeyTemplate ;
-import com.sun.corba.ee.impl.ior.WireObjectKeyTemplate ;
-import com.sun.corba.ee.impl.ior.EncapsulationUtility ;
-import com.sun.corba.ee.impl.ior.TaggedComponentFactoryFinderImpl ;
-import com.sun.corba.ee.impl.ior.TaggedProfileFactoryFinderImpl ;
-import com.sun.corba.ee.impl.ior.ObjectAdapterIdArray ;
-import com.sun.corba.ee.impl.ior.ObjectAdapterIdNumber ;
-import com.sun.corba.ee.impl.ior.ObjectReferenceTemplateImpl ;
-import com.sun.corba.ee.impl.ior.ObjectKeyFactoryImpl ;
+import com.sun.corba.ee.impl.ior.GenericTaggedProfile;
+import com.sun.corba.ee.impl.ior.GenericTaggedComponent;
+import com.sun.corba.ee.impl.ior.FreezableList;
+import com.sun.corba.ee.impl.ior.OldJIDLObjectKeyTemplate;
+import com.sun.corba.ee.impl.ior.OldPOAObjectKeyTemplate;
+import com.sun.corba.ee.impl.ior.JIDLObjectKeyTemplate;
+import com.sun.corba.ee.impl.ior.POAObjectKeyTemplate;
+import com.sun.corba.ee.impl.ior.WireObjectKeyTemplate;
+import com.sun.corba.ee.impl.ior.EncapsulationUtility;
+import com.sun.corba.ee.impl.ior.TaggedComponentFactoryFinderImpl;
+import com.sun.corba.ee.impl.ior.TaggedProfileFactoryFinderImpl;
+import com.sun.corba.ee.impl.ior.ObjectAdapterIdArray;
+import com.sun.corba.ee.impl.ior.ObjectAdapterIdNumber;
+import com.sun.corba.ee.impl.ior.ObjectReferenceTemplateImpl;
+import com.sun.corba.ee.impl.ior.ObjectKeyFactoryImpl;
 
-import com.sun.corba.ee.impl.encoding.CDRInputObject ;
+import com.sun.corba.ee.impl.encoding.CDRInputObject;
 import com.sun.corba.ee.impl.encoding.CDROutputObject;
-import com.sun.corba.ee.impl.encoding.EncapsInputStream ;
-import com.sun.corba.ee.impl.encoding.EncapsOutputStream ;
+import com.sun.corba.ee.impl.encoding.EncapsInputStream;
+import com.sun.corba.ee.impl.encoding.EncapsOutputStream;
 
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 
-import org.testng.annotations.Test ;
-import org.testng.Assert ;
+import org.testng.annotations.Test;
+import org.testng.Assert;
 
-import corba.framework.TestngRunner ;
+import corba.framework.TestngRunner;
 
 public class Client
 {

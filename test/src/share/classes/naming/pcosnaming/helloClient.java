@@ -22,7 +22,7 @@ package naming.pcosnaming;
 import HelloApp.*;
 import org.omg.CosNaming.*;
 import org.omg.CORBA.*;
-import java.util.Properties ;
+import java.util.Properties;
 
 public class helloClient
 {

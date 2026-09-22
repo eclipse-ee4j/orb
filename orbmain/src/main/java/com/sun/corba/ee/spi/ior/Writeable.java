@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.spi.ior;
 
-import org.omg.CORBA_2_3.portable.OutputStream ;
+import org.omg.CORBA_2_3.portable.OutputStream;
 
 /** This interface represents an entity that can be written to an OutputStream.
  * @author Ken Cavanaugh

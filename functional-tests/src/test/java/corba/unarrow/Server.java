@@ -22,7 +22,7 @@ package corba.unarrow;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
-import java.util.Properties ;
+import java.util.Properties;
 import org.omg.PortableServer.*;
 
 /**

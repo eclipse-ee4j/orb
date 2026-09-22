@@ -21,7 +21,7 @@ package com.sun.corba.ee.impl.ior.iiop;
 
 import com.sun.corba.ee.spi.ior.TaggedComponentBase;
 import com.sun.corba.ee.spi.ior.iiop.RequestPartitioningComponent;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 
 import org.omg.CORBA_2_3.portable.OutputStream;

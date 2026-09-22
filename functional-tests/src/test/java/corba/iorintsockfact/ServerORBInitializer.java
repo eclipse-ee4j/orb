@@ -34,8 +34,8 @@ import org.omg.PortableInterceptor.ORBInitInfo;
 import org.omg.PortableInterceptor.ORBInitInfoPackage.InvalidName;
 import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.legacy.interceptor.ORBInitInfoExt ;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.legacy.interceptor.ORBInitInfoExt;
 
 /**
  * @author Harold Carr

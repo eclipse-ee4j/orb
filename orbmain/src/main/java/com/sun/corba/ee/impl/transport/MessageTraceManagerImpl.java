@@ -19,11 +19,11 @@
 
 package com.sun.corba.ee.impl.transport;
 
-import com.sun.corba.ee.spi.transport.MessageTraceManager ;
+import com.sun.corba.ee.spi.transport.MessageTraceManager;
 
-import java.nio.ByteBuffer ;
-import java.util.ArrayList ;
-import java.util.List ;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MessageTraceManagerImpl implements MessageTraceManager
 {

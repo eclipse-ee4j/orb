@@ -19,24 +19,24 @@
 
 package performance.simpleperf;
 
-import javax.rmi.PortableRemoteObject ;
-import java.util.Properties ;
+import javax.rmi.PortableRemoteObject;
+import java.util.Properties;
 
-import org.omg.CORBA.ORB ;
-import org.omg.CORBA.Policy ;
-import org.omg.CosNaming.NameComponent ;
-import org.omg.CosNaming.NamingContext ;
-import org.omg.CosNaming.NamingContextHelper ;
-import org.omg.PortableServer.LifespanPolicyValue ;
-import org.omg.PortableServer.POA ;
-import org.omg.PortableServer.RequestProcessingPolicyValue ;
-import org.omg.PortableServer.Servant ;
-import org.omg.PortableServer.ServantLocator ;
-import org.omg.PortableServer.ServantLocatorPackage.CookieHolder ;
-import org.omg.PortableServer.ServantRetentionPolicyValue ;
+import org.omg.CORBA.ORB;
+import org.omg.CORBA.Policy;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
+import org.omg.PortableServer.LifespanPolicyValue;
+import org.omg.PortableServer.POA;
+import org.omg.PortableServer.RequestProcessingPolicyValue;
+import org.omg.PortableServer.Servant;
+import org.omg.PortableServer.ServantLocator;
+import org.omg.PortableServer.ServantLocatorPackage.CookieHolder;
+import org.omg.PortableServer.ServantRetentionPolicyValue;
 
-import com.sun.corba.ee.spi.misc.ORBConstants ;
-import corba.framework.ThreadProcess ;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import corba.framework.ThreadProcess;
 
 public class counterServer extends ThreadProcess {
 

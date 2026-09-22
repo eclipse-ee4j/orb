@@ -23,7 +23,7 @@ import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import org.omg.CosNaming.*;
 import test.*;
-import java.util.Properties ;
+import java.util.Properties;
 
 class HelloServant extends HelloPOA {
     public String sayHello() {

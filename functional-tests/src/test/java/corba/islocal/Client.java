@@ -31,7 +31,7 @@ import corba.framework.Controller;
 import corba.hcks.C;
 import corba.hcks.U;
 
-import com.sun.corba.ee.spi.presentation.rmi.StubAdapter ;
+import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
 
 public class Client
 {

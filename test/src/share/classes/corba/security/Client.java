@@ -19,19 +19,19 @@
 
 package corba.security;
 
-import java.security.ProtectionDomain ;
-import java.security.Permission ;
-import java.security.PermissionCollection ;
-import java.security.Principal ;
-import java.security.CodeSource ;
-import java.security.cert.Certificate ;
-import java.security.Policy ;
+import java.security.ProtectionDomain;
+import java.security.Permission;
+import java.security.PermissionCollection;
+import java.security.Principal;
+import java.security.CodeSource;
+import java.security.cert.Certificate;
+import java.security.Policy;
 
-import java.util.Properties ;
-import java.util.Enumeration ;
+import java.util.Properties;
+import java.util.Enumeration;
 
-import java.io.PrintStream ;
-import java.net.URL ;
+import java.io.PrintStream;
+import java.net.URL;
 
 public class Client
 {

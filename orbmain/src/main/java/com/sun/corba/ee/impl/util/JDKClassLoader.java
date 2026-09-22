@@ -20,11 +20,11 @@
 
 package com.sun.corba.ee.impl.util;
 
-import java.security.AccessController ;
-import java.security.PrivilegedAction ;
-import java.util.Collections ;
-import java.util.Map ;
-import java.util.WeakHashMap ;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.util.Collections;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 import org.glassfish.pfl.basic.reflection.Bridge;
 

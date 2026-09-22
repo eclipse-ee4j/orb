@@ -19,8 +19,8 @@
 
 package corba.cdrstreams;
 
-import java.rmi.Remote ;
-import java.rmi.RemoteException ;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 public interface GraphProcessor extends java.rmi.Remote
 {

@@ -21,7 +21,6 @@
 
 package com.sun.corba.ee.impl.io;
 
-import com.sun.corba.ee.impl.io.InputStreamHook.ReadObjectState;
 import com.sun.corba.ee.impl.javax.rmi.CORBA.Util;
 import com.sun.corba.ee.impl.misc.ClassInfoCache;
 import com.sun.corba.ee.impl.util.Utility;

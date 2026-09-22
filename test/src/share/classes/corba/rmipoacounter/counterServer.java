@@ -19,10 +19,10 @@
 
 package corba.rmipoacounter;
 
-import javax.rmi.PortableRemoteObject ;
-import java.io.DataOutputStream ;
-import java.rmi.RemoteException ;
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import javax.rmi.PortableRemoteObject;
+import java.io.DataOutputStream;
+import java.rmi.RemoteException;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;

@@ -26,11 +26,11 @@ import java.io.*;
 import java.util.*;
 import javax.rmi.CORBA.*;
 
-import org.testng.annotations.Test ;
-import org.testng.annotations.BeforeSuite ;
-import org.testng.Assert ;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeSuite;
+import org.testng.Assert;
 
-import corba.framework.TestngRunner ;
+import corba.framework.TestngRunner;
 
 public class Client {
     // Important: put the initialContext here so that is does NOT get GCed and finalized

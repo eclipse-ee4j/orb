@@ -23,13 +23,13 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.io.*;
 import java.util.Date;
-import java.util.Properties ;
+import java.util.Properties;
 
-import org.omg.CORBA.ORB ;
-import com.sun.corba.ee.spi.activation.Activator ;
-import com.sun.corba.ee.spi.activation.ActivatorHelper ;
-import com.sun.corba.ee.spi.misc.ORBConstants ;
-import com.sun.corba.ee.spi.misc.ORBClassLoader ;
+import org.omg.CORBA.ORB;
+import com.sun.corba.ee.spi.activation.Activator;
+import com.sun.corba.ee.spi.activation.ActivatorHelper;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.misc.ORBClassLoader;
 
 /**
  * @version     1.8, 99/11/02

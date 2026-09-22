@@ -19,9 +19,9 @@
 
 package corba.framework;
 
-import java.util.Properties ;
+import java.util.Properties;
 
-// import com.vladium.emma.ctl.ctlCommand ;
+// import com.vladium.emma.ctl.ctlCommand;
 
 /** Programmatic API for use in controlling emma.  This is
  * specific to emma version 2.1.  This is intended for use

@@ -34,7 +34,7 @@ import javax.rmi.CORBA.*;
 import rmic.ObjectByValue;
 
 import java.io.*;
-import java.util.Properties ;
+import java.util.Properties;
 
 public class IIOPPerformance extends test.Test
 {

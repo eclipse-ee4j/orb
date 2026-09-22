@@ -19,7 +19,7 @@
 
 package corba.dynamicrmiiiop.testclasses ;
 
-import java.util.HashMap ;
+import java.util.HashMap;
 
 public class C2 extends HashMap implements B
 {

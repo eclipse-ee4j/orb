@@ -19,8 +19,8 @@
 
 package com.sun.corba.ee.impl.resolver ;
 
-import com.sun.corba.ee.spi.resolver.LocalResolver ;
-import com.sun.corba.ee.spi.resolver.Resolver ;
+import com.sun.corba.ee.spi.resolver.LocalResolver;
+import com.sun.corba.ee.spi.resolver.Resolver;
 
 import java.util.Set;
 

@@ -33,7 +33,7 @@ import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
-import com.sun.corba.ee.spi.protocol.ClientDelegate ;
+import com.sun.corba.ee.spi.protocol.ClientDelegate;
 import com.sun.corba.ee.spi.protocol.ClientInvocationInfo;
 import com.sun.corba.ee.spi.protocol.ClientRequestDispatcher;
 import com.sun.corba.ee.spi.trace.IsLocal;

@@ -33,9 +33,9 @@ import javax.rmi.PortableRemoteObject;
 import org.omg.CORBA.COMM_FAILURE;
 import org.omg.CORBA.ORB;
 
-import com.sun.corba.ee.impl.plugin.hwlb.RetryClientRequestInterceptor ;
+import com.sun.corba.ee.impl.plugin.hwlb.RetryClientRequestInterceptor;
 
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 
 /**
  * @author Harold Carr

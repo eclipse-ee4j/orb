@@ -29,10 +29,10 @@ import java.nio.ByteBuffer;
 import java.util.Properties;
 
 import corba.util.TransportManagerUtil;
-import org.testng.annotations.Test ;
-import org.testng.annotations.AfterTest ;
-import org.testng.annotations.BeforeTest ;
-import org.testng.Assert ;
+import org.testng.annotations.Test;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.Assert;
 
 import corba.framework.TestngRunner;
 

@@ -31,7 +31,7 @@ import org.omg.PortableServer.ImplicitActivationPolicyValue;
 import org.omg.CORBA.Policy;
 import org.omg.PortableServer.Servant;
 
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 import examples.policy_2POA;
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NameComponent;

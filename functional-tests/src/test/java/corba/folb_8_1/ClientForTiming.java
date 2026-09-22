@@ -31,7 +31,7 @@ import java.util.Properties;
 import com.sun.corba.ee.spi.transport.TransportManager;
 import com.sun.corba.ee.spi.transport.ContactInfo;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.transport.SocketInfo;
 
 import com.sun.corba.ee.spi.misc.ORBConstants;
@@ -45,7 +45,7 @@ import org.glassfish.pfl.tf.timer.spi.TimerEventController;
 import org.glassfish.pfl.tf.timer.spi.TimerFactory;
 import org.glassfish.pfl.tf.timer.spi.TimerManager;
 
-// import corba.framework.TimerUtils ;
+// import corba.framework.TimerUtils;
 
 /**
  * @author Harold Carr

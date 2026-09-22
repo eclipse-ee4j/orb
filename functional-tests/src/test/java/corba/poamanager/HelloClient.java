@@ -25,8 +25,8 @@ import Util.CreationMethods;
 import Util.GenericFactory;
 import org.omg.PortableServer.POAManagerPackage.AdapterInactive;
 
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
-import com.sun.corba.ee.spi.logging.POASystemException ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+import com.sun.corba.ee.spi.logging.POASystemException;
 import org.omg.CORBA.COMM_FAILURE;
 import org.omg.CORBA.OBJ_ADAPTER;
 import org.omg.CORBA.SystemException;

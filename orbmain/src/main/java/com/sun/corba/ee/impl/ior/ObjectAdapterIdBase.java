@@ -19,11 +19,11 @@
 
 package com.sun.corba.ee.impl.ior ;
 
-import com.sun.corba.ee.spi.ior.ObjectAdapterId ;
+import com.sun.corba.ee.spi.ior.ObjectAdapterId;
 
-import java.util.Iterator ;
+import java.util.Iterator;
 
-import org.omg.CORBA_2_3.portable.OutputStream ;
+import org.omg.CORBA_2_3.portable.OutputStream;
 
 abstract class ObjectAdapterIdBase implements ObjectAdapterId {
     @Override

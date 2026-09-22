@@ -19,16 +19,16 @@
 
 package corba.lb ;
 
-import java.util.Properties ;
+import java.util.Properties;
 
-import corba.framework.CORBATest ;
-import corba.framework.Options ;
-import corba.framework.Controller ;
+import corba.framework.CORBATest;
+import corba.framework.Options;
+import corba.framework.Controller;
 
 
-import com.sun.corba.ee.spi.misc.ORBConstants ;
-import com.sun.corba.ee.impl.plugin.hwlb.VirtualAddressAgentImpl ;
-import com.sun.corba.ee.impl.plugin.hwlb.NoConnectionCacheImpl ;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.impl.plugin.hwlb.VirtualAddressAgentImpl;
+import com.sun.corba.ee.impl.plugin.hwlb.NoConnectionCacheImpl;
 
 public class LBTest
     extends

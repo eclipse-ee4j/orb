@@ -21,8 +21,8 @@ package com.sun.corba.ee.impl.transport;
 
 import com.sun.corba.ee.spi.ior.IOR;
 import com.sun.corba.ee.spi.ior.iiop.AlternateIIOPAddressComponent;
-import com.sun.corba.ee.spi.ior.iiop.IIOPAddress ;
-import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate ;
+import com.sun.corba.ee.spi.ior.iiop.IIOPAddress;
+import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate;
 import com.sun.corba.ee.spi.transport.IORToSocketInfo;
 import com.sun.corba.ee.spi.transport.SocketInfo;
 
@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.omg.IOP.TAG_ALTERNATE_IIOP_ADDRESS ;
+import org.omg.IOP.TAG_ALTERNATE_IIOP_ADDRESS;
 
 public class DefaultIORToSocketInfoImpl
     implements IORToSocketInfo

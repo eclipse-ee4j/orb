@@ -20,7 +20,7 @@
 package corba.framework;
 
 import java.util.Vector;
-import java.util.Properties ;
+import java.util.Properties;
 
 /**
  * Abstraction of a compiler, used to implement IDLJ, RMIC, and Javac

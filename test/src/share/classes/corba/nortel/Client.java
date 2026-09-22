@@ -20,30 +20,30 @@
 
 package corba.nortel;
 
-import java.util.Properties ;
-import java.util.Hashtable ;
-import java.util.Collection ;
-import java.util.ArrayList ;
+import java.util.Properties;
+import java.util.Hashtable;
+import java.util.Collection;
+import java.util.ArrayList;
 
-import java.rmi.RemoteException ;
+import java.rmi.RemoteException;
 
-import javax.rmi.CORBA.Util ;
-import javax.rmi.CORBA.Tie ;
+import javax.rmi.CORBA.Util;
+import javax.rmi.CORBA.Tie;
 
-import javax.naming.InitialContext ;
+import javax.naming.InitialContext;
 
 import com.sun.corba.ee.spi.JndiConstants;
-import org.omg.CORBA.ORB ;
+import org.omg.CORBA.ORB;
 
-import org.testng.TestNG ;
-import org.testng.Assert ;
-import org.testng.annotations.Test ;
-import org.testng.annotations.AfterTest ;
-import org.testng.annotations.BeforeTest ;
+import org.testng.TestNG;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 
-import com.sun.corba.ee.impl.naming.cosnaming.TransientNameService ;
+import com.sun.corba.ee.impl.naming.cosnaming.TransientNameService;
 
 import static corba.framework.PRO.* ;
 

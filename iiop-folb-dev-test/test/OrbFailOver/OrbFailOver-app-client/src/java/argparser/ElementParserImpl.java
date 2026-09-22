@@ -19,15 +19,15 @@
 
 package argparser ;
 
-import java.util.List ;
-import java.util.ArrayList ;
+import java.util.List;
+import java.util.ArrayList;
 
-import java.lang.reflect.Array ;
-import java.lang.reflect.Method ;
-import java.lang.reflect.Constructor ;
-import java.lang.reflect.Type ;
-import java.lang.reflect.ParameterizedType ;
-import java.lang.reflect.InvocationTargetException ;
+import java.lang.reflect.Array;
+import java.lang.reflect.Method;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Type;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.InvocationTargetException;
 
 public class ElementParserImpl implements ElementParser {
     private UnaryFunction<String,Object> func ;

@@ -19,17 +19,17 @@
 
 package com.sun.corba.ee.impl.interceptors;
 
-import com.sun.corba.ee.spi.ior.TaggedComponentFactoryFinder ;
+import com.sun.corba.ee.spi.ior.TaggedComponentFactoryFinder;
 import com.sun.corba.ee.spi.ior.TaggedProfileTemplate;
 import com.sun.corba.ee.spi.legacy.interceptor.IORInfoExt;
 import com.sun.corba.ee.spi.legacy.interceptor.UnknownType;
-import com.sun.corba.ee.spi.logging.InterceptorsSystemException ;
-import com.sun.corba.ee.spi.logging.OMGSystemException ;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import com.sun.corba.ee.spi.logging.InterceptorsSystemException;
+import com.sun.corba.ee.spi.logging.OMGSystemException;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import com.sun.corba.ee.spi.oa.ObjectAdapter;
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
-import java.util.Iterator ;
+import java.util.Iterator;
 
 import org.omg.CORBA.LocalObject;
 import org.omg.CORBA.Policy;

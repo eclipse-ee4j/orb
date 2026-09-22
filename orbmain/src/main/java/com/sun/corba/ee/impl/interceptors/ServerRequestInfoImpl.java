@@ -20,7 +20,7 @@
 package com.sun.corba.ee.impl.interceptors;
 
 import com.sun.corba.ee.impl.protocol.giopmsgheaders.ReplyMessage;
-import com.sun.corba.ee.spi.ior.ObjectAdapterId ;
+import com.sun.corba.ee.spi.ior.ObjectAdapterId;
 import com.sun.corba.ee.spi.ior.ObjectKeyTemplate;
 import com.sun.corba.ee.spi.legacy.interceptor.ServerRequestInfoExt;
 import com.sun.corba.ee.spi.oa.ObjectAdapter;

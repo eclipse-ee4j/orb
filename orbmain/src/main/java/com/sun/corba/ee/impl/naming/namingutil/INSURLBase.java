@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.impl.naming.namingutil;
 
-import com.sun.corba.ee.spi.logging.OMGSystemException ;
+import com.sun.corba.ee.spi.logging.OMGSystemException;
 
 /** The corbaloc: URL definitions from the -ORBInitDef and -ORBDefaultInitDef's
  *  will be stored in this object. This object is capable of storing multiple

@@ -21,7 +21,7 @@
 package com.sun.corba.ee.impl.javax.rmi;
 
 import com.sun.corba.ee.impl.javax.rmi.CORBA.Util;
-import com.sun.corba.ee.impl.misc.ClassInfoCache ;
+import com.sun.corba.ee.impl.misc.ClassInfoCache;
 import com.sun.corba.ee.impl.util.RepositoryId;
 import com.sun.corba.ee.impl.util.Utility;
 import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;

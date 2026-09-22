@@ -26,9 +26,9 @@ import com.sun.corba.ee.spi.threadpool.WorkQueue;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import org.glassfish.gmbal.Description ;
-import org.glassfish.gmbal.ManagedAttribute ;
-import org.glassfish.gmbal.NameValue ;
+import org.glassfish.gmbal.Description;
+import org.glassfish.gmbal.ManagedAttribute;
+import org.glassfish.gmbal.NameValue;
 
 public class WorkQueueImpl implements WorkQueue
 {

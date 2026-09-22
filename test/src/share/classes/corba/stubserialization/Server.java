@@ -23,17 +23,17 @@ import javax.naming.InitialContext;
 import javax.naming.Context;
 import java.util.Properties;
 
-import javax.rmi.PortableRemoteObject ;
-import javax.rmi.CORBA.Tie ;
+import javax.rmi.PortableRemoteObject;
+import javax.rmi.CORBA.Tie;
 
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.*;
 
 import org.omg.PortableServer.*;
 
-import com.sun.corba.ee.spi.presentation.rmi.PresentationManager ;
+import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
 
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 
 
 /**

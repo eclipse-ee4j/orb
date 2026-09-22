@@ -19,17 +19,17 @@
 
 package performance.simpleperf2;
 
-import javax.rmi.PortableRemoteObject ;
+import javax.rmi.PortableRemoteObject;
 import java.io.*;
-import java.io.DataOutputStream ;
+import java.io.DataOutputStream;
 import java.util.*;
-import java.rmi.RemoteException ;
+import java.rmi.RemoteException;
 import org.omg.CORBA.*;
 import org.omg.CosNaming.*;
 import org.omg.PortableServer.*;
 import org.omg.PortableServer.ServantLocatorPackage.*;
-import com.sun.corba.ee.spi.misc.ORBConstants ;
-import corba.framework.ThreadProcess ;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import corba.framework.ThreadProcess;
 
 public class counterServer extends ThreadProcess {
 

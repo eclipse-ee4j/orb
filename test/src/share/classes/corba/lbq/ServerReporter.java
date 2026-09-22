@@ -19,8 +19,8 @@
 
 package corba.lbq ;
 
-import java.rmi.Remote ;
-import java.rmi.RemoteException ;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 /** One of these is implemented by Orchestrator for each server instance and
  * registered with the server.
