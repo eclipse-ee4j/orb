@@ -53,7 +53,6 @@ import java.security.PrivilegedAction;
 import java.security.ProtectionDomain;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
@@ -101,35 +100,48 @@ public final class ORBUtility {
         }
     }
 
-    private static final ThreadLocal<LinkedList<Byte>> encVersionThreadLocal =
-        new ThreadLocal<LinkedList<Byte>>() {
+    private static final ThreadLocal<EncodingVersionStack> encVersionThreadLocal =
+        new ThreadLocal<EncodingVersionStack>() {
             @Override
-            protected LinkedList<Byte> initialValue() {
-                return new LinkedList<>();
+            protected EncodingVersionStack initialValue() {
+                return new EncodingVersionStack();
             }
         };
 
+    /** A tiny primitive stack: this path is nested, but almost never deep. */
+    private static final class EncodingVersionStack {
+        private byte[] values = new byte[4];
+        private int size;
+
+        void push(byte value) {
+            if (size == values.length) {
+                byte[] larger = new byte[values.length << 1];
+                System.arraycopy(values, 0, larger, 0, size);
+                values = larger;
+            }
+            values[size++] = value;
+        }
+
+        byte pop() {
+            return values[--size];
+        }
+
+        byte peekOr(byte fallback) {
+            return size == 0 ? fallback : values[size - 1];
+        }
+    }
+
     public static void pushEncVersionToThreadLocalState(byte value) {
-        LinkedList<Byte> stack = encVersionThreadLocal.get();
-        stack.addLast(value);
+        encVersionThreadLocal.get().push(value);
     }
 
     public static void popEncVersionFromThreadLocalState() {
-        LinkedList<Byte> stack = encVersionThreadLocal.get();
-        stack.removeLast();
+        encVersionThreadLocal.get().pop();
     }
 
     public static byte getEncodingVersion() {
         byte encodingVersion = ORBConstants.CDR_ENC_VERSION; // default
-        LinkedList<Byte> stack = encVersionThreadLocal.get();
-        if (stack.size() > 0) {
-            Byte last = stack.getLast();
-            // LinkedList allows a null object to be added to the list
-            if (last != null) {
-                encodingVersion = last.byteValue();
-            }  // if null, return default CDR_ENC_VERSION
-        } // if nothing on list, use default encoding
-        return encodingVersion;
+        return encVersionThreadLocal.get().peekOr(encodingVersion);
     }
 
     public static byte[] getByteBufferArray(ByteBuffer byteBuffer) {

@@ -1856,8 +1856,20 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
             }
 
             int batch = Math.min(byteBuffer.remaining() / 2, units.length - done);
-            byteBuffer.slice().order(ByteOrder.BIG_ENDIAN).asCharBuffer().get(units, done, batch);
-            advance(2, batch);
+            if (batch <= 16) {
+                for (int i = done; i < done + batch; i++) {
+                    int first = byteBuffer.get() & 0xFF;
+                    units[i] = (char) ((first << 8) | (byteBuffer.get() & 0xFF));
+                }
+            } else {
+                ByteOrder savedOrder = byteBuffer.order();
+                try {
+                    byteBuffer.order(ByteOrder.BIG_ENDIAN).asCharBuffer().get(units, done, batch);
+                } finally {
+                    byteBuffer.order(savedOrder);
+                }
+                advance(2, batch);
+            }
             done += batch;
         }
     }

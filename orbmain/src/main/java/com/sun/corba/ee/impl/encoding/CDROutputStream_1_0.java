@@ -1142,8 +1142,24 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
             }
 
             int batch = Math.min(byteBuffer.remaining() / 2, count - done);
-            byteBuffer.slice().order(order).asCharBuffer().put(chars, done, batch);
-            advance(2, batch);
+            if (batch <= 16) {
+                // A view and a bulk-copy call cost more setup for a handful
+                // of code units. Do not change the stream's byte order.
+                boolean bigEndian = order == ByteOrder.BIG_ENDIAN;
+                for (int i = done; i < done + batch; i++) {
+                    char c = chars[i];
+                    byteBuffer.put((byte) (bigEndian ? c >>> 8 : c));
+                    byteBuffer.put((byte) (bigEndian ? c : c >>> 8));
+                }
+            } else {
+                ByteOrder savedOrder = byteBuffer.order();
+                try {
+                    byteBuffer.order(order).asCharBuffer().put(chars, done, batch);
+                } finally {
+                    byteBuffer.order(savedOrder);
+                }
+                advance(2, batch);
+            }
             done += batch;
         }
     }
