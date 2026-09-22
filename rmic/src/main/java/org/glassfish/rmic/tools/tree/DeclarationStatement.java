@@ -85,6 +85,7 @@ class DeclarationStatement extends Statement {
     /**
      * Create a copy of the statement for method inlining
      */
+    @Override
     public Statement copyInline(Context ctx, boolean valNeeded) {
         DeclarationStatement s = (DeclarationStatement)clone();
         if (type != null) {
@@ -127,6 +128,7 @@ class DeclarationStatement extends Statement {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out, int indent) {
         out.print("declare ");
         super.print(out, indent);

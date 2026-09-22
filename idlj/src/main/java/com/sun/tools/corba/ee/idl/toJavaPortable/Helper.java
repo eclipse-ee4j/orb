@@ -63,6 +63,7 @@ public class Helper implements AuxGen
    * 6.) Write class closing: close curly
    * 7.) Close the print stream
    **/
+  @Override
   public void generate (java.util.Hashtable symbolTable, SymtabEntry entry)
   {
     this.symbolTable = symbolTable;
@@ -392,7 +393,7 @@ public class Helper implements AuxGen
     } else {
         // Determine if the non-abstract interface has any abstract parents
         for (int i = 0; i < ie.derivedFrom ().size (); i++) {
-            SymtabEntry parent = (SymtabEntry) ie.derivedFrom ().elementAt (i);
+            SymtabEntry parent = ie.derivedFrom ().elementAt (i);
             if (((InterfaceEntry) parent).isAbstract ()) {
                 writeRemoteNarrowForAbstract (true);
                 break;
@@ -470,7 +471,7 @@ public class Helper implements AuxGen
       stream.println ("      stub._set_delegate(delegate);");
       stream.println ("      return stub;" ) ;
       stream.println ("    }" ) ;
-    };
+    }
     // end <d57118 - check for remotable - klr>
 
     stream.println ("    throw new org.omg.CORBA.BAD_PARAM ();");
@@ -508,7 +509,7 @@ public class Helper implements AuxGen
     } else {
         // Determine if the non-abstract interface has any abstract parents
         for (int i = 0; i < ie.derivedFrom ().size (); i++) {
-            SymtabEntry parent = (SymtabEntry) ie.derivedFrom ().elementAt (i);
+            SymtabEntry parent = ie.derivedFrom ().elementAt (i);
             if (((InterfaceEntry) parent).isAbstract ()) {
                 writeRemoteUncheckedNarrowForAbstract (true);
                 break;
@@ -579,7 +580,7 @@ public class Helper implements AuxGen
       stream.println ("      stub._set_delegate(delegate);");
       stream.println ("      return stub;" ) ;
       stream.println ("    }" ) ;
-    };
+    }
 
     stream.println ("    throw new org.omg.CORBA.BAD_PARAM ();");
     stream.println ("  }");

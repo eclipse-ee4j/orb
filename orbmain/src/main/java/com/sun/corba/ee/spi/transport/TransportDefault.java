@@ -44,10 +44,12 @@ public abstract class TransportDefault {
         final ORB broker )
     {
         return new ContactInfoListFactory() {
+            @Override
             public void setORB(ORB orb) { }
+            @Override
             public ContactInfoList create( IOR ior ) {
                 return new ContactInfoListImpl(
-                    (com.sun.corba.ee.spi.orb.ORB)broker, ior ) ;
+                    broker, ior ) ;
             }
         };
     }
@@ -56,9 +58,10 @@ public abstract class TransportDefault {
         final ORB broker )
     {
         return new ClientDelegateFactory() {
+            @Override
             public ClientDelegate create( ContactInfoList info ) {
                 return new ClientDelegateImpl(
-                    (com.sun.corba.ee.spi.orb.ORB)broker, info ) ;
+                    broker, info ) ;
             }
         };
     }

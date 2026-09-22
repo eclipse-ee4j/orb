@@ -53,16 +53,19 @@ public class UEInfoServiceContextImpl extends ServiceContextBase
         }
     }
 
+    @Override
     public int getId()
     {
         return SERVICE_CONTEXT_ID ;
     }
 
+    @Override
     public void writeData( OutputStream os )
     {
-        os.write_value( (Serializable)unknown ) ;
+        os.write_value( unknown ) ;
     }
 
+    @Override
     public Throwable getUE() { return unknown ; }
 
     @Override

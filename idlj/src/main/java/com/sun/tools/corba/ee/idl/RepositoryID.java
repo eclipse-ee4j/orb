@@ -40,11 +40,13 @@ public class RepositoryID
     return _id;
   } // ID
 
+  @Override
   public Object clone ()
   {
     return new RepositoryID (_id);
   } // clone
 
+  @Override
   public String toString ()
   {
     return ID ();

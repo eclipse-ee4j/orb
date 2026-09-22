@@ -36,6 +36,8 @@ import org.omg.PortableInterceptor.InvalidSlot;
 public class PICurrent extends org.omg.CORBA.LocalObject
     implements Current
 {
+    private static final long serialVersionUID = 2486667232715887810L;
+
     private static final OMGSystemException wrapper =
         OMGSystemException.self ;
 
@@ -120,6 +122,7 @@ public class PICurrent extends org.omg.CORBA.LocalObject
      * This method sets the slot data at the given slot id (index) in the
      * Slot Table which is on the top of the SlotTableStack.
      */
+    @Override
     public void set_slot( int id, Any data ) throws InvalidSlot
     {
         if( orbInitializing ) {
@@ -136,6 +139,7 @@ public class PICurrent extends org.omg.CORBA.LocalObject
      * This method gets the slot data at the given slot id (index) from the
      * Slot Table which is on the top of the SlotTableStack.
      */
+    @Override
     public Any get_slot( int id ) throws InvalidSlot
     {
         if( orbInitializing ) {

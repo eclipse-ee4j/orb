@@ -28,20 +28,20 @@ import org.omg.CORBA.SystemException;
  * @author Harold Carr
  */
 public interface ResponseWaitingRoom{
-    public void registerWaiter(MessageMediator messageMediator);
+    void registerWaiter(MessageMediator messageMediator);
 
     // REVISIT: maybe return void (or MessageMediator).
-    public CDRInputObject waitForResponse(MessageMediator messageMediator);
+    CDRInputObject waitForResponse(MessageMediator messageMediator);
 
-    public void responseReceived(CDRInputObject inputObject);
+    void responseReceived(CDRInputObject inputObject);
 
-    public void unregisterWaiter(MessageMediator messageMediator);
+    void unregisterWaiter(MessageMediator messageMediator);
 
-    public int numberRegistered();
+    int numberRegistered();
 
-    public void signalExceptionToAllWaiters(SystemException systemException);
+    void signalExceptionToAllWaiters(SystemException systemException);
 
-    public MessageMediator getMessageMediator(int requestId);
+    MessageMediator getMessageMediator(int requestId);
 }
 
 // End of file.

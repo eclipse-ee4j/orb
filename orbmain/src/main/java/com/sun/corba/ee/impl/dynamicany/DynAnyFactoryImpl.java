@@ -60,6 +60,7 @@ public class DynAnyFactoryImpl
     //
 
     // Returns the most derived DynAny type based on the Anys TypeCode.
+    @Override
     public org.omg.DynamicAny.DynAny create_dyn_any (org.omg.CORBA.Any any)
         throws org.omg.DynamicAny.DynAnyFactoryPackage.InconsistentTypeCode
     {
@@ -67,6 +68,7 @@ public class DynAnyFactoryImpl
     }
 
     // Returns the most derived DynAny type based on the TypeCode.
+    @Override
     public org.omg.DynamicAny.DynAny create_dyn_any_from_type_code (org.omg.CORBA.TypeCode type)
         throws org.omg.DynamicAny.DynAnyFactoryPackage.InconsistentTypeCode
     {

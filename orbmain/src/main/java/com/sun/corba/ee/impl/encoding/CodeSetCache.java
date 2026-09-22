@@ -36,6 +36,7 @@ class CodeSetCache
 {
     private ThreadLocal<WeakHashMap<String,CharsetEncoder>> ctbMapLocal =
         new ThreadLocal<WeakHashMap<String,CharsetEncoder>>() {
+            @Override
             protected WeakHashMap<String,CharsetEncoder> initialValue() {
                 return new WeakHashMap<String,CharsetEncoder>() ;
             }
@@ -43,6 +44,7 @@ class CodeSetCache
 
     private ThreadLocal<WeakHashMap<String,CharsetDecoder>> btcMapLocal =
         new ThreadLocal<WeakHashMap<String,CharsetDecoder>>() {
+            @Override
             protected WeakHashMap<String,CharsetDecoder> initialValue() {
                 return new WeakHashMap<String,CharsetDecoder>() ;
             }

@@ -49,7 +49,7 @@ public interface TSIdentification {
          *         with the ORB
          *
     */
-    public void
+    void
         identify_sender(org.omg.CosTSPortability.Sender senderOTS)
         throws org.omg.CORBA.TSIdentificationPackage.NotAvailable,
                org.omg.CORBA.TSIdentificationPackage.AlreadyIdentified ;
@@ -68,7 +68,7 @@ public interface TSIdentification {
          *         if the given <code>Receiver</code> object has already been registered
          *         with the ORB
     */
-    public void
+    void
         identify_receiver(org.omg.CosTSPortability.Receiver receiverOTS)
         throws org.omg.CORBA.TSIdentificationPackage.NotAvailable,
                org.omg.CORBA.TSIdentificationPackage.AlreadyIdentified ;

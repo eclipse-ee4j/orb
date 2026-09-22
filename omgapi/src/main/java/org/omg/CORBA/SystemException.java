@@ -40,6 +40,8 @@ import com.sun.corba.ee.org.omg.CORBA.SUNVMCID;
 
 public abstract class SystemException extends java.lang.RuntimeException {
 
+    private static final long serialVersionUID = -8486391734674855519L;
+
     /**
      * The CORBA Exception minor code.
      * @serial
@@ -69,6 +71,7 @@ public abstract class SystemException extends java.lang.RuntimeException {
     /**
      * Converts this exception to a representative string.
      */
+    @Override
     public String toString() {
         // The fully qualified exception class name
         String result = super.toString();

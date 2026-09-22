@@ -21,8 +21,9 @@ package com.sun.corba.ee.impl.threadpool;
 
 public class WorkerThreadNotNeededException extends Exception {
 
+    private static final long serialVersionUID = -6287997862815887975L;
+
     public WorkerThreadNotNeededException() {
-        super();
     }
 
     public WorkerThreadNotNeededException(String message) {

@@ -45,6 +45,7 @@ abstract class IIOPAddressBase implements IIOPAddress
         return value ;
     }
 
+    @Override
     public void write( OutputStream os )
     {
         os.write_string( getHost() ) ;
@@ -52,6 +53,7 @@ abstract class IIOPAddressBase implements IIOPAddress
         os.write_short( intToShort( port ) ) ;
     }
 
+    @Override
     public boolean equals( Object obj )
     {
         if (!(obj instanceof IIOPAddress))
@@ -63,11 +65,13 @@ abstract class IIOPAddressBase implements IIOPAddress
             (getPort() == other.getPort()) ;
     }
 
+    @Override
     public int hashCode()
     {
         return getHost().hashCode() ^ getPort() ;
     }
 
+    @Override
     public String toString()
     {
         return "IIOPAddress[" + getHost() + "," + getPort() + "]" ;

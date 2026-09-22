@@ -173,6 +173,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
     }
 
     // Template method
+    @Override
     public CDRInputStreamBase dup()
     {
         CDRInputStreamBase result = null ;
@@ -203,6 +204,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
     }
 
     // See description in CDRInputStream
+    @Override
     void performORBVersionSpecificInit() {
         createRepositoryIdHandlers();
     }
@@ -213,12 +215,14 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         repIdStrs = RepositoryIdFactory.getRepIdStringsFactory();
     }
 
+    @Override
     public GIOPVersion getGIOPVersion() {
         return GIOPVersion.V1_0;
     }
 
     // Called by Request and Reply message. Valid for GIOP versions >= 1.2 only.
     // Illegal for GIOP versions < 1.2.
+    @Override
     void setHeaderPadding(boolean headerPadding) {
         throw wrapper.giopVersionError();
     }
@@ -344,21 +348,25 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
     // Marshal primitives.
     //
 
+    @Override
     public final void consumeEndian() {
         ByteOrder byteOrder = read_boolean() ? ByteOrder.LITTLE_ENDIAN : ByteOrder.BIG_ENDIAN;
         byteBuffer.order(byteOrder);
     }
 
+    @Override
     public final boolean read_boolean() {
         return (read_octet() != 0);
     }
 
+    @Override
     public final char read_char() {
         alignAndCheck(1, 1);
 
         return getConvertedChars(1, getCharConverter())[0];
     }
 
+    @Override
     @CdrRead
     public char read_wchar() {
         // Don't allow transmission of wchar/wstring data with foreign ORBs since it's against the spec.
@@ -370,46 +378,55 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         return (char) byteBuffer.getShort();
     }
 
+    @Override
     @CdrRead
     public final byte read_octet() {
         alignAndCheck(1, 1);
         return byteBuffer.get();
     }
 
+    @Override
     @CdrRead
     public final short read_short() {
         alignAndCheck(2, 2);
         return byteBuffer.getShort();
     }
 
+    @Override
     public final short read_ushort() {
         return read_short();
     }
 
+    @Override
     @CdrRead
     public final int read_long() {
         alignAndCheck(4, 4);
         return byteBuffer.getInt();
     }
 
+    @Override
     public final int read_ulong() {
         return read_long();
     }
 
+    @Override
     @CdrRead
     public final long read_longlong() {
         alignAndCheck(8, 8);
         return byteBuffer.getLong();
     }
 
+    @Override
     public final long read_ulonglong() {
         return read_longlong();
     }
 
+    @Override
     public final float read_float() {
         return Float.intBitsToFloat(read_long());
     }
 
+    @Override
     public final double read_double() {
         return Double.longBitsToDouble(read_longlong());
     }
@@ -423,8 +440,6 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
     // Note that this has the side effect of setting the value of stringIndirection.
     @CdrRead
     protected final String readStringOrIndirection(boolean allowIndirection) {
-        String result = "" ;
-
         int len = read_long();
 
         //
@@ -440,7 +455,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
 
         checkForNegativeLength(len);
 
-        result = internalReadString(len);
+        String result = internalReadString(len);
 
         return result ;
     }
@@ -531,10 +546,12 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         return new String(bytes, charset);
     }
 
+    @Override
     public final String read_string() {
         return readStringOrIndirection(false);
     }
 
+    @Override
     @CdrRead
     public String read_wstring() {
         // Don't allow transmission of wchar/wstring data with
@@ -568,6 +585,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         return new String(c);
     }
 
+    @Override
     @CdrRead
     public final void read_octet_array(byte[] buffer, int offset, int length) {
         if ( buffer == null ) {
@@ -582,7 +600,9 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
 
         int numWritten = 0;
         while (numWritten < length) {
-            if (!byteBuffer.hasRemaining()) grow(1, 1);
+            if (!byteBuffer.hasRemaining()) {
+                grow(1, 1);
+            }
 
             int count = Math.min(length - numWritten, byteBuffer.remaining());
             byteBuffer.get(buffer, numWritten + offset, count);
@@ -590,6 +610,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         }
     }
 
+    @Override
     @SuppressWarnings({"deprecation"})
     public org.omg.CORBA.Principal read_Principal() {
         int len = read_long();
@@ -601,6 +622,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         return p;
     }
 
+    @Override
     @CdrRead
     public TypeCode read_TypeCode() {
         TypeCodeImpl tc = new TypeCodeImpl(orb);
@@ -608,11 +630,10 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         return tc ;
     }
 
+    @Override
     @CdrRead
     public Any read_any() {
-        Any any = null ;
-
-        any = orb.create_any();
+        Any any = orb.create_any();
         TypeCodeImpl tc = new TypeCodeImpl(orb);
 
         // read off the typecode
@@ -638,6 +659,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         return any;
     }
 
+    @Override
     @CdrRead
     public org.omg.CORBA.Object read_Object() {
         return read_Object(null);
@@ -667,11 +689,12 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
     //    IDLEntity.class.isAssignableFrom( clz ).
     // 3. If clz is an interface, use it to create the appropriate
     //    stub factory.
+    @Override
     @CdrRead
     public org.omg.CORBA.Object read_Object(Class clz)
     {
         // In any case, we must first read the IOR.
-        IOR ior = IORFactories.makeIOR( orb, (InputStream)parent) ;
+        IOR ior = IORFactories.makeIOR( orb, parent) ;
         if (ior.isNil()) {
             nullIOR() ;
             return null;
@@ -773,12 +796,14 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         return objref;
     }
 
+    @Override
     @CdrRead
     public java.lang.Object read_abstract_interface()
     {
         return read_abstract_interface(null);
     }
 
+    @Override
     public java.lang.Object read_abstract_interface(java.lang.Class clz)
     {
         boolean object = read_boolean();
@@ -790,6 +815,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         }
     }
 
+    @Override
     @CdrRead
     public Serializable read_value()
     {
@@ -895,6 +921,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
     @InfoMethod
     private void noProxyInterfaces() { }
 
+    @Override
     @CdrRead
     public Serializable read_value(Class expectedType) {
         Object value = null ;
@@ -1084,6 +1111,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         return Arrays.asList(interfaces);
     }
 
+    @Override
     @CdrRead
     @SuppressWarnings("deprecation")
     public Serializable read_value(BoxedValueHelper factory) {
@@ -1174,6 +1202,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
     // read_value(String repositoryId).
     // Therefore, it is not a truly independent read call that handles
     // header information itself.
+    @Override
     @CdrRead
     public java.io.Serializable read_value(java.io.Serializable value) {
 
@@ -1192,6 +1221,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         return value;
     }
 
+    @Override
     @CdrRead
     public java.io.Serializable read_value(java.lang.String repositoryId) {
 
@@ -1222,8 +1252,6 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
             boolean saveIsChunked = isChunked;
             isChunked = repIdUtil.isChunkedEncoding(vType);
 
-            java.lang.Object value = null;
-
             String codebase_URL = null;
             if (repIdUtil.isCodeBasePresent(vType)){
                 codebase_URL = read_codebase_URL();
@@ -1243,7 +1271,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
             }
 
             valueIndirection = indirection;  // for callback
-            value = factory.read_value(parent);
+            java.lang.Object value = factory.read_value(parent);
 
             handleEndOfValue();
             readEndTag();
@@ -1380,6 +1408,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
             try {
                 readMethod = AccessController.doPrivileged(
                     new PrivilegedExceptionAction<Method>() {
+                    @Override
                     @SuppressWarnings("unchecked")
                         public Method run() throws NoSuchMethodException {
                             return helperClass.getDeclaredMethod(K_READ_METHOD,
@@ -1655,18 +1684,21 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         return read_long();
     }
 
+    @Override
     public org.omg.CORBA.ORB orb() {
         return orb;
     }
 
     // ------------ End RMI related methods --------------------------
 
+    @Override
     public final void read_boolean_array(boolean[] value, int offset, int length) {
         for(int i=0; i < length; i++) {
             value[i+offset] = read_boolean();
         }
     }
 
+    @Override
     public final void read_char_array(char[] value, int offset, int length) {
         if (length == 0) {
             return;
@@ -1691,6 +1723,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         }
     }
 
+    @Override
     public final void read_wchar_array(char[] value, int offset, int length) {
         for(int i=0; i < length; i++) {
             value[i+offset] = read_wchar();
@@ -1731,6 +1764,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         byteBuffer.position(byteBuffer.position() + (count * elementSize));
     }
 
+    @Override
     public final void read_short_array(short[] value, int offset, int length) {
         int done = 0;
         while (done < length) {
@@ -1741,10 +1775,12 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         }
     }
 
+    @Override
     public final void read_ushort_array(short[] value, int offset, int length) {
         read_short_array(value, offset, length);
     }
 
+    @Override
     public final void read_long_array(int[] value, int offset, int length) {
         int done = 0;
         while (done < length) {
@@ -1755,10 +1791,12 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         }
     }
 
+    @Override
     public final void read_ulong_array(int[] value, int offset, int length) {
         read_long_array(value, offset, length);
     }
 
+    @Override
     public final void read_longlong_array(long[] value, int offset, int length) {
         int done = 0;
         while (done < length) {
@@ -1769,10 +1807,12 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         }
     }
 
+    @Override
     public final void read_ulonglong_array(long[] value, int offset, int length) {
         read_longlong_array(value, offset, length);
     }
 
+    @Override
     public final void read_float_array(float[] value, int offset, int length) {
         int done = 0;
         while (done < length) {
@@ -1783,6 +1823,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         }
     }
 
+    @Override
     public final void read_double_array(double[] value, int offset, int length) {
         int done = 0;
         while (done < length) {
@@ -1883,66 +1924,82 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
 
     /* DataInputStream methods */
 
+    @Override
     public java.lang.Object read_Abstract () {
         return read_abstract_interface();
     }
 
+    @Override
     public java.io.Serializable read_Value () {
         return read_value();
     }
 
+    @Override
     public void read_any_array (org.omg.CORBA.AnySeqHolder seq, int offset, int length) {
         read_any_array(seq.value, offset, length);
     }
 
+    @Override
     public void read_boolean_array (org.omg.CORBA.BooleanSeqHolder seq, int offset, int length) {
         read_boolean_array(seq.value, offset, length);
     }
 
+    @Override
     public void read_char_array (org.omg.CORBA.CharSeqHolder seq, int offset, int length) {
         read_char_array(seq.value, offset, length);
     }
 
+    @Override
     public void read_wchar_array (org.omg.CORBA.WCharSeqHolder seq, int offset, int length) {
         read_wchar_array(seq.value, offset, length);
     }
 
+    @Override
     public void read_octet_array (org.omg.CORBA.OctetSeqHolder seq, int offset, int length) {
         read_octet_array(seq.value, offset, length);
     }
 
+    @Override
     public void read_short_array (org.omg.CORBA.ShortSeqHolder seq, int offset, int length) {
         read_short_array(seq.value, offset, length);
     }
 
+    @Override
     public void read_ushort_array (org.omg.CORBA.UShortSeqHolder seq, int offset, int length) {
         read_ushort_array(seq.value, offset, length);
     }
 
+    @Override
     public void read_long_array (org.omg.CORBA.LongSeqHolder seq, int offset, int length) {
         read_long_array(seq.value, offset, length);
     }
 
+    @Override
     public void read_ulong_array (org.omg.CORBA.ULongSeqHolder seq, int offset, int length) {
         read_ulong_array(seq.value, offset, length);
     }
 
+    @Override
     public void read_ulonglong_array (org.omg.CORBA.ULongLongSeqHolder seq, int offset, int length) {
         read_ulonglong_array(seq.value, offset, length);
     }
 
+    @Override
     public void read_longlong_array (org.omg.CORBA.LongLongSeqHolder seq, int offset, int length) {
         read_longlong_array(seq.value, offset, length);
     }
 
+    @Override
     public void read_float_array (org.omg.CORBA.FloatSeqHolder seq, int offset, int length) {
         read_float_array(seq.value, offset, length);
     }
 
+    @Override
     public void read_double_array (org.omg.CORBA.DoubleSeqHolder seq, int offset, int length) {
         read_double_array(seq.value, offset, length);
     }
 
+    @Override
     public java.math.BigDecimal read_fixed(short digits, short scale) {
         // digits isn't really needed here
         StringBuffer buffer = read_fixed_buffer();
@@ -1954,6 +2011,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
     }
 
     // This method is unable to yield the correct scale.
+    @Override
     public java.math.BigDecimal read_fixed() {
         return new BigDecimal(read_fixed_buffer().toString());
     }
@@ -2005,6 +2063,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
     private final static String _id = "IDL:omg.org/CORBA/DataInputStream:1.0";
     private final static String[] _ids = { _id };
 
+    @Override
     public String[] _truncatable_ids() {
         if (_ids == null) {
             return null;
@@ -2013,14 +2072,17 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         return _ids.clone();
     }
 
+    @Override
     public int getBufferLength() {
         return byteBuffer.limit();
     }
 
+    @Override
     public void setBufferLength(int value) {
         byteBuffer.limit(value);
     }
 
+    @Override
     public void setIndex(int value) {
         byteBuffer.position(value);
     }
@@ -2030,10 +2092,12 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         return byteBuffer.order();
     }
 
+    @Override
     public void orb(org.omg.CORBA.ORB orb) {
         this.orb = (ORB)orb;
     }
 
+    @Override
     public BufferManagerRead getBufferManager() {
         return bufferManagerRead;
     }
@@ -2049,7 +2113,9 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
             int wanted;
             int bytes;
 
-            if (!byteBuffer.hasRemaining()) grow(1, 1);
+            if (!byteBuffer.hasRemaining()) {
+                grow(1, 1);
+            }
             int avail = byteBuffer.remaining();
 
             wanted = len - n;
@@ -2091,10 +2157,12 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         }
     }
 
+    @Override
     public java.lang.Object createStreamMemento() {
         return new StreamMemento();
     }
 
+    @Override
     public void restoreInternalState(java.lang.Object streamMemento) {
 
         StreamMemento mem = (StreamMemento)streamMemento;
@@ -2110,14 +2178,17 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         byteBuffer = mem.byteBuffer_;
     }
 
+    @Override
     public int getPosition() {
         return get_offset();
     }
 
+    @Override
     public void mark(int readlimit) {
         markAndResetHandler.mark(this);
     }
 
+    @Override
     public void reset() {
         markAndResetHandler.reset();
     }
@@ -2128,6 +2199,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
     // a CodeBase.  This ultimately allows us to grab a Connection
     // instance in IIOPInputStream, the only subclass where this
     // is actually used.
+    @Override
     CodeBase getCodeBase() {
         return parent.getCodeBase();
     }
@@ -2247,6 +2319,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
      * GIOP 1.2 message headers.
      */
 
+    @Override
     void alignOnBoundary(int octetBoundary) {
         int needed = computeAlignment(byteBuffer.position(), octetBoundary);
 
@@ -2256,6 +2329,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         }
     }
 
+    @Override
     public void resetCodeSetConverters() {
         charConverter = null;
         wcharConverter = null;
@@ -2264,6 +2338,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
     @InfoMethod
     private void valueTag( int value ) { }
 
+    @Override
     @CdrRead
     public void start_value() {
         // Read value tag
@@ -2311,6 +2386,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         chunkedValueNestingLevel--;
     }
 
+    @Override
     @CdrRead
     public void end_value() {
 

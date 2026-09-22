@@ -217,6 +217,7 @@ public final class PresentationManagerImpl implements PresentationManager
 
         Method[] methods = (Method[])AccessController.doPrivileged(
             new PrivilegedAction<Object>() {
+                @Override
                 public Object run() {
                     return cls.getMethods() ;
                 }
@@ -330,6 +331,7 @@ public final class PresentationManagerImpl implements PresentationManager
             // return "RMI:" + interf.getName() + ":0000000000000000" ;
         }
 
+        @Override
         public Set<NodeImpl> getChildren()
         {
             Set<NodeImpl> result = new HashSet<NodeImpl>() ;

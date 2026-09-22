@@ -42,7 +42,7 @@ public class Message_1_0
     GIOPVersion GIOP_version = null;
     boolean byte_order = false;
     byte message_type = (byte) 0;
-    int message_size = (int) 0;
+    int message_size = 0;
 
     // Constructor
 

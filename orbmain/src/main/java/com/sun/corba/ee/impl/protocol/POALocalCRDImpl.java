@@ -67,9 +67,7 @@ public class POALocalCRDImpl extends LocalClientRequestDispatcherBase {
     public ServantObject internalPreinvoke( org.omg.CORBA.Object self,
         String operation, Class expectedType) throws OADestroyed {
 
-        ObjectAdapter oa = null ;
-
-        oa = oaf.find( oaid ) ;
+        ObjectAdapter oa = oaf.find( oaid ) ;
 
         OAInvocationInfo info = servantEnter( oa ) ;
         info.setOperation( operation ) ;
@@ -95,6 +93,7 @@ public class POALocalCRDImpl extends LocalClientRequestDispatcherBase {
         }
     }
 
+    @Override
     public void servant_postinvoke(org.omg.CORBA.Object self,
                                    ServantObject servantobj)
     {

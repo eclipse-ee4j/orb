@@ -26,9 +26,9 @@ import java.nio.ByteBuffer;
  */
 public interface ByteBufferPool
 {
-    public ByteBuffer getByteBuffer(int theSize);
-    public void releaseByteBuffer(ByteBuffer thebb);
-    public int activeCount();
+    ByteBuffer getByteBuffer(int theSize);
+    void releaseByteBuffer(ByteBuffer thebb);
+    int activeCount();
     /**
      * Return a new <code>ByteBuffer</code> of at least <code>minimumSize</code>
      * and copy any bytes in the <code>oldByteBuffer</code> starting at
@@ -39,7 +39,7 @@ public interface ByteBufferPool
      * @param minimumSize minimum size of Buffer
      * @return the new ByteBuffer
      */
-    public ByteBuffer reAllocate(ByteBuffer oldByteBuffer, int minimumSize);
+    ByteBuffer reAllocate(ByteBuffer oldByteBuffer, int minimumSize);
 }
 
 // End of file.

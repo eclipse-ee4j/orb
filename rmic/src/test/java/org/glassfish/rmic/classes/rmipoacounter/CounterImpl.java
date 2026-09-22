@@ -66,6 +66,7 @@ public class CounterImpl extends PortableRemoteObject implements CounterIF
         }
     }
 
+    @Override
     public synchronized long increment(long invalue) throws RemoteException
     {
         if ( debug )

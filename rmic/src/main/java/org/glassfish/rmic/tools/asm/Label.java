@@ -101,6 +101,7 @@ class Label extends Instruction {
         return lbl;
     }
 
+    @Override
     public String toString() {
         String s = "$" + ID + ":";
         if (value != null)

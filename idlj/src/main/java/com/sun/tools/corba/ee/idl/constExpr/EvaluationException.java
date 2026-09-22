@@ -24,6 +24,8 @@ package com.sun.tools.corba.ee.idl.constExpr;
 
 public class EvaluationException extends Exception
 {
+  private static final long serialVersionUID = 6111367399782555000L;
+
   public EvaluationException (String message)
   {
     super (message);

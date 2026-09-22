@@ -31,11 +31,12 @@ public class JIDLLocalCRDImpl extends LocalClientRequestDispatcherBase
 {
     public JIDLLocalCRDImpl( ORB orb, int scid, IOR ior )
     {
-        super( (com.sun.corba.ee.spi.orb.ORB)orb, scid, ior ) ;
+        super( orb, scid, ior ) ;
     }
 
     protected ServantObject servant;
 
+    @Override
     public ServantObject servant_preinvoke(org.omg.CORBA.Object self,
                                            String operation,
                                            Class expectedType)
@@ -46,6 +47,7 @@ public class JIDLLocalCRDImpl extends LocalClientRequestDispatcherBase
         return servant;
     }
 
+    @Override
     public void servant_postinvoke( org.omg.CORBA.Object self,
         ServantObject servant )
     {

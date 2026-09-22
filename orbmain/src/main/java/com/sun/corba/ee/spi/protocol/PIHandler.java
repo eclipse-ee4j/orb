@@ -46,9 +46,9 @@ public interface PIHandler extends Closeable {
     * the ORB can obtain the PIHandler BEFORE the ORBInitializers run, since they
     * will need access to the PIHandler through the ORB.
     */
-    public void initialize() ;
+    void initialize() ;
 
-    public void destroyInterceptors() ;
+    void destroyInterceptors() ;
 
     /*
      ****************************

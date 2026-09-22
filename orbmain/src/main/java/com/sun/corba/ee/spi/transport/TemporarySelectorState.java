@@ -66,7 +66,7 @@ public interface TemporarySelectorState {
      * @return  The number of keys, possibly zero, whose ready-operation sets
      *          was updated.
      */
-    public int select(Selector theSelector, long theTimeout) throws IOException;
+    int select(Selector theSelector, long theTimeout) throws IOException;
 
    /**
      * Registers theSelectableChannel with theSelector, setting theSelection to
@@ -103,7 +103,7 @@ public interface TemporarySelectorState {
      * @return  A key representing the registration of theSelectableChannel with
      *         theSelector.
      */
-    public SelectionKey registerChannel(Selector theSelector,
+    SelectionKey registerChannel(Selector theSelector,
                                         SelectableChannel theSelectableChannel,
                                         int theOps) throws IOException;
 
@@ -133,7 +133,7 @@ public interface TemporarySelectorState {
      * @return  TemporarySelectorState, the state of the TemporarySelector after
      *          invoking this method.
      */
-    public TemporarySelectorState cancelKeyAndFlushSelector(Selector theSelector,
+    TemporarySelectorState cancelKeyAndFlushSelector(Selector theSelector,
                                                             SelectionKey theSelectionKey)
                                                             throws IOException;
 
@@ -163,7 +163,7 @@ public interface TemporarySelectorState {
      * @return  TemporarySelectorState, the state of the TemporarySelector after
      *          invoking this method.
      */
-    public TemporarySelectorState close(Selector theSelector) throws IOException;
+    TemporarySelectorState close(Selector theSelector) throws IOException;
 
    /**
      * Remove theSelectionKey from the theSelector's selected key set.
@@ -183,7 +183,7 @@ public interface TemporarySelectorState {
      * @throws  IOException
      *          If this selector is closed
      */
-    public TemporarySelectorState removeSelectedKey(Selector theSelector,
+    TemporarySelectorState removeSelectedKey(Selector theSelector,
                                                     SelectionKey theSelectionKey)
                                                     throws IOException;
 }

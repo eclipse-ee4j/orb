@@ -35,7 +35,7 @@ public interface GroupInfoServiceObserver
      * <code>getClusterInstanceInfo</code> method to get
      * updated info.
      */
-    public void membershipChange();
+    void membershipChange();
 }
 
 // End of file.

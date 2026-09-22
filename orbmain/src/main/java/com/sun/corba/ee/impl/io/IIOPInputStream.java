@@ -82,6 +82,7 @@ public class IIOPInputStream
 {
     private static Bridge bridge = AccessController.doPrivileged(
         new PrivilegedAction<Bridge>() {
+            @Override
             public Bridge run() {
                 return Bridge.get() ;
             }
@@ -162,6 +163,7 @@ public class IIOPInputStream
 
     // Return the stream format version currently being used
     // to deserialize an object
+    @Override
     protected byte getStreamFormatVersion() {
         return streamFormatVersion;
     }
@@ -202,7 +204,6 @@ public class IIOPInputStream
      * @throws IOException If an IO error occurs creating this stream.
      **/
     public IIOPInputStream() throws java.io.IOException {
-        super();
         resetStream();
     }
 
@@ -210,6 +211,7 @@ public class IIOPInputStream
         orbStream = os;
     }
 
+    @Override
     final org.omg.CORBA_2_3.portable.InputStream getOrbStream() {
         return orbStream;
     }
@@ -230,7 +232,7 @@ public class IIOPInputStream
     }
 
     public final ValueHandler getValueHandler() {
-        return (javax.rmi.CORBA.ValueHandler) vhandler;
+        return vhandler;
     }
 
     @InfoMethod
@@ -1607,16 +1609,14 @@ public class IIOPInputStream
                                     (currentClassDesc.getReadObjectMethod() != null));
                             }
 
-                            boolean usedReadObject = false;
-
                             // Always use readObject if it exists, and fall back to default
                             // unmarshaling if it doesn't.
                             if (!fvd.is_custom && currentClassDesc.hasReadObject()) {
                                 setState(IN_READ_OBJECT_REMOTE_NOT_CUSTOM_MARSHALED);
                             }
 
-                            usedReadObject = invokeObjectReader(currentClassDesc,
-                                currentObject, currentClass, fvd.members );
+                            boolean usedReadObject = invokeObjectReader(currentClassDesc,
+                                                            currentObject, currentClass, fvd.members );
 
                             // Note that the !usedReadObject !calledDefaultWriteObject
                             // case is handled by the beginUnmarshalCustomValue method
@@ -2087,7 +2087,7 @@ public class IIOPInputStream
         switch (callType) {
             case ValueHandlerImpl.kRemoteType:
                 if (!narrow) {
-                    objectValue = (Object) orbStream.read_Object(actualType);
+                    objectValue = orbStream.read_Object(actualType);
                 } else {
                     objectValue =
                         Utility.readObjectAndNarrow(orbStream, actualType);
@@ -2102,7 +2102,7 @@ public class IIOPInputStream
                 }
                 break;
             case ValueHandlerImpl.kValueType:
-                objectValue = (Object)orbStream.read_value(actualType);
+                objectValue = orbStream.read_value(actualType);
                 break;
             default:
                 throw Exceptions.self.unknownCallType(callType) ;
@@ -2112,6 +2112,7 @@ public class IIOPInputStream
     }
 
     // Note that this is need for getFields support.
+    @Override
     void readFields(Map<String,Object> fieldToValueMap)
         throws InvalidClassException, StreamCorruptedException,
                ClassNotFoundException, IOException {

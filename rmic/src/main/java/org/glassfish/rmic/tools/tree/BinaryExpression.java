@@ -48,6 +48,7 @@ class BinaryExpression extends UnaryExpression {
     /**
      * Order the expression based on precedence
      */
+    @Override
     public Expression order() {
         if (precedence() > left.precedence()) {
             UnaryExpression e = (UnaryExpression)left;
@@ -61,6 +62,7 @@ class BinaryExpression extends UnaryExpression {
     /**
      * Check a binary expression
      */
+    @Override
     public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         vset = left.checkValue(env, ctx, vset, exp);
         vset = right.checkValue(env, ctx, vset, exp);
@@ -80,6 +82,7 @@ class BinaryExpression extends UnaryExpression {
     /**
      * Check if constant
      */
+    @Override
     public boolean isConstant() {
         switch (op) {
         case MUL:
@@ -126,6 +129,7 @@ class BinaryExpression extends UnaryExpression {
     Expression eval(String a, String b) {
         return this;
     }
+    @Override
     Expression eval() {
         // See also the eval() code in BinaryShiftExpression.java.
         if (left.op == right.op) {
@@ -153,11 +157,13 @@ class BinaryExpression extends UnaryExpression {
     /**
      * Inline
      */
+    @Override
     public Expression inline(Environment env, Context ctx) {
         left = left.inline(env, ctx);
         right = right.inline(env, ctx);
         return (left == null) ? right : new CommaExpression(where, left, right);
     }
+    @Override
     public Expression inlineValue(Environment env, Context ctx) {
         left = left.inlineValue(env, ctx);
         right = right.inlineValue(env, ctx);
@@ -178,6 +184,7 @@ class BinaryExpression extends UnaryExpression {
     /**
      * Create a copy of the expression for method inlining
      */
+    @Override
     public Expression copyInline(Context ctx) {
         BinaryExpression e = (BinaryExpression)clone();
         if (left != null) {
@@ -192,6 +199,7 @@ class BinaryExpression extends UnaryExpression {
     /**
      * The cost of inlining this expression
      */
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
         return 1 + ((left != null) ? left.costInline(thresh, env, ctx) : 0) +
                    ((right != null) ? right.costInline(thresh, env, ctx) : 0);
@@ -203,6 +211,7 @@ class BinaryExpression extends UnaryExpression {
     void codeOperation(Environment env, Context ctx, Assembler asm) {
         throw new CompilerError("codeOperation: " + opNames[op]);
     }
+    @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         if (type.isType(TC_BOOLEAN)) {
             Label l1 = new Label();
@@ -224,6 +233,7 @@ class BinaryExpression extends UnaryExpression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print("(" + opNames[op] + " ");
         if (left != null) {

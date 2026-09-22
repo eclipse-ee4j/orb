@@ -41,5 +41,5 @@ public interface ORBVersion extends Comparable<ORBVersion>
 
     void write( OutputStream os ) ;
 
-    public boolean lessThan( ORBVersion version ) ;
+    boolean lessThan( ORBVersion version ) ;
 }

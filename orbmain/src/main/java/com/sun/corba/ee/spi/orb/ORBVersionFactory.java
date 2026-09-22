@@ -24,7 +24,7 @@ import com.sun.corba.ee.impl.orb.ORBVersionImpl ;
 import org.omg.CORBA.portable.InputStream ;
 
 public class ORBVersionFactory {
-    private ORBVersionFactory() {} ;
+    private ORBVersionFactory() {}
 
     public static ORBVersion getFOREIGN()
     {

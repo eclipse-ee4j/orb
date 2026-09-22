@@ -229,7 +229,7 @@ public abstract class OutputStream extends java.io.OutputStream
      * @param value the value to be written.
      * @deprecated Deprecated by CORBA 2.2.
      */
-    // @Deprecated
+    @Deprecated
     public void write_Principal(org.omg.CORBA.Principal value) {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
@@ -241,6 +241,7 @@ public abstract class OutputStream extends java.io.OutputStream
      * @see <a href="package-summary.html#unimpl"><code>portable</code>
      * package comments for unimplemented features</a>
      */
+    @Override
     public void write(int b) throws java.io.IOException {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }

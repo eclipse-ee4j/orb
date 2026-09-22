@@ -32,6 +32,7 @@ public class BufferManagerWriteGrow extends BufferManagerWrite
         super(orb) ;
     }
 
+    @Override
     public boolean sentFragment() {
         return false;
     }
@@ -40,6 +41,7 @@ public class BufferManagerWriteGrow extends BufferManagerWrite
      * Returns the correct buffer size for this type of
      * buffer manager as set in the ORB.
      */
+    @Override
     public int getBufferSize() {
         return orb.getORBData().getGIOPBufferSize();
     }
@@ -66,6 +68,7 @@ public class BufferManagerWriteGrow extends BufferManagerWrite
         return false;
     }
 
+    @Override
     public void sendMessage () {
         Connection conn =
               ((CDROutputObject)outputObject).getMessageMediator().getConnection();
@@ -89,6 +92,7 @@ public class BufferManagerWriteGrow extends BufferManagerWrite
      *
      * No work to do for a BufferManagerWriteGrow.
      */
+    @Override
     public void close() {}
 
 }

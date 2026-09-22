@@ -29,6 +29,7 @@ public class StubFactoryStaticImpl extends StubFactoryBase
         this.stubClass = cls;
     }
 
+    @Override
     public org.omg.CORBA.Object makeStub()
     {
         org.omg.CORBA.Object stub = null;

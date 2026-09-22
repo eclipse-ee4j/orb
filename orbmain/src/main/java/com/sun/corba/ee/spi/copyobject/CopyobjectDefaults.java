@@ -44,6 +44,7 @@ public abstract class CopyobjectDefaults
     public static ObjectCopierFactory makeORBStreamObjectCopierFactory( final ORB orb )
     {
         return new ObjectCopierFactory() {
+            @Override
             public ObjectCopier make( )
             {
                 return new ORBStreamObjectCopierImpl( orb ) ;
@@ -54,6 +55,7 @@ public abstract class CopyobjectDefaults
     public static ObjectCopierFactory makeJavaStreamObjectCopierFactory( final ORB orb )
     {
         return new ObjectCopierFactory() {
+            @Override
             public ObjectCopier make( )
             {
                 return new JavaStreamORBObjectCopierImpl( orb ) ;
@@ -65,6 +67,7 @@ public abstract class CopyobjectDefaults
 
     private static ObjectCopierFactory referenceObjectCopierFactory =
         new ObjectCopierFactory() {
+            @Override
             public ObjectCopier make()
             {
                 return referenceObjectCopier ;
@@ -93,6 +96,7 @@ public abstract class CopyobjectDefaults
         final ObjectCopierFactory f1, final ObjectCopierFactory f2 )
     {
         return new ObjectCopierFactory() {
+            @Override
             public ObjectCopier make()
             {
                 ObjectCopier c1 = f1.make() ;
@@ -110,6 +114,7 @@ public abstract class CopyobjectDefaults
     public static ObjectCopierFactory makeOldReflectObjectCopierFactory( final ORB orb )
     {
         return new ObjectCopierFactory() {
+            @Override
             public ObjectCopier make()
             {
                 return new OldReflectObjectCopierImpl( orb ) ;
@@ -127,6 +132,7 @@ public abstract class CopyobjectDefaults
     public static ObjectCopierFactory makeReflectObjectCopierFactory( final ORB orb )
     {
         return new ObjectCopierFactory() {
+            @Override
             public ObjectCopier make( )
             {
                 return new ReflectObjectCopierImpl( orb ) ;

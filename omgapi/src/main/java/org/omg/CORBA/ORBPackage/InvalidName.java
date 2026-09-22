@@ -31,11 +31,12 @@ package org.omg.CORBA.ORBPackage;
 
 // @SuppressWarnings({"serial"})
 final public class InvalidName extends org.omg.CORBA.UserException {
+    private static final long serialVersionUID = 6635923991559230168L;
+
     /**
      * Constructs an <code>InvalidName</code> exception with no reason message.
      */
     public InvalidName() {
-        super();
     }
 
     /**

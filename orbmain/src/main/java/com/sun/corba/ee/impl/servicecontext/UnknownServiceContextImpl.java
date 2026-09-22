@@ -47,14 +47,17 @@ public class UnknownServiceContextImpl extends ServiceContextBase
         is.read_octet_array(data,0,len);
     }
 
+    @Override
     public int getId() { return id ; }
 
+    @Override
     public void writeData( OutputStream os )
     {
         // Abstract method in the base class not used
         // here because write overrides ServiceContextBase.write
     }
 
+    @Override
     public void write( OutputStream os, GIOPVersion gv)
     {
         os.write_long( id ) ;
@@ -62,6 +65,7 @@ public class UnknownServiceContextImpl extends ServiceContextBase
         os.write_octet_array( data, 0, data.length ) ;
     }
 
+    @Override
     public byte[] getData()
     {
         return data.clone() ;

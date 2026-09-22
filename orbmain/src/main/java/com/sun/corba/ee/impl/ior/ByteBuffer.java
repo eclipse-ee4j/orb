@@ -60,7 +60,6 @@ public class ByteBuffer {
      *               is negative
      */
     public ByteBuffer(int initialCapacity, int capacityIncrement) {
-        super();
         if (initialCapacity < 0)
             throw new IllegalArgumentException("Illegal Capacity: "+
                                                initialCapacity);
@@ -197,6 +196,6 @@ public class ByteBuffer {
      * @since 1.2
      */
     public byte[] toArray() {
-        return (byte[])elementData.clone() ;
+        return elementData.clone() ;
     }
 }

@@ -33,16 +33,34 @@ public class ValidExceptions {
         ValidException6.class
     };
 
-    public class ValidException1 extends java.lang.Exception {}
+    public class ValidException1 extends java.lang.Exception {
 
-    public class ValidException2 extends ValidException1 {}
+        private static final long serialVersionUID = 3882848723957004387L;
+    }
 
-    public class ValidException3 extends Throwable {}
+    public class ValidException2 extends ValidException1 {
 
-    public class ValidException4 extends ValidException3 {}
+        private static final long serialVersionUID = -5150507030317829056L;
+    }
 
-    public class ValidException5 extends java.io.IOException {}
+    public class ValidException3 extends Throwable {
 
-    public class ValidException6 extends ValidException5 {}
+        private static final long serialVersionUID = 3087939420268926994L;
+    }
+
+    public class ValidException4 extends ValidException3 {
+
+        private static final long serialVersionUID = -9200764682025048355L;
+    }
+
+    public class ValidException5 extends java.io.IOException {
+
+        private static final long serialVersionUID = -6288810858410721386L;
+    }
+
+    public class ValidException6 extends ValidException5 {
+
+        private static final long serialVersionUID = 2998738836871429719L;
+    }
 
 }

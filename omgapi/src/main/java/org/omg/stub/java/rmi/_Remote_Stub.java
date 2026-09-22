@@ -46,6 +46,6 @@ public final class _Remote_Stub extends Stub implements Remote {
      * @return an array of repository ids that an object implements.
      */
     public String[] _ids() {
-        return (String[]) _type_ids.clone();
+        return _type_ids.clone();
     }
 }

@@ -40,6 +40,7 @@ class ByteExpression extends IntegerExpression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print(value + "b");
     }

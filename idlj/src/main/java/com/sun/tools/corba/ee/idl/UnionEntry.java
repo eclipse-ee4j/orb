@@ -37,7 +37,6 @@ public class UnionEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
 {
   protected UnionEntry ()
   {
-    super ();
   } // ctor
 
   protected UnionEntry (UnionEntry that)

@@ -797,6 +797,7 @@ class Instruction implements Constants {
     /**
      * toString
      */
+    @Override
     public String toString() {
         String prefix = (where >> WHEREOFFSETBITS) + ":\t";
         switch (opc) {

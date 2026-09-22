@@ -67,6 +67,7 @@ public class ThreadPoolManagerImpl implements ThreadPoolManager
             // being killed when an applet dies.
             tg = AccessController.doPrivileged(
                 new PrivilegedAction<ThreadGroup>() {
+                    @Override
                     public ThreadGroup run() {
                         ThreadGroup tg = Thread.currentThread().getThreadGroup() ;
                         ThreadGroup ptg = tg ;

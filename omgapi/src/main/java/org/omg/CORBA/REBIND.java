@@ -35,6 +35,8 @@ package org.omg.CORBA;
 
 public final class REBIND extends SystemException {
 
+    private static final long serialVersionUID = 4207481230144117966L;
+
     /**
      * Constructs an <code>REBIND</code> exception with
      * minor code set to 0 and CompletionStatus set to COMPLETED_NO.

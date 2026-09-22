@@ -121,13 +121,13 @@ public class ContactInfoListImpl implements ContactInfoList {
 
         if (usePerRequestLoadBalancing) {
             display( "startCount", startCount ) ;
-            LinkedList<ContactInfo> tempList = null ;
+
 
             // This may be the best way to support PRLB for now.
             // The GIS will return types like "iiop-listener-1", but we also get
             // IIOP_CLEAR_TEXT for some, for both SSL and non-SSL ports.  Invoking
             // clear on an SSL port leads to bad failures that are not retryable.
-            tempList = new LinkedList<ContactInfo>( filter( arg, testPred ) ) ;
+            LinkedList<ContactInfo> tempList = new LinkedList<ContactInfo>( filter( arg, testPred ) ) ;
 
             // Really should just be this:
             // tempList = new LinkedList<CorbaContactInfo>( arg ) ;

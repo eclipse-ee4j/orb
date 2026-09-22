@@ -98,6 +98,7 @@ public abstract class ParserImplBase {
             try {
                 AccessController.doPrivileged(
                     new PrivilegedExceptionAction() {
+                        @Override
                         public Object run() throws IllegalAccessException,
                             IllegalArgumentException
                         {

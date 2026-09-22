@@ -31,11 +31,12 @@ package org.omg.CORBA;
 // @SuppressWarnings({"serial"})
 public final class Bounds extends org.omg.CORBA.UserException {
 
+    private static final long serialVersionUID = 5951452119191345159L;
+
     /**
      * Constructs an <code>Bounds</code> with no specified detail message.
      */
     public Bounds() {
-        super();
     }
 
     /**

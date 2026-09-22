@@ -70,7 +70,7 @@ public final class CodeBaseHelper
 
     public static void write (org.omg.CORBA.portable.OutputStream ostream, com.sun.org.omg.SendingContext.CodeBase value)
     {
-        ostream.write_Object ((org.omg.CORBA.Object) value);
+        ostream.write_Object (value);
     }
 
     public static com.sun.org.omg.SendingContext.CodeBase narrow (org.omg.CORBA.Object obj)

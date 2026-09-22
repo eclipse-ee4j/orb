@@ -52,9 +52,11 @@ class BitNotExpression extends UnaryExpression {
     /**
      * Evaluate
      */
+    @Override
     Expression eval(int a) {
         return new IntExpression(where, ~a);
     }
+    @Override
     Expression eval(long a) {
         return new LongExpression(where, ~a);
     }
@@ -62,6 +64,7 @@ class BitNotExpression extends UnaryExpression {
     /**
      * Simplify
      */
+    @Override
     Expression simplify() {
         if (right.op == BITNOT) {
             return ((BitNotExpression)right).right;

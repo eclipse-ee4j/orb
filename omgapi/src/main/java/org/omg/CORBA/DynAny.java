@@ -31,7 +31,7 @@ package org.omg.CORBA;
  */
 
 
-// @Deprecated
+@Deprecated
 public interface DynAny extends org.omg.CORBA.Object
 {
     /**
@@ -40,7 +40,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *
      * @return the <code>TypeCode</code> object.
      */
-    public org.omg.CORBA.TypeCode type() ;
+    @Deprecated
+    org.omg.CORBA.TypeCode type() ;
 
     /**
      * Copy the contents from one Dynamic Any into another.
@@ -50,7 +51,8 @@ public interface DynAny extends org.omg.CORBA.Object
      * @throws org.omg.CORBA.DynAnyPackage.Invalid if the source <code>DynAny</code> is
      *            invalid
      */
-    public void assign(org.omg.CORBA.DynAny dyn_any)
+    @Deprecated
+    void assign(org.omg.CORBA.DynAny dyn_any)
         throws org.omg.CORBA.DynAnyPackage.Invalid;
 
     /**
@@ -61,7 +63,8 @@ public interface DynAny extends org.omg.CORBA.Object
      * @throws org.omg.CORBA.DynAnyPackage.Invalid if the source <code>Any</code> object is
      *                    empty or bad
      */
-    public void from_any(org.omg.CORBA.Any value)
+    @Deprecated
+    void from_any(org.omg.CORBA.Any value)
         throws org.omg.CORBA.DynAnyPackage.Invalid;
 
     /**
@@ -73,7 +76,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *                    bad.
      *            created or does not contain a meaningful value
      */
-    public org.omg.CORBA.Any to_any()
+    @Deprecated
+    org.omg.CORBA.Any to_any()
         throws org.omg.CORBA.DynAnyPackage.Invalid;
 
     /**
@@ -89,14 +93,16 @@ public interface DynAny extends org.omg.CORBA.Object
      * should first create a <code>DynAny</code> object for the component
      * and then make a copy of the created <code>DynAny</code> object.
      */
-    public void destroy() ;
+    @Deprecated
+    void destroy() ;
 
     /**
      * Clones this <code>DynAny</code> object.
      *
      * @return a copy of this <code>DynAny</code> object
      */
-    public org.omg.CORBA.DynAny copy() ;
+    @Deprecated
+    org.omg.CORBA.DynAny copy() ;
 
     /**
      * Inserts the given <code>boolean</code> as the value for this
@@ -112,7 +118,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *            if the value inserted is not consistent with the type
      *            of the accessed component in this <code>DynAny</code> object
      */
-    public void insert_boolean(boolean value)
+    @Deprecated
+    void insert_boolean(boolean value)
         throws org.omg.CORBA.DynAnyPackage.InvalidValue;
 
     /**
@@ -129,7 +136,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *            if the value inserted is not consistent with the type
      *            of the accessed component in this <code>DynAny</code> object
      */
-    public void insert_octet(byte value)
+    @Deprecated
+    void insert_octet(byte value)
         throws org.omg.CORBA.DynAnyPackage.InvalidValue;
 
     /**
@@ -146,7 +154,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *            if the value inserted is not consistent with the type
      *            of the accessed component in this <code>DynAny</code> object
      */
-    public void insert_char(char value)
+    @Deprecated
+    void insert_char(char value)
         throws org.omg.CORBA.DynAnyPackage.InvalidValue;
 
     /**
@@ -163,7 +172,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *            if the value inserted is not consistent with the type
      *            of the accessed component in this <code>DynAny</code> object
      */
-    public void insert_short(short value)
+    @Deprecated
+    void insert_short(short value)
         throws org.omg.CORBA.DynAnyPackage.InvalidValue;
 
     /**
@@ -180,7 +190,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *            if the value inserted is not consistent with the type
      *            of the accessed component in this <code>DynAny</code> object
      */
-    public void insert_ushort(short value)
+    @Deprecated
+    void insert_ushort(short value)
         throws org.omg.CORBA.DynAnyPackage.InvalidValue;
 
     /**
@@ -197,7 +208,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *            if the value inserted is not consistent with the type
      *            of the accessed component in this <code>DynAny</code> object
      */
-    public void insert_long(int value)
+    @Deprecated
+    void insert_long(int value)
         throws org.omg.CORBA.DynAnyPackage.InvalidValue;
 
     /**
@@ -214,7 +226,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *            if the value inserted is not consistent with the type
      *            of the accessed component in this <code>DynAny</code> object
      */
-    public void insert_ulong(int value)
+    @Deprecated
+    void insert_ulong(int value)
         throws org.omg.CORBA.DynAnyPackage.InvalidValue;
 
     /**
@@ -231,7 +244,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *            if the value inserted is not consistent with the type
      *            of the accessed component in this <code>DynAny</code> object
      */
-    public void insert_float(float value)
+    @Deprecated
+    void insert_float(float value)
         throws org.omg.CORBA.DynAnyPackage.InvalidValue;
 
     /**
@@ -248,7 +262,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *            if the value inserted is not consistent with the type
      *            of the accessed component in this <code>DynAny</code> object
      */
-    public void insert_double(double value)
+    @Deprecated
+    void insert_double(double value)
         throws org.omg.CORBA.DynAnyPackage.InvalidValue;
 
     /**
@@ -265,7 +280,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *            if the value inserted is not consistent with the type
      *            of the accessed component in this <code>DynAny</code> object
      */
-    public void insert_string(String value)
+    @Deprecated
+    void insert_string(String value)
         throws org.omg.CORBA.DynAnyPackage.InvalidValue;
 
     /**
@@ -282,7 +298,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *            if the value inserted is not consistent with the type
      *            of the accessed component in this <code>DynAny</code> object
      */
-    public void insert_reference(org.omg.CORBA.Object value)
+    @Deprecated
+    void insert_reference(org.omg.CORBA.Object value)
         throws org.omg.CORBA.DynAnyPackage.InvalidValue;
 
     /**
@@ -299,7 +316,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *            if the value inserted is not consistent with the type
      *            of the accessed component in this <code>DynAny</code> object
      */
-    public void insert_typecode(org.omg.CORBA.TypeCode value)
+    @Deprecated
+    void insert_typecode(org.omg.CORBA.TypeCode value)
         throws org.omg.CORBA.DynAnyPackage.InvalidValue;
 
     /**
@@ -316,7 +334,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *            if the value inserted is not consistent with the type
      *            of the accessed component in this <code>DynAny</code> object
      */
-    public void insert_longlong(long value)
+    @Deprecated
+    void insert_longlong(long value)
         throws org.omg.CORBA.DynAnyPackage.InvalidValue;
 
     /**
@@ -333,7 +352,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *            if the value inserted is not consistent with the type
      *            of the accessed component in this <code>DynAny</code> object
      */
-    public void insert_ulonglong(long value)
+    @Deprecated
+    void insert_ulonglong(long value)
         throws org.omg.CORBA.DynAnyPackage.InvalidValue;
 
     /**
@@ -350,7 +370,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *            if the value inserted is not consistent with the type
      *            of the accessed component in this <code>DynAny</code> object
      */
-    public void insert_wchar(char value)
+    @Deprecated
+    void insert_wchar(char value)
         throws org.omg.CORBA.DynAnyPackage.InvalidValue;
 
     /**
@@ -367,7 +388,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *            if the value inserted is not consistent with the type
      *            of the accessed component in this <code>DynAny</code> object
      */
-    public void insert_wstring(String value)
+    @Deprecated
+    void insert_wstring(String value)
         throws org.omg.CORBA.DynAnyPackage.InvalidValue;
 
     /**
@@ -384,7 +406,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *            if the value inserted is not consistent with the type
      *            of the accessed component in this <code>DynAny</code> object
      */
-    public void insert_any(org.omg.CORBA.Any value)
+    @Deprecated
+    void insert_any(org.omg.CORBA.Any value)
         throws org.omg.CORBA.DynAnyPackage.InvalidValue;
 
     // orbos 98-01-18: Objects By Value -- begin
@@ -403,7 +426,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *            if the value inserted is not consistent with the type
      *            of the accessed component in this <code>DynAny</code> object
      */
-    public void insert_val(java.io.Serializable value)
+    @Deprecated
+    void insert_val(java.io.Serializable value)
         throws org.omg.CORBA.DynAnyPackage.InvalidValue;
 
     /**
@@ -417,7 +441,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *               <code>DynAny</code> object is not equivalent to
      *               the type code for a <code>java.io.Serializable</code> object
      */
-    public java.io.Serializable get_val()
+    @Deprecated
+    java.io.Serializable get_val()
         throws org.omg.CORBA.DynAnyPackage.TypeMismatch;
 
     // orbos 98-01-18: Objects By Value -- end
@@ -433,7 +458,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *               <code>DynAny</code> object is not equivalent to
      *               the type code for a <code>boolean</code>
      */
-    public boolean get_boolean()
+    @Deprecated
+    boolean get_boolean()
         throws org.omg.CORBA.DynAnyPackage.TypeMismatch;
 
 
@@ -448,7 +474,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *               <code>DynAny</code> object is not equivalent to
      *               the type code for a <code>byte</code>
      */
-    public byte get_octet()
+    @Deprecated
+    byte get_octet()
         throws org.omg.CORBA.DynAnyPackage.TypeMismatch;
 
     /**
@@ -462,7 +489,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *               <code>DynAny</code> object is not equivalent to
      *               the type code for a <code>char</code>
      */
-    public char get_char()
+    @Deprecated
+    char get_char()
         throws org.omg.CORBA.DynAnyPackage.TypeMismatch;
 
 
@@ -477,7 +505,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *               <code>DynAny</code> object is not equivalent to
      *               the type code for a <code>short</code>
      */
-    public short get_short()
+    @Deprecated
+    short get_short()
         throws org.omg.CORBA.DynAnyPackage.TypeMismatch;
 
 
@@ -492,7 +521,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *               <code>DynAny</code> object is not equivalent to
      *               the type code for a <code>short</code>
      */
-    public short get_ushort()
+    @Deprecated
+    short get_ushort()
         throws org.omg.CORBA.DynAnyPackage.TypeMismatch;
 
 
@@ -507,7 +537,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *               <code>DynAny</code> object is not equivalent to
      *               the type code for a <code>int</code>
      */
-    public int get_long()
+    @Deprecated
+    int get_long()
         throws org.omg.CORBA.DynAnyPackage.TypeMismatch;
 
 
@@ -522,7 +553,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *               <code>DynAny</code> object is not equivalent to
      *               the type code for a <code>int</code>
      */
-    public int get_ulong()
+    @Deprecated
+    int get_ulong()
         throws org.omg.CORBA.DynAnyPackage.TypeMismatch;
 
 
@@ -537,7 +569,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *               <code>DynAny</code> object is not equivalent to
      *               the type code for a <code>float</code>
      */
-    public float get_float()
+    @Deprecated
+    float get_float()
         throws org.omg.CORBA.DynAnyPackage.TypeMismatch;
 
 
@@ -552,7 +585,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *               <code>DynAny</code> object is not equivalent to
      *               the type code for a <code>double</code>
      */
-    public double get_double()
+    @Deprecated
+    double get_double()
         throws org.omg.CORBA.DynAnyPackage.TypeMismatch;
 
 
@@ -567,7 +601,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *               <code>DynAny</code> object is not equivalent to
      *               the type code for a <code>String</code>
      */
-    public String get_string()
+    @Deprecated
+    String get_string()
         throws org.omg.CORBA.DynAnyPackage.TypeMismatch;
 
 
@@ -582,7 +617,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *               <code>DynAny</code> object is not equivalent to
      *               the type code for an <code>org.omg.CORBA.Other</code>
      */
-    public org.omg.CORBA.Object get_reference()
+    @Deprecated
+    org.omg.CORBA.Object get_reference()
         throws org.omg.CORBA.DynAnyPackage.TypeMismatch;
 
 
@@ -597,7 +633,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *               <code>DynAny</code> object is not equivalent to
      *               the type code for a <code>org.omg.CORBA.TypeCode</code>
      */
-    public org.omg.CORBA.TypeCode get_typecode()
+    @Deprecated
+    org.omg.CORBA.TypeCode get_typecode()
         throws org.omg.CORBA.DynAnyPackage.TypeMismatch;
 
 
@@ -612,7 +649,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *               <code>DynAny</code> object is not equivalent to
      *               the type code for a <code>long</code>
      */
-    public long get_longlong()
+    @Deprecated
+    long get_longlong()
         throws org.omg.CORBA.DynAnyPackage.TypeMismatch;
 
 
@@ -627,7 +665,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *               <code>DynAny</code> object is not equivalent to
      *               the type code for a <code>long</code>
      */
-    public long get_ulonglong()
+    @Deprecated
+    long get_ulonglong()
         throws org.omg.CORBA.DynAnyPackage.TypeMismatch;
 
 
@@ -642,7 +681,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *               <code>DynAny</code> object is not equivalent to
      *               the type code for a <code>char</code>
      */
-    public char get_wchar()
+    @Deprecated
+    char get_wchar()
         throws org.omg.CORBA.DynAnyPackage.TypeMismatch;
 
 
@@ -657,7 +697,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *               <code>DynAny</code> object is not equivalent to
      *               the type code for a <code>String</code>
      */
-    public String get_wstring()
+    @Deprecated
+    String get_wstring()
         throws org.omg.CORBA.DynAnyPackage.TypeMismatch;
 
 
@@ -672,7 +713,8 @@ public interface DynAny extends org.omg.CORBA.Object
      *               <code>DynAny</code> object is not equivalent to
      *               the type code for an <code>org.omg.CORBA.Any</code>
      */
-    public org.omg.CORBA.Any get_any()
+    @Deprecated
+    org.omg.CORBA.Any get_any()
         throws org.omg.CORBA.DynAnyPackage.TypeMismatch;
 
     /**
@@ -689,7 +731,8 @@ public interface DynAny extends org.omg.CORBA.Object
          *         used to retrieve or set the value of the component currently
          *         accessed
      */
-    public org.omg.CORBA.DynAny current_component() ;
+    @Deprecated
+    org.omg.CORBA.DynAny current_component() ;
 
     /**
      * Moves to the next component of this <code>DynAny</code> object.
@@ -703,7 +746,8 @@ public interface DynAny extends org.omg.CORBA.Object
      * <code>DynAny</code> is associated with a basic type rather than
      * a constructed type
      */
-    public boolean next() ;
+    @Deprecated
+    boolean next() ;
 
     /**
      * Moves the internal pointer to the given index. Logically, this method
@@ -717,10 +761,12 @@ public interface DynAny extends org.omg.CORBA.Object
      * basic type, this method returns <code>false</code> for any index
      * other than 0.
      */
-    public boolean seek(int index) ;
+    @Deprecated
+    boolean seek(int index) ;
 
     /**
      * Moves the internal pointer to the first component.
      */
-    public void rewind() ;
+    @Deprecated
+    void rewind() ;
 }

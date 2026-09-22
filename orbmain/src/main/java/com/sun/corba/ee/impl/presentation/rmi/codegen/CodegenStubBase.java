@@ -90,6 +90,7 @@ public class CodegenStubBase extends Stub
     {
         return (StubDelegateImpl)AccessController.doPrivileged(
             new PrivilegedAction() {
+                @Override
                 public Object run() {
                     try {
                         Field fld = Stub.class.getDeclaredField( "stubDelegate" ) ;
@@ -109,6 +110,7 @@ public class CodegenStubBase extends Stub
     {
         AccessController.doPrivileged(
             new PrivilegedAction() {
+                @Override
                 public Object run() {
                     try {
                         if (setDefaultDelegateMethod == null) {
@@ -157,6 +159,7 @@ public class CodegenStubBase extends Stub
         initialize( classData, handler ) ;
     }
 
+    @Override
     public String[] _ids()
     {
         return typeIds.clone() ;

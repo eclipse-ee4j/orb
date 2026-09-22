@@ -36,7 +36,7 @@ public interface ThreadPool extends Closeable
     * would return a WorkQueue in a roundrobin fashion everytime this method
     * is called. In the future we could allow pluggability of  Policy objects for this.
     */
-    public WorkQueue getAnyWorkQueue();
+    WorkQueue getAnyWorkQueue();
 
     /**
     * This method will return an instance of the of the WorkQueue given a queueId.
@@ -48,63 +48,63 @@ public interface ThreadPool extends Closeable
     *
     * @throws NoSuchWorkQueueException thrown when queueId passed is invalid
     */
-    public WorkQueue getWorkQueue(int queueId) throws NoSuchWorkQueueException;
+    WorkQueue getWorkQueue(int queueId) throws NoSuchWorkQueueException;
 
     /**
     * This method will return the number of WorkQueues serviced by the threadpool.
     */
-    public int numberOfWorkQueues();
+    int numberOfWorkQueues();
 
     /**
     * This method will return the minimum number of threads maintained by the threadpool.
     */
-    public int minimumNumberOfThreads();
+    int minimumNumberOfThreads();
 
     /**
     * This method will return the maximum number of threads in the threadpool at any
     * point in time, for the life of the threadpool
     */
-    public int maximumNumberOfThreads();
+    int maximumNumberOfThreads();
 
     /**
     * This method will return the time in milliseconds when idle threads in the threadpool are
     * removed.
     */
-    public long idleTimeoutForThreads();
+    long idleTimeoutForThreads();
 
     /**
     * This method will return the current number of threads in the threadpool. This method
     * returns a value which is not synchronized.
     */
-    public int currentNumberOfThreads();
+    int currentNumberOfThreads();
 
     /**
     * This method will return the number of available threads in the threadpool which are
      * waiting for work. This method returns a value which is not synchronized.
     */
-    public int numberOfAvailableThreads();
+    int numberOfAvailableThreads();
 
     /**
     * This method will return the number of busy threads in the threadpool
     * This method returns a value which is not synchronized.
     */
-    public int numberOfBusyThreads();
+    int numberOfBusyThreads();
 
     /**
     * This method returns the number of Work items processed by the threadpool
     */
-    public long currentProcessedCount();
+    long currentProcessedCount();
 
      /**
      * This method returns the average elapsed time taken to complete a Work
      * item.
      */
-    public long averageWorkCompletionTime();
+    long averageWorkCompletionTime();
 
     /**
     * This method will return the name of the threadpool.
     */
-    public String getName();
+    String getName();
 
 }
 

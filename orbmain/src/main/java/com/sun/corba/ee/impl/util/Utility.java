@@ -1015,9 +1015,7 @@ public final class Utility {
      */
     static int hexOf( char x )
     {
-        int val;
-
-        val = x - '0';
+        int val = x - '0';
         if (val >=0 && val <= 9) {
             return val;
         }

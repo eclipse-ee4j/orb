@@ -50,16 +50,19 @@ public abstract class ContactInfoBase
     protected short addressingDisposition;
     protected OutboundConnectionCache connectionCache;
 
+    @Override
     public ORB getBroker()
     {
         return orb;
     }
 
+    @Override
     public ContactInfoList getContactInfoList()
     {
         return contactInfoList;
     }
 
+    @Override
     public ClientRequestDispatcher getClientRequestDispatcher()
     {
         int scid =
@@ -70,17 +73,20 @@ public abstract class ContactInfoBase
 
     // Note: not all derived classes will use a connection cache.
     // These are convenience methods that may not be used.
+    @Override
     public void setConnectionCache(OutboundConnectionCache connectionCache)
     {
         this.connectionCache = connectionCache;
     }
 
+    @Override
     public OutboundConnectionCache getConnectionCache()
     {
         return connectionCache;
     }
 
     // Called when client making an invocation.
+    @Override
     @Transport
     public MessageMediator createMessageMediator(ORB broker,
                                                  ContactInfo contactInfo,
@@ -95,13 +101,13 @@ public abstract class ContactInfoBase
         // after creation?
         MessageMediator messageMediator =
             new MessageMediatorImpl(
-                (ORB) broker,
-                (ContactInfo)contactInfo,
+                broker,
+                contactInfo,
                 connection,
-                GIOPVersion.chooseRequestVersion( (ORB)broker,
+                GIOPVersion.chooseRequestVersion( broker,
                      effectiveTargetIOR),
                 effectiveTargetIOR,
-                ((Connection)connection).getNextRequestId(),
+                connection.getNextRequestId(),
                 getAddressingDisposition(),
                 methodName,
                 isOneWay);
@@ -109,6 +115,7 @@ public abstract class ContactInfoBase
         return messageMediator;
     }
 
+    @Override
     @Transport
     public CDROutputObject createOutputObject(MessageMediator messageMediator) {
 
@@ -126,23 +133,28 @@ public abstract class ContactInfoBase
     // spi.transport.CorbaContactInfo
     //
 
+    @Override
     public short getAddressingDisposition() {
         return addressingDisposition;
     }
 
+    @Override
     public void setAddressingDisposition(short addressingDisposition) {
         this.addressingDisposition = addressingDisposition;
     }
 
     // REVISIT - remove this.
+    @Override
     public IOR getTargetIOR() {
         return  contactInfoList.getTargetIOR();
     }
 
+    @Override
     public IOR getEffectiveTargetIOR() {
         return effectiveTargetIOR ;
     }
 
+    @Override
     public IIOPProfile getEffectiveProfile() {
         return effectiveTargetIOR.getProfile();
     }
@@ -152,6 +164,7 @@ public abstract class ContactInfoBase
     // java.lang.Object
     //
 
+    @Override
     public String toString() {
         return "CorbaContactInfoBase[" + "]";
     }

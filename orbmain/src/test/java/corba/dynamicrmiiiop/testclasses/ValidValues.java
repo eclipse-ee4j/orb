@@ -29,9 +29,13 @@ public class ValidValues {
         java.util.Date.class, java.lang.Integer.class, java.lang.String.class
     };
 
-    public class ValidValue1 implements java.io.Serializable {}
+    public class ValidValue1 implements java.io.Serializable {
 
-    public class ValidValue2 extends ValidValue1 {}
+        private static final long serialVersionUID = -4275365995548335817L;
+    }
 
+    public class ValidValue2 extends ValidValue1 {
 
+        private static final long serialVersionUID = 7823879293511574963L;
+    }
 }

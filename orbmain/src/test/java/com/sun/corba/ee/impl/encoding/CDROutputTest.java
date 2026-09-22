@@ -326,6 +326,7 @@ public class CDROutputTest extends EncodingTestBase {
     }
 
     static class SerializedData implements Serializable {
+        private static final long serialVersionUID = -8064772551160570070L;
         byte aByte;
     }
 

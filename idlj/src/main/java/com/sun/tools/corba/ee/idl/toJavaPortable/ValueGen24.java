@@ -54,10 +54,12 @@ public class ValueGen24 extends ValueGen
   {
   } // ctor
 
+  @Override
   protected void writeConstructor ()
   {
   } // writeConstructor
 
+  @Override
   public void helperWrite (SymtabEntry entry, PrintWriter stream)
   {
     // REVISIT: Abstract/Custom??
@@ -65,6 +67,7 @@ public class ValueGen24 extends ValueGen
     stream.println ("    ((org.omg.CORBA_2_3.portable.OutputStream) ostream).write_value (value, id ());");
   } // helperWrite
 
+  @Override
   public void helperRead (String entryName, SymtabEntry entry, PrintWriter stream)
   {
     // REVISIT: Abstract/Custom??
@@ -72,11 +75,13 @@ public class ValueGen24 extends ValueGen
     stream.println ("    return (" + entryName + ")((org.omg.CORBA_2_3.portable.InputStream) istream).read_value (id ());");
   } // helperRead
 
+  @Override
   protected void writeInitializers ()
   {
         // override to do nothing
   } // writeInitializers
 
+  @Override
   protected void writeTruncatable () // <d60929>
   {
     if (!v.isAbstract ()) {
@@ -119,6 +124,7 @@ public class ValueGen24 extends ValueGen
     }
   }
 
+  @Override
   protected void writeHeading ()
   {
     ImplStreamWriter isw = new ImplStreamWriter() ;
@@ -136,14 +142,14 @@ public class ValueGen24 extends ValueGen
         stream.print ("public abstract class " + v.name ());
 
     // There should always be at least one parent: ValueBase
-    SymtabEntry parent = (SymtabEntry) v.derivedFrom ().elementAt (0);
+    SymtabEntry parent = v.derivedFrom ().elementAt (0);
 
     // If parent is ValueBase, it's mapped to java.io.Serializable
     String parentName = com.sun.tools.corba.ee.idl.toJavaPortable.Util.javaName(parent);
     boolean cv = false; // true if we've already implemented CustomValue
 
     if (parentName.equals ("java.io.Serializable")) {
-        if (((ValueEntry)v).isCustom ()) {
+        if (v.isCustom ()) {
               isw.writeClassName( "org.omg.CORBA.portable.CustomValue" ) ;
               cv = true;
         } else
@@ -153,7 +159,7 @@ public class ValueGen24 extends ValueGen
 
     // if inheriting from abstract values
     for (int i = 0; i < v.derivedFrom ().size (); i++) {
-        parent = (SymtabEntry) v.derivedFrom ().elementAt (i);
+        parent = v.derivedFrom ().elementAt (i);
         if ( ((ValueEntry)parent).isAbstract ()) {
             isw.writeClassName( com.sun.tools.corba.ee.idl.toJavaPortable.Util.javaName(parent) ) ;
         }
@@ -177,6 +183,7 @@ public class ValueGen24 extends ValueGen
     stream.println ("{");
   } // writeHeading
 
+  @Override
   protected void writeMembers ()
   {
     // if the value type contains no data members, a null return is expected
@@ -185,8 +192,8 @@ public class ValueGen24 extends ValueGen
 
     for (int i = 0; i < v.state ().size (); i ++)
     {
-      InterfaceState member = (InterfaceState) v.state ().elementAt (i);
-      SymtabEntry entry = (SymtabEntry) member.entry;
+      InterfaceState member = v.state ().elementAt (i);
+      SymtabEntry entry = member.entry;
       com.sun.tools.corba.ee.idl.toJavaPortable.Util.fillInfo(entry);
 
       if (entry.comment () != null)
@@ -202,6 +209,7 @@ public class ValueGen24 extends ValueGen
     stream.println();
   } // writeMembers
 
+  @Override
   protected void writeMethods ()
   {
     // contained vector contains methods, attributes, const, enums, exceptions,
@@ -247,6 +255,7 @@ public class ValueGen24 extends ValueGen
       writeStreamableMethods ();
   } // writeMethods
 
+  @Override
   public int read (int index, String indent, String name, SymtabEntry entry, PrintWriter stream)
   {
     // First do the state members from concrete parent hierarchy
@@ -267,7 +276,7 @@ public class ValueGen24 extends ValueGen
 
     for (int k = 0; k < noOfMembers; k++)
     {
-      TypedefEntry member = (TypedefEntry)((InterfaceState)vMembers.elementAt (k)).entry;
+      TypedefEntry member = ((InterfaceState)vMembers.elementAt (k)).entry;
       String memberName = member.name ();
       SymtabEntry mType = member.type ();
 
@@ -285,6 +294,7 @@ public class ValueGen24 extends ValueGen
     return index;
   } // read
 
+  @Override
   public int write (int index, String indent, String name, SymtabEntry entry, PrintWriter stream)
   {
     // First do the state members from concrete parent hierarchy
@@ -303,7 +313,7 @@ public class ValueGen24 extends ValueGen
     int noOfMembers = vMembers == null ? 0 : vMembers.size ();
     for (int k = 0; k < noOfMembers; k++)
     {
-      TypedefEntry member = (TypedefEntry)((InterfaceState)vMembers.elementAt (k)).entry;
+      TypedefEntry member = ((InterfaceState)vMembers.elementAt (k)).entry;
       String memberName = member.name ();
       SymtabEntry mType = member.type ();
 
@@ -321,6 +331,7 @@ public class ValueGen24 extends ValueGen
     return index;
   } // write
 
+  @Override
   public void generate (Hashtable symbolTable, ValueEntry v, PrintWriter str)
   {
     this.symbolTable = symbolTable;

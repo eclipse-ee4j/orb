@@ -49,6 +49,7 @@ public abstract class _CodeBaseImplBase extends org.omg.CORBA.portable.ObjectImp
         _methods.put ("bases", 5 ) ;
     }
 
+    @Override
     public org.omg.CORBA.portable.OutputStream _invoke (String method,
                                                         org.omg.CORBA.portable.InputStream in,
                                                         org.omg.CORBA.portable.ResponseHandler rh)
@@ -75,8 +76,7 @@ public abstract class _CodeBaseImplBase extends org.omg.CORBA.portable.ObjectImp
             case 1:  // SendingContext/CodeBase/implementation
                 {
                     String x = com.sun.org.omg.CORBA.RepositoryIdHelper.read (in);
-                    String __result = null;
-                    __result = this.implementation (x);
+                    String __result = this.implementation (x);
                     out.write_string (__result);
                     break;
                 }
@@ -84,8 +84,7 @@ public abstract class _CodeBaseImplBase extends org.omg.CORBA.portable.ObjectImp
             case 2:  // SendingContext/CodeBase/implementations
                 {
                     String x[] = com.sun.org.omg.CORBA.RepositoryIdSeqHelper.read (in);
-                    String __result[] = null;
-                    __result = this.implementations (x);
+                    String __result[] = this.implementations (x);
                     com.sun.org.omg.SendingContext.CodeBasePackage.URLSeqHelper.write (out, __result);
                     break;
                 }
@@ -95,8 +94,7 @@ public abstract class _CodeBaseImplBase extends org.omg.CORBA.portable.ObjectImp
             case 3:  // SendingContext/CodeBase/meta
                 {
                     String x = com.sun.org.omg.CORBA.RepositoryIdHelper.read (in);
-                    com.sun.org.omg.CORBA.ValueDefPackage.FullValueDescription __result = null;
-                    __result = this.meta (x);
+                    com.sun.org.omg.CORBA.ValueDefPackage.FullValueDescription __result = this.meta (x);
                     com.sun.org.omg.CORBA.ValueDefPackage.FullValueDescriptionHelper.write (out, __result);
                     break;
                 }
@@ -104,8 +102,7 @@ public abstract class _CodeBaseImplBase extends org.omg.CORBA.portable.ObjectImp
             case 4:  // SendingContext/CodeBase/metas
                 {
                     String x[] = com.sun.org.omg.CORBA.RepositoryIdSeqHelper.read (in);
-                    com.sun.org.omg.CORBA.ValueDefPackage.FullValueDescription __result[] = null;
-                    __result = this.metas (x);
+                    com.sun.org.omg.CORBA.ValueDefPackage.FullValueDescription __result[] = this.metas (x);
                     com.sun.org.omg.SendingContext.CodeBasePackage.ValueDescSeqHelper.write (out, __result);
                     break;
                 }
@@ -115,8 +112,7 @@ public abstract class _CodeBaseImplBase extends org.omg.CORBA.portable.ObjectImp
             case 5:  // SendingContext/CodeBase/bases
                 {
                     String x = com.sun.org.omg.CORBA.RepositoryIdHelper.read (in);
-                    String __result[] = null;
-                    __result = this.bases (x);
+                    String __result[] = this.bases (x);
                     com.sun.org.omg.CORBA.RepositoryIdSeqHelper.write (out, __result);
                     break;
                 }
@@ -133,6 +129,7 @@ public abstract class _CodeBaseImplBase extends org.omg.CORBA.portable.ObjectImp
         "IDL:omg.org/SendingContext/CodeBase:1.0",
         "IDL:omg.org/SendingContext/RunTime:1.0"};
 
+    @Override
     public String[] _ids ()
     {
         return __ids.clone();

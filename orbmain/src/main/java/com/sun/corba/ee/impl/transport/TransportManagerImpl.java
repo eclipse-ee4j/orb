@@ -76,11 +76,13 @@ public class TransportManagerImpl
         }
     }
 
+    @Override
     public ByteBufferPool getByteBufferPool(int id)
     {
         throw new RuntimeException();
     }
 
+    @Override
     public OutboundConnectionCache getOutboundConnectionCache(
         ContactInfo contactInfo)
     {
@@ -117,16 +119,19 @@ public class TransportManagerImpl
         }
     }
 
+    @Override
     public Collection<OutboundConnectionCache> getOutboundConnectionCaches()
     {
         return outboundConnectionCaches.values();
     }
 
+    @Override
     public Collection<InboundConnectionCache> getInboundConnectionCaches()
     {
         return inboundConnectionCaches.values();
     }
 
+    @Override
     public InboundConnectionCache getInboundConnectionCache(
         Acceptor acceptor)
     {
@@ -158,25 +163,30 @@ public class TransportManagerImpl
         }
     }
 
+    @Override
     public Selector getSelector() {
         return selector ;
     }
 
+    @Override
     public Selector getSelector(int id)
     {
         return selector;
     }
 
+    @Override
     @Transport
     public synchronized void registerAcceptor(Acceptor acceptor) {
         acceptors.add(acceptor);
     }
 
+    @Override
     @Transport
     public synchronized void unregisterAcceptor(Acceptor acceptor) {
         acceptors.remove(acceptor);
     }
 
+    @Override
     @Transport
     public void close()
     {
@@ -196,6 +206,7 @@ public class TransportManagerImpl
     // CorbaTransportManager
     //
 
+    @Override
     public Collection<Acceptor> getAcceptors() {
         return getAcceptors( null, null ) ;
     }
@@ -203,6 +214,7 @@ public class TransportManagerImpl
     @InfoMethod
     private void display( String msg ) { }
 
+    @Override
     @Transport
     public Collection<Acceptor> getAcceptors(String objectAdapterManagerId,
                                    ObjectAdapterId objectAdapterId)
@@ -224,6 +236,7 @@ public class TransportManagerImpl
     }
 
     // REVISIT - POA specific policies
+    @Override
     @Transport
     public void addToIORTemplate(IORTemplate iorTemplate,
                                  Policies policies,
@@ -241,12 +254,14 @@ public class TransportManagerImpl
 
     private ThreadLocal currentMessageTraceManager =
         new ThreadLocal() {
+            @Override
             public Object initialValue()
             {
                 return new MessageTraceManagerImpl( ) ;
             }
         } ;
 
+    @Override
     public MessageTraceManager getMessageTraceManager()
     {
         return (MessageTraceManager)(currentMessageTraceManager.get()) ;

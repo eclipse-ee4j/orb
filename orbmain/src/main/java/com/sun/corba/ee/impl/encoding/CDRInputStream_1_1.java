@@ -110,8 +110,6 @@ public class CDRInputStream_1_1 extends CDRInputStream_1_0
 
         public FragmentableStreamMemento()
         {
-            super();
-
             fragmentOffset_ = fragmentOffset;
         }
     }

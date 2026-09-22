@@ -79,6 +79,7 @@ public class MethodGen implements com.sun.tools.corba.ee.idl.MethodGen
    * Method generate() is not used in MethodGen.  They are replaced by the
    * more granular interfaceMethod, stub, skeleton, dispatchSkeleton.
    **/
+  @Override
   public void generate (Hashtable symbolTable, MethodEntry m, PrintWriter stream)
   {
   } // generate
@@ -94,7 +95,7 @@ public class MethodGen implements com.sun.tools.corba.ee.idl.MethodGen
     if (m.comment () != null)
       m.comment ().generate ("", stream);
     stream.print ("  ");
-    SymtabEntry container = (SymtabEntry)m.container ();
+    SymtabEntry container = m.container ();
     boolean isAbstract = false;
     boolean valueContainer = false;
     if (container instanceof ValueEntry)
@@ -356,7 +357,7 @@ public class MethodGen implements com.sun.tools.corba.ee.idl.MethodGen
           if (type instanceof ValueBoxEntry)
           {
             ValueBoxEntry v = (ValueBoxEntry) type;
-            TypedefEntry member = ((InterfaceState) v.state ().elementAt (0)).entry;
+            TypedefEntry member = v.state ().elementAt (0).entry;
             SymtabEntry mType = member.type ();
             if (mType instanceof PrimitiveEntry)
               stream.println (indent + name + ".value = (" + writeInputStreamRead ("in", parm.type ()) + ").value;");
@@ -550,7 +551,7 @@ public class MethodGen implements com.sun.tools.corba.ee.idl.MethodGen
         {
           ValueBoxEntry v = (ValueBoxEntry) parm.type ();
           TypedefEntry member =
-              ((InterfaceState) v.state ().elementAt (0)).entry;
+              v.state ().elementAt (0).entry;
           SymtabEntry mType = member.type ();
           if (mType instanceof PrimitiveEntry)
             stream.println(FOUR_INDENT +  parm.name () +
@@ -631,7 +632,7 @@ public class MethodGen implements com.sun.tools.corba.ee.idl.MethodGen
 
         stream.println( "(_id.equals (\"" + exc.repositoryID ().ID () + "\"))");
         stream.println (FIVE_INDENT + "throw " +
-            com.sun.tools.corba.ee.idl.toJavaPortable.Util.helperName((SymtabEntry) exc, false) + ".read ($in);");
+            com.sun.tools.corba.ee.idl.toJavaPortable.Util.helperName(exc, false) + ".read ($in);");
       }
       stream.println(FOUR_INDENT + "else");
       stream.println(FIVE_INDENT + "throw new org.omg.CORBA.MARSHAL (_id);");
@@ -1003,7 +1004,7 @@ public class MethodGen implements com.sun.tools.corba.ee.idl.MethodGen
     else if (type instanceof ValueBoxEntry)
     {
       ValueBoxEntry v = (ValueBoxEntry) type;
-      TypedefEntry member = ((InterfaceState) v.state ().elementAt (0)).entry;
+      TypedefEntry member = v.state ().elementAt (0).entry;
       SymtabEntry mType = member.type ();
 
       // if write value to the boxed holder indicated by the name ending with ".value"

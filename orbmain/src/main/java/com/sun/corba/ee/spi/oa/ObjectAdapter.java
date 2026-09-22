@@ -249,7 +249,7 @@ public interface ObjectAdapter
     /** Must be called every time getInvocationServant is called after
      * the request has completed.
      */
-    public void returnServant() ;
+    void returnServant() ;
 
     /** Create an instance of InvocationInfo that is appropriate for this
     * Object adapter.
@@ -265,7 +265,7 @@ public interface ObjectAdapter
     */
     String[] getInterfaces( Object servant, byte[] objectId ) ;
 
-    public boolean isNameService();
+    boolean isNameService();
 
-    public void setNameService( boolean flag ) ;
+    void setNameService( boolean flag ) ;
 }

@@ -75,6 +75,7 @@ public class ObjectStreamClass implements java.io.Serializable {
     private static final Bridge bridge =
         AccessController.doPrivileged(
             new PrivilegedAction<Bridge>() {
+                @Override
                 public Bridge run() {
                     return Bridge.get() ;
                 }
@@ -105,7 +106,7 @@ public class ObjectStreamClass implements java.io.Serializable {
         ObjectStreamClass desc = null;
         synchronized (descriptorFor) {
             /* Find the matching descriptor if it already known */
-            desc = (ObjectStreamClass)descriptorFor.get( cl ) ;
+            desc = descriptorFor.get( cl ) ;
             if (desc == null) {
                 /* Check if it's serializable */
                 ClassInfoCache.ClassInfo cinfo = ClassInfoCache.get( cl ) ;
@@ -460,6 +461,7 @@ public class ObjectStreamClass implements java.io.Serializable {
                 /* Ask for permission to override field access checks.
                  */
                 AccessController.doPrivileged(new PrivilegedAction<Object>() {
+                    @Override
                     public Object run() {
                         /* Fill in the list of persistent fields.
                          * If it is declared, use the declared serialPersistentFields.
@@ -540,6 +542,7 @@ public class ObjectStreamClass implements java.io.Serializable {
              } else {
                  // Lookup special Serializable members using reflection.
                  AccessController.doPrivileged(new PrivilegedAction<Object>() {
+                    @Override
                     public Object run() {
                         if (forProxyClass) {
                             // proxy classes always have serialVersionUID of 0L
@@ -1306,6 +1309,7 @@ public class ObjectStreamClass implements java.io.Serializable {
     private static class CompareClassByName
         implements Comparator<Class<?>> {
 
+        @Override
         public int compare(Class<?> c1, Class<?> c2) {
             return c1.getName().compareTo(c2.getName());
         }
@@ -1320,6 +1324,7 @@ public class ObjectStreamClass implements java.io.Serializable {
     private static class CompareObjStrFieldsByName
         implements Comparator<ObjectStreamField> {
 
+        @Override
         public int compare(ObjectStreamField o1, ObjectStreamField o2) {
             return o1.getName().compareTo(o2.getName());
         }
@@ -1334,6 +1339,7 @@ public class ObjectStreamClass implements java.io.Serializable {
     private static class CompareMemberByName
         implements Comparator<Member> {
 
+        @Override
         public int compare(Member o1, Member o2) {
             String s1 = o1.getName();
             String s2 = o2.getName();
@@ -1383,6 +1389,7 @@ public class ObjectStreamClass implements java.io.Serializable {
 
         /* Assumes that o1 and o2 are either both methods
            or both constructors.*/
+        @Override
         public int compare(MethodSignature c1, MethodSignature c2) {
             /* Arrays.sort calls compare when o1 and o2 are equal.*/
             if (c1 == c2)
