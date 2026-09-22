@@ -131,10 +131,21 @@ public class CacheTable<K> {
         threshhold <<= 1 ;
 
         initTables();
-        // now rehash the entries into the new table
+        // Re-link existing entries in the same traversal/prepend order as
+        // put_table used. The pairs are already unique: checking them again
+        // and allocating replacement nodes only adds work during a resize.
         for (int i = 0; i < oldSize; i++) {
-            for (Entry<K> e = oldMap[i]; e != null; e = e.next) {
-                put_table(e.key, e.val);
+            for (Entry<K> e = oldMap[i]; e != null;) {
+                Entry<K> next = e.next;
+                int index = hash(e.key);
+                e.next = map[index];
+                map[index] = e;
+                if (!noReverseMap) {
+                    int rindex = hash(e.val);
+                    e.rnext = rmap[rindex];
+                    rmap[rindex] = e;
+                }
+                e = next;
             }
         }
     }

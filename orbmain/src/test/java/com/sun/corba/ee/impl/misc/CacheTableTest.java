@@ -38,6 +38,27 @@ public class CacheTableTest {
     private static final int KEYS = 40;
 
     @Test
+    public void multiple_resizes_preserve_aliases_and_reverse_lookups() {
+        for (boolean noReverseMap : new boolean[] { false, true }) {
+            CacheTable<Object> table = new CacheTable<>("test", null, noReverseMap);
+            LegacyCacheTable<Object> legacy = new LegacyCacheTable<>("test", null, noReverseMap);
+            Object[] keys = new Object[160];
+            for (int i = 0; i < keys.length; i++) {
+                keys[i] = new Object();
+            }
+            for (int offset = 0; offset < 600; offset++) {
+                Object key = keys[offset % keys.length];
+                table.put(key, offset);
+                legacy.put(key, offset);
+                // A repeated pair must remain a no-op, also after resizing.
+                table.put(key, offset);
+                legacy.put(key, offset);
+                check(0, table, legacy, keys, offset + 1, noReverseMap);
+            }
+        }
+    }
+
+    @Test
     public void answers_like_the_hash_table_version_with_a_reverse_map() {
         for (long seed = 0; seed < 100; seed++) {
             compare(seed, false);
