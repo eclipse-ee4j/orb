@@ -55,6 +55,7 @@ import com.sun.corba.ee.spi.transport.TransportManager;
 import com.sun.org.omg.SendingContext.CodeBase;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.ByteBuffer;
@@ -478,10 +479,13 @@ public class ConnectionImpl extends EventHandlerBase implements Connection, Work
                     throw wrapper.unexpectedDirectByteBufferWithNonChannelSocket();
                 }
 
-                byte[] tmpBuf = new byte[byteBuffer.limit()];
-                System.arraycopy(byteBuffer.array(), byteBuffer.arrayOffset(), tmpBuf, 0, tmpBuf.length);
-                getSocket().getOutputStream().write(tmpBuf, 0, tmpBuf.length);
-                getSocket().getOutputStream().flush();
+                // Write straight from the buffer's array. OutputStream.write
+                // does not keep the array, so the copy this used to make
+                // bought nothing; on an SSL socket the engine copies the
+                // bytes into its own records anyway.
+                OutputStream out = getSocket().getOutputStream();
+                out.write(byteBuffer.array(), byteBuffer.arrayOffset(), byteBuffer.limit());
+                out.flush();
             }
 
             // TimeStamp connection to indicate it has been used
