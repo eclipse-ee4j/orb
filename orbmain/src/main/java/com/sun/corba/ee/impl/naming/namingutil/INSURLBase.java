@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.impl.naming.namingutil;
 
-import com.sun.corba.ee.spi.logging.OMGSystemException ;
+import com.sun.corba.ee.spi.logging.OMGSystemException;
 
 /** The corbaloc: URL definitions from the -ORBInitDef and -ORBDefaultInitDef's
  *  will be stored in this object. This object is capable of storing multiple
@@ -55,24 +55,30 @@ public abstract class INSURLBase implements INSURL {
         throw wrapper.soBadAddress( e, name ) ;
     }
 
+    @Override
     public boolean getRIRFlag( ) {
         return rirFlag;
     }
 
+    @Override
     public java.util.List getEndpointInfo( ) {
         return theEndpointInfo;
     }
 
+    @Override
     public String getKeyString( ) {
         return theKeyString;
     }
 
+    @Override
     public String getStringifiedName( ) {
         return theStringifiedName;
     }
 
+    @Override
     public abstract boolean isCorbanameURL( );
 
+    @Override
     public void dPrint( ) {
         System.out.println( "URL Dump..." );
         System.out.println( "Key String = " + getKeyString( ) );

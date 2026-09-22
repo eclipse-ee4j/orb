@@ -20,13 +20,13 @@
 
 package com.sun.corba.ee.impl.copyobject ;
 
-import com.sun.corba.ee.impl.misc.ClassInfoCache ;
-import com.sun.corba.ee.impl.util.Utility ;
+import com.sun.corba.ee.impl.misc.ClassInfoCache;
+import com.sun.corba.ee.impl.util.Utility;
 import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
-import java.util.IdentityHashMap ;
-import java.util.Map ;
+import java.util.IdentityHashMap;
+import java.util.Map;
 
 import org.glassfish.pfl.basic.logex.OperationTracer;
 import org.glassfish.pfl.dynamic.copyobject.impl.ClassCopier;
@@ -37,8 +37,8 @@ import org.glassfish.pfl.dynamic.copyobject.impl.FastCache;
 import org.glassfish.pfl.dynamic.copyobject.impl.PipelineClassCopierFactory;
 import org.glassfish.pfl.dynamic.copyobject.spi.ObjectCopier;
 import org.glassfish.pfl.dynamic.copyobject.spi.ReflectiveCopyException;
-import org.omg.CORBA.portable.Delegate ;
-import org.omg.CORBA.portable.ObjectImpl ;
+import org.omg.CORBA.portable.Delegate;
+import org.omg.CORBA.portable.ObjectImpl;
 
 /** Class used to deep copy arbitrary data.  A single
  * ReflectObjectCopierImpl
@@ -68,6 +68,7 @@ public class ReflectObjectCopierImpl implements ObjectCopier {
     // which requires an orb.
     private static ClassCopier remoteClassCopier =
         new ClassCopierBase( "remote" ) {
+            @Override
             public Object createCopy( Object source ) {
                 ORB orb = (ORB)localORB.get() ;
                 return Utility.autoConnect( source, orb, true ) ;
@@ -76,6 +77,7 @@ public class ReflectObjectCopierImpl implements ObjectCopier {
 
     private static ClassCopier identityClassCopier =
         new ClassCopierBase( "identity" ) {
+            @Override
             public Object createCopy( Object source ) {
                 return source ;
             }
@@ -85,6 +87,7 @@ public class ReflectObjectCopierImpl implements ObjectCopier {
     // is mostly immutable.
     private static ClassCopier corbaClassCopier =
         new ClassCopierBase( "corba" ) {
+            @Override
             public Object createCopy( Object source) {
                 ObjectImpl oi = (ObjectImpl)source ;
                 Delegate del = oi._get_delegate() ;
@@ -104,6 +107,7 @@ public class ReflectObjectCopierImpl implements ObjectCopier {
 
     private static final ClassCopierFactory specialClassCopierFactory =
         new ClassCopierFactory() {
+            @Override
             public ClassCopier getClassCopier( Class cls
             ) throws ReflectiveCopyException
             {

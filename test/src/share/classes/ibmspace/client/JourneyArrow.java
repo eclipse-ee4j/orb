@@ -30,7 +30,8 @@
 
 package ibmspace.client;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 
 public class JourneyArrow extends Arrow
 {

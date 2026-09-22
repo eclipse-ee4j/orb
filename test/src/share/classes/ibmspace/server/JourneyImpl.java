@@ -22,7 +22,6 @@ package ibmspace.server;
 
 import ibmspace.common.ID;
 import ibmspace.common.Journey;
-import ibmspace.common.Fleet;
 import ibmspace.common.Planet;
 
 

@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.spi.orb ;
 
-import java.util.Properties ;
+import java.util.Properties;
 
 /** Interface for collecting all sources of ORB configuration properties
  * into a single properties object.   A PropertyParser is needed so that

@@ -19,23 +19,23 @@
 
 package com.sun.corba.ee.spi.protocol;
 
-import com.sun.corba.ee.impl.corba.RequestImpl ;
-import com.sun.corba.ee.impl.protocol.giopmsgheaders.ReplyMessage ;
-import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
-import com.sun.corba.ee.spi.oa.ObjectAdapter ;
+import com.sun.corba.ee.impl.corba.RequestImpl;
+import com.sun.corba.ee.impl.protocol.giopmsgheaders.ReplyMessage;
+import com.sun.corba.ee.spi.ior.ObjectKeyTemplate;
+import com.sun.corba.ee.spi.oa.ObjectAdapter;
 
-import java.io.Closeable ;
+import java.io.Closeable;
 
-import org.omg.CORBA.Any ;
-import org.omg.CORBA.NVList ;
-import org.omg.CORBA.Policy ;
-import org.omg.CORBA.PolicyError ;
+import org.omg.CORBA.Any;
+import org.omg.CORBA.NVList;
+import org.omg.CORBA.Policy;
+import org.omg.CORBA.PolicyError;
 import org.omg.CORBA.portable.RemarshalException;
-import org.omg.PortableInterceptor.Current ;
-import org.omg.PortableInterceptor.Interceptor ;
-import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
-import org.omg.PortableInterceptor.PolicyFactory ;
-import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName ;
+import org.omg.PortableInterceptor.Current;
+import org.omg.PortableInterceptor.Interceptor;
+import org.omg.PortableInterceptor.ObjectReferenceTemplate;
+import org.omg.PortableInterceptor.PolicyFactory;
+import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 
 /** This interface defines the PI interface that is used to interface the rest of the
  * ORB to the PI implementation.
@@ -46,9 +46,9 @@ public interface PIHandler extends Closeable {
     * the ORB can obtain the PIHandler BEFORE the ORBInitializers run, since they
     * will need access to the PIHandler through the ORB.
     */
-    public void initialize() ;
+    void initialize() ;
 
-    public void destroyInterceptors() ;
+    void destroyInterceptors() ;
 
     /*
      ****************************

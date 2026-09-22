@@ -19,9 +19,9 @@
 
 package com.sun.corba.ee.impl.orb ;
 
-import com.sun.corba.ee.spi.orb.Operation ;
+import com.sun.corba.ee.spi.orb.Operation;
 
-import java.util.Properties ;
+import java.util.Properties;
 
 public class NormalParserAction extends ParserActionBase {
     public NormalParserAction( String propertyName,
@@ -34,6 +34,7 @@ public class NormalParserAction extends ParserActionBase {
      * match the propertyName prefix, pass this to op, and return the
      * result.
      */
+    @Override
     public Object apply( Properties props )
     {
         Object value = props.getProperty( getPropertyName() ) ;

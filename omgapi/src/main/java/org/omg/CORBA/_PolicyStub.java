@@ -32,6 +32,8 @@ package org.omg.CORBA;
 
 public class _PolicyStub extends org.omg.CORBA.portable.ObjectImpl implements org.omg.CORBA.Policy
 {
+  private static final long serialVersionUID = 2453656196708903849L;
+
   /** Constructors
    * NOTE:  If the default constructor is used, the
    *        object is useless until _set_delegate (...)
@@ -39,7 +41,6 @@ public class _PolicyStub extends org.omg.CORBA.portable.ObjectImpl implements or
    */
   public _PolicyStub ()
   {
-    super ();
   }
 
   /** Constructs a <code>_PolicyStub</code> object initialized
@@ -49,7 +50,6 @@ public class _PolicyStub extends org.omg.CORBA.portable.ObjectImpl implements or
    */
   public _PolicyStub (org.omg.CORBA.portable.Delegate delegate)
   {
-    super ();
     _set_delegate (delegate);
   }
 
@@ -64,7 +64,8 @@ public class _PolicyStub extends org.omg.CORBA.portable.ObjectImpl implements or
                 * @return the constant value that corresponds to the type of
                 * the policy object.
                 */
-  public int policy_type ()
+  @Override
+public int policy_type ()
   {
     org.omg.CORBA.portable.InputStream _in = null;
     try {
@@ -88,7 +89,8 @@ public class _PolicyStub extends org.omg.CORBA.portable.ObjectImpl implements or
                 * relationships that the policy had with any domain or object.
                 * @return the copy of the policy object.
                 */
-  public org.omg.CORBA.Policy copy ()
+  @Override
+public org.omg.CORBA.Policy copy ()
   {
     org.omg.CORBA.portable.InputStream _in = null;
     try {
@@ -111,7 +113,8 @@ public class _PolicyStub extends org.omg.CORBA.portable.ObjectImpl implements or
   /** Destroys the policy object.  It is the responsibility of
                 * the policy object to determine whether it can be destroyed.
                 */
-  public void destroy ()
+  @Override
+public void destroy ()
   {
     org.omg.CORBA.portable.InputStream _in = null;
     try {
@@ -132,9 +135,10 @@ public class _PolicyStub extends org.omg.CORBA.portable.ObjectImpl implements or
   private static String[] __ids = {
     "IDL:omg.org/CORBA/Policy:1.0"};
 
-  public String[] _ids ()
+  @Override
+public String[] _ids ()
   {
-    return (String[])__ids.clone ();
+    return __ids.clone ();
   }
 
   private void readObject (java.io.ObjectInputStream s)

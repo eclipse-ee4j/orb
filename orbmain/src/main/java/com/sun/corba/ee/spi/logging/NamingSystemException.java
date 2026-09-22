@@ -21,8 +21,8 @@ package com.sun.corba.ee.spi.logging ;
 
 import com.sun.corba.ee.spi.logex.corba.CS;
 import com.sun.corba.ee.spi.logex.corba.CSValue;
-import com.sun.corba.ee.spi.logex.corba.CorbaExtension ;
-import com.sun.corba.ee.spi.logex.corba.ORBException ;
+import com.sun.corba.ee.spi.logex.corba.CorbaExtension;
+import com.sun.corba.ee.spi.logex.corba.ORBException;
 
 import org.glassfish.pfl.basic.logex.Chain;
 import org.glassfish.pfl.basic.logex.ExceptionWrapper;

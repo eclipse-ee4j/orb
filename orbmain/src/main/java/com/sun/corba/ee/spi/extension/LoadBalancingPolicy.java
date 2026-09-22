@@ -19,17 +19,19 @@
 
 package com.sun.corba.ee.spi.extension ;
 
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 
-import org.omg.CORBA.LocalObject ;
-import org.omg.CORBA.Policy ;
+import org.omg.CORBA.LocalObject;
+import org.omg.CORBA.Policy;
 
 /** Policy used to support the request partitioning feature and to
  *  specify the partition to use.
 */
 public class LoadBalancingPolicy extends LocalObject implements Policy
 {
+    private static final long serialVersionUID = 7757353627990823740L;
+
     private static final ORBUtilSystemException wrapper =
         ORBUtilSystemException.self ;
 
@@ -51,16 +53,19 @@ public class LoadBalancingPolicy extends LocalObject implements Policy
         return value;
     }
 
+    @Override
     public int policy_type()
     {
         return ORBConstants.LOAD_BALANCING_POLICY ;
     }
 
+    @Override
     public org.omg.CORBA.Policy copy()
     {
         return this;
     }
 
+    @Override
     public void destroy()
     {
         // NO-OP

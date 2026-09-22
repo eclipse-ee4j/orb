@@ -20,10 +20,10 @@
 package com.sun.corba.ee.impl.transport.connection;
 
 
-import com.sun.corba.ee.spi.transport.concurrent.ConcurrentQueueFactory ;
-import com.sun.corba.ee.spi.transport.connection.Connection ;
+import com.sun.corba.ee.spi.transport.concurrent.ConcurrentQueueFactory;
+import com.sun.corba.ee.spi.transport.connection.Connection;
 
-import java.util.concurrent.atomic.AtomicInteger ;
+import java.util.concurrent.atomic.AtomicInteger;
 
 abstract class ConnectionCacheNonBlockingBase<C extends Connection>
     extends ConnectionCacheBase<C> {
@@ -44,18 +44,22 @@ abstract class ConnectionCacheNonBlockingBase<C extends Connection>
             ConcurrentQueueFactory.<C>makeBlockingConcurrentQueue( ttl ) ;
     }
 
+    @Override
     public long numberOfConnections() {
         return totalIdle.get() + totalBusy.get() ;
     }
 
+    @Override
     public long numberOfIdleConnections() {
         return totalIdle.get() ;
     }
 
+    @Override
     public long numberOfBusyConnections() {
         return totalBusy.get() ;
     }
 
+    @Override
     public long numberOfReclaimableConnections() {
         return reclaimableConnections.size() ;
     }

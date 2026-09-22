@@ -20,21 +20,21 @@
 
 package com.sun.corba.ee.impl.oa.poa ;
 
-import com.sun.corba.ee.spi.ior.ObjectAdapterId ;
-import com.sun.corba.ee.spi.logging.OMGSystemException ;
-import com.sun.corba.ee.spi.logging.POASystemException ;
-import com.sun.corba.ee.spi.misc.ORBConstants ;
-import com.sun.corba.ee.spi.oa.ObjectAdapter ;
-import com.sun.corba.ee.spi.oa.ObjectAdapterFactory ;
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.ior.ObjectAdapterId;
+import com.sun.corba.ee.spi.logging.OMGSystemException;
+import com.sun.corba.ee.spi.logging.POASystemException;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.oa.ObjectAdapter;
+import com.sun.corba.ee.spi.oa.ObjectAdapterFactory;
+import com.sun.corba.ee.spi.orb.ORB;
 
-import java.util.ArrayList ;
-import java.util.HashSet ;
-import java.util.Iterator ;
-import java.util.List ;
-import java.util.Map ;
-import java.util.Set ;
-import java.util.WeakHashMap ;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.WeakHashMap;
 
 import org.glassfish.gmbal.AMXMetadata;
 import org.glassfish.gmbal.Description;
@@ -43,12 +43,12 @@ import org.glassfish.gmbal.ManagedData;
 import org.glassfish.gmbal.ManagedObject;
 import org.glassfish.gmbal.ManagedObjectManager;
 import org.glassfish.pfl.basic.func.NullaryFunction;
-import org.omg.CORBA.OBJECT_NOT_EXIST ;
-import org.omg.CORBA.TRANSIENT ;
-import org.omg.CORBA.ORBPackage.InvalidName ;
-import org.omg.PortableServer.POA ;
-import org.omg.PortableServer.POAManager ;
-import org.omg.PortableServer.Servant ;
+import org.omg.CORBA.OBJECT_NOT_EXIST;
+import org.omg.CORBA.TRANSIENT;
+import org.omg.CORBA.ORBPackage.InvalidName;
+import org.omg.PortableServer.POA;
+import org.omg.PortableServer.POAManager;
+import org.omg.PortableServer.Servant;
 
 @ManagedObject
 @Description( "The factory for all POAs and POAManagers")
@@ -163,6 +163,7 @@ public class POAFactory implements ObjectAdapterFactory
 
 // Implementation of ObjectAdapterFactory interface
 
+    @Override
     public void init( ORB orb )
     {
         this.orb = orb ;
@@ -179,6 +180,7 @@ public class POAFactory implements ObjectAdapterFactory
         }
     }
 
+    @Override
     public ObjectAdapter find( ObjectAdapterId oaid )
     {
         POA poa=null;
@@ -215,6 +217,7 @@ public class POAFactory implements ObjectAdapterFactory
         return (ObjectAdapter)poa;
     }
 
+    @Override
     public void shutdown( boolean waitForCompletion )
     {
         // It is important to copy the list of POAManagers first because
@@ -259,6 +262,7 @@ public class POAFactory implements ObjectAdapterFactory
         // The Future guarantees that makeRootPOA is only called once.
         NullaryFunction<org.omg.CORBA.Object> rpClosure =
             new NullaryFunction<org.omg.CORBA.Object>() {
+                @Override
                 public org.omg.CORBA.Object evaluate() {
                     return POAImpl.makeRootPOA( orb ) ;
                 }
@@ -297,6 +301,7 @@ public class POAFactory implements ObjectAdapterFactory
         return poaId++ ;
     }
 
+    @Override
     public ORB getORB()
     {
         return orb ;

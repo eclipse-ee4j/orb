@@ -25,18 +25,12 @@
 
 package corba.orbconfigappserv;
 
-import org.omg.CORBA.ORB;
+import java.util.Properties;
 
-import java.util.*;
-import java.io.*;
-
-import javax.rmi.CORBA.Tie;
 import javax.rmi.PortableRemoteObject;
+import javax.rmi.CORBA.Tie;
 
-import javax.naming.InitialContext;
-import javax.naming.Context;
-
-import com.sun.corba.ee.spi.misc.ORBConstants;
+import org.omg.CORBA.ORB;
 
 
 public class ORBManager

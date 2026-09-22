@@ -19,13 +19,13 @@
 
 package com.sun.corba.ee.impl.presentation.rmi ;
 
-import com.sun.corba.ee.spi.presentation.rmi.DynamicStub ;
-import com.sun.corba.ee.spi.presentation.rmi.PresentationManager ;
+import com.sun.corba.ee.spi.presentation.rmi.DynamicStub;
+import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
 
-import java.io.ObjectStreamException ;
-import java.io.Serializable ;
-import java.lang.reflect.InvocationHandler ;
-import java.lang.reflect.Proxy ;
+import java.io.ObjectStreamException;
+import java.io.Serializable;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
 
 import org.glassfish.pfl.basic.proxy.CompositeInvocationHandler;
 import org.glassfish.pfl.basic.proxy.CompositeInvocationHandlerImpl;
@@ -60,6 +60,7 @@ public class InvocationHandlerFactoryImpl implements InvocationHandlerFactory
     {
         private transient DynamicStub stub ;
 
+        @Override
         public void setProxy( Proxy proxy )
         {
             if (proxy instanceof DynamicStub) {
@@ -70,6 +71,7 @@ public class InvocationHandlerFactoryImpl implements InvocationHandlerFactory
             }
         }
 
+        @Override
         public Proxy getProxy()
         {
             return (Proxy)((DynamicStubImpl)stub).getSelf() ;
@@ -93,6 +95,7 @@ public class InvocationHandlerFactoryImpl implements InvocationHandlerFactory
         }
     }
 
+    @Override
     public InvocationHandler getInvocationHandler()
     {
         final DynamicStub stub = new DynamicStubImpl(
@@ -145,6 +148,7 @@ public class InvocationHandlerFactoryImpl implements InvocationHandlerFactory
         return handler ;
     }
 
+    @Override
     public Class[] getProxyInterfaces()
     {
         return proxyInterfaces ;

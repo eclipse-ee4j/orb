@@ -19,11 +19,11 @@
 
 package com.sun.corba.ee.impl.transport;
 
-import com.sun.corba.ee.spi.transport.MessageTraceManager ;
+import com.sun.corba.ee.spi.transport.MessageTraceManager;
 
-import java.nio.ByteBuffer ;
-import java.util.ArrayList ;
-import java.util.List ;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MessageTraceManagerImpl implements MessageTraceManager
 {
@@ -42,6 +42,7 @@ public class MessageTraceManagerImpl implements MessageTraceManager
         enabled = false ;
     }
 
+    @Override
     public void clear()
     {
         init() ;
@@ -54,22 +55,26 @@ public class MessageTraceManagerImpl implements MessageTraceManager
         initHeaderRecorder() ;
     }
 
+    @Override
     public boolean isEnabled()
     {
         return enabled ;
     }
 
+    @Override
     public void enable( boolean flag )
     {
         enabled = flag ;
     }
 
+    @Override
     public byte[][] getDataSent()
     {
         return (byte[][])dataSent.toArray(
             new byte[dataSent.size()][] ) ;
     }
 
+    @Override
     public byte[][] getDataReceived()
     {
         return (byte[][])dataReceived.toArray(

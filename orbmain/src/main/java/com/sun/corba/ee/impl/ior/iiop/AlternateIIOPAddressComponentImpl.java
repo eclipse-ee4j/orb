@@ -19,12 +19,12 @@
 
 package com.sun.corba.ee.impl.ior.iiop;
 
-import com.sun.corba.ee.spi.ior.TaggedComponentBase ;
-import com.sun.corba.ee.spi.ior.iiop.AlternateIIOPAddressComponent ;
-import com.sun.corba.ee.spi.ior.iiop.IIOPAddress ;
+import com.sun.corba.ee.spi.ior.TaggedComponentBase;
+import com.sun.corba.ee.spi.ior.iiop.AlternateIIOPAddressComponent;
+import com.sun.corba.ee.spi.ior.iiop.IIOPAddress;
 
-import org.omg.CORBA_2_3.portable.OutputStream ;
-import org.omg.IOP.TAG_ALTERNATE_IIOP_ADDRESS ;
+import org.omg.CORBA_2_3.portable.OutputStream;
+import org.omg.IOP.TAG_ALTERNATE_IIOP_ADDRESS;
 
 /**
  * @author Ken Cavanaugh
@@ -34,6 +34,7 @@ public class AlternateIIOPAddressComponentImpl extends TaggedComponentBase
 {
     private IIOPAddress addr ;
 
+    @Override
     public boolean equals( Object obj )
     {
         if (!(obj instanceof AlternateIIOPAddressComponentImpl))
@@ -45,11 +46,13 @@ public class AlternateIIOPAddressComponentImpl extends TaggedComponentBase
         return addr.equals( other.addr ) ;
     }
 
+    @Override
     public int hashCode()
     {
         return addr.hashCode() ;
     }
 
+    @Override
     public String toString()
     {
         return "AlternateIIOPAddressComponentImpl[addr=" + addr + "]" ;
@@ -60,16 +63,19 @@ public class AlternateIIOPAddressComponentImpl extends TaggedComponentBase
         this.addr = addr ;
     }
 
+    @Override
     public IIOPAddress getAddress()
     {
         return addr ;
     }
 
+    @Override
     public void writeContents(OutputStream os)
     {
         addr.write( os ) ;
     }
 
+    @Override
     public int getId()
     {
         return TAG_ALTERNATE_IIOP_ADDRESS.value ; // 3 in CORBA 2.3.1 13.6.3

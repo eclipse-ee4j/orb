@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.spi.transport.connection;
 
-import java.io.IOException ;
+import java.io.IOException;
 
 /** A concurrent mostly non-blocking connection cache.  Here a Connection is an
  * abstraction of a Socket or SocketChannel: basically some sort of resource

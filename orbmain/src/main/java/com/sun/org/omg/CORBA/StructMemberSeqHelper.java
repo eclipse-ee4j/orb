@@ -75,13 +75,10 @@ public final class StructMemberSeqHelper
     //public static com.sun.org.omg.CORBA.StructMember[] read (org.omg.CORBA.portable.InputStream istream)
     public static org.omg.CORBA.StructMember[] read (org.omg.CORBA.portable.InputStream istream)
     {
-        // _CHANGED_
-        //com.sun.org.omg.CORBA.StructMember value[] = null;
-        org.omg.CORBA.StructMember value[] = null;
         int _len0 = istream.read_long ();
         // _CHANGED_
         //value = new com.sun.org.omg.CORBA.StructMember[_len0];
-        value = new org.omg.CORBA.StructMember[_len0];
+        org.omg.CORBA.StructMember value[] = new org.omg.CORBA.StructMember[_len0];
         for (int _o1 = 0;_o1 < value.length; ++_o1)
             value[_o1] = com.sun.org.omg.CORBA.StructMemberHelper.read (istream);
         return value;

@@ -20,6 +20,7 @@
 package naming.instest;
 
 import java.util.Properties;
+
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.Object;
 

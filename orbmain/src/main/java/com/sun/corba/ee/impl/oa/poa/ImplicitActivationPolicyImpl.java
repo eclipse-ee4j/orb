@@ -27,31 +27,38 @@ import org.omg.PortableServer.ImplicitActivationPolicyValue;
 final class ImplicitActivationPolicyImpl
     extends org.omg.CORBA.LocalObject implements ImplicitActivationPolicy {
 
+    private static final long serialVersionUID = 2726591852095480973L;
+
     public
         ImplicitActivationPolicyImpl(ImplicitActivationPolicyValue
                                      value) {
         this.value = value;
     }
 
+    @Override
     public ImplicitActivationPolicyValue value() {
         return value;
     }
 
+    @Override
     public int policy_type()
     {
         return IMPLICIT_ACTIVATION_POLICY_ID.value ;
     }
 
+    @Override
     public Policy copy() {
         return new ImplicitActivationPolicyImpl(value);
     }
 
+    @Override
     public void destroy() {
         value = null;
     }
 
     private ImplicitActivationPolicyValue value;
 
+    @Override
     public String toString()
     {
         return "ImplicitActivationPolicy[" +

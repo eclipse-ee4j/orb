@@ -20,8 +20,8 @@
 package com.sun.corba.ee.impl.servicecontext;
 
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
-import com.sun.corba.ee.spi.servicecontext.ServiceContextBase ;
-import com.sun.corba.ee.spi.servicecontext.UnknownServiceContext ;
+import com.sun.corba.ee.spi.servicecontext.ServiceContextBase;
+import com.sun.corba.ee.spi.servicecontext.UnknownServiceContext;
 
 import org.omg.CORBA_2_3.portable.InputStream;
 import org.omg.CORBA_2_3.portable.OutputStream;
@@ -47,14 +47,17 @@ public class UnknownServiceContextImpl extends ServiceContextBase
         is.read_octet_array(data,0,len);
     }
 
+    @Override
     public int getId() { return id ; }
 
+    @Override
     public void writeData( OutputStream os )
     {
         // Abstract method in the base class not used
         // here because write overrides ServiceContextBase.write
     }
 
+    @Override
     public void write( OutputStream os, GIOPVersion gv)
     {
         os.write_long( id ) ;
@@ -62,6 +65,7 @@ public class UnknownServiceContextImpl extends ServiceContextBase
         os.write_octet_array( data, 0, data.length ) ;
     }
 
+    @Override
     public byte[] getData()
     {
         return data.clone() ;

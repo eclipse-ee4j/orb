@@ -19,8 +19,9 @@
 
 package hopper.h4486041;
 
-import org.omg.CORBA.ORB;
 import java.util.Properties;
+
+import org.omg.CORBA.ORB;
 
 public class Client
 {

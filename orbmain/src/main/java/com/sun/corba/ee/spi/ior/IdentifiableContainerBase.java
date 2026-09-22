@@ -20,7 +20,7 @@
 
 package com.sun.corba.ee.spi.ior;
 
-import com.sun.corba.ee.impl.ior.FreezableList ;
+import com.sun.corba.ee.impl.ior.FreezableList;
 
 import java.util.ArrayList;
 import java.util.Iterator;

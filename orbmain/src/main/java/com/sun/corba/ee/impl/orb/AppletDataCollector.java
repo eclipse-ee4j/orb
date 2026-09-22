@@ -19,8 +19,8 @@
 
 package com.sun.corba.ee.impl.orb ;
 
-import java.applet.Applet ;
-import java.util.Properties ;
+import java.applet.Applet;
+import java.util.Properties;
 
 public class AppletDataCollector extends DataCollectorBase {
     private Applet applet ;
@@ -32,11 +32,13 @@ public class AppletDataCollector extends DataCollectorBase {
         this.applet = app ;
     }
 
+    @Override
     public boolean isApplet()
     {
         return true ;
     }
 
+    @Override
     protected void collect( )
     {
         checkPropertyDefaults() ;

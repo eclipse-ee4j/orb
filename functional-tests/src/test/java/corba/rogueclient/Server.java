@@ -19,17 +19,16 @@
 
 package corba.rogueclient;
 
-import java.util.Properties;
-import javax.naming.InitialContext;
-import javax.rmi.PortableRemoteObject;
-import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.ORB;
 
 import corba.framework.Options;
 import corba.hcks.C;
 import corba.hcks.U;
 
-import org.omg.PortableServer.POA;
+import java.util.Properties;
+
+import javax.naming.InitialContext;
 
 //
 // Created      : 2004 May 3, 2004 by Charlie Hunt

@@ -19,31 +19,28 @@
 
 package com.sun.corba.ee.spi.protocol;
 
-import com.sun.corba.ee.impl.misc.ORBUtility ;
-import com.sun.corba.ee.spi.ior.IOR ;
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.impl.misc.ORBUtility;
+import com.sun.corba.ee.spi.ior.IOR;
+import com.sun.corba.ee.spi.orb.ORB;
 
-import org.omg.CORBA.BAD_PARAM ;
+import org.omg.CORBA.BAD_PARAM;
 
 /**
  * Thrown to signal an OBJECT_FORWARD or LOCATION_FORWARD
  */
 public class ForwardException extends RuntimeException {
+    private static final long serialVersionUID = 7041425838804994807L;
     private ORB orb ;
     private org.omg.CORBA.Object obj;
     private IOR ior ;
 
     public ForwardException( ORB orb, IOR ior ) {
-        super();
-
         this.orb = orb ;
         this.obj = null ;
         this.ior = ior ;
     }
 
     public ForwardException( ORB orb, org.omg.CORBA.Object obj) {
-        super();
-
         // This check is done early so that no attempt
         // may be made to do a location forward to a local
         // object.  Doing this lazily would allow

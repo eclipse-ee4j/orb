@@ -21,15 +21,15 @@ package com.sun.corba.ee.impl.transport.connection;
 
 import com.sun.corba.ee.spi.transport.concurrent.ConcurrentQueue;
 import com.sun.corba.ee.spi.transport.concurrent.ConcurrentQueueFactory;
-import com.sun.corba.ee.spi.transport.connection.Connection ;
-import com.sun.corba.ee.spi.transport.connection.ConnectionFinder ;
-import com.sun.corba.ee.spi.transport.connection.ContactInfo ;
-import com.sun.corba.ee.spi.transport.connection.OutboundConnectionCache ;
+import com.sun.corba.ee.spi.transport.connection.Connection;
+import com.sun.corba.ee.spi.transport.connection.ConnectionFinder;
+import com.sun.corba.ee.spi.transport.connection.ContactInfo;
+import com.sun.corba.ee.spi.transport.connection.OutboundConnectionCache;
 
-import java.io.IOException ;
-import java.util.concurrent.ConcurrentHashMap ;
-import java.util.concurrent.ConcurrentMap ;
-import java.util.concurrent.atomic.AtomicInteger ;
+import java.io.IOException;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /** Manage connections that are initiated from this VM. Connections are managed
  * by a get/release mechanism and cached by the ContactInfo used to create them.
@@ -68,6 +68,7 @@ public final class OutboundConnectionCacheImpl<C extends Connection>
     private final ConcurrentMap<ContactInfo<C>,CacheEntry<C>> entryMap ;
     private final ConcurrentMap<C,ConnectionState<C>> connectionMap ;
 
+    @Override
     public int maxParallelConnections() {
         return maxParallelConnections ;
     }
@@ -150,12 +151,14 @@ public final class OutboundConnectionCacheImpl<C extends Connection>
 
     // We do not need to define equals or hashCode for this class.
 
+    @Override
     public C get( final ContactInfo<C> cinfo,
         ConnectionFinder<C> finder ) throws IOException {
 
         return get( cinfo ) ;
     }
 
+    @Override
     public C get( final ContactInfo<C> cinfo ) throws IOException {
         final CacheEntry<C> entry = getEntry( cinfo ) ;
         C result = null ;
@@ -218,6 +221,7 @@ public final class OutboundConnectionCacheImpl<C extends Connection>
         return result ;
     }
 
+    @Override
     public void release( final C conn, final int numResponsesExpected ) {
         try {
             final ConnectionState<C> cs = connectionMap.get( conn ) ;
@@ -273,6 +277,7 @@ public final class OutboundConnectionCacheImpl<C extends Connection>
     /** Decrement the number of expected responses.  When a connection is idle
      * and has no expected responses, it can be reclaimed.
      */
+    @Override
     public void responseReceived( final C conn ) {
         final ConnectionState<C> cs = connectionMap.get( conn ) ;
         if (cs == null) {
@@ -345,6 +350,7 @@ public final class OutboundConnectionCacheImpl<C extends Connection>
             (totalConnectionsInEntry < maxParallelConnections)) ;
     }
 
+    @Override
     public boolean canCreateNewConnection( final ContactInfo<C> cinfo ) {
         final CacheEntry<C> entry = entryMap.get( cinfo ) ;
         if (entry == null)

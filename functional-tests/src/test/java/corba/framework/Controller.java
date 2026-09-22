@@ -20,8 +20,8 @@
 package corba.framework;
 
 import java.io.OutputStream;
-import java.util.Properties;
 import java.util.Hashtable;
+import java.util.Properties;
 
 /**
  * Defines the interface for interacting with a process.  This is

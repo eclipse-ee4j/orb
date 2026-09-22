@@ -19,15 +19,17 @@
 
 package com.sun.corba.ee.spi.extension ;
 
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 
-import org.omg.CORBA.LocalObject ;
-import org.omg.CORBA.Policy ;
+import org.omg.CORBA.LocalObject;
+import org.omg.CORBA.Policy;
 
 /** Policy used to implement zero IIOP port policy in the POA.
 */
 public class ZeroPortPolicy extends LocalObject implements Policy
 {
+    private static final long serialVersionUID = 7594251859987615583L;
+
     private static ZeroPortPolicy policy = new ZeroPortPolicy( true ) ;
 
     private boolean flag = true ;
@@ -37,6 +39,7 @@ public class ZeroPortPolicy extends LocalObject implements Policy
         this.flag = type ;
     }
 
+    @Override
     public String toString()
     {
         return "ZeroPortPolicy[" + flag + "]" ;
@@ -52,16 +55,19 @@ public class ZeroPortPolicy extends LocalObject implements Policy
         return policy ;
     }
 
+    @Override
     public int policy_type ()
     {
         return ORBConstants.ZERO_PORT_POLICY ;
     }
 
+    @Override
     public org.omg.CORBA.Policy copy ()
     {
         return this ;
     }
 
+    @Override
     public void destroy ()
     {
         // NO-OP

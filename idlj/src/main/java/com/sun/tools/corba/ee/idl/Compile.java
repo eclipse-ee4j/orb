@@ -209,7 +209,7 @@ public class Compile
     // <d41197> Reset static variables to allow parsing multiple sources.
     // DO NOT reset SymtabEntry.maxKey because it crashes IDLC.
     com.sun.tools.corba.ee.idl.ParseException.detected  = false;
-    com.sun.tools.corba.ee.idl.SymtabEntry.includeStack = (Stack<Boolean>) new java.util.Stack ();
+    com.sun.tools.corba.ee.idl.SymtabEntry.includeStack = new java.util.Stack ();
     com.sun.tools.corba.ee.idl.SymtabEntry.setEmit      = true;
     //SymtabEntry.maxKey     = -1;
     com.sun.tools.corba.ee.idl.Parser.repIDStack        = new java.util.Stack (); // <d56351>
@@ -295,7 +295,7 @@ public class Compile
                 com.sun.tools.corba.ee.idl.SymtabEntry entry = emitList.nextElement();
                 if (arguments.verbose) {
                     if (entry.generator() instanceof com.sun.tools.corba.ee.idl.Noop) {
-                        ; // Nothing will be generated, so don't say so.
+                         // Nothing will be generated, so don't say so.
                     } else if (entry.module().equals("")) {
                         System.out.println(com.sun.tools.corba.ee.idl.Util.getMessage("Compile.generating", entry.name()));
                     } else {
@@ -305,7 +305,7 @@ public class Compile
                 entry.generate(symbolTable, null);
                 if (arguments.verbose) {
                     if (entry.generator() instanceof com.sun.tools.corba.ee.idl.Noop) {
-                        ; // Nothing will be generated, so don't say so.
+                         // Nothing will be generated, so don't say so.
                     } else if (entry.module().equals("")) {
                         System.out.println(com.sun.tools.corba.ee.idl.Util.getMessage("Compile.genDone", entry.name()));
                     } else {

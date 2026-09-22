@@ -22,12 +22,15 @@
 
 package ibmspace.client;
 
-import java.awt.*;
-import java.util.*;
-import java.text.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.event.ActionListener;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 
 public class LabeledBarControl extends JPanel

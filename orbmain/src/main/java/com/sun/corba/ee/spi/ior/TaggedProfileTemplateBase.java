@@ -19,22 +19,24 @@
 
 package com.sun.corba.ee.spi.ior;
 
-import com.sun.corba.ee.impl.ior.EncapsulationUtility ;
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.impl.ior.EncapsulationUtility;
+import com.sun.corba.ee.spi.orb.ORB;
 
-import java.util.Iterator ;
+import java.util.Iterator;
 
-import org.omg.CORBA_2_3.portable.OutputStream ;
+import org.omg.CORBA_2_3.portable.OutputStream;
 
 public abstract class TaggedProfileTemplateBase
     extends IdentifiableContainerBase<TaggedComponent>
     implements TaggedProfileTemplate
 {
+    @Override
     public void write( OutputStream os )
     {
         EncapsulationUtility.writeEncapsulation( this, os ) ;
     }
 
+    @Override
     public org.omg.IOP.TaggedComponent[] getIOPComponents( ORB orb, int id )
     {
         int count = 0 ;
@@ -57,6 +59,7 @@ public abstract class TaggedProfileTemplateBase
         return result ;
     }
 
+    @Override
     public <T extends TaggedComponent> Iterator<T> iteratorById( int id,
         Class<T> cls ) {
 

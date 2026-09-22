@@ -20,15 +20,15 @@
 package com.sun.corba.ee.spi.transport ;
 
 // Internal imports, not used in the interface to this package
-import com.sun.corba.ee.impl.protocol.ClientDelegateImpl ;
+import com.sun.corba.ee.impl.protocol.ClientDelegateImpl;
 import com.sun.corba.ee.impl.transport.AcceptorAcceptOnlyImpl;
-import com.sun.corba.ee.impl.transport.AcceptorImpl ;
-import com.sun.corba.ee.impl.transport.AcceptorLazyImpl ;
+import com.sun.corba.ee.impl.transport.AcceptorImpl;
+import com.sun.corba.ee.impl.transport.AcceptorLazyImpl;
 import com.sun.corba.ee.impl.transport.ContactInfoListImpl;
-import com.sun.corba.ee.spi.ior.IOR ;
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.protocol.ClientDelegate ;
-import com.sun.corba.ee.spi.protocol.ClientDelegateFactory ;
+import com.sun.corba.ee.spi.ior.IOR;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.protocol.ClientDelegate;
+import com.sun.corba.ee.spi.protocol.ClientDelegateFactory;
 
 import java.net.Socket;
 
@@ -44,10 +44,12 @@ public abstract class TransportDefault {
         final ORB broker )
     {
         return new ContactInfoListFactory() {
+            @Override
             public void setORB(ORB orb) { }
+            @Override
             public ContactInfoList create( IOR ior ) {
                 return new ContactInfoListImpl(
-                    (com.sun.corba.ee.spi.orb.ORB)broker, ior ) ;
+                    broker, ior ) ;
             }
         };
     }
@@ -56,9 +58,10 @@ public abstract class TransportDefault {
         final ORB broker )
     {
         return new ClientDelegateFactory() {
+            @Override
             public ClientDelegate create( ContactInfoList info ) {
                 return new ClientDelegateImpl(
-                    (com.sun.corba.ee.spi.orb.ORB)broker, info ) ;
+                    broker, info ) ;
             }
         };
     }

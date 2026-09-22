@@ -26,9 +26,9 @@ import com.sun.corba.ee.spi.threadpool.WorkQueue;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import org.glassfish.gmbal.Description ;
-import org.glassfish.gmbal.ManagedAttribute ;
-import org.glassfish.gmbal.NameValue ;
+import org.glassfish.gmbal.Description;
+import org.glassfish.gmbal.ManagedAttribute;
+import org.glassfish.gmbal.NameValue;
 
 public class WorkQueueImpl implements WorkQueue
 {
@@ -63,6 +63,7 @@ public class WorkQueueImpl implements WorkQueue
         return queue.size();
     }
 
+    @Override
     public synchronized void addWork(Work work) {
         workItemsAdded++;
         work.setEnqueueTime(System.currentTimeMillis());
@@ -140,10 +141,12 @@ public class WorkQueueImpl implements WorkQueue
         return work;
     }
 
+    @Override
     public synchronized void setThreadPool(ThreadPool workerThreadPool) {
         this.workerThreadPool = workerThreadPool;
     }
 
+    @Override
     public synchronized ThreadPool getThreadPool() {
         return workerThreadPool;
     }
@@ -151,6 +154,7 @@ public class WorkQueueImpl implements WorkQueue
     /**
      * Returns the total number of Work items added to the Queue.
      */
+    @Override
     @ManagedAttribute
     @Description( "Total number of items added to the queue" )
     public synchronized long totalWorkItemsAdded() {
@@ -160,6 +164,7 @@ public class WorkQueueImpl implements WorkQueue
     /**
      * Returns the total number of Work items in the Queue to be processed.
      */
+    @Override
     @ManagedAttribute
     @Description( "Total number of items in the queue to be processed" )
     public synchronized int workItemsInQueue() {
@@ -170,6 +175,7 @@ public class WorkQueueImpl implements WorkQueue
      * Returns the average amount Work items have spent in the Queue waiting
      * to be processed.
      */
+    @Override
     @ManagedAttribute
     @Description( "Average time work items spend waiting in the queue in milliseconds" )
     public synchronized long averageTimeInQueue() {
@@ -180,6 +186,7 @@ public class WorkQueueImpl implements WorkQueue
         }
     }
 
+    @Override
     @NameValue
     public String getName() {
         return name;

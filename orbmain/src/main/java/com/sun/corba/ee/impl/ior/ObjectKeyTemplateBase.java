@@ -20,16 +20,16 @@
 package com.sun.corba.ee.impl.ior;
 
 
-import com.sun.corba.ee.spi.ior.ObjectAdapterId ;
-import com.sun.corba.ee.spi.ior.ObjectId ;
-import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
-import com.sun.corba.ee.spi.logging.IORSystemException ;
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.orb.ORBVersion ;
-import com.sun.corba.ee.spi.protocol.ServerRequestDispatcher ;
+import com.sun.corba.ee.spi.ior.ObjectAdapterId;
+import com.sun.corba.ee.spi.ior.ObjectId;
+import com.sun.corba.ee.spi.ior.ObjectKeyTemplate;
+import com.sun.corba.ee.spi.logging.IORSystemException;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.orb.ORBVersion;
+import com.sun.corba.ee.spi.protocol.ServerRequestDispatcher;
 
-import org.omg.CORBA_2_3.portable.InputStream ;
-import org.omg.CORBA_2_3.portable.OutputStream ;
+import org.omg.CORBA_2_3.portable.InputStream;
+import org.omg.CORBA_2_3.portable.OutputStream;
 
 /**
  * @author Ken Cavanaugh
@@ -54,6 +54,7 @@ public abstract class ObjectKeyTemplateBase implements ObjectKeyTemplate
 
     private byte[] adapterId ;
 
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder() ;
         sb.append( "ObjectKeyTemplate[magic=") ;
@@ -69,12 +70,13 @@ public abstract class ObjectKeyTemplateBase implements ObjectKeyTemplate
         return sb.toString() ;
     }
 
+    @Override
     public synchronized byte[] getAdapterId() {
         if (adapterId == null) {
             adapterId = computeAdapterId();
         }
 
-        return (byte[])(adapterId.clone()) ;
+        return (adapterId.clone()) ;
     }
 
     private byte[] computeAdapterId()
@@ -130,6 +132,7 @@ public abstract class ObjectKeyTemplateBase implements ObjectKeyTemplate
             orbid.equals( other.orbid ) && oaid.equals( other.oaid )) ;
     }
 
+    @Override
     public int hashCode() {
         int result = 17 ;
         result = 37*result + magic ;
@@ -141,27 +144,33 @@ public abstract class ObjectKeyTemplateBase implements ObjectKeyTemplate
         return result ;
     }
 
+    @Override
     public int getSubcontractId() {
         return scid ;
     }
 
+    @Override
     public int getServerId() {
         return serverid ;
     }
 
+    @Override
     public String getORBId() {
         return orbid ;
     }
 
+    @Override
     public ObjectAdapterId getObjectAdapterId() {
         return oaid ;
     }
 
+    @Override
     public void write(ObjectId objectId, OutputStream os) {
         writeTemplate( os ) ;
         objectId.write( os ) ;
     }
 
+    @Override
     public void write( OutputStream os )
     {
         writeTemplate( os ) ;
@@ -179,6 +188,7 @@ public abstract class ObjectKeyTemplateBase implements ObjectKeyTemplate
         this.version = version ;
     }
 
+    @Override
     public ORBVersion getORBVersion() {
         return version ;
     }
@@ -190,6 +200,7 @@ public abstract class ObjectKeyTemplateBase implements ObjectKeyTemplate
         return result ;
     }
 
+    @Override
     public ServerRequestDispatcher getServerRequestDispatcher(
         ObjectId id ) {
 

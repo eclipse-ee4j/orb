@@ -19,16 +19,16 @@
 
 package com.sun.corba.ee.impl.ior;
 
-import com.sun.corba.ee.impl.encoding.EncapsOutputStream ;
+import com.sun.corba.ee.impl.encoding.EncapsOutputStream;
 import com.sun.corba.ee.impl.encoding.OutputStreamFactory;
-import com.sun.corba.ee.spi.ior.ObjectId ;
-import com.sun.corba.ee.spi.ior.ObjectKey ;
-import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
+import com.sun.corba.ee.spi.ior.ObjectId;
+import com.sun.corba.ee.spi.ior.ObjectKey;
+import com.sun.corba.ee.spi.ior.ObjectKeyTemplate;
 import com.sun.corba.ee.spi.logging.IORSystemException;
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.protocol.ServerRequestDispatcher ;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.protocol.ServerRequestDispatcher;
 
-import org.omg.CORBA_2_3.portable.OutputStream ;
+import org.omg.CORBA_2_3.portable.OutputStream;
 
 /**
  * @author  Ken Cavanaugh
@@ -70,21 +70,25 @@ public class ObjectKeyImpl implements ObjectKey
         return oktemp.hashCode() ^ id.hashCode() ;
     }
 
+    @Override
     public ObjectKeyTemplate getTemplate()
     {
         return oktemp ;
     }
 
+    @Override
     public ObjectId getId()
     {
         return id ;
     }
 
+    @Override
     public void write( OutputStream os )
     {
         oktemp.write( id, os ) ;
     }
 
+    @Override
     public synchronized byte[] getBytes(org.omg.CORBA.ORB orb)
     {
         if (array == null) {

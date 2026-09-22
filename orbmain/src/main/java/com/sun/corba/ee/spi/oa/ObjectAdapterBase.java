@@ -20,25 +20,25 @@
 package com.sun.corba.ee.spi.oa ;
 
 import com.sun.corba.ee.impl.oa.poa.Policies;
-import com.sun.corba.ee.spi.ior.IORFactories ;
-import com.sun.corba.ee.spi.ior.IORTemplate ;
+import com.sun.corba.ee.spi.ior.IORFactories;
+import com.sun.corba.ee.spi.ior.IORTemplate;
 import com.sun.corba.ee.spi.ior.ObjectAdapterId;
-import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
-import com.sun.corba.ee.spi.logging.POASystemException ;
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.protocol.PIHandler ;
+import com.sun.corba.ee.spi.ior.ObjectKeyTemplate;
+import com.sun.corba.ee.spi.logging.POASystemException;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.protocol.PIHandler;
 
 import org.glassfish.gmbal.Description;
 import org.glassfish.gmbal.ManagedAttribute;
 import org.glassfish.pfl.dynamic.copyobject.spi.ObjectCopierFactory;
-import org.omg.CORBA.Policy ;
+import org.omg.CORBA.Policy;
 import org.omg.PortableInterceptor.ACTIVE;
 import org.omg.PortableInterceptor.DISCARDING;
 import org.omg.PortableInterceptor.HOLDING;
 import org.omg.PortableInterceptor.INACTIVE;
 import org.omg.PortableInterceptor.NON_EXISTENT;
-import org.omg.PortableInterceptor.ObjectReferenceFactory ;
-import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
+import org.omg.PortableInterceptor.ObjectReferenceFactory;
+import org.omg.PortableInterceptor.ObjectReferenceTemplate;
 
 abstract public class ObjectAdapterBase extends org.omg.CORBA.LocalObject
     implements ObjectAdapter
@@ -109,20 +109,25 @@ abstract public class ObjectAdapterBase extends org.omg.CORBA.LocalObject
         return adapterId ;
     }
 
+    @Override
     final public ORB getORB()
     {
         return orb ;
     }
 
+    @Override
     abstract public Policy getEffectivePolicy( int type ) ;
 
+    @Override
     final public IORTemplate getIORTemplate()
     {
         return iortemp ;
     }
 
+    @Override
     abstract public int getManagerId() ;
 
+    @Override
     abstract public short getState() ;
 
     @ManagedAttribute( id="State" )
@@ -139,35 +144,44 @@ abstract public class ObjectAdapterBase extends org.omg.CORBA.LocalObject
         }
     }
 
+    @Override
     final public ObjectReferenceTemplate getAdapterTemplate()
     {
         return adapterTemplate ;
     }
 
+    @Override
     final public ObjectReferenceFactory getCurrentFactory()
     {
         return currentFactory ;
     }
 
+    @Override
     final public void setCurrentFactory( ObjectReferenceFactory factory )
     {
         currentFactory = factory ;
     }
 
+    @Override
     abstract public org.omg.CORBA.Object getLocalServant( byte[] objectId ) ;
 
+    @Override
     abstract public void getInvocationServant( OAInvocationInfo info ) ;
 
+    @Override
     abstract public void returnServant() ;
 
+    @Override
     abstract public void enter() throws OADestroyed ;
 
+    @Override
     abstract public void exit() ;
 
     abstract protected ObjectCopierFactory getObjectCopierFactory() ;
 
     // Note that all current subclasses share the same implementation of this method,
     // but overriding it would make sense for OAs that use a different InvocationInfo.
+    @Override
     public OAInvocationInfo makeInvocationInfo( byte[] objectId )
     {
         OAInvocationInfo info = new OAInvocationInfo( this, objectId ) ;
@@ -175,12 +189,15 @@ abstract public class ObjectAdapterBase extends org.omg.CORBA.LocalObject
         return info ;
     }
 
+    @Override
     abstract public String[] getInterfaces( Object servant, byte[] objectId ) ;
 
+    @Override
     public boolean isNameService() {
         return isNameService ;
     }
 
+    @Override
     public void setNameService( boolean flag ) {
         isNameService = flag ;
     }

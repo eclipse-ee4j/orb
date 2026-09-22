@@ -47,6 +47,7 @@ class BooleanExpression extends ConstantExpression {
     /**
      * Get the value
      */
+    @Override
     public Object getValue() {
         return value ? 1 : 0;
     }
@@ -54,6 +55,7 @@ class BooleanExpression extends ConstantExpression {
     /**
      * Check if the expression is equal to a value
      */
+    @Override
     public boolean equals(boolean b) {
         return value == b;
     }
@@ -62,6 +64,7 @@ class BooleanExpression extends ConstantExpression {
     /**
      * Check if the expression is equal to its default static value
      */
+    @Override
     public boolean equalsDefault() {
         return !value;
     }
@@ -81,6 +84,7 @@ class BooleanExpression extends ConstantExpression {
      * other way to "impossible"
      */
 
+    @Override
     public void checkCondition(Environment env, Context ctx,
                                Vset vset, Hashtable<Object, Object> exp, ConditionVars cvars) {
         if (value) {
@@ -96,11 +100,13 @@ class BooleanExpression extends ConstantExpression {
     /**
      * Code
      */
+    @Override
     void codeBranch(Environment env, Context ctx, Assembler asm, Label lbl, boolean whenTrue) {
         if (value == whenTrue) {
             asm.add(where, opc_goto, lbl);
         }
     }
+    @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         asm.add(where, opc_ldc, value ? 1 : 0);
     }
@@ -108,6 +114,7 @@ class BooleanExpression extends ConstantExpression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print(value ? "true" : "false");
     }

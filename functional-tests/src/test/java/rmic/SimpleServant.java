@@ -19,8 +19,8 @@
  */
 
 package rmic;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
+
 import javax.rmi.PortableRemoteObject;
 
 public class SimpleServant extends PortableRemoteObject implements Simple {

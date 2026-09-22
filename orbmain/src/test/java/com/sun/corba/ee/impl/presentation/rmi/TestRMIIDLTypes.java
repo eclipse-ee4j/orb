@@ -28,6 +28,7 @@ import corba.dynamicrmiiiop.testclasses.ValidExceptions;
 import corba.dynamicrmiiiop.testclasses.ValidObjRefs;
 import corba.dynamicrmiiiop.testclasses.ValidRemotes;
 import corba.dynamicrmiiiop.testclasses.ValidValues;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -41,11 +42,13 @@ public class TestRMIIDLTypes extends TestCase {
         return new TestSuite(TestRMIIDLTypes.class);
     }
 
+    @Override
     protected void setUp()
     {
         idlTypesUtil = new IDLTypesUtil();
     }
 
+    @Override
     protected void tearDown()
     {
     }

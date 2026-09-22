@@ -20,5 +20,7 @@
 package org.glassfish.rmic.classes.hcks;
 
 class RmiIMyException extends Exception {
+
+    private static final long serialVersionUID = 4296690259143484990L;
 }
 

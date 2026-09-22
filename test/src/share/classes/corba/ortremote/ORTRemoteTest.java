@@ -19,11 +19,9 @@
 
 package corba.ortremote;
 
-import test.Test;
-import corba.framework.*;
-import java.util.*;
-import com.sun.corba.ee.spi.misc.ORBConstants;
-import com.sun.corba.ee.spi.orb.ORB;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
+import corba.framework.Options;
 
 public class ORTRemoteTest extends CORBATest
 {

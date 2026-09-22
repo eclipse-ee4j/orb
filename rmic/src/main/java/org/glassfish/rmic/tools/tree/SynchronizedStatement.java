@@ -80,6 +80,7 @@ class SynchronizedStatement extends Statement {
     /**
      * Create a copy of the statement for method inlining
      */
+    @Override
     public Statement copyInline(Context ctx, boolean valNeeded) {
         SynchronizedStatement s = (SynchronizedStatement)clone();
         s.expr = expr.copyInline(ctx);
@@ -171,6 +172,7 @@ class SynchronizedStatement extends Statement {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out, int indent) {
         super.print(out, indent);
         out.print("synchronized ");

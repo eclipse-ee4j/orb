@@ -19,15 +19,15 @@
 
 package com.sun.corba.ee.impl.servicecontext;
 
-import com.sun.corba.ee.spi.ior.IOR ;
-import com.sun.corba.ee.spi.ior.IORFactories ;
+import com.sun.corba.ee.spi.ior.IOR;
+import com.sun.corba.ee.spi.ior.IORFactories;
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.servicecontext.SendingContextServiceContext ;
-import com.sun.corba.ee.spi.servicecontext.ServiceContextBase ;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.servicecontext.SendingContextServiceContext;
+import com.sun.corba.ee.spi.servicecontext.ServiceContextBase;
 
-import org.omg.CORBA_2_3.portable.InputStream ;
-import org.omg.CORBA_2_3.portable.OutputStream ;
+import org.omg.CORBA_2_3.portable.InputStream;
+import org.omg.CORBA_2_3.portable.OutputStream;
 
 public class SendingContextServiceContextImpl extends ServiceContextBase
     implements SendingContextServiceContext
@@ -45,11 +45,13 @@ public class SendingContextServiceContextImpl extends ServiceContextBase
         ior = IORFactories.makeIOR( (ORB)is.orb(), is ) ;
     }
 
+    @Override
     public int getId()
     {
         return SERVICE_CONTEXT_ID ;
     }
 
+    @Override
     public void writeData( OutputStream os )
     {
         ior.write( os ) ;
@@ -60,6 +62,7 @@ public class SendingContextServiceContextImpl extends ServiceContextBase
         return ior ;
     }
 
+    @Override
     public String toString()
     {
         return "SendingContexServiceContextImpl[ ior=" + ior + " ]" ;

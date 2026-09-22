@@ -19,15 +19,16 @@
 
 package com.sun.corba.ee.spi.extension ;
 
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 
-import org.omg.CORBA.LocalObject ;
-import org.omg.CORBA.Policy ;
+import org.omg.CORBA.LocalObject;
+import org.omg.CORBA.Policy;
 
 /** Policy used to specify the copyObject implementation to use.
 */
 public class CopyObjectPolicy extends LocalObject implements Policy
 {
+    private static final long serialVersionUID = 7485850001219937469L;
     private final int value ;
 
     public CopyObjectPolicy( int value )
@@ -40,21 +41,25 @@ public class CopyObjectPolicy extends LocalObject implements Policy
         return value ;
     }
 
+    @Override
     public int policy_type ()
     {
         return ORBConstants.COPY_OBJECT_POLICY ;
     }
 
+    @Override
     public org.omg.CORBA.Policy copy ()
     {
         return this ;
     }
 
+    @Override
     public void destroy ()
     {
         // NO-OP
     }
 
+    @Override
     public String toString()
     {
         return "CopyObjectPolicy[" + value + "]" ;

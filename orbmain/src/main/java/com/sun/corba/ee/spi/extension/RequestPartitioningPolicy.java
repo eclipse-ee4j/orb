@@ -19,17 +19,19 @@
 
 package com.sun.corba.ee.spi.extension ;
 
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 
-import org.omg.CORBA.LocalObject ;
-import org.omg.CORBA.Policy ;
+import org.omg.CORBA.LocalObject;
+import org.omg.CORBA.Policy;
 
 /** Policy used to support the request partitioning feature and to
  *  specify the partition to use.
 */
 public class RequestPartitioningPolicy extends LocalObject implements Policy
 {
+    private static final long serialVersionUID = -1302530957193447933L;
+
     private static ORBUtilSystemException wrapper =
         ORBUtilSystemException.self ;
 
@@ -53,16 +55,19 @@ public class RequestPartitioningPolicy extends LocalObject implements Policy
         return value;
     }
 
+    @Override
     public int policy_type()
     {
         return ORBConstants.REQUEST_PARTITIONING_POLICY;
     }
 
+    @Override
     public org.omg.CORBA.Policy copy()
     {
         return this;
     }
 
+    @Override
     public void destroy()
     {
         // NO-OP

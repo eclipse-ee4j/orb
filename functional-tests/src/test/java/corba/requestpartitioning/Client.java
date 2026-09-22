@@ -21,9 +21,9 @@
 package corba.requestpartitioning;
 
 import com.sun.corba.ee.spi.orb.ORB;
-import com.sun.corba.ee.spi.misc.ORBConstants;
 
 import corba.hcks.U;
+
 import java.rmi.RemoteException;
 import java.util.Properties;
 

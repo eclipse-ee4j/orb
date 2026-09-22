@@ -37,6 +37,8 @@ package org.omg.CORBA;
 // @SuppressWarnings({"serial"})
 public final class BAD_INV_ORDER extends SystemException {
 
+    private static final long serialVersionUID = -9050410586417895062L;
+
     /**
      * Constructs a <code>BAD_INV_ORDER</code> exception with a default
      * minor code of 0 and a completion state of COMPLETED_NO.

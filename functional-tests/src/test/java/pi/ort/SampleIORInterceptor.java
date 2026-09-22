@@ -19,17 +19,12 @@
 
 package pi.ort;
 
-import java.io.*;
+import java.io.PrintStream;
 
-import org.omg.CORBA.*;
-import org.omg.PortableServer.*;
-
-import org.omg.PortableInterceptor.*;
-import org.omg.IOP.*;
-import org.omg.IOP.CodecPackage.*;
-import org.omg.IOP.CodecFactoryPackage.*;
-import org.omg.IOP.TaggedComponent;
-import org.omg.IOP.TAG_INTERNET_IOP;
+import org.omg.CORBA.LocalObject;
+import org.omg.PortableInterceptor.IORInfo;
+import org.omg.PortableInterceptor.IORInterceptor_3_0;
+import org.omg.PortableInterceptor.ObjectReferenceTemplate;
 
 /**
  * Thoroughly tests IORInterceptor support.

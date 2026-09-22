@@ -20,11 +20,13 @@
 package pi.policyfactory;
 
 import com.sun.corba.ee.spi.misc.ORBConstants;
-import org.omg.CORBA.ORB;
-import org.omg.CORBA.BAD_POLICY;
-import org.omg.CORBA.Any;
+
 import java.util.Properties;
+
 import org.glassfish.pfl.test.JUnitReportHelper;
+import org.omg.CORBA.Any;
+import org.omg.CORBA.BAD_POLICY;
+import org.omg.CORBA.ORB;
 
 public class Client implements Runnable
 {

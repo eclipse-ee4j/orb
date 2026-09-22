@@ -20,15 +20,15 @@
 package com.sun.corba.ee.impl.transport;
 
 import com.sun.corba.ee.impl.protocol.NotLocalLocalCRDImpl;
-import com.sun.corba.ee.spi.ior.IOR ;
-import com.sun.corba.ee.spi.ior.TaggedComponent ;
-import com.sun.corba.ee.spi.ior.TaggedProfile ;
-import com.sun.corba.ee.spi.ior.TaggedProfileTemplate ;
-import com.sun.corba.ee.spi.ior.iiop.IIOPAddress ;
-import com.sun.corba.ee.spi.ior.iiop.IIOPProfile ;
-import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate ;
-import com.sun.corba.ee.spi.ior.iiop.LoadBalancingComponent ;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import com.sun.corba.ee.spi.ior.IOR;
+import com.sun.corba.ee.spi.ior.TaggedComponent;
+import com.sun.corba.ee.spi.ior.TaggedProfile;
+import com.sun.corba.ee.spi.ior.TaggedProfileTemplate;
+import com.sun.corba.ee.spi.ior.iiop.IIOPAddress;
+import com.sun.corba.ee.spi.ior.iiop.IIOPProfile;
+import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate;
+import com.sun.corba.ee.spi.ior.iiop.LoadBalancingComponent;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.protocol.LocalClientRequestDispatcher;
@@ -36,15 +36,15 @@ import com.sun.corba.ee.spi.protocol.LocalClientRequestDispatcherFactory;
 import com.sun.corba.ee.spi.trace.IsLocal;
 import com.sun.corba.ee.spi.trace.Transport;
 import com.sun.corba.ee.spi.transport.ContactInfo;
-import com.sun.corba.ee.spi.transport.ContactInfoList ;
+import com.sun.corba.ee.spi.transport.ContactInfoList;
 import com.sun.corba.ee.spi.transport.SocketInfo;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.locks.ReadWriteLock ;
-import java.util.concurrent.locks.ReentrantReadWriteLock ;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.glassfish.pfl.basic.func.UnaryPredicate;
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
@@ -121,13 +121,13 @@ public class ContactInfoListImpl implements ContactInfoList {
 
         if (usePerRequestLoadBalancing) {
             display( "startCount", startCount ) ;
-            LinkedList<ContactInfo> tempList = null ;
+
 
             // This may be the best way to support PRLB for now.
             // The GIS will return types like "iiop-listener-1", but we also get
             // IIOP_CLEAR_TEXT for some, for both SSL and non-SSL ports.  Invoking
             // clear on an SSL port leads to bad failures that are not retryable.
-            tempList = new LinkedList<ContactInfo>( filter( arg, testPred ) ) ;
+            LinkedList<ContactInfo> tempList = new LinkedList<ContactInfo>( filter( arg, testPred ) ) ;
 
             // Really should just be this:
             // tempList = new LinkedList<CorbaContactInfo>( arg ) ;

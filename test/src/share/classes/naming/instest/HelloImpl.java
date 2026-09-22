@@ -19,6 +19,8 @@
 
 package naming.instest;
 
+import corba.invocation._HelloImplBase;
+
 public class HelloImpl extends _HelloImplBase {
 
     public String sayHello( ) {

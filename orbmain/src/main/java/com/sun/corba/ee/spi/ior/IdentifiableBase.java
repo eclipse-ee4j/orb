@@ -19,9 +19,9 @@
 
 package com.sun.corba.ee.spi.ior;
 
-import com.sun.corba.ee.impl.ior.EncapsulationUtility ;
+import com.sun.corba.ee.impl.ior.EncapsulationUtility;
 
-import org.omg.CORBA_2_3.portable.OutputStream ;
+import org.omg.CORBA_2_3.portable.OutputStream;
 
 /** Provide support for properly reading and writing Identifiable objects
 * that are also encapsulations (tagged profiles and components).
@@ -36,8 +36,9 @@ public abstract class IdentifiableBase implements Identifiable,
     * an encapsulation stream, then extract the data and write
     * it to os as an array of octets.
     */
+    @Override
     final public void write( OutputStream os )
     {
-        EncapsulationUtility.writeEncapsulation( (WriteContents)this, os ) ;
+        EncapsulationUtility.writeEncapsulation( this, os ) ;
     }
 }

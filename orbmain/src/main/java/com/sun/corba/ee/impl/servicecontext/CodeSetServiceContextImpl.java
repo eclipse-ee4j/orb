@@ -19,9 +19,9 @@
 
 package com.sun.corba.ee.impl.servicecontext;
 
-import com.sun.corba.ee.impl.encoding.CodeSetComponentInfo  ;
-import com.sun.corba.ee.impl.encoding.MarshalInputStream ;
-import com.sun.corba.ee.impl.encoding.MarshalOutputStream ;
+import com.sun.corba.ee.impl.encoding.CodeSetComponentInfo;
+import com.sun.corba.ee.impl.encoding.MarshalInputStream;
+import com.sun.corba.ee.impl.encoding.MarshalOutputStream;
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 import com.sun.corba.ee.spi.servicecontext.CodeSetServiceContext;
 import com.sun.corba.ee.spi.servicecontext.ServiceContextBase;
@@ -46,11 +46,13 @@ public class CodeSetServiceContextImpl extends ServiceContextBase
         csc.read( (MarshalInputStream)in ) ;
     }
 
+    @Override
     public int getId()
     {
         return SERVICE_CONTEXT_ID ;
     }
 
+    @Override
     public void writeData( OutputStream os )
     {
         csc.write( (MarshalOutputStream)os ) ;
@@ -61,6 +63,7 @@ public class CodeSetServiceContextImpl extends ServiceContextBase
         return csc ;
     }
 
+    @Override
     public String toString()
     {
         return "CodeSetServiceContextImpl[ csc=" + csc + " ]" ;

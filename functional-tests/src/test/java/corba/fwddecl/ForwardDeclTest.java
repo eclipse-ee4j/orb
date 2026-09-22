@@ -19,9 +19,8 @@
 
 package corba.fwddecl;
 
-import test.Test;
-import corba.framework.*;
-import java.util.*;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
 
 
 /**
@@ -33,6 +32,7 @@ public class ForwardDeclTest extends CORBATest
 {
     // This is the main method defining the test.  All tests
     // should have this.
+    @Override
     protected void doTest() throws Throwable
     {
         // Create client controller using the given

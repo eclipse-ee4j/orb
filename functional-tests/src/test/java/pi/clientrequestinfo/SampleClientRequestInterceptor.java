@@ -19,11 +19,10 @@
 
 package pi.clientrequestinfo;
 
-import org.omg.CORBA.*;
-
-import org.omg.PortableInterceptor.ForwardRequest;
+import org.omg.CORBA.BAD_OPERATION;
 import org.omg.PortableInterceptor.ClientRequestInfo;
 import org.omg.PortableInterceptor.ClientRequestInterceptor;
+import org.omg.PortableInterceptor.ForwardRequest;
 
 /**
  * Sample ClientRequestInterceptor for use in testing.  This interceptor

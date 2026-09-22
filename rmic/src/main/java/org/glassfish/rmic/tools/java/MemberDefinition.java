@@ -914,6 +914,7 @@ class MemberDefinition implements Constants {
     /**
      * toString
      */
+    @Override
     public String toString() {
         Identifier name = getClassDefinition().getName();
         if (isInitializer()) {

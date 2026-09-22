@@ -22,9 +22,10 @@ package ibmspace.server;
 
 import java.awt.Dimension;
 import java.awt.Point;
-import java.util.Vector;
-import ibmspace.common.ID;
 import java.io.Serializable;
+import java.util.Vector;
+
+import ibmspace.common.ID;
 
 public class Galaxy implements Serializable
 {

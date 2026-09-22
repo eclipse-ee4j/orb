@@ -20,8 +20,8 @@
 package sun.rmi.rmic.iiop;
 
 import java.io.*;
-import sun.tools.java.ClassPath ;
-import sun.tools.java.ClassFile ;
+import sun.tools.java.ClassPath;
+import sun.tools.java.ClassFile;
 
 /**
  * A ClassLoader that will ultimately use a given sun.tools.java.ClassPath to

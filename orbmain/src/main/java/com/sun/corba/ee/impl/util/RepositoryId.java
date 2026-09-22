@@ -25,7 +25,7 @@ import com.sun.corba.ee.impl.misc.ConcurrentSoftCache;
 
 import com.sun.corba.ee.impl.io.ObjectStreamClass;
 import com.sun.corba.ee.impl.javax.rmi.CORBA.Util;
-import com.sun.corba.ee.impl.misc.ClassInfoCache ;
+import com.sun.corba.ee.impl.misc.ClassInfoCache;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -511,7 +511,7 @@ public class RepositoryId {
         if (clazz != null)
             return clazz;
 
-        Class<?> specialCase = (Class)kSpecialCasesClasses.get(getClassName());
+        Class<?> specialCase = kSpecialCasesClasses.get(getClassName());
 
         if (specialCase != null) {
             clazz = specialCase;
@@ -539,7 +539,7 @@ public class RepositoryId {
         if (clazz != null)
             return clazz;
 
-        Class<?> specialCase = (Class)kSpecialCasesClasses.get(getClassName());
+        Class<?> specialCase = kSpecialCasesClasses.get(getClassName());
 
         if (specialCase != null){
             clazz = specialCase;
@@ -563,7 +563,7 @@ public class RepositoryId {
         if (clazz != null)
             return clazz;
 
-        Class<?> specialCase = (Class)kSpecialCasesClasses.get(getClassName());
+        Class<?> specialCase = kSpecialCasesClasses.get(getClassName());
 
         if (specialCase != null) {
             clazz = specialCase;
@@ -1014,8 +1014,7 @@ public class RepositoryId {
 
     private static String replace(String target, String arg, String source)
     {
-        int i = 0;
-        i = target.indexOf(arg);
+        int i = target.indexOf(arg);
 
         while(i != -1)
             {

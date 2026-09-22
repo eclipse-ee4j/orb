@@ -137,7 +137,7 @@ public class ValueBoxGen implements com.sun.tools.corba.ee.idl.ValueBoxGen, com.
   protected void writeBody ()
   {
     InterfaceState member = v.state().elementAt(0);
-    SymtabEntry entry = (SymtabEntry) member.entry;
+    SymtabEntry entry = member.entry;
     com.sun.tools.corba.ee.idl.toJavaPortable.Util.fillInfo(entry);
     if (entry.comment () != null)
       entry.comment ().generate (" ", stream);
@@ -218,11 +218,13 @@ public class ValueBoxGen implements com.sun.tools.corba.ee.idl.ValueBoxGen, com.
     return index;
   } // helperType
 
+  @Override
   public int type (int index, String indent, com.sun.tools.corba.ee.idl.toJavaPortable.TCOffsets tcoffsets, String name, SymtabEntry entry, PrintWriter stream) {
     stream.println (indent + name + " = " + com.sun.tools.corba.ee.idl.toJavaPortable.Util.helperName(entry, true) + ".type ();"); // <d61056>
     return index;
   } // type
 
+  @Override
   public int read (int index, String indent, String name, SymtabEntry entry, PrintWriter stream)
   {
     return index;
@@ -267,6 +269,7 @@ public class ValueBoxGen implements com.sun.tools.corba.ee.idl.ValueBoxGen, com.
       stream.println (indent + "return tmp;");
   } // helperRead
 
+  @Override
   public void helperWrite (SymtabEntry entry, PrintWriter stream)
   {
     // <d59418 - KLR> per Simon, make "static" write call istream.write_value.
@@ -285,6 +288,7 @@ public class ValueBoxGen implements com.sun.tools.corba.ee.idl.ValueBoxGen, com.
     write (0, "    ", "value", entry, stream);
   } // helperWrite
 
+  @Override
   public int write (int index, String indent, String name, SymtabEntry entry, PrintWriter stream)
   {
     Vector<InterfaceState> vMembers = ((ValueEntry) entry ).state();
@@ -317,7 +321,7 @@ public class ValueBoxGen implements com.sun.tools.corba.ee.idl.ValueBoxGen, com.
     if (mType instanceof PrimitiveEntry || mType instanceof SequenceEntry || mType instanceof TypedefEntry ||
         mType instanceof StringEntry || !member.arrayInfo ().isEmpty ())
     {
-      SymtabEntry mEntry = (SymtabEntry) vMembers.elementAt (0).entry;
+      SymtabEntry mEntry = vMembers.elementAt (0).entry;
       ((com.sun.tools.corba.ee.idl.toJavaPortable.JavaGenerator)member.generator ()).read (0, "    ", entryName + ".value", member, stream);
     }
     else if (mType instanceof ValueEntry || mType instanceof ValueBoxEntry)

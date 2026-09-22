@@ -19,11 +19,11 @@
 
 package com.sun.corba.ee.spi.ior;
 
-import com.sun.corba.ee.impl.encoding.EncapsOutputStream ;
+import com.sun.corba.ee.impl.encoding.EncapsOutputStream;
 import com.sun.corba.ee.impl.encoding.OutputStreamFactory;
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
-import org.omg.CORBA_2_3.portable.InputStream ;
+import org.omg.CORBA_2_3.portable.InputStream;
 
 
 /** Base class to use for implementing TaggedComponents.  It implements
@@ -33,6 +33,7 @@ import org.omg.CORBA_2_3.portable.InputStream ;
 public abstract class TaggedComponentBase extends IdentifiableBase
     implements TaggedComponent
 {
+    @Override
     public org.omg.IOP.TaggedComponent getIOPComponent(
         org.omg.CORBA.ORB orb )
     {

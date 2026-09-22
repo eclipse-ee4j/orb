@@ -19,9 +19,9 @@
 
 package corba.framework;
 
-import java.io.*;
-import java.util.*;
-import test.*;
+import java.io.OutputStream;
+import java.util.Hashtable;
+import java.util.Properties;
 
 /**
  * Adapter class providing some convenient default implementations for

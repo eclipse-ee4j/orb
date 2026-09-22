@@ -19,9 +19,9 @@
 
 package com.sun.corba.ee.impl.resolver ;
 
-import com.sun.corba.ee.impl.misc.CorbaResourceUtil ;
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.resolver.Resolver ;
+import com.sun.corba.ee.impl.misc.CorbaResourceUtil;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.resolver.Resolver;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,6 +44,7 @@ public class FileResolverImpl implements Resolver
         savedProps = new Properties() ;
     }
 
+    @Override
     public org.omg.CORBA.Object resolve( String name )
     {
         check() ;
@@ -54,6 +55,7 @@ public class FileResolverImpl implements Resolver
         return orb.string_to_object( stringifiedObject ) ;
     }
 
+    @Override
     public Set<String> list()
     {
         check() ;

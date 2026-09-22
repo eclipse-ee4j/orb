@@ -138,6 +138,62 @@ public class ThreadPoolImplTest {
     }
 
     /**
+     * Test that an interrupt left behind by a work item is not visible to the next
+     * work item executed on the same pooled thread.
+     */
+    @Test
+    public void interruptDoesNotLeakToNextWorkItem() throws IOException, InterruptedException {
+        try (ThreadPoolImpl threadPool = new ThreadPoolImpl(0, 1, 2000L, "the-pool")) {
+            WorkQueue workQueue = threadPool.getAnyWorkQueue();
+
+            InterruptingWorkImpl first = new InterruptingWorkImpl();
+            workQueue.addWork(first);
+
+            // Enqueue the second work item only after the worker picked up the first one, so
+            // that the worker finds the queue non-empty and never blocks in requestWork(),
+            // which would clear the interrupt by itself.
+            assertTrue(first.started.await(1, TimeUnit.SECONDS));
+
+            InterruptRecordingWorkImpl second = new InterruptRecordingWorkImpl();
+            workQueue.addWork(second);
+            second.finish.countDown();
+
+            first.finish.countDown();
+
+            assertTrue(second.started.await(1, TimeUnit.SECONDS));
+            assertTrue(!second.interruptedOnEntry);
+        }
+    }
+
+    /**
+     * Test the same as {@link #interruptDoesNotLeakToNextWorkItem()} for a worker
+     * that went idle between the two work items.
+     */
+    @Test
+    public void interruptDoesNotLeakToNextWorkItemAfterIdle() throws IOException, InterruptedException {
+        // A minimum of one thread keeps the worker, and thus its interrupt state, alive.
+        try (ThreadPoolImpl threadPool = new ThreadPoolImpl(1, 1, 2000L, "the-pool")) {
+            WorkQueue workQueue = threadPool.getAnyWorkQueue();
+
+            InterruptingWorkImpl first = new InterruptingWorkImpl();
+            first.finish.countDown();
+            workQueue.addWork(first);
+            assertTrue(first.completed.await(1, TimeUnit.SECONDS));
+
+            // Give the worker time to get back to waiting on the now empty queue.
+            Thread.sleep(500L);
+            assertEquals(1, threadPool.numberOfAvailableThreads());
+
+            InterruptRecordingWorkImpl second = new InterruptRecordingWorkImpl();
+            second.finish.countDown();
+            workQueue.addWork(second);
+
+            assertTrue(second.started.await(1, TimeUnit.SECONDS));
+            assertTrue(!second.interruptedOnEntry);
+        }
+    }
+
+    /**
      * A test work item whose behavior can be controlled externally.
      */
     @SuppressWarnings("JUnitTestCaseWithNoTests")
@@ -170,6 +226,36 @@ public class ThreadPoolImplTest {
         @Override
         public String getName() {
             return "the-name";
+        }
+    }
+
+    /**
+     * A work item that leaves the interrupt flag of the worker thread set.
+     */
+    @SuppressWarnings("JUnitTestCaseWithNoTests")
+    private static class InterruptingWorkImpl extends WorkImpl {
+        /** triggered by the work item once the interrupt flag has been set */
+        CountDownLatch completed = new CountDownLatch(1);
+
+        @Override
+        public void doWork() {
+            super.doWork();
+            Thread.currentThread().interrupt();
+            completed.countDown();
+        }
+    }
+
+    /**
+     * A work item that records the interrupt state of the worker thread it runs on.
+     */
+    @SuppressWarnings("JUnitTestCaseWithNoTests")
+    private static class InterruptRecordingWorkImpl extends WorkImpl {
+        volatile Boolean interruptedOnEntry;
+
+        @Override
+        public void doWork() {
+            interruptedOnEntry = Thread.currentThread().isInterrupted();
+            super.doWork();
         }
     }
 }

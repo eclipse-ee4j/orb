@@ -94,14 +94,14 @@ public class MessageParserImpl implements MessageParser {
         this.connection = connection;
     }
 
+    @Override
     @Transport
     public ByteBuffer getNewBufferAndCopyOld(ByteBuffer byteBuffer) {
-        ByteBuffer newByteBuffer = null;
         // Set byteBuffer position to the start position of data to be
         // copied into the re-allocated ByteBuffer.
         byteBuffer.position(getNextMessageStartPosition());
-        newByteBuffer = orb.getByteBufferPool().reAllocate(byteBuffer,
-                getSizeNeeded());
+        ByteBuffer newByteBuffer = orb.getByteBufferPool().reAllocate(byteBuffer,
+                        getSizeNeeded());
         setNextMessageStartPosition(0);
         return newByteBuffer;
     }
@@ -112,6 +112,7 @@ public class MessageParserImpl implements MessageParser {
      *           GIOP protocol data unit.  False, if no additional bytes are
      *           remain to be parsed into a GIOP protocol data unit.
      */
+    @Override
     public boolean isExpectingMoreData() {
         return expectingMoreData;
     }
@@ -208,6 +209,7 @@ public class MessageParserImpl implements MessageParser {
         return expectingFragments || (remainderBuffer != null && !containsFullMessage(remainderBuffer));
     }
 
+    @Override
     @Transport
     public Message parseBytes(ByteBuffer byteBuffer, Connection connection) {
         expectingMoreData = false;
@@ -300,6 +302,7 @@ public class MessageParserImpl implements MessageParser {
      * @return <code>true</code> if there are more bytes to be parsed.
      *         Otherwise <code>false</code>.
      */
+    @Override
     public boolean hasMoreBytesToParse() {
         return moreBytesToParse;
     }
@@ -308,6 +311,7 @@ public class MessageParserImpl implements MessageParser {
      * Set the starting position where the next message in the
      * <code>ByteBuffer</code> given to <code>parseBytes()</code> begins.
      */
+    @Override
     public void setNextMessageStartPosition(int position) {
         this.nextMsgStartPos = position;
     }
@@ -316,6 +320,7 @@ public class MessageParserImpl implements MessageParser {
      * Get the starting position where the next message in the
      * <code>ByteBuffer</code> given to <code>parseBytes()</code> begins.
      */
+    @Override
     public int getNextMessageStartPosition() {
         return this.nextMsgStartPos;
     }
@@ -341,6 +346,7 @@ public class MessageParserImpl implements MessageParser {
      * Return the suggested number of bytes needed to hold the next message
      * to be parsed.
      */
+    @Override
     public int getSizeNeeded() {
         return sizeNeeded;
     }

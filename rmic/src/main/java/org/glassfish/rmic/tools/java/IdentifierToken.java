@@ -71,6 +71,7 @@ class IdentifierToken {
         return modifiers;
     }
 
+    @Override
     public String toString() {
         return id.toString();
     }

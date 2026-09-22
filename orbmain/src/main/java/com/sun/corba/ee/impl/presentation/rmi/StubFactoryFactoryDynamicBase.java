@@ -20,12 +20,12 @@
 package com.sun.corba.ee.impl.presentation.rmi;
 
 import com.sun.corba.ee.impl.javax.rmi.CORBA.Util;
-import com.sun.corba.ee.impl.misc.ClassInfoCache ;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import com.sun.corba.ee.impl.misc.ClassInfoCache;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
 
-import javax.rmi.CORBA.Tie ;
+import javax.rmi.CORBA.Tie;
 
 public abstract class StubFactoryFactoryDynamicBase extends
     StubFactoryFactoryBase
@@ -36,6 +36,7 @@ public abstract class StubFactoryFactoryDynamicBase extends
     public StubFactoryFactoryDynamicBase() {
     }
 
+    @Override
     public PresentationManager.StubFactory createStubFactory(
         String className, boolean isIDLStub, String remoteCodeBase,
         Class expectedClass, ClassLoader classLoader)
@@ -66,12 +67,14 @@ public abstract class StubFactoryFactoryDynamicBase extends
         PresentationManager pm, PresentationManager.ClassData classData,
         ClassLoader classLoader ) ;
 
+    @Override
     public Tie getTie( Class cls )
     {
         PresentationManager pm = ORB.getPresentationManager() ;
         return new ReflectiveTie( pm ) ;
     }
 
+    @Override
     public boolean createsDynamicStubs()
     {
         return true ;

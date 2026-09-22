@@ -19,9 +19,10 @@
 
 package pi.clientrequestinfo;
 
-import com.sun.corba.ee.impl.interceptors.*;
-import org.omg.PortableInterceptor.*;
-import org.omg.IOP.*;
+import org.omg.IOP.TAG_INTERNET_IOP;
+import org.omg.IOP.TaggedProfile;
+import org.omg.PortableInterceptor.ClientRequestInfo;
+import org.omg.PortableInterceptor.ForwardRequest;
 
 /**
  * Strategy to test effective_profile

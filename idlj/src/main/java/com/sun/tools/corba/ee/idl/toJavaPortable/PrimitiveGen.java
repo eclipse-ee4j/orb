@@ -99,20 +99,24 @@ public class PrimitiveGen implements com.sun.tools.corba.ee.idl.PrimitiveGen, Ja
     return index;
   } // type
 
+  @Override
   public void helperRead (String entryName, SymtabEntry entry, PrintWriter stream)
   {
   } // helperRead
 
+  @Override
   public void helperWrite (SymtabEntry entry, PrintWriter stream)
   {
   } // helperWrite
 
+  @Override
   public int read (int index, String indent, String name, SymtabEntry entry, PrintWriter stream)
   {
     stream.println (indent + name + " = " + "istream.read_" + com.sun.tools.corba.ee.idl.toJavaPortable.Util.collapseName(entry.name()) + " ();");
     return index;
   } // read
 
+  @Override
   public int write (int index, String indent, String name, SymtabEntry entry, PrintWriter stream)
   {
     stream.println (indent + "ostream.write_" + com.sun.tools.corba.ee.idl.toJavaPortable.Util.collapseName(entry.name()) + " (" + name + ");");

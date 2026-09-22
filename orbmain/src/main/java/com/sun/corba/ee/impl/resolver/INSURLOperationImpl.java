@@ -34,25 +34,25 @@ import com.sun.corba.ee.spi.ior.ObjectKey;
 import com.sun.corba.ee.spi.ior.iiop.AlternateIIOPAddressComponent;
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 import com.sun.corba.ee.spi.ior.iiop.IIOPAddress;
-import com.sun.corba.ee.spi.ior.iiop.IIOPFactories ;
-import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate ;
-import com.sun.corba.ee.spi.logging.OMGSystemException ;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import com.sun.corba.ee.spi.ior.iiop.IIOPFactories;
+import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate;
+import com.sun.corba.ee.spi.logging.OMGSystemException;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.orb.Operation;
 
-import java.util.ArrayList ;
-import java.util.Collections ;
-import java.util.Comparator ;
-import java.util.HashMap ;
-import java.util.Iterator ;
-import java.util.List ;
-import java.util.Map ;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
-import org.omg.CORBA.ORBPackage.InvalidName ;
-import org.omg.CosNaming.NamingContextExt ;
-import org.omg.CosNaming.NamingContextExtHelper ;
+import org.omg.CORBA.ORBPackage.InvalidName;
+import org.omg.CosNaming.NamingContextExt;
+import org.omg.CosNaming.NamingContextExtHelper;
 
 /**
  * This class provides an Operation that converts from CORBA INS URL strings into
@@ -108,6 +108,7 @@ public class INSURLOperationImpl implements Operation
         return s.read_Object() ;
     }
 
+    @Override
     public Object operate( Object arg )
     {
         if (arg instanceof String) {
@@ -266,11 +267,12 @@ public class INSURLOperationImpl implements Operation
 
         // Create a comparator that can sort in decending order (1.2, 1.1, ...)
         Comparator comp = new Comparator() {
+            @Override
             public int compare(Object o1, Object o2) {
                 GIOPVersion gv1 = (GIOPVersion)o1;
                 GIOPVersion gv2 = (GIOPVersion)o2;
                 return (gv1.lessThan(gv2) ? 1 : (gv1.equals(gv2) ? 0 : -1));
-            };
+            }
         };
 
         // Now sort using the above comparator

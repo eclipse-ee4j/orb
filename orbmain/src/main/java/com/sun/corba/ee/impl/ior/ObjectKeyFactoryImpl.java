@@ -19,19 +19,19 @@
 
 package com.sun.corba.ee.impl.ior;
 
-import com.sun.corba.ee.impl.encoding.EncapsInputStream ;
+import com.sun.corba.ee.impl.encoding.EncapsInputStream;
 import com.sun.corba.ee.impl.encoding.EncapsInputStreamFactory;
-import com.sun.corba.ee.spi.ior.ObjectId ;
-import com.sun.corba.ee.spi.ior.ObjectKey ;
-import com.sun.corba.ee.spi.ior.ObjectKeyFactory ;
-import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
-import com.sun.corba.ee.spi.logging.IORSystemException ;
-import com.sun.corba.ee.spi.misc.ORBConstants ;
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.ior.ObjectId;
+import com.sun.corba.ee.spi.ior.ObjectKey;
+import com.sun.corba.ee.spi.ior.ObjectKeyFactory;
+import com.sun.corba.ee.spi.ior.ObjectKeyTemplate;
+import com.sun.corba.ee.spi.logging.IORSystemException;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.ORB;
 
-import org.omg.CORBA.MARSHAL ;
-import org.omg.CORBA.OctetSeqHolder ;
-import org.omg.CORBA_2_3.portable.InputStream ;
+import org.omg.CORBA.MARSHAL;
+import org.omg.CORBA.OctetSeqHolder;
+import org.omg.CORBA_2_3.portable.InputStream;
 
 /** Based on the magic and scid, return the appropriate
 * ObjectKeyTemplate.  Expects to be called with a valid
@@ -109,6 +109,7 @@ public class ObjectKeyFactoryImpl implements ObjectKeyFactory
     * and the ID.
     */
     private Handler fullKey = new Handler() {
+        @Override
         public ObjectKeyTemplate handle( int magic, int scid,
             InputStream is, OctetSeqHolder osh ) {
                 ObjectKeyTemplate oktemp = null ;
@@ -141,6 +142,7 @@ public class ObjectKeyFactoryImpl implements ObjectKeyFactory
     /** This handler reads only the oktemp.
     */
     private Handler oktempOnly = new Handler() {
+        @Override
         public ObjectKeyTemplate handle( int magic, int scid,
             InputStream is, OctetSeqHolder osh ) {
                 ObjectKeyTemplate oktemp = null ;
@@ -197,6 +199,7 @@ public class ObjectKeyFactoryImpl implements ObjectKeyFactory
         return oktemp ;
     }
 
+    @Override
     public ObjectKey create(byte[] key) {
 
         OctetSeqHolder osh = new OctetSeqHolder();
@@ -221,6 +224,7 @@ public class ObjectKeyFactoryImpl implements ObjectKeyFactory
         return new ObjectKeyImpl( oktemp, oid ) ;
     }
 
+    @Override
     public ObjectKeyTemplate createTemplate( InputStream is )
     {
         ObjectKeyTemplate oktemp = create( is, oktempOnly, null ) ;

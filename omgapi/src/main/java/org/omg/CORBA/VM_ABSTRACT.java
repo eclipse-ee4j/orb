@@ -30,5 +30,5 @@ public interface VM_ABSTRACT {
     /** The value representing an abstract interface value type in
     * a typecode.
     */
-    final short value = (short) (2L);
+    short value = (short) (2L);
 }

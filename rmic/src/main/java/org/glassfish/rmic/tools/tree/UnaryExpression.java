@@ -46,6 +46,7 @@ class UnaryExpression extends Expression {
     /**
      * Order the expression based on precedence
      */
+    @Override
     public Expression order() {
         if (precedence() > right.precedence()) {
             UnaryExpression e = (UnaryExpression)right;
@@ -80,6 +81,7 @@ class UnaryExpression extends Expression {
     /**
      * Check if constant
      */
+    @Override
     public boolean isConstant() {
         switch (op) {
         case POS:
@@ -114,6 +116,7 @@ class UnaryExpression extends Expression {
     Expression eval(String a) {
         return this;
     }
+    @Override
     Expression eval() {
         switch (right.op) {
           case BYTEVAL:
@@ -162,6 +165,7 @@ class UnaryExpression extends Expression {
     /**
      * Create a copy of the expression for method inlining
      */
+    @Override
     public Expression copyInline(Context ctx) {
         UnaryExpression e = (UnaryExpression)clone();
         if (right != null) {
@@ -180,6 +184,7 @@ class UnaryExpression extends Expression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print("(" + opNames[op] + " ");
         right.print(out);

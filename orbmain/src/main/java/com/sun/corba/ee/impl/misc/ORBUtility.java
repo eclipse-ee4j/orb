@@ -21,31 +21,31 @@
 
 package com.sun.corba.ee.impl.misc;
 
-import com.sun.corba.ee.impl.corba.CORBAObjectImpl ;
+import com.sun.corba.ee.impl.corba.CORBAObjectImpl;
 import com.sun.corba.ee.impl.ior.iiop.JavaSerializationComponent;
 import com.sun.corba.ee.impl.javax.rmi.CORBA.Util;
-import com.sun.corba.ee.spi.ior.IOR ;
+import com.sun.corba.ee.spi.ior.IOR;
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 import com.sun.corba.ee.spi.ior.iiop.IIOPProfile;
 import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate;
-import com.sun.corba.ee.spi.logging.OMGSystemException ;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import com.sun.corba.ee.spi.logging.OMGSystemException;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import com.sun.corba.ee.spi.misc.ORBClassLoader;
-import com.sun.corba.ee.spi.misc.ORBConstants ;
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.orb.ORBVersionFactory ;
-import com.sun.corba.ee.spi.presentation.rmi.StubAdapter ;
-import com.sun.corba.ee.spi.protocol.ClientDelegate ;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.orb.ORBVersionFactory;
+import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
+import com.sun.corba.ee.spi.protocol.ClientDelegate;
 import com.sun.corba.ee.spi.protocol.MessageMediator;
-import com.sun.corba.ee.spi.transport.ContactInfoList ;
+import com.sun.corba.ee.spi.transport.ContactInfoList;
 
-import java.io.IOException ;
-import java.io.PrintStream ;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.io.Serializable;
 import java.lang.System.Logger;
-import java.net.SocketAddress ;
-import java.nio.ByteBuffer ;
-import java.nio.channels.SocketChannel ;
+import java.net.SocketAddress;
+import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
 import java.security.AccessController;
 import java.security.PermissionCollection;
 import java.security.Policy;
@@ -60,15 +60,15 @@ import java.util.StringTokenizer;
 import javax.rmi.CORBA.ValueHandler;
 import javax.rmi.CORBA.ValueHandlerMultiFormat;
 
-import org.omg.CORBA.Any ;
-import org.omg.CORBA.CompletionStatus ;
-import org.omg.CORBA.StructMember ;
-import org.omg.CORBA.SystemException ;
-import org.omg.CORBA.TCKind ;
-import org.omg.CORBA.TypeCode ;
-import org.omg.CORBA.TypeCodePackage.BadKind ;
-import org.omg.CORBA.portable.InputStream ;
-import org.omg.CORBA.portable.OutputStream ;
+import org.omg.CORBA.Any;
+import org.omg.CORBA.CompletionStatus;
+import org.omg.CORBA.StructMember;
+import org.omg.CORBA.SystemException;
+import org.omg.CORBA.TCKind;
+import org.omg.CORBA.TypeCode;
+import org.omg.CORBA.TypeCodePackage.BadKind;
+import org.omg.CORBA.portable.InputStream;
+import org.omg.CORBA.portable.OutputStream;
 
 import static java.lang.System.Logger.Level.DEBUG;
 
@@ -342,9 +342,7 @@ public final class ORBUtility {
      */
     public static int hexOf( char x )
     {
-        int val;
-
-        val = x - '0';
+        int val = x - '0';
         if (val >=0 && val <= 9) {
             return val;
         }
@@ -371,9 +369,7 @@ public final class ORBUtility {
      */
     public static void writeSystemException(SystemException ex, OutputStream strm)
     {
-        String s;
-
-        s = repositoryIdOf(ex.getClass().getName());
+        String s = repositoryIdOf(ex.getClass().getName());
         strm.write_string(s);
         strm.write_long(ex.minor);
         strm.write_long(ex.completed.value());
@@ -408,9 +404,7 @@ public final class ORBUtility {
      */
     public static String classNameOf(String repositoryId)
     {
-        String className=null;
-
-        className = (String) exceptionClassNames.get(repositoryId);
+        String className=exceptionClassNames.get(repositoryId);
         if (className == null) {
             className = "org.omg.CORBA.UNKNOWN";
         }
@@ -425,9 +419,7 @@ public final class ORBUtility {
      */
     public static boolean isSystemException(String repositoryId)
     {
-        String className=null;
-
-        className = (String) exceptionClassNames.get(repositoryId);
+        String className=exceptionClassNames.get(repositoryId);
         return className != null ;
     }
 
@@ -440,9 +432,7 @@ public final class ORBUtility {
      */
     public static String repositoryIdOf(String name)
     {
-        String id;
-
-        id = (String) exceptionRepositoryIds.get(name);
+        String id = (String) exceptionRepositoryIds.get(name);
         if (id == null) {
             id = "IDL:omg.org/CORBA/UNKNOWN:1.0";
         }
@@ -815,6 +805,7 @@ public final class ORBUtility {
         final Thread finalThread = thread;
         try {
             AccessController.doPrivileged(new PrivilegedAction() {
+                    @Override
                     public java.lang.Object run() {
                         finalThread.setDaemon(true);
                         return null;
@@ -1001,6 +992,7 @@ public final class ORBUtility {
 
         String result =
             (String)AccessController.doPrivileged(new PrivilegedAction() {
+                @Override
                 public java.lang.Object run() {
                     StringBuilder sb = new StringBuilder(500);
                     ProtectionDomain pd = cl.getProtectionDomain();

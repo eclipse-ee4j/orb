@@ -20,11 +20,11 @@
 
 package com.sun.corba.ee.impl.util;
 
-import java.security.AccessController ;
-import java.security.PrivilegedAction ;
-import java.util.Collections ;
-import java.util.Map ;
-import java.util.WeakHashMap ;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.util.Collections;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 import org.glassfish.pfl.basic.reflection.Bridge;
 
@@ -39,6 +39,7 @@ class JDKClassLoader {
     private static final Bridge bridge =
         (Bridge)AccessController.doPrivileged(
             new PrivilegedAction() {
+                @Override
                 public Object run() {
                     return Bridge.get() ;
                 }
@@ -144,6 +145,7 @@ class JDKClassLoader {
 
             // Try to incorporate both class name and loader
             // into the hashcode
+            @Override
             public int hashCode() {
                 if (loader == null)
                     return className.hashCode();
@@ -151,6 +153,7 @@ class JDKClassLoader {
                     return className.hashCode() ^ loader.hashCode();
             }
 
+            @Override
             public boolean equals(Object obj) {
                 try {
 

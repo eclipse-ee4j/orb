@@ -48,7 +48,9 @@ public class InvalidValues {
 
     // can't implement Remote
     public class InvalidValue6 implements java.io.Serializable,
-        java.rmi.Remote {}
+        java.rmi.Remote {
+
+        private static final long serialVersionUID = -2772425850310683044L;}
 
     // can't implement Remote, directly or indirectly
     public class InvalidValue7 extends InvalidValue5 {}

@@ -19,22 +19,22 @@
 
 package com.sun.corba.ee.impl.oa.poa ;
 
-import com.sun.corba.ee.impl.oa.NullServantImpl ;
-import com.sun.corba.ee.spi.oa.NullServant ;
-import com.sun.corba.ee.spi.oa.OAInvocationInfo ;
+import com.sun.corba.ee.impl.oa.NullServantImpl;
+import com.sun.corba.ee.spi.oa.NullServant;
+import com.sun.corba.ee.spi.oa.OAInvocationInfo;
 import com.sun.corba.ee.spi.trace.Poa;
 
-import java.util.Set ;
+import java.util.Set;
 
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
-import org.omg.CORBA.SystemException ;
-import org.omg.PortableServer.ForwardRequest ;
-import org.omg.PortableServer.Servant ;
-import org.omg.PortableServer.ServantActivator ;
-import org.omg.PortableServer.ServantManager ;
-import org.omg.PortableServer.POAPackage.NoServant ;
-import org.omg.PortableServer.POAPackage.ObjectNotActive ;
-import org.omg.PortableServer.POAPackage.WrongPolicy ;
+import org.omg.CORBA.SystemException;
+import org.omg.PortableServer.ForwardRequest;
+import org.omg.PortableServer.Servant;
+import org.omg.PortableServer.ServantActivator;
+import org.omg.PortableServer.ServantManager;
+import org.omg.PortableServer.POAPackage.NoServant;
+import org.omg.PortableServer.POAPackage.ObjectNotActive;
+import org.omg.PortableServer.POAPackage.WrongPolicy;
 
 /** Implementation of POARequesHandler that provides policy specific
  * operations on the POA.
@@ -96,6 +96,7 @@ public class POAPolicyMediatorImpl_R_USM extends POAPolicyMediatorBase_R {
     @InfoMethod
     private void servantAlreadyAssignedToID() { }
 
+    @Override
     @Poa
     protected java.lang.Object internalGetServant( byte[] id,
         String operation ) throws ForwardRequest {
@@ -201,6 +202,7 @@ public class POAPolicyMediatorImpl_R_USM extends POAPolicyMediatorBase_R {
         }
     }
 
+    @Override
     @Poa
     public void etherealizeAll() {
         if (activator != null)  {
@@ -243,10 +245,12 @@ public class POAPolicyMediatorImpl_R_USM extends POAPolicyMediatorBase_R {
         }
     }
 
+    @Override
     public ServantManager getServantManager() throws WrongPolicy {
         return activator;
     }
 
+    @Override
     @Poa
     public void setServantManager(
         ServantManager servantManager ) throws WrongPolicy {
@@ -262,11 +266,13 @@ public class POAPolicyMediatorImpl_R_USM extends POAPolicyMediatorBase_R {
         }
     }
 
+    @Override
     public Servant getDefaultServant() throws NoServant, WrongPolicy
     {
         throw new WrongPolicy();
     }
 
+    @Override
     public void setDefaultServant( Servant servant ) throws WrongPolicy
     {
         throw new WrongPolicy();
@@ -331,6 +337,7 @@ public class POAPolicyMediatorImpl_R_USM extends POAPolicyMediatorBase_R {
         entry.startEtherealize( eth ) ;
     }
 
+    @Override
     @Poa
     public Servant idToServant( byte[] id )
         throws WrongPolicy, ObjectNotActive

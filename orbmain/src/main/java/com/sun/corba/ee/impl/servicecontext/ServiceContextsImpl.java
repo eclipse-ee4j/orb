@@ -20,27 +20,27 @@
 package com.sun.corba.ee.impl.servicecontext;
 
 import com.sun.corba.ee.impl.encoding.CDRInputObject;
-import com.sun.corba.ee.impl.encoding.EncapsInputStream ;
+import com.sun.corba.ee.impl.encoding.EncapsInputStream;
 import com.sun.corba.ee.impl.encoding.EncapsInputStreamFactory;
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.servicecontext.ServiceContext ;
-import com.sun.corba.ee.spi.servicecontext.ServiceContextDefaults ;
-import com.sun.corba.ee.spi.servicecontext.ServiceContextFactoryRegistry ;
-import com.sun.corba.ee.spi.servicecontext.ServiceContexts ;
-import com.sun.corba.ee.spi.servicecontext.UEInfoServiceContext ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.servicecontext.ServiceContext;
+import com.sun.corba.ee.spi.servicecontext.ServiceContextDefaults;
+import com.sun.corba.ee.spi.servicecontext.ServiceContextFactoryRegistry;
+import com.sun.corba.ee.spi.servicecontext.ServiceContexts;
+import com.sun.corba.ee.spi.servicecontext.UEInfoServiceContext;
 import com.sun.corba.ee.spi.trace.TraceServiceContext;
 import com.sun.org.omg.SendingContext.CodeBase;
 
-import java.util.HashMap ;
-import java.util.Map ;
-import java.util.concurrent.atomic.AtomicInteger ;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 import org.omg.CORBA.OctetSeqHelper;
-import org.omg.CORBA_2_3.portable.InputStream ;
-import org.omg.CORBA_2_3.portable.OutputStream ;
+import org.omg.CORBA_2_3.portable.InputStream;
+import org.omg.CORBA_2_3.portable.OutputStream;
 
 @TraceServiceContext
 public class ServiceContextsImpl implements ServiceContexts
@@ -224,6 +224,7 @@ public class ServiceContextsImpl implements ServiceContexts
      * If they haven't been unmarshaled, we don't have to
      * unmarshal them.
      */
+    @Override
     @TraceServiceContext
     public void write(OutputStream os, GIOPVersion gv) {
         int numsc = scMap.size();
@@ -289,12 +290,14 @@ public class ServiceContextsImpl implements ServiceContexts
         }
     }
 
+    @Override
     @TraceServiceContext
     public void put( ServiceContext sc )
     {
         scMap.put(sc.getId(), sc);
     }
 
+    @Override
     @TraceServiceContext
     public void delete( int scId )
     {
@@ -310,6 +313,7 @@ public class ServiceContextsImpl implements ServiceContexts
     @InfoMethod
     private void unmarshallingServiceContext( int id ) {  }
 
+    @Override
     @TraceServiceContext
     public ServiceContext get(int id) {
         Object result = scMap.get(id);
@@ -347,6 +351,7 @@ public class ServiceContextsImpl implements ServiceContexts
     /**
      * send back a shallow copy of the ServiceContexts container
      */
+    @Override
     @TraceServiceContext
     public ServiceContexts copy() {
         ServiceContexts result = new ServiceContextsImpl( this ) ;

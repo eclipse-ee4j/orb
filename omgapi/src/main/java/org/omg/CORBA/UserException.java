@@ -31,12 +31,13 @@ package org.omg.CORBA;
  */
 public abstract class UserException extends java.lang.Exception implements org.omg.CORBA.portable.IDLEntity {
 
+    private static final long serialVersionUID = -6594940734566091244L;
+
     /**
      * Constructs a <code>UserException</code> object.
      * This method is called only by subclasses.
      */
     protected UserException() {
-        super();
     }
 
     /**

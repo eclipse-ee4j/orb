@@ -19,8 +19,8 @@
 
 package corba.lbq ;
 
-import java.rmi.Remote ;
-import java.rmi.RemoteException ;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 /** Interface for remote object used to control the Client behavior.
  */

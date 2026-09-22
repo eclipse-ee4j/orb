@@ -19,8 +19,8 @@
 
 package com.sun.corba.ee.impl.orb ;
 
-import com.sun.corba.ee.spi.ior.ObjectKey ;
-import com.sun.corba.ee.spi.orb.ObjectKeyCacheEntry ;
+import com.sun.corba.ee.spi.ior.ObjectKey;
+import com.sun.corba.ee.spi.orb.ObjectKeyCacheEntry;
 
 public abstract class ObjectKeyCacheEntryBase implements ObjectKeyCacheEntry {
     private ObjectKey okey ;
@@ -29,6 +29,7 @@ public abstract class ObjectKeyCacheEntryBase implements ObjectKeyCacheEntry {
         this.okey = okey ;
     }
 
+    @Override
     public ObjectKey getObjectKey() {
         return okey ;
     }

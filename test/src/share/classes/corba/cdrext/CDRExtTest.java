@@ -19,10 +19,13 @@
 
 package corba.cdrext;
 
-import test.Test;
-import corba.framework.*;
-import java.util.*;
 import com.sun.corba.ee.spi.misc.ORBConstants;
+
+import corba.framework.CORBATest;
+import corba.framework.Controller;
+import corba.framework.Options;
+
+import java.util.Properties;
 
 public class CDRExtTest extends CORBATest {
 

@@ -20,16 +20,16 @@
 package com.sun.corba.ee.impl.oa.poa ;
 
 
-import com.sun.corba.ee.impl.misc.ORBUtility ;
-import com.sun.corba.ee.spi.extension.ServantCachingPolicy ;
+import com.sun.corba.ee.impl.misc.ORBUtility;
+import com.sun.corba.ee.spi.extension.ServantCachingPolicy;
 import com.sun.corba.ee.spi.logging.OMGSystemException;
 import com.sun.corba.ee.spi.logging.POASystemException;
-import com.sun.corba.ee.spi.misc.ORBConstants ;
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.ORB;
 
-import org.omg.PortableServer.ForwardRequest ;
-import org.omg.PortableServer.Servant ;
-import org.omg.PortableServer.POAPackage.WrongPolicy ;
+import org.omg.PortableServer.ForwardRequest;
+import org.omg.PortableServer.Servant;
+import org.omg.PortableServer.POAPackage.WrongPolicy;
 
 /** Implementation of POARequesHandler that provides policy specific
  * operations on the POA.
@@ -54,16 +54,19 @@ public abstract class POAPolicyMediatorBase implements POAPolicyMediator {
     protected boolean isUnique ;
     protected boolean isSystemId ;
 
+    @Override
     public final Policies getPolicies()
     {
         return policies ;
     }
 
+    @Override
     public final int getScid()
     {
         return scid ;
     }
 
+    @Override
     public final int getServerId()
     {
         return serverid ;
@@ -111,6 +114,7 @@ public abstract class POAPolicyMediatorBase implements POAPolicyMediator {
         sysIdCounter = 0 ;
     }
 
+    @Override
     public final java.lang.Object getInvocationServant( byte[] id,
         String operation ) throws ForwardRequest
     {
@@ -129,6 +133,7 @@ public abstract class POAPolicyMediatorBase implements POAPolicyMediator {
         servant._set_delegate(delegateImpl);
     }
 
+    @Override
     public synchronized byte[] newSystemId() throws WrongPolicy
     {
         if (!isSystemId) {

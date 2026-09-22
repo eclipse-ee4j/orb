@@ -19,26 +19,26 @@
 
 package com.sun.corba.ee.impl.presentation.rmi.codegen ;
 
-import com.sun.corba.ee.impl.ior.StubIORImpl ;
-import com.sun.corba.ee.impl.javax.rmi.CORBA.StubDelegateImpl ;
-import com.sun.corba.ee.impl.presentation.rmi.StubInvocationHandlerImpl ;
-import com.sun.corba.ee.impl.util.JDKBridge ;
-import com.sun.corba.ee.impl.util.RepositoryId ;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.presentation.rmi.PresentationManager ;
-import com.sun.corba.ee.spi.presentation.rmi.StubAdapter ;
+import com.sun.corba.ee.impl.ior.StubIORImpl;
+import com.sun.corba.ee.impl.javax.rmi.CORBA.StubDelegateImpl;
+import com.sun.corba.ee.impl.presentation.rmi.StubInvocationHandlerImpl;
+import com.sun.corba.ee.impl.util.JDKBridge;
+import com.sun.corba.ee.impl.util.RepositoryId;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
+import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
 
-import java.io.IOException ;
-import java.io.ObjectInputStream ;
-import java.io.ObjectStreamException ;
-import java.lang.reflect.Field ;
-import java.lang.reflect.InvocationHandler ;
-import java.lang.reflect.Method ;
-import java.security.AccessController ;
-import java.security.PrivilegedAction ;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectStreamException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 
-import javax.rmi.CORBA.Stub ;
+import javax.rmi.CORBA.Stub;
 
 public class CodegenStubBase extends Stub
 {
@@ -90,6 +90,7 @@ public class CodegenStubBase extends Stub
     {
         return (StubDelegateImpl)AccessController.doPrivileged(
             new PrivilegedAction() {
+                @Override
                 public Object run() {
                     try {
                         Field fld = Stub.class.getDeclaredField( "stubDelegate" ) ;
@@ -109,6 +110,7 @@ public class CodegenStubBase extends Stub
     {
         AccessController.doPrivileged(
             new PrivilegedAction() {
+                @Override
                 public Object run() {
                     try {
                         if (setDefaultDelegateMethod == null) {
@@ -157,6 +159,7 @@ public class CodegenStubBase extends Stub
         initialize( classData, handler ) ;
     }
 
+    @Override
     public String[] _ids()
     {
         return typeIds.clone() ;

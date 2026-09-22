@@ -24,25 +24,14 @@
 
 package corba.folb;
 
-import java.util.Hashtable;
-import java.util.Properties;
-import javax.naming.InitialContext;
-
-import org.omg.CORBA.COMM_FAILURE;
-import org.omg.CORBA.CompletionStatus;
-import org.omg.CORBA.SystemException;
-
-import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.misc.ORBConstants;
-import com.sun.corba.ee.impl.misc.ORBUtility;
 
-import corba.framework.Controller;
-import corba.hcks.U;
+import java.util.Properties;
 
-import org.testng.annotations.BeforeSuite ;
-import org.testng.annotations.Test ;
-
-import org.testng.Assert ;
+import org.omg.CORBA.SystemException;
+import org.testng.Assert;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Test;
 
 /**
  * @author Harold Carr

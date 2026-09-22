@@ -27,14 +27,24 @@
 
 package ibmspace.client;
 
-import java.io.IOException;
-import java.awt.*;
-import java.awt.image.ImageProducer;
-import java.util.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.net.URL;
-import javax.swing.*;
-import ibmspace.common.*;
+
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+
+import ibmspace.common.ID;
+import ibmspace.common.Journey;
+import ibmspace.common.PlanetView;
 
 
 public class GalaxyView extends JPanel implements MouseListener, MouseMotionListener

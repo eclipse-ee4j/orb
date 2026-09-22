@@ -24,7 +24,7 @@
 
 package corba.connectintercept_1_4;
 
-import java.util.Properties ;
+import java.util.Properties;
 
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.Policy;

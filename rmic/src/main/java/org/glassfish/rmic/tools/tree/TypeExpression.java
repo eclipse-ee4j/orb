@@ -67,6 +67,7 @@ class TypeExpression extends Expression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print(type.toString());
     }

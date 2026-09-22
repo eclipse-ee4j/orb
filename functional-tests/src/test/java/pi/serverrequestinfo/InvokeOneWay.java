@@ -19,10 +19,6 @@
 
 package pi.serverrequestinfo;
 
-import com.sun.corba.ee.impl.interceptors.*;
-import org.omg.PortableInterceptor.*;
-import org.omg.CORBA.*;
-
 /**
  * Invocation strategy in which two requests are sent, one that is not oneway
  * and one that is oneway, in that order.

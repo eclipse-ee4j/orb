@@ -22,11 +22,11 @@ package com.sun.corba.ee.impl.presentation.rmi;
 import com.sun.corba.ee.impl.javax.rmi.CORBA.Util;
 import com.sun.corba.ee.impl.util.PackagePrefixChecker;
 import com.sun.corba.ee.impl.util.Utility;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import com.sun.corba.ee.spi.misc.ORBClassLoader;
 import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
 
-import javax.rmi.CORBA.Tie ;
+import javax.rmi.CORBA.Tie;
 
 public class StubFactoryFactoryStaticImpl extends
     StubFactoryFactoryBase
@@ -34,6 +34,7 @@ public class StubFactoryFactoryStaticImpl extends
     private static final ORBUtilSystemException wrapper =
         ORBUtilSystemException.self ;
 
+    @Override
     public PresentationManager.StubFactory createStubFactory(
         String className, boolean isIDLStub, String remoteCodeBase, Class
         expectedClass, ClassLoader classLoader)
@@ -103,6 +104,7 @@ public class StubFactoryFactoryStaticImpl extends
         return new StubFactoryStaticImpl( clz ) ;
     }
 
+    @Override
     public Tie getTie( Class cls )
     {
         Class<?> tieClass = null ;
@@ -128,6 +130,7 @@ public class StubFactoryFactoryStaticImpl extends
 
     }
 
+    @Override
     public boolean createsDynamicStubs()
     {
         return false ;

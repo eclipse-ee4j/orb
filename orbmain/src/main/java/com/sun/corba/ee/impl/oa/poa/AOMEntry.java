@@ -19,10 +19,10 @@
 
 package com.sun.corba.ee.impl.oa.poa ;
 
-import com.sun.corba.ee.spi.logging.POASystemException ;
+import com.sun.corba.ee.spi.logging.POASystemException;
 import com.sun.corba.ee.spi.trace.PoaFSM;
 
-import java.util.concurrent.locks.Condition ;
+import java.util.concurrent.locks.Condition;
 
 import org.glassfish.pfl.basic.fsm.Action;
 import org.glassfish.pfl.basic.fsm.FSM;
@@ -34,7 +34,7 @@ import org.glassfish.pfl.basic.fsm.Runner;
 import org.glassfish.pfl.basic.fsm.State;
 import org.glassfish.pfl.basic.fsm.StateEngine;
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
-import org.omg.PortableServer.POAPackage.ObjectAlreadyActive ;
+import org.omg.PortableServer.POAPackage.ObjectAlreadyActive;
 
 import static org.glassfish.pfl.basic.fsm.Guard.Base.constant;
 import static org.glassfish.pfl.basic.fsm.Guard.Base.eq;
@@ -110,6 +110,7 @@ public class AOMEntry extends FSMImpl {
 
     private static final Action incrementAction =
         new Action.Base( "increment" ) {
+            @Override
             public void doIt( FSM fsm, Input in ) {
                 AOMEntry entry = (AOMEntry)fsm ;
                 entry.counter[0]++ ;
@@ -118,6 +119,7 @@ public class AOMEntry extends FSMImpl {
 
     private static final Action decrementAction =
         new Action.Base( "decrement" ) {
+            @Override
             public void doIt( FSM fsm, Input in ) {
                 AOMEntry entry = (AOMEntry)fsm ;
                 if (entry.counter[0] > 0) {
@@ -130,6 +132,7 @@ public class AOMEntry extends FSMImpl {
 
     private static final Action throwIllegalStateExceptionAction =
         new Action.Base( "throwIllegalStateException" ) {
+            @Override
             public void doIt( FSM fsm, Input in ) {
                 throw new IllegalStateException(
                     "No transitions allowed from the DESTROYED state" ) ;
@@ -138,12 +141,14 @@ public class AOMEntry extends FSMImpl {
 
     private static final Action oaaAction =
         new Action.Base( "throwObjectAlreadyActive" ) {
+            @Override
             public void doIt( FSM fsm, Input in ) {
                 throw new RuntimeException( new ObjectAlreadyActive() ) ;
             }
         } ;
 
     private static final Guard waitGuard = new Guard.Base( "wait" ) {
+        @Override
         public Guard.Result evaluate( FSM fsm, Input in ) {
             AOMEntry entry = (AOMEntry)fsm ;
             try {
@@ -158,6 +163,7 @@ public class AOMEntry extends FSMImpl {
 
     private static final IntFunc counterFunc =
         new Guard.Base.IntFunc( "counterFunc" ) {
+            @Override
             public Integer evaluate( FSM fsm, Input in ) {
                 AOMEntry entry = (AOMEntry)fsm ;
                 return entry.counter[0] ;

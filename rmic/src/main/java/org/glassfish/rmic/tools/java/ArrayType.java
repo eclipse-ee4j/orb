@@ -47,14 +47,17 @@ class ArrayType extends Type {
         this.elemType = elemType;
     }
 
+    @Override
     public Type getElementType() {
         return elemType;
     }
 
+    @Override
     public int getArrayDimension() {
         return elemType.getArrayDimension() + 1;
     }
 
+    @Override
     public String typeString(String id, boolean abbrev, boolean ret) {
         return getElementType().typeString(id, abbrev, ret) + "[]";
     }

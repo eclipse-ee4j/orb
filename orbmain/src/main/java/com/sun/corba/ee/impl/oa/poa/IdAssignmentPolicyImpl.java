@@ -27,29 +27,36 @@ final class IdAssignmentPolicyImpl
 extends org.omg.CORBA.LocalObject
 implements org.omg.PortableServer.IdAssignmentPolicy {
 
+    private static final long serialVersionUID = 7270607036354165654L;
+
     public IdAssignmentPolicyImpl(IdAssignmentPolicyValue value) {
         this.value = value;
     }
 
+    @Override
     public IdAssignmentPolicyValue value() {
         return value;
     }
 
+    @Override
     public int policy_type()
     {
         return ID_ASSIGNMENT_POLICY_ID.value ;
     }
 
+    @Override
     public Policy copy() {
         return new IdAssignmentPolicyImpl(value);
     }
 
+    @Override
     public void destroy() {
         value = null;
     }
 
     private IdAssignmentPolicyValue value;
 
+    @Override
     public String toString()
     {
         return "IdAssignmentPolicy[" +

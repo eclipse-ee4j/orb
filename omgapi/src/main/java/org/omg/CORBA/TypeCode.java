@@ -164,6 +164,8 @@ import org.omg.CORBA.portable.IDLEntity;
  */
 public abstract class TypeCode implements IDLEntity {
 
+    private static final long serialVersionUID = -6521025782489515676L;
+
     /**
      * Compares this <code>TypeCode</code> object with the given one,
      * testing for equality. <code>TypeCode</code> objects are equal if

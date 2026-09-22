@@ -29,6 +29,7 @@ package com.sun.org.omg.CORBA;
 
 public class OperationMode implements org.omg.CORBA.portable.IDLEntity
 {
+    private static final long serialVersionUID = -1606017149069953232L;
     private        int __value;
     private static int __size = 2;
     private static com.sun.org.omg.CORBA.OperationMode[] __array = new com.sun.org.omg.CORBA.OperationMode [__size];

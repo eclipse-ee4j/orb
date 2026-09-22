@@ -23,34 +23,34 @@ package com.sun.corba.ee.impl.folb;
 import com.sun.corba.ee.spi.folb.ClusterInstanceInfo;
 import com.sun.corba.ee.spi.folb.GroupInfoService;
 import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 import com.sun.corba.ee.spi.trace.Folb;
 
-import java.rmi.Remote ;
-import java.rmi.RemoteException ;
-import java.util.List ;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.util.List;
 
-import javax.rmi.PortableRemoteObject ;
+import javax.rmi.PortableRemoteObject;
 import javax.rmi.CORBA.Tie;
 
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
-import org.omg.CORBA.LocalObject ;
+import org.omg.CORBA.LocalObject;
 
-//import com.sun.corba.ee.spi.orb.ORB ;
+//import com.sun.corba.ee.spi.orb.ORB;
 
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.Policy;
-import org.omg.CosNaming.NameComponent ;
-import org.omg.CosNaming.NamingContext ;
-import org.omg.CosNaming.NamingContextHelper ;
-import org.omg.PortableServer.ForwardRequest ;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
+import org.omg.PortableServer.ForwardRequest;
 import org.omg.PortableServer.LifespanPolicyValue;
 import org.omg.PortableServer.POA;
-import org.omg.PortableServer.RequestProcessingPolicyValue ;
+import org.omg.PortableServer.RequestProcessingPolicyValue;
 import org.omg.PortableServer.Servant;
-import org.omg.PortableServer.ServantLocator ;
-import org.omg.PortableServer.ServantRetentionPolicyValue ;
-import org.omg.PortableServer.ServantLocatorPackage.CookieHolder ;
+import org.omg.PortableServer.ServantLocator;
+import org.omg.PortableServer.ServantRetentionPolicyValue;
+import org.omg.PortableServer.ServantLocatorPackage.CookieHolder;
 
 
 /**
@@ -77,7 +77,7 @@ public class InitialGroupInfoService {
         ORBUtilSystemException.self ;
 
     public interface InitialGIS extends Remote {
-        public List<ClusterInstanceInfo> getClusterInstanceInfo()
+        List<ClusterInstanceInfo> getClusterInstanceInfo()
             throws RemoteException ;
     }
 
@@ -88,13 +88,13 @@ public class InitialGroupInfoService {
         private ORB orb;
 
         public InitialGISImpl(ORB orb) throws RemoteException {
-            super() ;
             this.orb = orb;
         }
 
         @InfoMethod
         private void exceptionReport( Exception exc ) { }
 
+        @Override
         @Folb
         public List<ClusterInstanceInfo> getClusterInstanceInfo()
             throws RemoteException {
@@ -115,6 +115,7 @@ public class InitialGroupInfoService {
 
     public static class InitialGISServantLocator extends LocalObject
         implements ServantLocator {
+        private static final long serialVersionUID = 7106016097699105498L;
         private Servant servant ;
         private InitialGISImpl impl = null;
 
@@ -135,12 +136,14 @@ public class InitialGroupInfoService {
             return servant._all_interfaces(null, null)[0];
         }
 
+        @Override
         public synchronized Servant preinvoke( byte[] oid, POA adapter,
             String operation, CookieHolder the_cookie
         ) throws ForwardRequest {
             return servant ;
         }
 
+        @Override
         public void postinvoke( byte[] oid, POA adapter,
             String operation, Object the_cookie, Servant the_servant ) {
         }

@@ -60,6 +60,7 @@ public class TypedefGen implements com.sun.tools.corba.ee.idl.TypedefGen, com.su
   /**
    *
    **/
+  @Override
   public void generate (Hashtable symbolTable, TypedefEntry t, PrintWriter stream)
   {
     this.symbolTable = symbolTable;
@@ -111,6 +112,7 @@ public class TypedefGen implements com.sun.tools.corba.ee.idl.TypedefGen, com.su
     return inStruct;
   } // inStruct
 
+  @Override
   public int helperType (int index, String indent, com.sun.tools.corba.ee.idl.toJavaPortable.TCOffsets tcoffsets, String name, SymtabEntry entry, PrintWriter stream)
   {
     TypedefEntry td = (TypedefEntry)entry;
@@ -144,6 +146,7 @@ public class TypedefGen implements com.sun.tools.corba.ee.idl.TypedefGen, com.su
     return index;
   } // helperType
 
+  @Override
   public int type (int index, String indent, com.sun.tools.corba.ee.idl.toJavaPortable.TCOffsets tcoffsets, String name, SymtabEntry entry, PrintWriter stream)
   {
     // The type() method is invoked from other emitters instead of when an IDL
@@ -154,6 +157,7 @@ public class TypedefGen implements com.sun.tools.corba.ee.idl.TypedefGen, com.su
     return helperType( index, indent, tcoffsets, name, entry, stream);
   } // type
 
+  @Override
   public void helperRead (String entryName, SymtabEntry entry, PrintWriter stream)
   {
     com.sun.tools.corba.ee.idl.toJavaPortable.Util.writeInitializer("    ", "value", "", entry, stream);
@@ -161,11 +165,13 @@ public class TypedefGen implements com.sun.tools.corba.ee.idl.TypedefGen, com.su
     stream.println ("    return value;");
   } // helperRead
 
+  @Override
   public void helperWrite (SymtabEntry entry, PrintWriter stream)
   {
     write (0, "    ", "value", entry, stream);
   } // helperWrite
 
+  @Override
   public int read (int index, String indent, String name, SymtabEntry entry, PrintWriter stream)
   {
     TypedefEntry td = (TypedefEntry)entry;
@@ -207,11 +213,11 @@ public class TypedefGen implements com.sun.tools.corba.ee.idl.TypedefGen, com.su
       baseName = baseName.substring (0, startArray);
 
       // For interfaces having state, e.g., valuetypes.
-      SymtabEntry baseEntry = (SymtabEntry) com.sun.tools.corba.ee.idl.toJavaPortable.Util.symbolTable.get (baseName.replace ('.', '/'));
+      SymtabEntry baseEntry = com.sun.tools.corba.ee.idl.toJavaPortable.Util.symbolTable.get (baseName.replace ('.', '/'));
       if (baseEntry instanceof InterfaceEntry && ((InterfaceEntry)baseEntry).state () != null)
         // <f46082.51> Remove -stateful feature; javaStatefulName() obsolete.
         //baseName = Util.javaStatefulName ((InterfaceEntry)baseEntry);
-        baseName = com.sun.tools.corba.ee.idl.toJavaPortable.Util.javaName((InterfaceEntry) baseEntry);
+        baseName = com.sun.tools.corba.ee.idl.toJavaPortable.Util.javaName(baseEntry);
 
       int end1stArray;
       while (!modifier.equals (""))
@@ -255,6 +261,7 @@ public class TypedefGen implements com.sun.tools.corba.ee.idl.TypedefGen, com.su
     return index;
   } // read
 
+  @Override
   public int write (int index, String indent, String name, SymtabEntry entry, PrintWriter stream)
   {
     TypedefEntry td = (TypedefEntry)entry;

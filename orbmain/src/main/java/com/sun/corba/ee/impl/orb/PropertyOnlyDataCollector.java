@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.impl.orb ;
 
-import java.util.Properties ;
+import java.util.Properties;
 
 public class PropertyOnlyDataCollector extends DataCollectorBase
 {
@@ -29,11 +29,13 @@ public class PropertyOnlyDataCollector extends DataCollectorBase
         super( props, localHostName, configurationHostName ) ;
     }
 
+    @Override
     public boolean isApplet()
     {
         return false ;
     }
 
+    @Override
     protected void collect()
     {
         checkPropertyDefaults() ;

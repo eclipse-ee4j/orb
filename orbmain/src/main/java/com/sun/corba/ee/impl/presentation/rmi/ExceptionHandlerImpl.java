@@ -19,15 +19,15 @@
 
 package com.sun.corba.ee.impl.presentation.rmi ;
 
-import com.sun.corba.ee.impl.misc.ClassInfoCache ;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import com.sun.corba.ee.impl.misc.ClassInfoCache;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 
-import java.lang.reflect.Method ;
-import java.rmi.UnexpectedException ;
+import java.lang.reflect.Method;
+import java.rmi.UnexpectedException;
 
-import org.omg.CORBA.portable.ApplicationException ;
-import org.omg.CORBA_2_3.portable.InputStream ;
-import org.omg.CORBA_2_3.portable.OutputStream ;
+import org.omg.CORBA.portable.ApplicationException;
+import org.omg.CORBA_2_3.portable.InputStream;
+import org.omg.CORBA_2_3.portable.OutputStream;
 
 public class ExceptionHandlerImpl implements ExceptionHandler
 {
@@ -62,11 +62,13 @@ public class ExceptionHandlerImpl implements ExceptionHandler
             this.cls = cls ;
         }
 
+        @Override
         public Class getExceptionClass()
         {
             return cls ;
         }
 
+        @Override
         public String getId()
         {
             return id ;
@@ -114,6 +116,7 @@ public class ExceptionHandlerImpl implements ExceptionHandler
             }
         }
 
+        @Override
         public void write( OutputStream os, Exception ex )
         {
             try {
@@ -124,6 +127,7 @@ public class ExceptionHandlerImpl implements ExceptionHandler
             }
         }
 
+        @Override
         public Exception read( InputStream is )
         {
             try {
@@ -143,12 +147,14 @@ public class ExceptionHandlerImpl implements ExceptionHandler
             setId( IDLNameTranslatorImpl.getExceptionId( cls ) ) ;
         }
 
+        @Override
         public void write( OutputStream os, Exception ex )
         {
             os.write_string( getId() ) ;
             os.write_value( ex, getExceptionClass() ) ;
         }
 
+        @Override
         public Exception read( InputStream is )
         {
             is.read_string() ; // read and ignore!
@@ -231,11 +237,13 @@ public class ExceptionHandlerImpl implements ExceptionHandler
         return -1 ;
     }
 
+    @Override
     public boolean isDeclaredException( Class cls )
     {
         return findDeclaredException( cls ) >= 0 ;
     }
 
+    @Override
     public void writeException( OutputStream os, Exception ex )
     {
         int index = findDeclaredException( ex.getClass() ) ;
@@ -246,6 +254,7 @@ public class ExceptionHandlerImpl implements ExceptionHandler
         rws[index].write( os, ex ) ;
     }
 
+    @Override
     public Exception readException( ApplicationException ae )
     {
         // Note that the exception ID is present in both ae

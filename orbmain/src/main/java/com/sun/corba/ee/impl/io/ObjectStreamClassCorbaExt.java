@@ -19,8 +19,8 @@
 
 package com.sun.corba.ee.impl.io;
 
-import com.sun.corba.ee.impl.misc.ClassInfoCache ;
-import com.sun.corba.ee.impl.misc.ORBUtility ;
+import com.sun.corba.ee.impl.misc.ClassInfoCache;
+import com.sun.corba.ee.impl.misc.ORBUtility;
 
 import java.lang.reflect.Method;
 import java.security.AccessController;
@@ -132,6 +132,7 @@ class ObjectStreamClassCorbaExt {
     private static final Method[] getDeclaredMethods(final Class clz) {
         return AccessController.doPrivileged(
             new PrivilegedAction<Method[]>() {
+                @Override
                 public Method[] run() {
                     return clz.getDeclaredMethods();
                 }

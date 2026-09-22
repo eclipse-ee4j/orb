@@ -20,7 +20,7 @@
 
 package test;
 
-import java.io.*;
+import java.io.OutputStream;
 
 /**
  * ProcessMonitor provides a thread which will consume output from a

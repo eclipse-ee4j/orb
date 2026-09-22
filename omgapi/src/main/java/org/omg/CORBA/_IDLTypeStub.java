@@ -41,7 +41,6 @@ public class _IDLTypeStub extends org.omg.CORBA.portable.ObjectImpl implements o
   // NOTE: This constructor is not required according to the spec. Only JCK expects it now.
   public _IDLTypeStub ()
   {
-    super ();
   }
 
   /**
@@ -53,7 +52,6 @@ public class _IDLTypeStub extends org.omg.CORBA.portable.ObjectImpl implements o
   // NOTE: This constructor is not required according to the spec. We keep it as a convenience method.
   public _IDLTypeStub (org.omg.CORBA.portable.Delegate delegate)
   {
-    super ();
     _set_delegate (delegate);
   }
 
@@ -121,9 +119,10 @@ public class _IDLTypeStub extends org.omg.CORBA.portable.ObjectImpl implements o
     "IDL:omg.org/CORBA/IDLType:1.0",
     "IDL:omg.org/CORBA/IRObject:1.0"};
 
-  public String[] _ids ()
+  @Override
+public String[] _ids ()
   {
-    return (String[])__ids.clone ();
+    return __ids.clone ();
   }
 
   private void readObject (java.io.ObjectInputStream s)

@@ -1892,7 +1892,6 @@ public class ORBImpl extends com.sun.corba.ee.spi.orb.ORB implements AutoCloseab
     @Override
     @Subcontract
     public void releaseOrDecrementInvocationInfo() {
-        int entryCount = -1;
         ClientInvocationInfo clientInvocationInfo = null;
         StackImpl<ClientInvocationInfo> invocationInfoStack =
             clientInvocationInfoStack.get();
@@ -1903,7 +1902,7 @@ public class ORBImpl extends com.sun.corba.ee.spi.orb.ORB implements AutoCloseab
         }
 
         clientInvocationInfo.decrementEntryCount();
-        entryCount = clientInvocationInfo.getEntryCount();
+        int entryCount = clientInvocationInfo.getEntryCount();
         if (clientInvocationInfo.getEntryCount() == 0
             // 6763340: don't pop if this is a retry!
             && !clientInvocationInfo.isRetryInvocation()) {

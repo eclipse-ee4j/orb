@@ -28,11 +28,12 @@ package org.omg.CORBA.DynAnyPackage;
 public final class InvalidSeq
     extends org.omg.CORBA.UserException {
 
+    private static final long serialVersionUID = -5678460771857763522L;
+
     /**
      * Constructs an <code>InvalidSeq</code> object.
      */
     public InvalidSeq() {
-        super();
     }
 
     /**

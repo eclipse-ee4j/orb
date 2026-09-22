@@ -19,8 +19,8 @@
 
 package com.sun.corba.ee.impl.orb ;
 
-import com.sun.corba.ee.spi.orb.Operation ;
-import com.sun.corba.ee.spi.orb.ParserData ;
+import com.sun.corba.ee.spi.orb.Operation;
+import com.sun.corba.ee.spi.orb.ParserData;
 
 public abstract class ParserDataBase implements ParserData {
     private String  propertyName ;
@@ -40,9 +40,14 @@ public abstract class ParserDataBase implements ParserData {
         this.testValue = testValue  ;
     }
 
+    @Override
     public String  getPropertyName() { return propertyName ; }
+    @Override
     public Operation getOperation() { return operation ; }
+    @Override
     public String getFieldName() { return fieldName ; }
+    @Override
     public Object getDefaultValue() { return defaultValue ; }
+    @Override
     public Object getTestValue() { return testValue ; }
 }

@@ -19,11 +19,8 @@
 
 package corba.codebase;
 
-import java.rmi.*;
+import javax.naming.InitialContext;
 import javax.rmi.PortableRemoteObject;
-import javax.naming.*;
-
-import java.io.*;
 
 public class Server extends PortableRemoteObject implements Tester
 {

@@ -1389,7 +1389,7 @@ public abstract class CompoundType extends Type {
 
             // Is it a SpecialInterfaceType...
 
-            InterfaceType it = SpecialInterfaceType.forSpecial(def,stack);;
+            InterfaceType it = SpecialInterfaceType.forSpecial(def,stack);
 
             if (it == null) {
 

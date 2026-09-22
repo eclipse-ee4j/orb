@@ -19,21 +19,21 @@
 
 package com.sun.corba.ee.impl.oa.toa ;
 
-import com.sun.corba.ee.impl.ior.JIDLObjectKeyTemplate ;
+import com.sun.corba.ee.impl.ior.JIDLObjectKeyTemplate;
 import com.sun.corba.ee.impl.oa.NullServantImpl;
 import com.sun.corba.ee.impl.oa.poa.Policies;
-import com.sun.corba.ee.impl.protocol.JIDLLocalCRDImpl ;
-import com.sun.corba.ee.spi.copyobject.CopierManager ;
-import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
-import com.sun.corba.ee.spi.misc.ORBConstants ;
-import com.sun.corba.ee.spi.oa.OADestroyed ;
-import com.sun.corba.ee.spi.oa.OAInvocationInfo ;
-import com.sun.corba.ee.spi.oa.ObjectAdapterBase ;
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.presentation.rmi.StubAdapter ;
+import com.sun.corba.ee.impl.protocol.JIDLLocalCRDImpl;
+import com.sun.corba.ee.spi.copyobject.CopierManager;
+import com.sun.corba.ee.spi.ior.ObjectKeyTemplate;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.oa.OADestroyed;
+import com.sun.corba.ee.spi.oa.OAInvocationInfo;
+import com.sun.corba.ee.spi.oa.ObjectAdapterBase;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
 import com.sun.corba.ee.spi.protocol.ClientDelegate;
-import com.sun.corba.ee.spi.protocol.LocalClientRequestDispatcher ;
-import com.sun.corba.ee.spi.transport.ContactInfoList ;
+import com.sun.corba.ee.spi.protocol.LocalClientRequestDispatcher;
+import com.sun.corba.ee.spi.transport.ContactInfoList;
 
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -42,9 +42,9 @@ import org.glassfish.gmbal.ManagedAttribute;
 import org.glassfish.gmbal.ManagedObject;
 import org.glassfish.gmbal.NameValue;
 import org.glassfish.pfl.dynamic.copyobject.spi.ObjectCopierFactory;
-import org.omg.CORBA.Policy ;
+import org.omg.CORBA.Policy;
 import org.omg.PortableInterceptor.ACTIVE;
-import org.omg.PortableInterceptor.ObjectReferenceFactory ;
+import org.omg.PortableInterceptor.ObjectReferenceFactory;
 
 /** The Transient Object Adapter (TOA) represents the OA for purely transient
 * objects.  It is used for standard RMI-IIOP as well as backwards compatible
@@ -119,12 +119,14 @@ public class TOAImpl extends ObjectAdapterBase implements TOA
 
     // Methods required for dispatching requests
 
+    @Override
     public ObjectCopierFactory getObjectCopierFactory()
     {
         CopierManager cm = getORB().getCopierManager() ;
         return cm.getDefaultObjectCopierFactory() ;
     }
 
+    @Override
     public org.omg.CORBA.Object getLocalServant( byte[] objectId )
     {
         return (org.omg.CORBA.Object)(servants.lookupServant( objectId ) ) ;
@@ -147,6 +149,7 @@ public class TOAImpl extends ObjectAdapterBase implements TOA
         info.setServant( servant ) ;
     }
 
+    @Override
     public void returnServant()
     {
         // NO-OP
@@ -154,36 +157,43 @@ public class TOAImpl extends ObjectAdapterBase implements TOA
 
     /** Return the most derived interface for the given servant and objectId.
     */
+    @Override
     public String[] getInterfaces( Object servant, byte[] objectId )
     {
         return StubAdapter.getTypeIds( servant ) ;
     }
 
+    @Override
     public Policy getEffectivePolicy( int type )
     {
         return null ;
     }
 
+    @Override
     public int getManagerId()
     {
         return -1 ;
     }
 
+    @Override
     public short getState()
     {
         return ACTIVE.value ;
     }
 
+    @Override
     public void enter() throws OADestroyed
     {
     }
 
+    @Override
     public void exit()
     {
     }
 
     // Methods unique to the TOA
 
+    @Override
     public void connect( org.omg.CORBA.Object objref)
     {
         // Store the objref and get a userkey allocated by the transient
@@ -215,6 +225,7 @@ public class TOAImpl extends ObjectAdapterBase implements TOA
         StubAdapter.setDelegate( objref, delegate ) ;
     }
 
+    @Override
     public void disconnect( org.omg.CORBA.Object objref )
     {
         // Get the delegate, then ior, then transientKey, then delete servant

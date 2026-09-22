@@ -20,7 +20,7 @@
 
 package com.sun.corba.ee.impl.corba;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
 ///////////////////////////////////////////////////////////////////////////
 // helper class for deferred invocations
@@ -44,7 +44,7 @@ public class AsynchInvoke implements Runnable {
         _orb = o;
         _req = reqToInvokeOn;
         _notifyORB = n;
-    };
+    }
 
 
     /*
@@ -55,6 +55,7 @@ public class AsynchInvoke implements Runnable {
      *
      */
 
+    @Override
     public void run()
     {
         synchronized (_req) {
@@ -77,6 +78,6 @@ public class AsynchInvoke implements Runnable {
         }
     }
 
-};
+}
 
 ///////////////////////////////////////////////////////////////////////////

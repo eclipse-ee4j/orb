@@ -43,6 +43,7 @@ class ExprExpression extends UnaryExpression {
     /**
      * Check a condition.  We must pass it on to our unparenthesised form.
      */
+    @Override
     public void checkCondition(Environment env, Context ctx, Vset vset,
                                Hashtable<Object, Object> exp, ConditionVars cvars) {
         right.checkCondition(env, ctx, vset, exp, cvars);
@@ -54,6 +55,7 @@ class ExprExpression extends UnaryExpression {
      * We just pass it on to our unparenthesized subexpression.
      * (Part of fix for 4090372)
      */
+    @Override
     public Vset checkAssignOp(Environment env, Context ctx,
                               Vset vset, Hashtable<Object, Object> exp, Expression outside) {
         vset = right.checkAssignOp(env, ctx, vset, exp, outside);
@@ -65,6 +67,7 @@ class ExprExpression extends UnaryExpression {
      * Delegate to our subexpression.
      * (Part of fix for 4090372)
      */
+    @Override
     public FieldUpdater getUpdater(Environment env, Context ctx) {
         return right.getUpdater(env, ctx);
     }
@@ -81,15 +84,18 @@ class ExprExpression extends UnaryExpression {
     //     return vset;
     // }
 
+    @Override
     public boolean isNull() {
         return right.isNull();
     }
 
+    @Override
     public boolean isNonNull() {
         return right.isNonNull();
     }
 
     // Probably not necessary
+    @Override
     public Object getValue() {
         return right.getValue();
     }
@@ -99,6 +105,7 @@ class ExprExpression extends UnaryExpression {
      * See the comment in AddExpression#inlineValueSB() for
      * information about this method.
      */
+    @Override
     protected StringBuffer inlineValueSB(Environment env,
                                          Context ctx,
                                          StringBuffer buffer) {
@@ -108,6 +115,7 @@ class ExprExpression extends UnaryExpression {
     /**
      * Select the type of the expression
      */
+    @Override
     void selectType(Environment env, Context ctx, int tm) {
         type = right.type;
     }
@@ -115,6 +123,7 @@ class ExprExpression extends UnaryExpression {
     /**
      * Simplify
      */
+    @Override
     Expression simplify() {
         return right;
     }

@@ -19,13 +19,13 @@
 
 package corba.fragment2;
 
-import javax.rmi.PortableRemoteObject;
-import org.omg.CosNaming.*;
-import org.omg.CORBA.*;
-import java.util.* ;
-import java.rmi.RemoteException;
-import java.io.*;
 import com.sun.corba.ee.spi.misc.ORBConstants;
+
+import java.io.FileInputStream;
+
+import javax.rmi.PortableRemoteObject;
+
+import org.omg.CORBA.ORB;
 
 class Tester extends Thread{
     FragmentTester tester;

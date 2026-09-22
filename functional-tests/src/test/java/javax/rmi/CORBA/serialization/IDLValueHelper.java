@@ -20,10 +20,6 @@
 
 package javax.rmi.CORBA.serialization;
 
-import java.util.*;
-import java.io.*;
-import org.omg.CORBA.TypeCode;
-
 public abstract class IDLValueHelper
 {
     public static void insert (org.omg.CORBA.Any a, IDLValue that)

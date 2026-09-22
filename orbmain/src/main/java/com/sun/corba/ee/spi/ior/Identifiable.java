@@ -19,8 +19,8 @@
 
 package com.sun.corba.ee.spi.ior;
 
-import org.glassfish.gmbal.Description ;
-import org.glassfish.gmbal.ManagedAttribute ;
+import org.glassfish.gmbal.Description;
+import org.glassfish.gmbal.ManagedAttribute;
 
 /** This interface represents an entity that can be written to an
  * OutputStream and has an identity that is represented by an integer.
@@ -35,5 +35,5 @@ public interface Identifiable extends Writeable
      */
     @ManagedAttribute
     @Description( "Id of tagged component or profile" )
-    public int getId();
+    int getId();
 }

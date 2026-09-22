@@ -19,8 +19,8 @@
 
 package com.sun.corba.ee.impl.resolver ;
 
-import com.sun.corba.ee.spi.orb.Operation ;
-import com.sun.corba.ee.spi.resolver.Resolver ;
+import com.sun.corba.ee.spi.orb.Operation;
+import com.sun.corba.ee.spi.resolver.Resolver;
 
 import java.util.Set;
 
@@ -35,6 +35,7 @@ public class ORBDefaultInitRefResolverImpl implements Resolver {
         this.orbDefaultInitRef = orbDefaultInitRef ;
     }
 
+    @Override
     public org.omg.CORBA.Object resolve( String ident )
     {
         // If the ORBDefaultInitRef is not defined simply return null
@@ -56,6 +57,7 @@ public class ORBDefaultInitRefResolverImpl implements Resolver {
         return (org.omg.CORBA.Object)urlHandler.operate( urlString ) ;
     }
 
+    @Override
     public Set<String> list()
     {
         return new java.util.HashSet() ;

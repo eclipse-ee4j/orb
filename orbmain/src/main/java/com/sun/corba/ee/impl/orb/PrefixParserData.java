@@ -19,10 +19,10 @@
 
 package com.sun.corba.ee.impl.orb ;
 
-import com.sun.corba.ee.spi.orb.Operation ;
-import com.sun.corba.ee.spi.orb.PropertyParser ;
+import com.sun.corba.ee.spi.orb.Operation;
+import com.sun.corba.ee.spi.orb.PropertyParser;
 
-import java.util.Properties ;
+import java.util.Properties;
 
 import org.glassfish.pfl.basic.contain.Pair;
 
@@ -40,12 +40,14 @@ public class PrefixParserData extends ParserDataBase {
         this.componentType = componentType ;
     }
 
+    @Override
     public void addToParser( PropertyParser parser )
     {
         parser.addPrefix( getPropertyName(), getOperation(), getFieldName(),
             componentType ) ;
     }
 
+    @Override
     public void addToProperties( Properties props )
     {
         for (Pair<String,String> sp : testData) {

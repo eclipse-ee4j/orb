@@ -19,15 +19,15 @@
 
 package com.sun.corba.ee.spi.oa ;
 
-import com.sun.corba.ee.spi.ior.IORTemplate ;
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.ior.IORTemplate;
+import com.sun.corba.ee.spi.orb.ORB;
 
 import org.glassfish.gmbal.Description;
 import org.glassfish.gmbal.ManagedAttribute;
 import org.glassfish.gmbal.ManagedObject;
-import org.omg.CORBA.Policy ;
-import org.omg.PortableInterceptor.ObjectReferenceFactory ;
-import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
+import org.omg.CORBA.Policy;
+import org.omg.PortableInterceptor.ObjectReferenceFactory;
+import org.omg.PortableInterceptor.ObjectReferenceTemplate;
 
 // REVISIT: What should the order be?  enter/push...pop/exit?
 
@@ -249,7 +249,7 @@ public interface ObjectAdapter
     /** Must be called every time getInvocationServant is called after
      * the request has completed.
      */
-    public void returnServant() ;
+    void returnServant() ;
 
     /** Create an instance of InvocationInfo that is appropriate for this
     * Object adapter.
@@ -265,7 +265,7 @@ public interface ObjectAdapter
     */
     String[] getInterfaces( Object servant, byte[] objectId ) ;
 
-    public boolean isNameService();
+    boolean isNameService();
 
-    public void setNameService( boolean flag ) ;
+    void setNameService( boolean flag ) ;
 }

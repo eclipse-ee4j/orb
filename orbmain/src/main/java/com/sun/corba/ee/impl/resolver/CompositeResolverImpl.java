@@ -19,10 +19,10 @@
 
 package com.sun.corba.ee.impl.resolver ;
 
-import com.sun.corba.ee.spi.resolver.Resolver ;
+import com.sun.corba.ee.spi.resolver.Resolver;
 
-import java.util.HashSet ;
-import java.util.Set ;
+import java.util.HashSet;
+import java.util.Set;
 
 public class CompositeResolverImpl implements Resolver {
     private Resolver first ;
@@ -34,6 +34,7 @@ public class CompositeResolverImpl implements Resolver {
         this.second = second ;
     }
 
+    @Override
     public org.omg.CORBA.Object resolve( String name )
     {
         org.omg.CORBA.Object result = first.resolve( name ) ;
@@ -42,6 +43,7 @@ public class CompositeResolverImpl implements Resolver {
         return result ;
     }
 
+    @Override
     public Set<String> list()
     {
         Set<String> result = new HashSet() ;

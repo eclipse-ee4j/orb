@@ -19,10 +19,10 @@
 
 package com.sun.corba.ee.impl.presentation.rmi ;
 
-import com.sun.corba.ee.impl.corba.CORBAObjectImpl ;
-import com.sun.corba.ee.impl.ior.StubIORImpl ;
+import com.sun.corba.ee.impl.corba.CORBAObjectImpl;
+import com.sun.corba.ee.impl.ior.StubIORImpl;
 import com.sun.corba.ee.impl.util.Utility;
-import com.sun.corba.ee.spi.logging.UtilSystemException ;
+import com.sun.corba.ee.spi.logging.UtilSystemException;
 import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
 
 import java.rmi.RemoteException;
@@ -63,7 +63,7 @@ public abstract class StubConnectImpl
             } catch (org.omg.CORBA.BAD_OPERATION err) {
                 if (ior == null) {
                     // No IOR, can we get a Tie for this stub?
-                    Tie tie = (javax.rmi.CORBA.Tie) Utility.getAndForgetTie(proxy);
+                    Tie tie = Utility.getAndForgetTie(proxy);
                     if (tie == null)
                         throw wrapper.connectNoTie() ;
 

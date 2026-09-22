@@ -19,16 +19,16 @@
 
 package com.sun.corba.ee.impl.ior;
 
-import com.sun.corba.ee.impl.encoding.EncapsOutputStream ;
+import com.sun.corba.ee.impl.encoding.EncapsOutputStream;
 import com.sun.corba.ee.impl.encoding.OutputStreamFactory;
-import com.sun.corba.ee.spi.ior.ObjectId ;
-import com.sun.corba.ee.spi.ior.ObjectKey ;
-import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
-import com.sun.corba.ee.spi.ior.TaggedProfile ;
-import com.sun.corba.ee.spi.ior.TaggedProfileTemplate ;
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.ior.ObjectId;
+import com.sun.corba.ee.spi.ior.ObjectKey;
+import com.sun.corba.ee.spi.ior.ObjectKeyTemplate;
+import com.sun.corba.ee.spi.ior.TaggedProfile;
+import com.sun.corba.ee.spi.ior.TaggedProfileTemplate;
+import com.sun.corba.ee.spi.orb.ORB;
 
-import org.omg.CORBA_2_3.portable.InputStream ;
+import org.omg.CORBA_2_3.portable.InputStream;
 
 public class GenericTaggedProfile extends GenericIdentifiable implements TaggedProfile
 {
@@ -46,41 +46,49 @@ public class GenericTaggedProfile extends GenericIdentifiable implements TaggedP
         this.orb = orb ;
     }
 
+    @Override
     public TaggedProfileTemplate getTaggedProfileTemplate()
     {
         return null ;
     }
 
+    @Override
     public ObjectId getObjectId()
     {
         return null ;
     }
 
+    @Override
     public ObjectKeyTemplate getObjectKeyTemplate()
     {
         return null ;
     }
 
+    @Override
     public ObjectKey getObjectKey()
     {
         return null ;
     }
 
+    @Override
     public boolean isEquivalent( TaggedProfile prof )
     {
         return equals( prof ) ;
     }
 
+    @Override
     public void makeImmutable()
     {
         // NO-OP
     }
 
+    @Override
     public boolean isLocal()
     {
         return false ;
     }
 
+    @Override
     public org.omg.IOP.TaggedProfile getIOPProfile()
     {
         EncapsOutputStream os = OutputStreamFactory.newEncapsOutputStream( orb ) ;

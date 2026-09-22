@@ -19,52 +19,52 @@
 
 package com.sun.corba.ee.impl.plugin.hwlb ;
 
-import com.sun.corba.ee.impl.interceptors.IORInfoImpl ;
-import com.sun.corba.ee.impl.ior.iiop.IIOPProfileImpl ;
-import com.sun.corba.ee.impl.ior.iiop.IIOPProfileTemplateImpl ;
-import com.sun.corba.ee.impl.oa.poa.BadServerIdHandler ;
-import com.sun.corba.ee.impl.orb.ORBDataParserImpl ;
-import com.sun.corba.ee.spi.ior.EncapsulationFactoryBase ;
-import com.sun.corba.ee.spi.ior.IORFactories ;
-import com.sun.corba.ee.spi.ior.IORTemplate ;
-import com.sun.corba.ee.spi.ior.Identifiable ;
-import com.sun.corba.ee.spi.ior.IdentifiableFactoryFinder ;
-import com.sun.corba.ee.spi.ior.ObjectId ;
-import com.sun.corba.ee.spi.ior.ObjectKey ;
-import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
-import com.sun.corba.ee.spi.ior.TaggedComponent ;
-import com.sun.corba.ee.spi.ior.TaggedProfile ;
-import com.sun.corba.ee.spi.ior.TaggedProfileTemplate ;
-import com.sun.corba.ee.spi.ior.iiop.AlternateIIOPAddressComponent ;
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion ;
-import com.sun.corba.ee.spi.ior.iiop.IIOPAddress ;
-import com.sun.corba.ee.spi.ior.iiop.IIOPFactories ;
-import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate ;
+import com.sun.corba.ee.impl.interceptors.IORInfoImpl;
+import com.sun.corba.ee.impl.ior.iiop.IIOPProfileImpl;
+import com.sun.corba.ee.impl.ior.iiop.IIOPProfileTemplateImpl;
+import com.sun.corba.ee.impl.oa.poa.BadServerIdHandler;
+import com.sun.corba.ee.impl.orb.ORBDataParserImpl;
+import com.sun.corba.ee.spi.ior.EncapsulationFactoryBase;
+import com.sun.corba.ee.spi.ior.IORFactories;
+import com.sun.corba.ee.spi.ior.IORTemplate;
+import com.sun.corba.ee.spi.ior.Identifiable;
+import com.sun.corba.ee.spi.ior.IdentifiableFactoryFinder;
+import com.sun.corba.ee.spi.ior.ObjectId;
+import com.sun.corba.ee.spi.ior.ObjectKey;
+import com.sun.corba.ee.spi.ior.ObjectKeyTemplate;
+import com.sun.corba.ee.spi.ior.TaggedComponent;
+import com.sun.corba.ee.spi.ior.TaggedProfile;
+import com.sun.corba.ee.spi.ior.TaggedProfileTemplate;
+import com.sun.corba.ee.spi.ior.iiop.AlternateIIOPAddressComponent;
+import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
+import com.sun.corba.ee.spi.ior.iiop.IIOPAddress;
+import com.sun.corba.ee.spi.ior.iiop.IIOPFactories;
+import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate;
 import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
-import com.sun.corba.ee.spi.misc.ORBConstants ;
-import com.sun.corba.ee.spi.orb.DataCollector ;
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.orb.ORBConfigurator ;
-import com.sun.corba.ee.spi.orb.ORBData ;
-import com.sun.corba.ee.spi.orb.OperationFactory ;
-import com.sun.corba.ee.spi.orb.ParserImplBase ;
-import com.sun.corba.ee.spi.orb.PropertyParser ;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.DataCollector;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.orb.ORBConfigurator;
+import com.sun.corba.ee.spi.orb.ORBData;
+import com.sun.corba.ee.spi.orb.OperationFactory;
+import com.sun.corba.ee.spi.orb.ParserImplBase;
+import com.sun.corba.ee.spi.orb.PropertyParser;
 import com.sun.corba.ee.spi.trace.Subcontract;
 
-import java.lang.reflect.Field ;
-import java.security.AccessController ;
-import java.security.PrivilegedAction ;
-import java.util.Iterator ;
+import java.lang.reflect.Field;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.util.Iterator;
 
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
-import org.omg.CORBA.LocalObject ;
-import org.omg.CORBA_2_3.portable.InputStream ;
-import org.omg.IOP.TAG_INTERNET_IOP ;
-import org.omg.PortableInterceptor.IORInfo ;
-import org.omg.PortableInterceptor.IORInterceptor_3_0 ;
-import org.omg.PortableInterceptor.ORBInitInfo ;
-import org.omg.PortableInterceptor.ORBInitializer ;
-import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
+import org.omg.CORBA.LocalObject;
+import org.omg.CORBA_2_3.portable.InputStream;
+import org.omg.IOP.TAG_INTERNET_IOP;
+import org.omg.PortableInterceptor.IORInfo;
+import org.omg.PortableInterceptor.IORInterceptor_3_0;
+import org.omg.PortableInterceptor.ORBInitInfo;
+import org.omg.PortableInterceptor.ORBInitializer;
+import org.omg.PortableInterceptor.ObjectReferenceTemplate;
 
 @Subcontract
 public class VirtualAddressAgentImpl
@@ -91,6 +91,7 @@ public class VirtualAddressAgentImpl
         private String _host = null ;
         private int _port = 0 ;
 
+        @Override
         public PropertyParser makeParser() {
             PropertyParser parser = new PropertyParser() ;
             parser.add( VAA_HOST_PROPERTY, OperationFactory.stringAction(),
@@ -111,12 +112,14 @@ public class VirtualAddressAgentImpl
     @InfoMethod
     private void agentAddress( IIOPAddress addr ) { }
 
+    @Override
     @Subcontract
     public void configure( DataCollector dc, final ORB orb ) {
         this.orb = orb ;
 
         orb.setBadServerIdHandler(
             new BadServerIdHandler() {
+                @Override
                 public void handle( ObjectKey objectkey ) {
                     // NO-OP
                 }
@@ -138,6 +141,7 @@ public class VirtualAddressAgentImpl
             orb.getTaggedProfileFactoryFinder() ;
         finder.registerFactory(
             new EncapsulationFactoryBase( TAG_INTERNET_IOP.value ) {
+                @Override
                 public Identifiable readContents( InputStream in ) {
                     Identifiable result = new SpecialIIOPProfileImpl( in ) ;
                     return result ;
@@ -163,6 +167,7 @@ public class VirtualAddressAgentImpl
         // REVISIT: AS 9 has an ORB API for setting ORBInitializers.
         AccessController.doPrivileged(
             new PrivilegedAction() {
+                @Override
                 public Object run() {
                     try {
                         final Field fld =
@@ -179,11 +184,13 @@ public class VirtualAddressAgentImpl
         )  ;
     }
 
+    @Override
     @Subcontract
     public void pre_init( ORBInitInfo info ) {
         // NO-OP
     }
 
+    @Override
     @Subcontract
     public void post_init( ORBInitInfo info ) {
         // register this object as an IORInterceptor.
@@ -194,6 +201,7 @@ public class VirtualAddressAgentImpl
         }
     }
 
+    @Override
     @Subcontract
     public void establish_components( IORInfo info ) {
         // NO-OP
@@ -296,6 +304,7 @@ public class VirtualAddressAgentImpl
         }
     }
 
+    @Override
     @Subcontract
     public void components_established( IORInfo info ) {
         // Cast this to the implementation class in case we are building
@@ -330,20 +339,24 @@ public class VirtualAddressAgentImpl
         myInfo.current_factory( newOrt );
     }
 
+    @Override
     public void adapter_manager_state_changed( int id,
         short state ) {
         // NO-OP
     }
 
+    @Override
     public void adapter_state_changed( ObjectReferenceTemplate[] templates,
         short state ) {
         // NO-OP
     }
 
+    @Override
     public String name() {
         return this.getClass().getName() ;
     }
 
+    @Override
     public void destroy() {
         // NO-OP
     }

@@ -19,10 +19,8 @@
 
 package corba.cdrstreams;
 
-import test.Test;
-import corba.framework.*;
-import java.util.*;
-import com.sun.corba.ee.spi.orb.ORB;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
 
 public class CDRTests extends CORBATest
 {

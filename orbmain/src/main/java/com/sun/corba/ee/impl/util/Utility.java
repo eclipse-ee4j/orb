@@ -23,18 +23,18 @@
 package com.sun.corba.ee.impl.util;
 
 import com.sun.corba.ee.impl.javax.rmi.CORBA.Util;
-import com.sun.corba.ee.spi.logging.OMGSystemException ;
-import com.sun.corba.ee.spi.logging.UtilSystemException ;
-import com.sun.corba.ee.spi.misc.ORBClassLoader ;
+import com.sun.corba.ee.spi.logging.OMGSystemException;
+import com.sun.corba.ee.spi.logging.UtilSystemException;
+import com.sun.corba.ee.spi.misc.ORBClassLoader;
 import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
-import com.sun.corba.ee.spi.presentation.rmi.StubAdapter ;
+import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.ArrayList ;
+import java.util.ArrayList;
 import java.util.IdentityHashMap;
-import java.util.Iterator ;
-import java.util.List ;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.rmi.PortableRemoteObject;
 import javax.rmi.CORBA.Tie;
@@ -1015,9 +1015,7 @@ public final class Utility {
      */
     static int hexOf( char x )
     {
-        int val;
-
-        val = x - '0';
+        int val = x - '0';
         if (val >=0 && val <= 9) {
             return val;
         }

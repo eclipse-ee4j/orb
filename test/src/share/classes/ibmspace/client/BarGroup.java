@@ -31,10 +31,12 @@
 
 package ibmspace.client;
 
-import java.util.*;
-import javax.swing.*;
-import java.awt.event.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Vector;
+
+import javax.swing.JPanel;
 
 public class BarGroup extends JPanel implements ActionListener
 {

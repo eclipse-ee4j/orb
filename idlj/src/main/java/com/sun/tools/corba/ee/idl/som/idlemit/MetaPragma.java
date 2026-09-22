@@ -75,9 +75,7 @@ public class MetaPragma extends PragmaHandler {
             }
             else {
                 msg = (currentToken()+ getStringToEOL());
-// System.out.println(entry + ":  " + msg);
-                Vector v;
-                v = (Vector) entry.dynamicVariable(metaKey);
+                Vector v = (Vector) entry.dynamicVariable(metaKey);
                 if ( v== null){
                     v = new Vector();
                     entry.dynamicVariable(metaKey, v);
@@ -117,7 +115,7 @@ public class MetaPragma extends PragmaHandler {
                 /* set */
                 try {
                     forwardInterface.dynamicVariable(MetaPragma.metaKey, forwardMeta);
-                } catch(Exception e){};
+                } catch(Exception e){}
             }
             else if (interfaceMeta != forwardMeta) {
                  /* The above check is needed because sometimes
@@ -128,7 +126,7 @@ public class MetaPragma extends PragmaHandler {
                     try {
                         Object obj = forwardMeta.elementAt(i);
                         interfaceMeta.addElement(obj);
-                    } catch (Exception e){};
+                    } catch (Exception e){}
                 }
             }
          }

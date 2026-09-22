@@ -28,7 +28,7 @@ package com.sun.corba.ee.impl.folb;
 import com.sun.corba.ee.spi.folb.ClusterInstanceInfo;
 import com.sun.corba.ee.spi.folb.GroupInfoService;
 import com.sun.corba.ee.spi.folb.GroupInfoServiceObserver;
-import com.sun.corba.ee.spi.trace.Folb ;
+import com.sun.corba.ee.spi.trace.Folb;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -47,6 +47,7 @@ public abstract class GroupInfoServiceBase
     private List<GroupInfoServiceObserver> observers =
         new LinkedList<GroupInfoServiceObserver>();
 
+    @Override
     @Folb
     public boolean addObserver(GroupInfoServiceObserver x) {
         return observers.add(x);
@@ -55,6 +56,7 @@ public abstract class GroupInfoServiceBase
     @InfoMethod
     private void observerInfo( GroupInfoServiceObserver obs ) { }
 
+    @Override
     @Folb
     public void notifyObservers() {
         for (GroupInfoServiceObserver observer : observers) {
@@ -63,6 +65,7 @@ public abstract class GroupInfoServiceBase
         }
     }
 
+    @Override
     @Folb
     public List<ClusterInstanceInfo> getClusterInstanceInfo(
         String[] adapterName) {
@@ -72,6 +75,7 @@ public abstract class GroupInfoServiceBase
         return internalInfo == null ? new ArrayList<>() : new ArrayList<>(internalInfo);
     }
 
+    @Override
     public List<ClusterInstanceInfo> getClusterInstanceInfo(
         String[] adapterName, List<String> endpoints ) {
 
@@ -80,12 +84,14 @@ public abstract class GroupInfoServiceBase
         return internalInfo == null ? new ArrayList<>() : new ArrayList<>(internalInfo);
     }
 
+    @Override
     @Folb
     public boolean shouldAddAddressesToNonReferenceFactory(
         String[] adapterName) {
         return false ;
     }
 
+    @Override
     @Folb
     public boolean shouldAddMembershipLabel (String[] adapterName) {
         return true ;

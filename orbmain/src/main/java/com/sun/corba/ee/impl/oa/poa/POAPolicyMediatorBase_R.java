@@ -22,12 +22,12 @@ package com.sun.corba.ee.impl.oa.poa ;
 import com.sun.corba.ee.spi.trace.Poa;
 
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
-import org.omg.PortableServer.Servant ;
-import org.omg.PortableServer.POAPackage.ObjectAlreadyActive ;
-import org.omg.PortableServer.POAPackage.ObjectNotActive ;
-import org.omg.PortableServer.POAPackage.ServantAlreadyActive ;
-import org.omg.PortableServer.POAPackage.ServantNotActive ;
-import org.omg.PortableServer.POAPackage.WrongPolicy ;
+import org.omg.PortableServer.Servant;
+import org.omg.PortableServer.POAPackage.ObjectAlreadyActive;
+import org.omg.PortableServer.POAPackage.ObjectNotActive;
+import org.omg.PortableServer.POAPackage.ServantAlreadyActive;
+import org.omg.PortableServer.POAPackage.ServantNotActive;
+import org.omg.PortableServer.POAPackage.WrongPolicy;
 
 @Poa
 public abstract class POAPolicyMediatorBase_R extends POAPolicyMediatorBase {
@@ -45,11 +45,13 @@ public abstract class POAPolicyMediatorBase_R extends POAPolicyMediatorBase {
         activeObjectMap = ActiveObjectMap.create(poa, !isUnique);
     }
 
+    @Override
     public void returnServant()
     {
         // NO-OP
     }
 
+    @Override
     public void clearAOM()
     {
         activeObjectMap.clear() ;
@@ -84,6 +86,7 @@ public abstract class POAPolicyMediatorBase_R extends POAPolicyMediatorBase {
         factory.registerPOAForServant(poa, servant);
     }
 
+    @Override
     @Poa
     public final void activateObject(byte[] id, Servant servant)
         throws WrongPolicy, ServantAlreadyActive, ObjectAlreadyActive
@@ -101,6 +104,7 @@ public abstract class POAPolicyMediatorBase_R extends POAPolicyMediatorBase {
         activateServant( key, entry, servant ) ;
     }
 
+    @Override
     @Poa
     public Servant deactivateObject( byte[] id )
         throws ObjectNotActive, WrongPolicy
@@ -147,6 +151,7 @@ public abstract class POAPolicyMediatorBase_R extends POAPolicyMediatorBase {
         return s ;
     }
 
+    @Override
     @Poa
     public byte[] servantToId( Servant servant ) throws ServantNotActive, WrongPolicy
     {

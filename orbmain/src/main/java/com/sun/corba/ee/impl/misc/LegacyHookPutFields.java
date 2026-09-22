@@ -36,6 +36,7 @@ class LegacyHookPutFields extends ObjectOutputStream.PutField
     /**
      * Put the value of the named boolean field into the persistent field.
      */
+    @Override
     public void put(String name, boolean value){
         fields.put(name, Boolean.valueOf(value));
     }
@@ -43,6 +44,7 @@ class LegacyHookPutFields extends ObjectOutputStream.PutField
     /**
      * Put the value of the named char field into the persistent fields.
      */
+    @Override
     public void put(String name, char value){
         fields.put(name, Character.valueOf(value));
     }
@@ -50,6 +52,7 @@ class LegacyHookPutFields extends ObjectOutputStream.PutField
     /**
      * Put the value of the named byte field into the persistent fields.
      */
+    @Override
     public void put(String name, byte value){
         fields.put(name, Byte.valueOf(value));
     }
@@ -57,6 +60,7 @@ class LegacyHookPutFields extends ObjectOutputStream.PutField
     /**
      * Put the value of the named short field into the persistent fields.
      */
+    @Override
     public void put(String name, short value){
         fields.put(name, Short.valueOf(value));
     }
@@ -64,6 +68,7 @@ class LegacyHookPutFields extends ObjectOutputStream.PutField
     /**
      * Put the value of the named int field into the persistent fields.
      */
+    @Override
     public void put(String name, int value){
         fields.put(name, Integer.valueOf(value));
     }
@@ -71,6 +76,7 @@ class LegacyHookPutFields extends ObjectOutputStream.PutField
     /**
      * Put the value of the named long field into the persistent fields.
      */
+    @Override
     public void put(String name, long value){
         fields.put(name, Long.valueOf(value));
     }
@@ -79,6 +85,7 @@ class LegacyHookPutFields extends ObjectOutputStream.PutField
      * Put the value of the named float field into the persistent fields.
      *
      */
+    @Override
     public void put(String name, float value){
         fields.put(name, Float.valueOf(value));
     }
@@ -86,6 +93,7 @@ class LegacyHookPutFields extends ObjectOutputStream.PutField
     /**
      * Put the value of the named double field into the persistent field.
      */
+    @Override
     public void put(String name, double value){
         fields.put(name, Double.valueOf(value));
     }
@@ -93,6 +101,7 @@ class LegacyHookPutFields extends ObjectOutputStream.PutField
     /**
      * Put the value of the named Object field into the persistent field.
      */
+    @Override
     public void put(String name, Object value){
         fields.put(name, value);
     }
@@ -100,6 +109,7 @@ class LegacyHookPutFields extends ObjectOutputStream.PutField
     /**
      * Write the data and fields to the specified ObjectOutput stream.
      */
+    @Override
     public void write(ObjectOutput out) throws IOException {
         out.writeObject(fields);
     }

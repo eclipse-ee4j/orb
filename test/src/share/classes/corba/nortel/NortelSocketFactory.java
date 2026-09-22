@@ -22,12 +22,9 @@ package corba.nortel ;
 import com.sun.corba.ee.impl.transport.DefaultSocketFactoryImpl;
 
 import java.io.IOException;
-
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-
-import java.lang.String;
 
 public class NortelSocketFactory extends DefaultSocketFactoryImpl {
     private static Socket savedSocket = null ;

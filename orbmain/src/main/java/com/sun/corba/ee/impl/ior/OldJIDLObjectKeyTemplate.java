@@ -19,14 +19,14 @@
 
 package com.sun.corba.ee.impl.ior;
 
-import com.sun.corba.ee.impl.encoding.CDRInputObject ;
-import com.sun.corba.ee.spi.ior.ObjectId ;
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.orb.ORBVersionFactory ;
+import com.sun.corba.ee.impl.encoding.CDRInputObject;
+import com.sun.corba.ee.spi.ior.ObjectId;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.orb.ORBVersionFactory;
 
-import org.omg.CORBA.OctetSeqHolder ;
-import org.omg.CORBA_2_3.portable.InputStream ;
-import org.omg.CORBA_2_3.portable.OutputStream ;
+import org.omg.CORBA.OctetSeqHolder;
+import org.omg.CORBA_2_3.portable.InputStream;
+import org.omg.CORBA_2_3.portable.OutputStream;
 
 /**
  * Handles object keys created by JDK ORBs from before JDK 1.4.0.
@@ -90,6 +90,7 @@ public final class OldJIDLObjectKeyTemplate extends OldObjectKeyTemplateBase
         this( orb, magic, scid, is.read_long() ) ;
     }
 
+    @Override
     protected void writeTemplate( OutputStream os )
     {
         os.write_long( getMagic() ) ;

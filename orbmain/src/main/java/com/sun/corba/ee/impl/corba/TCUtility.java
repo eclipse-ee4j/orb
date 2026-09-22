@@ -22,7 +22,7 @@ package com.sun.corba.ee.impl.corba;
 
 import com.sun.corba.ee.impl.encoding.CDRInputObject;
 import com.sun.corba.ee.impl.encoding.CDROutputObject;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -271,7 +271,7 @@ public final class TCUtility {
                                                                 typeCode.fixed_scale());
                 } else {
                     BigDecimal bigDecimal = s.read_fixed();
-                    o = bigDecimal.movePointLeft((int)typeCode.fixed_scale());
+                    o = bigDecimal.movePointLeft(typeCode.fixed_scale());
                 }
             } catch (BadKind badKind) { // impossible
             }

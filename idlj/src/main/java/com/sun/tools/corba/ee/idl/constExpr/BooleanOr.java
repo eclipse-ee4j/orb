@@ -33,6 +33,7 @@ public class BooleanOr extends BinaryExpr
     super ("||", leftOperand, rightOperand);
   } // ctor
 
+  @Override
   public Object evaluate () throws com.sun.tools.corba.ee.idl.constExpr.EvaluationException
   {
     try

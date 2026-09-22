@@ -19,20 +19,20 @@
 
 package com.sun.corba.ee.impl.ior;
 
-import com.sun.corba.ee.spi.ior.IOR ;
-import com.sun.corba.ee.spi.ior.IORFactory ;
-import com.sun.corba.ee.spi.ior.IORTemplate ;
-import com.sun.corba.ee.spi.ior.IdentifiableContainerBase ;
-import com.sun.corba.ee.spi.ior.IdentifiableFactoryFinder ;
-import com.sun.corba.ee.spi.ior.ObjectId ;
-import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
-import com.sun.corba.ee.spi.ior.TaggedProfileTemplate ;
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.ior.IOR;
+import com.sun.corba.ee.spi.ior.IORFactory;
+import com.sun.corba.ee.spi.ior.IORTemplate;
+import com.sun.corba.ee.spi.ior.IdentifiableContainerBase;
+import com.sun.corba.ee.spi.ior.IdentifiableFactoryFinder;
+import com.sun.corba.ee.spi.ior.ObjectId;
+import com.sun.corba.ee.spi.ior.ObjectKeyTemplate;
+import com.sun.corba.ee.spi.ior.TaggedProfileTemplate;
+import com.sun.corba.ee.spi.orb.ORB;
 
-import java.util.Iterator ;
+import java.util.Iterator;
 
-import org.omg.CORBA_2_3.portable.InputStream ;
-import org.omg.CORBA_2_3.portable.OutputStream ;
+import org.omg.CORBA_2_3.portable.InputStream;
+import org.omg.CORBA_2_3.portable.OutputStream;
 
 /**
  * This class is a container of TaggedProfileTemplates.
@@ -74,6 +74,7 @@ public class IORTemplateImpl
         return super.hashCode() ^ oktemp.hashCode() ;
     }
 
+    @Override
     public ObjectKeyTemplate getObjectKeyTemplate()
     {
         return oktemp ;
@@ -84,11 +85,13 @@ public class IORTemplateImpl
         this.oktemp = oktemp ;
     }
 
+    @Override
     public IOR makeIOR( ORB orb, String typeid, ObjectId oid )
     {
         return new IORImpl( orb, typeid, this, oid ) ;
     }
 
+    @Override
     public boolean isEquivalent( IORFactory other )
     {
         if (!(other instanceof IORTemplate))
@@ -120,6 +123,7 @@ public class IORTemplateImpl
         super.makeImmutable() ;
     }
 
+    @Override
     public void write( OutputStream os )
     {
         oktemp.write( os ) ;

@@ -19,18 +19,18 @@
 
 package com.sun.corba.ee.impl.protocol ;
 
-import com.sun.corba.ee.impl.encoding.MarshalInputStream ;
-import com.sun.corba.ee.impl.encoding.MarshalOutputStream ;
-import com.sun.corba.ee.spi.ior.IOR ;
-import com.sun.corba.ee.spi.ior.ObjectKey ;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.impl.encoding.MarshalInputStream;
+import com.sun.corba.ee.impl.encoding.MarshalOutputStream;
+import com.sun.corba.ee.spi.ior.IOR;
+import com.sun.corba.ee.spi.ior.ObjectKey;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.protocol.MessageMediator;
-import com.sun.corba.ee.spi.protocol.ServerRequestDispatcher ;
+import com.sun.corba.ee.spi.protocol.ServerRequestDispatcher;
 
-import java.util.Iterator ;
+import java.util.Iterator;
 
-import org.omg.CORBA.SystemException ;
+import org.omg.CORBA.SystemException;
 
 /**
  * Class BootstrapServerRequestDispatcher handles the requests coming to the
@@ -66,16 +66,14 @@ public class BootstrapServerRequestDispatcher
      */
     public void dispatch(MessageMediator messageMediator)
     {
-        MessageMediator request = (MessageMediator) messageMediator;
+        MessageMediator request = messageMediator;
         MessageMediator response = null;
 
         try {
-            MarshalInputStream is = (MarshalInputStream)
-                request.getInputObject();
+            MarshalInputStream is = request.getInputObject();
             String method = request.getOperationName();
             response = request.getProtocolHandler().createResponse(request, null);
-            MarshalOutputStream os = (MarshalOutputStream)
-                response.getOutputObject();
+            MarshalOutputStream os = response.getOutputObject();
 
             if (method.equals("get")) {
                 // Get the name of the requested service

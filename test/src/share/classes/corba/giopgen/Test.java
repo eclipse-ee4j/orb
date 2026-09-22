@@ -26,8 +26,7 @@ package corba.giopgen;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-
-import java.util.Map ;
+import java.util.Map;
 
 /**
  * @author Harold Carr

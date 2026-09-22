@@ -23,11 +23,11 @@ import java.util.Properties;
 
 import java.io.File;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
-import com.sun.corba.ee.spi.resolver.Resolver ;
-import com.sun.corba.ee.spi.resolver.LocalResolver ;
-import com.sun.corba.ee.spi.resolver.ResolverDefault ;
+import com.sun.corba.ee.spi.resolver.Resolver;
+import com.sun.corba.ee.spi.resolver.LocalResolver;
+import com.sun.corba.ee.spi.resolver.ResolverDefault;
 
 import com.sun.corba.ee.spi.misc.ORBConstants;
 

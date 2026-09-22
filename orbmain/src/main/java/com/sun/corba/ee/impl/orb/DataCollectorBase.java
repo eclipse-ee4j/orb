@@ -19,23 +19,23 @@
 
 package com.sun.corba.ee.impl.orb ;
 
-import com.sun.corba.ee.org.omg.CORBA.GetPropertyAction ;
-import com.sun.corba.ee.spi.misc.ORBConstants ;
-import com.sun.corba.ee.spi.orb.DataCollector ;
-import com.sun.corba.ee.spi.orb.PropertyParser ;
+import com.sun.corba.ee.org.omg.CORBA.GetPropertyAction;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.DataCollector;
+import com.sun.corba.ee.spi.orb.PropertyParser;
 
-import java.applet.Applet ;
-import java.io.File ;
-import java.io.FileInputStream ;
-import java.net.URL ;
-import java.security.AccessController ;
-import java.security.PrivilegedAction ;
-import java.util.Enumeration ;
-import java.util.HashSet ;
-import java.util.Iterator ;
-import java.util.Properties ;
-import java.util.Set ;
-import java.util.StringTokenizer ;
+import java.applet.Applet;
+import java.io.File;
+import java.io.FileInputStream;
+import java.net.URL;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Properties;
+import java.util.Set;
+import java.util.StringTokenizer;
 
 public abstract class DataCollectorBase implements DataCollector {
     private Set<String> propertyNames ;
@@ -172,6 +172,7 @@ public abstract class DataCollectorBase implements DataCollector {
         }
 
         PropertyCallback callback = new PropertyCallback() {
+            @Override
             public String get(String name) {
                 return app.getParameter(name);
             }
@@ -186,6 +187,7 @@ public abstract class DataCollectorBase implements DataCollector {
         // URLs can be kept relative which is sometimes useful for
         // managing the Document Root layout.
         PropertyCallback URLCallback = new PropertyCallback() {
+            @Override
             public String get( String name ) {
                 String value = resultProps.getProperty(name);
                 if (value == null) {
@@ -210,6 +212,7 @@ public abstract class DataCollectorBase implements DataCollector {
     private void doProperties( final Properties props )
     {
         PropertyCallback callback =  new PropertyCallback() {
+            @Override
             public String get(String name) {
                 return props.getProperty(name);
             }
@@ -253,6 +256,7 @@ public abstract class DataCollectorBase implements DataCollector {
         Set<String> prefixNames = getCORBAPrefixes( propertyPrefixes ) ;
 
         PropertyCallback callback = new PropertyCallback() {
+            @Override
             public String get(String name) {
                 return getSystemProperty(name);
             }
@@ -360,8 +364,11 @@ public abstract class DataCollectorBase implements DataCollector {
         final Enumeration<?> enumeration )
     {
         return new Iterator<String>() {
+            @Override
             public boolean hasNext() { return enumeration.hasMoreElements() ; }
+            @Override
             public String next() { return (String)enumeration.nextElement() ; }
+            @Override
             public void remove() { throw new UnsupportedOperationException() ; }
         } ;
     }
@@ -374,7 +381,8 @@ public abstract class DataCollectorBase implements DataCollector {
         Enumeration<String> enumeration =
             (Enumeration<String>)AccessController.doPrivileged(
                 new PrivilegedAction<Enumeration<?>>() {
-                      public Enumeration<?> run() {
+                      @Override
+                    public Enumeration<?> run() {
                           return System.getProperties().propertyNames();
                       }
                 }

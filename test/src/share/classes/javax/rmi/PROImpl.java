@@ -22,8 +22,9 @@ package javax.rmi;
 
 import com.sun.corba.ee.spi.JndiConstants;
 
-import javax.naming.InitialContext;
 import java.rmi.RemoteException;
+
+import javax.naming.InitialContext;
 
 public class PROImpl extends PortableRemoteObject implements PROHello {
 

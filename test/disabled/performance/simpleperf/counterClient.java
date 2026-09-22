@@ -19,38 +19,38 @@
 
 package performance.simpleperf;
 
-import java.io.PrintStream ;
-import javax.rmi.PortableRemoteObject ;
-import java.rmi.RemoteException ;
-import java.util.Hashtable ;
-import java.util.Map ;
-import java.util.Properties ;
+import java.io.PrintStream;
+import javax.rmi.PortableRemoteObject;
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.Properties;
 
-import org.omg.CORBA.Policy ;
-import org.omg.PortableServer.LifespanPolicyValue ;
-import org.omg.PortableServer.POA ;
-import org.omg.PortableServer.POAPackage.AdapterAlreadyExists ;
-import org.omg.PortableServer.POAPackage.InvalidPolicy ;
-import org.omg.PortableServer.POAPackage.WrongPolicy ;
-import org.omg.PortableServer.RequestProcessingPolicyValue ;
-import org.omg.PortableServer.Servant ;
-import org.omg.PortableServer.ServantLocator ;
-import org.omg.PortableServer.ServantRetentionPolicyValue ;
-import org.omg.PortableServer.ServantLocatorPackage.CookieHolder ;
+import org.omg.CORBA.Policy;
+import org.omg.PortableServer.LifespanPolicyValue;
+import org.omg.PortableServer.POA;
+import org.omg.PortableServer.POAPackage.AdapterAlreadyExists;
+import org.omg.PortableServer.POAPackage.InvalidPolicy;
+import org.omg.PortableServer.POAPackage.WrongPolicy;
+import org.omg.PortableServer.RequestProcessingPolicyValue;
+import org.omg.PortableServer.Servant;
+import org.omg.PortableServer.ServantLocator;
+import org.omg.PortableServer.ServantRetentionPolicyValue;
+import org.omg.PortableServer.ServantLocatorPackage.CookieHolder;
 
-import com.sun.corba.ee.spi.extension.ServantCachingPolicy ;
+import com.sun.corba.ee.spi.extension.ServantCachingPolicy;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
-import com.sun.corba.ee.spi.presentation.rmi.StubAdapter ;
+import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
 
-import com.sun.corba.ee.spi.copyobject.CopierManager ;
-import com.sun.corba.ee.spi.copyobject.CopyobjectDefaults ;
+import com.sun.corba.ee.spi.copyobject.CopierManager;
+import com.sun.corba.ee.spi.copyobject.CopyobjectDefaults;
 
-import com.sun.corba.ee.impl.orbutil.newtimer.generated.TimingPoints ;
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.impl.orbutil.newtimer.generated.TimingPoints;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 
-import corba.framework.InternalProcess ;
+import corba.framework.InternalProcess;
 import org.glassfish.pfl.dynamic.copyobject.spi.ObjectCopierFactory;
 import org.glassfish.pfl.tf.timer.spi.Statistics;
 import org.glassfish.pfl.tf.timer.spi.StatsEventHandler;

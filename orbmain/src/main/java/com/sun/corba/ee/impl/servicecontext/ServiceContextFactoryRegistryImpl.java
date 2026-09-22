@@ -19,13 +19,13 @@
 
 package com.sun.corba.ee.impl.servicecontext;
 
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.servicecontext.ServiceContext ;
-import com.sun.corba.ee.spi.servicecontext.ServiceContextFactoryRegistry ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.servicecontext.ServiceContext;
+import com.sun.corba.ee.spi.servicecontext.ServiceContextFactoryRegistry;
 
-import java.util.HashMap ;
-import java.util.Map ;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ServiceContextFactoryRegistryImpl
     implements ServiceContextFactoryRegistry
@@ -42,6 +42,7 @@ public class ServiceContextFactoryRegistryImpl
         this.orb = orb ;
     }
 
+    @Override
     public void register( ServiceContext.Factory factory )
     {
         if (scMap.get(factory.getId()) == null) {
@@ -51,6 +52,7 @@ public class ServiceContextFactoryRegistryImpl
         } // BAD_PARAM
     }
 
+    @Override
     public ServiceContext.Factory find( int scId )
     {
         ServiceContext.Factory result = scMap.get( scId ) ;

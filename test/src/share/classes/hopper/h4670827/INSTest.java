@@ -19,9 +19,11 @@
 
 package hopper.h4670827;
 
-import test.Test;
-import corba.framework.*;
-import java.util.*;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
+import corba.framework.Options;
+
+import java.util.Hashtable;
 
 /**
  * This is a test for INS.

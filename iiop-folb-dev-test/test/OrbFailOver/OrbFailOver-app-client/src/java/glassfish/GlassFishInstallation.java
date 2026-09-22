@@ -20,7 +20,7 @@
 package glassfish;
 
 import java.util.List;
-import argparser.Pair ;
+import argparser.Pair;
 import java.io.File;
 import java.util.ArrayList;
 import testtools.Base;

@@ -21,15 +21,17 @@
 package javax.rmi.download;
 
 import com.sun.corba.ee.spi.JndiConstants;
-import org.omg.CORBA.ORB;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.rmi.PortableRemoteObject;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Hashtable;
 import java.util.Properties;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.rmi.PortableRemoteObject;
+
+import org.omg.CORBA.ORB;
 
 public class TheClient {
 

@@ -20,8 +20,9 @@
 
 package corba.rogueclient;
 
-import javax.rmi.PortableRemoteObject;
 import java.rmi.RemoteException;
+
+import javax.rmi.PortableRemoteObject;
 
 public class TesterImpl extends PortableRemoteObject implements Tester
 {

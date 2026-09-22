@@ -19,22 +19,22 @@
 
 package com.sun.corba.ee.impl.presentation.rmi ;
 
-import com.sun.corba.ee.impl.ior.StubIORImpl ;
-import com.sun.corba.ee.impl.util.JDKBridge ;
-import com.sun.corba.ee.impl.util.RepositoryId ;
-import com.sun.corba.ee.spi.presentation.rmi.DynamicStub ;
-import com.sun.corba.ee.spi.presentation.rmi.PresentationManager ;
+import com.sun.corba.ee.impl.ior.StubIORImpl;
+import com.sun.corba.ee.impl.util.JDKBridge;
+import com.sun.corba.ee.impl.util.RepositoryId;
+import com.sun.corba.ee.spi.presentation.rmi.DynamicStub;
+import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
 
-import java.io.IOException ;
-import java.io.ObjectInputStream ;
-import java.io.ObjectOutputStream ;
-import java.io.Serializable ;
-import java.rmi.RemoteException ;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.rmi.RemoteException;
 
-import org.omg.CORBA.ORB ;
-import org.omg.CORBA.portable.Delegate ;
-import org.omg.CORBA.portable.OutputStream ;
-import org.omg.CORBA_2_3.portable.ObjectImpl ;
+import org.omg.CORBA.ORB;
+import org.omg.CORBA.portable.Delegate;
+import org.omg.CORBA.portable.OutputStream;
+import org.omg.CORBA_2_3.portable.ObjectImpl;
 
 public class DynamicStubImpl extends ObjectImpl
     implements DynamicStub, Serializable
@@ -61,41 +61,49 @@ public class DynamicStubImpl extends ObjectImpl
         ior = null ;
     }
 
+    @Override
     public void setDelegate( Delegate delegate )
     {
         _set_delegate( delegate ) ;
     }
 
+    @Override
     public Delegate getDelegate()
     {
         return _get_delegate() ;
     }
 
+    @Override
     public ORB getORB()
     {
         return _orb() ;
     }
 
+    @Override
     public String[] _ids()
     {
         return typeIds.clone() ;
     }
 
+    @Override
     public String[] getTypeIds()
     {
         return _ids() ;
     }
 
+    @Override
     public void connect( ORB orb ) throws RemoteException
     {
         ior = StubConnectImpl.connect( ior, self, this, orb ) ;
     }
 
+    @Override
     public boolean isLocal()
     {
         return _is_local() ;
     }
 
+    @Override
     public OutputStream request( String operation,
         boolean responseExpected )
     {

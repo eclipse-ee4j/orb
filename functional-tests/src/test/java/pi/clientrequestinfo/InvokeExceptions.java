@@ -19,10 +19,10 @@
 
 package pi.clientrequestinfo;
 
-import com.sun.corba.ee.impl.interceptors.*;
-import org.omg.PortableInterceptor.*;
-import org.omg.CORBA.*;
-import ClientRequestInfo.*;
+import org.omg.CORBA.UNKNOWN;
+import org.omg.CORBA.UnknownUserException;
+
+import ClientRequestInfo.ExampleException;
 
 /**
  * Invocation strategy in which three calls are made.

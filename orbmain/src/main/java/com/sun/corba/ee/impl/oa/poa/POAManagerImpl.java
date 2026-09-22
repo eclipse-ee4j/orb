@@ -19,8 +19,8 @@
 
 package com.sun.corba.ee.impl.oa.poa;
 
-import com.sun.corba.ee.spi.logging.POASystemException ;
-import com.sun.corba.ee.spi.protocol.PIHandler ;
+import com.sun.corba.ee.spi.logging.POASystemException;
+import com.sun.corba.ee.spi.protocol.PIHandler;
 import com.sun.corba.ee.spi.trace.Poa;
 
 import java.util.HashSet;
@@ -30,19 +30,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import org.glassfish.gmbal.Description ;
-import org.glassfish.gmbal.ManagedAttribute ;
-import org.glassfish.gmbal.ManagedObject ;
-import org.glassfish.gmbal.ManagedOperation ;
-import org.glassfish.gmbal.NameValue ;
-import org.glassfish.gmbal.ParameterNames ;
-import org.glassfish.pfl.basic.contain.MultiSet ;
+import org.glassfish.gmbal.Description;
+import org.glassfish.gmbal.ManagedAttribute;
+import org.glassfish.gmbal.ManagedObject;
+import org.glassfish.gmbal.ManagedOperation;
+import org.glassfish.gmbal.NameValue;
+import org.glassfish.gmbal.ParameterNames;
+import org.glassfish.pfl.basic.contain.MultiSet;
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
-import org.omg.PortableInterceptor.ACTIVE ;
-import org.omg.PortableInterceptor.DISCARDING ;
-import org.omg.PortableInterceptor.HOLDING ;
-import org.omg.PortableInterceptor.INACTIVE ;
-import org.omg.PortableInterceptor.NON_EXISTENT ;
+import org.omg.PortableInterceptor.ACTIVE;
+import org.omg.PortableInterceptor.DISCARDING;
+import org.omg.PortableInterceptor.HOLDING;
+import org.omg.PortableInterceptor.INACTIVE;
+import org.omg.PortableInterceptor.NON_EXISTENT;
 import org.omg.PortableServer.POAManager;
 import org.omg.PortableServer.POAManagerPackage.State;
 
@@ -332,6 +332,7 @@ public class POAManagerImpl extends org.omg.CORBA.LocalObject implements
      * <code>activate</code>
      * <b>Spec: pages 3-14 thru 3-18</b>
      */
+    @Override
     @Poa
     @ManagedOperation
     @Description( "Make this POAManager active, so it can handle new requests" )
@@ -365,6 +366,7 @@ public class POAManagerImpl extends org.omg.CORBA.LocalObject implements
      * <code>hold_requests</code>
      * <b>Spec: pages 3-14 thru 3-18</b>
      */
+    @Override
     @Poa
     @ManagedOperation
     @Description( "Hold all requests to this POAManager" )
@@ -405,6 +407,7 @@ public class POAManagerImpl extends org.omg.CORBA.LocalObject implements
      * <code>discard_requests</code>
      * <b>Spec: pages 3-14 thru 3-18</b>
      */
+    @Override
     @Poa
     @ManagedOperation
     @ParameterNames( { "waitForCompletion" } )
@@ -453,6 +456,7 @@ public class POAManagerImpl extends org.omg.CORBA.LocalObject implements
      * Note: INACTIVE is a permanent state.
      */
 
+    @Override
     @Poa
     public void deactivate(boolean etherealize_objects, boolean wait_for_completion)
         throws org.omg.PortableServer.POAManagerPackage.AdapterInactive
@@ -512,6 +516,7 @@ public class POAManagerImpl extends org.omg.CORBA.LocalObject implements
             this.pmi = pmi ;
         }
 
+        @Override
         @Poa
         public void run()
         {
@@ -561,6 +566,7 @@ public class POAManagerImpl extends org.omg.CORBA.LocalObject implements
      * state of the POAManager
      */
 
+    @Override
     public org.omg.PortableServer.POAManagerPackage.State get_state () {
         return state;
     }

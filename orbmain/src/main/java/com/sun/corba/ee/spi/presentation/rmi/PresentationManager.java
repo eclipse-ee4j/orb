@@ -19,11 +19,11 @@
 
 package com.sun.corba.ee.spi.presentation.rmi ;
 
-import java.io.PrintStream ;
-import java.lang.reflect.Method ;
-import java.util.Map ;
+import java.io.PrintStream;
+import java.lang.reflect.Method;
+import java.util.Map;
 
-import javax.rmi.CORBA.Tie ;
+import javax.rmi.CORBA.Tie;
 
 import org.glassfish.pfl.basic.proxy.InvocationHandlerFactory;
 
@@ -169,6 +169,7 @@ public interface PresentationManager
      * @return static or dynamic stub factory.
      * @deprecated use {@link #getDynamicStubFactoryFactory()} or {@link #getStaticStubFactoryFactory()}
      */
+    @Deprecated
     StubFactoryFactory getStubFactoryFactory( boolean isDynamic ) ;
 
     /** Return the registered static StubFactoryFactory.

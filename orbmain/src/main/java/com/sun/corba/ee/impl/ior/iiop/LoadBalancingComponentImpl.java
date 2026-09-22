@@ -21,7 +21,7 @@ package com.sun.corba.ee.impl.ior.iiop;
 
 import com.sun.corba.ee.spi.ior.TaggedComponentBase;
 import com.sun.corba.ee.spi.ior.iiop.LoadBalancingComponent;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 
 import org.omg.CORBA_2_3.portable.OutputStream;
@@ -76,16 +76,19 @@ public class LoadBalancingComponentImpl extends TaggedComponentBase
         loadBalancingValue = theLoadBalancingValue;
     }
 
+    @Override
     public int getLoadBalancingValue()
     {
         return loadBalancingValue;
     }
 
+    @Override
     public void writeContents(OutputStream os)
     {
         os.write_ulong(loadBalancingValue);
     }
 
+    @Override
     public int getId()
     {
         return ORBConstants.TAG_LOAD_BALANCING_ID;

@@ -19,11 +19,10 @@
 
 package corba.strm2;
 
-import java.rmi.*;
+import java.rmi.RemoteException;
+
+import javax.naming.NamingException;
 import javax.rmi.PortableRemoteObject;
-import org.omg.CORBA.ORB;
-import java.io.*;
-import javax.naming.*;
 
 public class TesterImpl extends PortableRemoteObject implements Tester
 {

@@ -20,7 +20,7 @@
 
 package com.sun.corba.ee.spi.protocol;
 
-import com.sun.corba.ee.spi.oa.ObjectAdapterFactory ;
+import com.sun.corba.ee.spi.oa.ObjectAdapterFactory;
 
 import java.util.Set;
 

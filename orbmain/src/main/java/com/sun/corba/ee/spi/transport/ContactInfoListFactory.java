@@ -20,7 +20,7 @@
 package com.sun.corba.ee.spi.transport ;
 
 
-import com.sun.corba.ee.spi.ior.IOR ;
+import com.sun.corba.ee.spi.ior.IOR;
 import com.sun.corba.ee.spi.orb.ORB;
 
 /** Interface used to create a ContactInfoList from an IOR, as required
@@ -39,7 +39,7 @@ public interface ContactInfoListFactory {
      *
      * @param orb ORB to use in factory
      */
-    public void setORB(ORB orb);
+    void setORB(ORB orb);
 
-    public ContactInfoList create( IOR ior ) ;
+    ContactInfoList create( IOR ior ) ;
 }

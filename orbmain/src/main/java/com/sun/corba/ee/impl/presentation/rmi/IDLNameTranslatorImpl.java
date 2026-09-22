@@ -19,8 +19,8 @@
 
 package com.sun.corba.ee.impl.presentation.rmi ;
 
-import com.sun.corba.ee.spi.presentation.rmi.IDLNameTranslator ;
-import com.sun.corba.ee.spi.presentation.rmi.PresentationDefaults ;
+import com.sun.corba.ee.spi.presentation.rmi.IDLNameTranslator;
+import com.sun.corba.ee.spi.presentation.rmi.PresentationDefaults;
 
 import java.lang.reflect.Method;
 import java.security.AccessController;
@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-import org.glassfish.pfl.basic.proxy.DynamicAccessPermission ;
+import org.glassfish.pfl.basic.proxy.DynamicAccessPermission;
 
 /**
  * Bidirectional translator between RMI-IIOP interface methods and
@@ -126,6 +126,7 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
     {
         return AccessController.doPrivileged(
             new PrivilegedAction<IDLNameTranslator>() {
+                @Override
                 public IDLNameTranslator run() {
                     return new IDLNameTranslatorImpl( new Class[] { interf } ) ;
                 }
@@ -144,6 +145,7 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
     {
         return AccessController.doPrivileged(
             new PrivilegedAction<IDLNameTranslator>() {
+                @Override
                 public IDLNameTranslator run() {
                     return new IDLNameTranslatorImpl( interfaces ) ;
                 }
@@ -164,21 +166,25 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
         return itype.getExceptionName() ;
     }
 
+    @Override
     public Class[] getInterfaces()
     {
         return interf_;
     }
 
+    @Override
     public Method[] getMethods()
     {
         return methods_ ;
     }
 
+    @Override
     public Method getMethod( String idlName )
     {
         return IDLNameToMethodMap_.get(idlName);
     }
 
+    @Override
     public String getIDLName( Method method )
     {
         return methodToIDLNameMap_.get(method);
@@ -223,6 +229,7 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
             final Method[] methods = interf.getMethods();
             // Handle the case of a non-public interface!
             AccessController.doPrivileged(new PrivilegedAction<Object>() {
+                @Override
                 public Object run() {
                     Method.setAccessible( methods, true ) ;
                     return null ;
@@ -544,7 +551,7 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
      */
     public static String charToUnicodeRepresentation(char c) {
 
-        int orig = (int) c;
+        int orig = c;
         StringBuilder hexString = new StringBuilder();
 
         int value = orig;

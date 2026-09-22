@@ -32,5 +32,5 @@ public interface VM_TRUNCATABLE {
     /** The value representing a truncatable value type in
     * a typecode.
     */
-    final short value = (short) (3L);
+    short value = (short) (3L);
 }

@@ -19,7 +19,8 @@
 
 package corba.ortremote ;
 
-import java.io.PrintStream ;
+import java.io.PrintStream;
+
 import org.glassfish.pfl.basic.func.NullaryFunction;
 import org.glassfish.pfl.test.JUnitReportHelper;
 import org.glassfish.pfl.test.ObjectUtility;

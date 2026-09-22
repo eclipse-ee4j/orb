@@ -20,7 +20,6 @@
 
 package javax.rmi;
 
-import java.lang.String;
 import java.rmi.RemoteException;
 
 

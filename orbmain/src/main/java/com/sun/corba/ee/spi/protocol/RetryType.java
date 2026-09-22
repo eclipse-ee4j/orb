@@ -42,5 +42,5 @@ public enum RetryType {
     public boolean isRetry() {
         return this.isRetry ;
     }
-} ;
+}
 

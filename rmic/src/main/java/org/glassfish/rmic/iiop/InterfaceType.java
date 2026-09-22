@@ -45,6 +45,7 @@ public abstract class InterfaceType extends CompoundType {
      * @param useIDLNames If true, print IDL names; otherwise, print java names.
      * @param globalIDLNames If true and useIDLNames true, prepends "::".
      */
+    @Override
     public void print ( IndentingWriter writer,
                         boolean useQualifiedNames,
                         boolean useIDLNames,

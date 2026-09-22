@@ -508,6 +508,7 @@ class BinaryClass extends ClassDefinition implements Constants {
     /**
      * Add a dependency
      */
+    @Override
     public void addDependency(ClassDeclaration c) {
         if ((c != null) && !dependencies.contains(c)) {
             dependencies.addElement(c);

@@ -33,6 +33,7 @@ package org.omg.CORBA;
 
 public final class UnknownUserException extends UserException {
 
+    private static final long serialVersionUID = 3106202258203879281L;
     /** The <code>Any</code> instance that contains the actual user exception thrown
      *  by the server.
      * @serial
@@ -43,7 +44,6 @@ public final class UnknownUserException extends UserException {
      * Constructs an <code>UnknownUserException</code> object.
      */
     public UnknownUserException() {
-        super();
     }
 
     /**
@@ -54,7 +54,6 @@ public final class UnknownUserException extends UserException {
      *         by the server
      */
     public UnknownUserException(Any a) {
-        super();
         except = a;
     }
 }
