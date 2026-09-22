@@ -21,6 +21,8 @@ package com.sun.corba.ee.impl.encoding;
 
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 
+import java.nio.ByteBuffer;
+
 public class CDROutputStream_1_1 extends CDROutputStream_1_0
 {
     // This is used to keep indirections working across fragments.  When added
@@ -69,6 +71,14 @@ public class CDROutputStream_1_1 extends CDROutputStream_1_0
 
     @Override
     protected void grow(int align, int n) {
+        ByteBuffer larger = bufferManagerWrite.expandWithinFragment(byteBuffer, n);
+        if (larger != null) {
+            // Still inside the current fragment: nothing is sent, and no
+            // fragment or chunk bookkeeping applies.
+            byteBuffer = larger;
+            return;
+        }
+
         // Save the current size for possible post-fragmentation calculation
         int oldSize = byteBuffer.position();
 

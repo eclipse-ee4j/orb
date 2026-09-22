@@ -24,6 +24,7 @@ import com.sun.corba.ee.impl.protocol.giopmsgheaders.Message;
 import com.sun.corba.ee.impl.protocol.giopmsgheaders.MessageBase;
 import com.sun.corba.ee.impl.protocol.giopmsgheaders.ReplyMessage;
 import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.transport.ByteBufferPool;
 import com.sun.corba.ee.spi.transport.Connection;
 import com.sun.corba.ee.spi.transport.ContactInfoListIterator;
 
@@ -52,15 +53,48 @@ public class BufferManagerWriteStream extends BufferManagerWrite
     }
 
     /**
-     * Returns the correct buffer size for this type of
-     * buffer manager as set in the ORB.
+     * The size of the buffer a stream starts with: the configured GIOP
+     * buffer size, but never more than a fragment.
+     *
+     * <p>This used to be the fragment size itself, so raising the fragment
+     * size to cut the number of fragments - and of writes - for large
+     * messages also made every small message allocate a buffer that large.
+     * The stream now starts small and {@link #expandWithinFragment} grows
+     * the buffer, doubling, up to the fragment size; fragments are still
+     * cut at exactly the same points. With the defaults, where the two sizes
+     * are equal, nothing changes.
      */
     @Override
     public int getBufferSize() {
+        return Math.min(orb.getORBData().getGIOPBufferSize(), getFragmentSize());
+    }
+
+    private int getFragmentSize() {
         return orb.getORBData().getGIOPFragmentSize();
     }
 
     @Override
+    public ByteBuffer expandWithinFragment(ByteBuffer byteBuffer, int numBytesNeeded) {
+        int fragmentSize = getFragmentSize();
+        int needed = byteBuffer.position() + numBytesNeeded;
+        if (byteBuffer.limit() >= fragmentSize || needed > fragmentSize) {
+            // Either the buffer is a whole fragment already, or the data
+            // would not fit in one anyway: this is a real overflow.
+            return null;
+        }
+
+        int newSize = Math.min(fragmentSize, Math.max(needed, byteBuffer.limit() * 2));
+        ByteBufferPool byteBufferPool = orb.getByteBufferPool();
+        ByteBuffer larger = byteBufferPool.getByteBuffer(newSize);
+        larger.order(byteBuffer.order());
+        larger.limit(newSize);
+
+        byteBuffer.flip();
+        larger.put(byteBuffer);
+        byteBufferPool.releaseByteBuffer(byteBuffer);
+        return larger;
+    }
+
     protected ByteBuffer overflow(ByteBuffer byteBuffer, int numBytesNeeded) {
         // Set the fragment's moreFragments field to true
         MessageBase.setFlag(byteBuffer, Message.MORE_FRAGMENTS_BIT);

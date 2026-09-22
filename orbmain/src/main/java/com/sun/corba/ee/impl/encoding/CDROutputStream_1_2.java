@@ -23,6 +23,7 @@ import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 import com.sun.corba.ee.spi.trace.CdrWrite;
 
+import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
@@ -222,6 +223,14 @@ public class CDROutputStream_1_2 extends CDROutputStream_1_1
     @Override
     @CdrWrite
     protected void grow(int align, int n) {
+        ByteBuffer larger = bufferManagerWrite.expandWithinFragment(byteBuffer, n);
+        if (larger != null) {
+            // Still inside the current fragment: nothing is sent, and no
+            // fragment or chunk bookkeeping applies.
+            byteBuffer = larger;
+            return;
+        }
+
 
         // Save the current size for possible post-fragmentation calculation
         int oldSize = byteBuffer.position();
