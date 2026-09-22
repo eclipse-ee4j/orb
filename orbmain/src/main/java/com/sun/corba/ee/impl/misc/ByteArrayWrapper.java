@@ -34,12 +34,12 @@ public class ByteArrayWrapper {
     }
 
     @Override
-    public boolean equals( Object obj ) {
+    public boolean equals(Object obj) {
         if (obj == null)
-            return false ;
+            return false;
 
         if (obj instanceof ByteArrayWrapper) {
-            return Arrays.equals(objKey, ((ByteArrayWrapper)obj).getObjKey());
+            return Arrays.equals(objKey, ((ByteArrayWrapper) obj).getObjKey());
         } else {
             return false;
         }
@@ -50,6 +50,5 @@ public class ByteArrayWrapper {
         return Arrays.hashCode(objKey);
 
     }
-
 
 }

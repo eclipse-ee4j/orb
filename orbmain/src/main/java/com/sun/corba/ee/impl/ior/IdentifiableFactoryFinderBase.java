@@ -17,7 +17,7 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.impl.ior ;
+package com.sun.corba.ee.impl.ior;
 
 import com.sun.corba.ee.spi.ior.Identifiable;
 import com.sun.corba.ee.spi.ior.IdentifiableFactory;
@@ -30,33 +30,26 @@ import java.util.Map;
 
 import org.omg.CORBA_2_3.portable.InputStream;
 
-public abstract class IdentifiableFactoryFinderBase<E extends Identifiable>
-    implements IdentifiableFactoryFinder<E>
-{
-    protected static final IORSystemException wrapper =
-        IORSystemException.self ;
+public abstract class IdentifiableFactoryFinderBase<E extends Identifiable> implements IdentifiableFactoryFinder<E> {
+    protected static final IORSystemException wrapper = IORSystemException.self;
 
-    private ORB orb ;
-    private Map<Integer,IdentifiableFactory<E>> map ;
+    private ORB orb;
+    private Map<Integer, IdentifiableFactory<E>> map;
 
-    protected IdentifiableFactoryFinderBase( ORB orb )
-    {
-        map = new HashMap<Integer,IdentifiableFactory<E>>() ;
-        this.orb = orb ;
+    protected IdentifiableFactoryFinderBase(ORB orb) {
+        map = new HashMap<Integer, IdentifiableFactory<E>>();
+        this.orb = orb;
     }
 
-    protected IdentifiableFactory<E> getFactory(int id)
-    {
-        return map.get( id ) ;
+    protected IdentifiableFactory<E> getFactory(int id) {
+        return map.get(id);
     }
 
-    public abstract E handleMissingFactory( int id,
-        InputStream is ) ;
+    public abstract E handleMissingFactory(int id, InputStream is);
 
     @Override
-    public E create(int id, InputStream is)
-    {
-        IdentifiableFactory<E> factory = getFactory( id ) ;
+    public E create(int id, InputStream is) {
+        IdentifiableFactory<E> factory = getFactory(id);
 
         if (factory != null) {
             return factory.create(orb, is);
@@ -66,8 +59,7 @@ public abstract class IdentifiableFactoryFinderBase<E extends Identifiable>
     }
 
     @Override
-    public void registerFactory(IdentifiableFactory<E> factory)
-    {
-        map.put( factory.getId(), factory ) ;
+    public void registerFactory(IdentifiableFactory<E> factory) {
+        map.put(factory.getId(), factory);
     }
 }

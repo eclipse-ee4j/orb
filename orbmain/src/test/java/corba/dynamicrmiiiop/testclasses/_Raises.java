@@ -25,13 +25,15 @@ package corba.dynamicrmiiiop.testclasses;
 public class _Raises {
 
     // Inner class with name that clashes with an IDL keyword.
-    public static class Union {}
+    public static class Union {
+    }
 
     // Inner class whose name has a leading underscore.
-    public static class _Foo {}
+    public static class _Foo {
+    }
 
     // Inner class with name that has leading underscore plus IDL keyword
-    public static class _Union {}
-
+    public static class _Union {
+    }
 
 }

@@ -19,49 +19,45 @@
 
 package com.sun.corba.ee.impl.transport.connection;
 
-
 import com.sun.corba.ee.spi.transport.concurrent.ConcurrentQueueFactory;
 import com.sun.corba.ee.spi.transport.connection.Connection;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-abstract class ConnectionCacheNonBlockingBase<C extends Connection>
-    extends ConnectionCacheBase<C> {
+abstract class ConnectionCacheNonBlockingBase<C extends Connection> extends ConnectionCacheBase<C> {
 
-    protected final AtomicInteger totalBusy ;   // Number of busy connections
-    protected final AtomicInteger totalIdle ;   // Number of idle connections
+    protected final AtomicInteger totalBusy; // Number of busy connections
+    protected final AtomicInteger totalIdle; // Number of idle connections
 
-    ConnectionCacheNonBlockingBase( String cacheType, int highWaterMark,
-        int numberToReclaim, long ttl ) {
+    ConnectionCacheNonBlockingBase(String cacheType, int highWaterMark, int numberToReclaim, long ttl) {
 
-        super( cacheType, highWaterMark, numberToReclaim) ;
+        super(cacheType, highWaterMark, numberToReclaim);
 
-        this.totalBusy = new AtomicInteger() ;
-        this.totalIdle = new AtomicInteger() ;
+        this.totalBusy = new AtomicInteger();
+        this.totalIdle = new AtomicInteger();
 
         this.reclaimableConnections =
-            // XXX make this the non-blocking version once we write it.
-            ConcurrentQueueFactory.<C>makeBlockingConcurrentQueue( ttl ) ;
+                // XXX make this the non-blocking version once we write it.
+                ConcurrentQueueFactory.<C>makeBlockingConcurrentQueue(ttl);
     }
 
     @Override
     public long numberOfConnections() {
-        return totalIdle.get() + totalBusy.get() ;
+        return totalIdle.get() + totalBusy.get();
     }
 
     @Override
     public long numberOfIdleConnections() {
-        return totalIdle.get() ;
+        return totalIdle.get();
     }
 
     @Override
     public long numberOfBusyConnections() {
-        return totalBusy.get() ;
+        return totalBusy.get();
     }
 
     @Override
     public long numberOfReclaimableConnections() {
-        return reclaimableConnections.size() ;
+        return reclaimableConnections.size();
     }
 }
-

@@ -45,8 +45,7 @@ public class OutputStreamFactory {
         });
     }
 
-    public static EncapsOutputStream newEncapsOutputStream(final ORB orb,
-            final GIOPVersion version) {
+    public static EncapsOutputStream newEncapsOutputStream(final ORB orb, final GIOPVersion version) {
         return AccessController.doPrivileged(new PrivilegedAction<EncapsOutputStream>() {
 
             @Override
@@ -69,12 +68,8 @@ public class OutputStreamFactory {
 
     }
 
-    public static CDROutputObject newCDROutputObject(final ORB orb,
-            final MessageMediator mediator,
-            final GIOPVersion giopVersion,
-            final Connection connection,
-            final Message header,
-            final byte streamFormatVersion) {
+    public static CDROutputObject newCDROutputObject(final ORB orb, final MessageMediator mediator, final GIOPVersion giopVersion,
+            final Connection connection, final Message header, final byte streamFormatVersion) {
         return AccessController.doPrivileged(new PrivilegedAction<CDROutputObject>() {
 
             @Override
@@ -84,9 +79,7 @@ public class OutputStreamFactory {
         });
     }
 
-    public static CDROutputObject newCDROutputObject(final ORB orb,
-            final MessageMediator messageMediator,
-            final Message header,
+    public static CDROutputObject newCDROutputObject(final ORB orb, final MessageMediator messageMediator, final Message header,
             final byte streamFormatVersion) {
         return AccessController.doPrivileged(new PrivilegedAction<CDROutputObject>() {
 
@@ -98,11 +91,8 @@ public class OutputStreamFactory {
 
     }
 
-    public static CDROutputObject newCDROutputObject(final ORB orb,
-            final MessageMediator messageMediator,
-            final Message header,
-            final byte streamFormatVersion,
-            final int strategy) {
+    public static CDROutputObject newCDROutputObject(final ORB orb, final MessageMediator messageMediator, final Message header,
+            final byte streamFormatVersion, final int strategy) {
         return AccessController.doPrivileged(new PrivilegedAction<CDROutputObject>() {
 
             @Override

@@ -37,11 +37,9 @@ import com.sun.corba.ee.spi.trace.Transport;
  */
 
 @Transport
-public final class RequestMessage_1_2 extends Message_1_2
-        implements RequestMessage {
+public final class RequestMessage_1_2 extends Message_1_2 implements RequestMessage {
 
-    private static final ORBUtilSystemException wrapper =
-            ORBUtilSystemException.self;
+    private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
     // Instance variables
 
@@ -60,11 +58,9 @@ public final class RequestMessage_1_2 extends Message_1_2
         this.service_contexts = ServiceContextDefaults.makeServiceContexts(orb);
     }
 
-    RequestMessage_1_2(ORB orb, int _request_id, byte _response_flags,
-                       byte[] _reserved, TargetAddress _target,
-                       String _operation, ServiceContexts _service_contexts) {
-        super(Message.GIOPBigMagic, GIOPVersion.V1_2, FLAG_NO_FRAG_BIG_ENDIAN,
-                Message.GIOPRequest, 0);
+    RequestMessage_1_2(ORB orb, int _request_id, byte _response_flags, byte[] _reserved, TargetAddress _target, String _operation,
+            ServiceContexts _service_contexts) {
+        super(Message.GIOPBigMagic, GIOPVersion.V1_2, FLAG_NO_FRAG_BIG_ENDIAN, Message.GIOPRequest, 0);
         this.orb = orb;
         request_id = _request_id;
         response_flags = _response_flags;
@@ -84,16 +80,10 @@ public final class RequestMessage_1_2 extends Message_1_2
     @Override
     public boolean isResponseExpected() {
         /*
-        case 1: LSBit[1] == 1
-            not a oneway call (DII flag INV_NO_RESPONSE is false)  // Ox03
-            LSBit[0] must be 1.
-        case 2: LSBit[1] == 0
-            if (LSB[0] == 0) // Ox00
-                oneway call
-            else if (LSB[0] == 1) // 0x01
-                oneway call; but server may provide
-                a location forward response or system exception response.
-        */
+         * case 1: LSBit[1] == 1 not a oneway call (DII flag INV_NO_RESPONSE is false) // Ox03 LSBit[0] must be 1. case 2:
+         * LSBit[1] == 0 if (LSB[0] == 0) // Ox00 oneway call else if (LSB[0] == 1) // 0x01 oneway call; but server may provide
+         * a location forward response or system exception response.
+         */
 
         if ((this.response_flags & RESPONSE_EXPECTED_BIT) == RESPONSE_EXPECTED_BIT) {
             return true;
@@ -123,7 +113,7 @@ public final class RequestMessage_1_2 extends Message_1_2
     }
 
     @Override
-    @SuppressWarnings({"deprecation"})
+    @SuppressWarnings({ "deprecation" })
     public org.omg.CORBA.Principal getPrincipal() {
         // REVISIT Should we throw an exception or return null ?
         return null;
@@ -154,8 +144,7 @@ public final class RequestMessage_1_2 extends Message_1_2
         this.target = TargetAddressHelper.read(istream);
         getObjectKeyCacheEntry(); // this does AddressingDisposition check
         this.operation = istream.read_string();
-        this.service_contexts = ServiceContextDefaults.makeServiceContexts(
-                (org.omg.CORBA_2_3.portable.InputStream) istream);
+        this.service_contexts = ServiceContextDefaults.makeServiceContexts((org.omg.CORBA_2_3.portable.InputStream) istream);
 
         // CORBA formal 00-11-0 15.4.2.2 GIOP 1.2 body must be
         // aligned on an 8 octet boundary.
@@ -182,9 +171,7 @@ public final class RequestMessage_1_2 extends Message_1_2
         nullCheck(this.target);
         TargetAddressHelper.write(ostream, this.target);
         ostream.write_string(this.operation);
-        service_contexts.write(
-                (org.omg.CORBA_2_3.portable.OutputStream) ostream,
-                GIOPVersion.V1_2);
+        service_contexts.write((org.omg.CORBA_2_3.portable.OutputStream) ostream, GIOPVersion.V1_2);
 
         // CORBA formal 00-11-0 15.4.2.2 GIOP 1.2 body must be
         // aligned on an 8 octet boundary.
@@ -195,8 +182,7 @@ public final class RequestMessage_1_2 extends Message_1_2
     }
 
     @Override
-    public void callback(MessageHandler handler)
-            throws java.io.IOException {
+    public void callback(MessageHandler handler) throws java.io.IOException {
         handler.handleInput(this);
     }
 

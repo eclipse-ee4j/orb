@@ -19,19 +19,16 @@
 
 package com.sun.corba.ee.impl.presentation.rmi;
 
-public class StubFactoryStaticImpl extends StubFactoryBase
-{
-    private Class stubClass ;
+public class StubFactoryStaticImpl extends StubFactoryBase {
+    private Class stubClass;
 
-    public StubFactoryStaticImpl(Class cls)
-    {
-        super( null ) ;
+    public StubFactoryStaticImpl(Class cls) {
+        super(null);
         this.stubClass = cls;
     }
 
     @Override
-    public org.omg.CORBA.Object makeStub()
-    {
+    public org.omg.CORBA.Object makeStub() {
         org.omg.CORBA.Object stub = null;
         try {
             stub = (org.omg.CORBA.Object) stubClass.newInstance();
@@ -40,6 +37,6 @@ public class StubFactoryStaticImpl extends StubFactoryBase
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-        return stub ;
+        return stub;
     }
 }

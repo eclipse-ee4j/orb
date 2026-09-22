@@ -20,17 +20,15 @@
 package org.omg.CORBA.TSIdentificationPackage;
 
 /**
- * This exception is thrown if OTS call-back interfaces
- * have already been registered with the ORB.
+ * This exception is thrown if OTS call-back interfaces have already been registered with the ORB.
+ * 
  * @see org.omg.CORBA.TSIdentification
  * @see NotAvailable
  */
-public final class AlreadyIdentified
-    extends org.omg.CORBA.UserException {
+public final class AlreadyIdentified extends org.omg.CORBA.UserException {
     private static final long serialVersionUID = 3933915408125341247L;
 
-    //  constructor
+    // constructor
     public AlreadyIdentified() {
     }
 }
-

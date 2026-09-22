@@ -23,15 +23,18 @@ import java.io.IOException;
 
 /**
  *
- * Thrown when an operation is performed on a TemporarySelector which
- * is not allowed as a result of the current state of a TemporarySelector.
+ * Thrown when an operation is performed on a TemporarySelector which is not allowed as a result of the current state of
+ * a TemporarySelector.
+ * 
  * @author Charlie Hunt
  */
 public class TemporarySelectorClosedException extends IOException {
 
     private static final long serialVersionUID = 3089446347486064839L;
 
-    /** Creates a new instance of TemporarySelectorClosedException
+    /**
+     * Creates a new instance of TemporarySelectorClosedException
+     * 
      * @param theMessage The details message
      */
     public TemporarySelectorClosedException(String theMessage) {

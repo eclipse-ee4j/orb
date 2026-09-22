@@ -26,49 +26,43 @@ import com.sun.corba.ee.spi.servicecontext.UnknownServiceContext;
 import org.omg.CORBA_2_3.portable.InputStream;
 import org.omg.CORBA_2_3.portable.OutputStream;
 
-public class UnknownServiceContextImpl extends ServiceContextBase
-    implements UnknownServiceContext
-{
-    private int id = -1 ;
-    private byte[] data = null ;
+public class UnknownServiceContextImpl extends ServiceContextBase implements UnknownServiceContext {
+    private int id = -1;
+    private byte[] data = null;
 
-    public UnknownServiceContextImpl( int id, byte[] data )
-    {
-        this.id = id ;
-        this.data = data.clone() ;
+    public UnknownServiceContextImpl(int id, byte[] data) {
+        this.id = id;
+        this.data = data.clone();
     }
 
-    public UnknownServiceContextImpl( int id, InputStream is )
-    {
-        this.id = id ;
+    public UnknownServiceContextImpl(int id, InputStream is) {
+        this.id = id;
 
         int len = is.read_long();
         data = new byte[len];
-        is.read_octet_array(data,0,len);
+        is.read_octet_array(data, 0, len);
     }
 
     @Override
-    public int getId() { return id ; }
+    public int getId() {
+        return id;
+    }
 
     @Override
-    public void writeData( OutputStream os )
-    {
+    public void writeData(OutputStream os) {
         // Abstract method in the base class not used
         // here because write overrides ServiceContextBase.write
     }
 
     @Override
-    public void write( OutputStream os, GIOPVersion gv)
-    {
-        os.write_long( id ) ;
-        os.write_long( data.length ) ;
-        os.write_octet_array( data, 0, data.length ) ;
+    public void write(OutputStream os, GIOPVersion gv) {
+        os.write_long(id);
+        os.write_long(data.length);
+        os.write_octet_array(data, 0, data.length);
     }
 
     @Override
-    public byte[] getData()
-    {
-        return data.clone() ;
+    public byte[] getData() {
+        return data.clone();
     }
 }
-

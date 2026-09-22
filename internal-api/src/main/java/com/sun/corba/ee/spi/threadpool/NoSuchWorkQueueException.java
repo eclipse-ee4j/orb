@@ -19,11 +19,9 @@
 
 package com.sun.corba.ee.spi.threadpool;
 
-public class NoSuchWorkQueueException extends Exception
-{
+public class NoSuchWorkQueueException extends Exception {
 
     private static final long serialVersionUID = 9216861691977077139L;
 }
 
 // End of file.
-

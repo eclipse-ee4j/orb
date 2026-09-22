@@ -34,11 +34,9 @@ public class ReaderThreadImpl implements ReaderThread, Work {
     private Connection connection;
     private boolean keepRunning;
     private long enqueueTime;
-    private static final ORBUtilSystemException wrapper =
-        ORBUtilSystemException.self ;
+    private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
-    public ReaderThreadImpl(ORB orb, Connection connection)
-    {
+    public ReaderThreadImpl(ORB orb, Connection connection) {
         this.orb = orb;
         this.connection = connection;
         keepRunning = true;
@@ -67,7 +65,7 @@ public class ReaderThreadImpl implements ReaderThread, Work {
     }
 
     private synchronized boolean isRunning() {
-        return keepRunning ;
+        return keepRunning;
     }
 
     ////////////////////////////////////////////////////
@@ -76,40 +74,39 @@ public class ReaderThreadImpl implements ReaderThread, Work {
     //
 
     @InfoMethod
-    private void display( String msg ) { }
+    private void display(String msg) {
+    }
 
     @InfoMethod
-    private void display( String msg, Object value ) { }
-
+    private void display(String msg, Object value) {
+    }
 
     // REVISIT - this needs alot more from previous ReaderThread.
     @Override
     @Transport
-    public void doWork()
-    {
+    public void doWork() {
         while (isRunning()) {
             try {
-                display( "Start readerThread cycle", connection ) ;
+                display("Start readerThread cycle", connection);
 
                 if (connection.read()) {
                     // REVISIT - put in pool;
                     return;
                 }
 
-                display( "End readerThread cycle" ) ;
+                display("End readerThread cycle");
             } catch (Throwable t) {
-                wrapper.exceptionInReaderThread( t ) ;
-                display( "Exception in read", t ) ;
+                wrapper.exceptionInReaderThread(t);
+                display("Exception in read", t);
 
-                orb.getTransportManager().getSelector(0)
-                    .unregisterForEvent(getConnection().getEventHandler());
+                orb.getTransportManager().getSelector(0).unregisterForEvent(getConnection().getEventHandler());
 
                 try {
                     if (isRunning()) {
                         getConnection().close();
                     }
                 } catch (Exception exc) {
-                    wrapper.ioExceptionOnClose( exc ) ;
+                    wrapper.ioExceptionOnClose(exc);
                 }
             }
         }
@@ -126,7 +123,9 @@ public class ReaderThreadImpl implements ReaderThread, Work {
     }
 
     @Override
-    public String getName() { return "ReaderThread"; }
+    public String getName() {
+        return "ReaderThread";
+    }
 }
 
 // End of file.

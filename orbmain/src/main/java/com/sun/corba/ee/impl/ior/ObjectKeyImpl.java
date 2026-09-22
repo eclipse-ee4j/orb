@@ -31,25 +31,22 @@ import com.sun.corba.ee.spi.protocol.ServerRequestDispatcher;
 import org.omg.CORBA_2_3.portable.OutputStream;
 
 /**
- * @author  Ken Cavanaugh
+ * @author Ken Cavanaugh
  */
-public class ObjectKeyImpl implements ObjectKey
-{
-    private static final IORSystemException wrapper =
-        IORSystemException.self ;
+public class ObjectKeyImpl implements ObjectKey {
+    private static final IORSystemException wrapper = IORSystemException.self;
 
     private ObjectKeyTemplate oktemp;
     private ObjectId id;
     private byte[] array;
 
-    public ObjectKeyImpl( ObjectKeyTemplate oktemp, ObjectId id) {
-        this.oktemp = oktemp ;
-        this.id = id ;
+    public ObjectKeyImpl(ObjectKeyTemplate oktemp, ObjectId id) {
+        this.oktemp = oktemp;
+        this.id = id;
     }
 
     @Override
-    public boolean equals( Object obj )
-    {
+    public boolean equals(Object obj) {
         if (obj == null) {
             return false;
         }
@@ -58,41 +55,35 @@ public class ObjectKeyImpl implements ObjectKey
             return false;
         }
 
-        ObjectKeyImpl other = (ObjectKeyImpl)obj ;
+        ObjectKeyImpl other = (ObjectKeyImpl) obj;
 
-        return oktemp.equals( other.oktemp ) &&
-            id.equals( other.id ) ;
+        return oktemp.equals(other.oktemp) && id.equals(other.id);
     }
 
     @Override
-    public int hashCode()
-    {
-        return oktemp.hashCode() ^ id.hashCode() ;
+    public int hashCode() {
+        return oktemp.hashCode() ^ id.hashCode();
     }
 
     @Override
-    public ObjectKeyTemplate getTemplate()
-    {
-        return oktemp ;
+    public ObjectKeyTemplate getTemplate() {
+        return oktemp;
     }
 
     @Override
-    public ObjectId getId()
-    {
-        return id ;
+    public ObjectId getId() {
+        return id;
     }
 
     @Override
-    public void write( OutputStream os )
-    {
-        oktemp.write( id, os ) ;
+    public void write(OutputStream os) {
+        oktemp.write(id, os);
     }
 
     @Override
-    public synchronized byte[] getBytes(org.omg.CORBA.ORB orb)
-    {
+    public synchronized byte[] getBytes(org.omg.CORBA.ORB orb) {
         if (array == null) {
-            EncapsOutputStream os = OutputStreamFactory.newEncapsOutputStream((ORB)orb);
+            EncapsOutputStream os = OutputStreamFactory.newEncapsOutputStream((ORB) orb);
             try {
                 write(os);
                 array = os.toByteArray();
@@ -105,7 +96,7 @@ public class ObjectKeyImpl implements ObjectKey
             }
         }
 
-        return array.clone() ;
+        return array.clone();
     }
 
     @Override

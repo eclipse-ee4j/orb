@@ -19,17 +19,12 @@
 
 package com.sun.corba.ee.impl.dynamicany;
 
-
-
 import com.sun.corba.ee.spi.orb.ORB;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
-public class DynAnyFactoryImpl
-    extends org.omg.CORBA.LocalObject
-    implements org.omg.DynamicAny.DynAnyFactory
-{
+public class DynAnyFactoryImpl extends org.omg.CORBA.LocalObject implements org.omg.DynamicAny.DynAnyFactory {
     private static final long serialVersionUID = 5207021167805787406L;
 
     //
@@ -51,9 +46,8 @@ public class DynAnyFactoryImpl
     }
 
     // Present only to get rid of FindBugs error
-    private void readObject( ObjectInputStream is ) throws IOException,
-        ClassNotFoundException {
-        this.orb = null ;
+    private void readObject(ObjectInputStream is) throws IOException, ClassNotFoundException {
+        this.orb = null;
     }
     //
     // DynAnyFactory interface methods
@@ -61,17 +55,15 @@ public class DynAnyFactoryImpl
 
     // Returns the most derived DynAny type based on the Anys TypeCode.
     @Override
-    public org.omg.DynamicAny.DynAny create_dyn_any (org.omg.CORBA.Any any)
-        throws org.omg.DynamicAny.DynAnyFactoryPackage.InconsistentTypeCode
-    {
+    public org.omg.DynamicAny.DynAny create_dyn_any(org.omg.CORBA.Any any)
+            throws org.omg.DynamicAny.DynAnyFactoryPackage.InconsistentTypeCode {
         return DynAnyUtil.createMostDerivedDynAny(any, orb, true);
     }
 
     // Returns the most derived DynAny type based on the TypeCode.
     @Override
-    public org.omg.DynamicAny.DynAny create_dyn_any_from_type_code (org.omg.CORBA.TypeCode type)
-        throws org.omg.DynamicAny.DynAnyFactoryPackage.InconsistentTypeCode
-    {
+    public org.omg.DynamicAny.DynAny create_dyn_any_from_type_code(org.omg.CORBA.TypeCode type)
+            throws org.omg.DynamicAny.DynAnyFactoryPackage.InconsistentTypeCode {
         return DynAnyUtil.createMostDerivedDynAny(type, orb);
     }
 
@@ -80,6 +72,6 @@ public class DynAnyFactoryImpl
     private final String[] __ids = { "IDL:omg.org/DynamicAny/DynAnyFactory:1.0" };
 
     public String[] _ids() {
-        return __ids.clone() ;
+        return __ids.clone();
     }
 }

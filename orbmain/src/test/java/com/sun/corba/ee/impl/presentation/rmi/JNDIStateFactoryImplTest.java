@@ -51,7 +51,7 @@ public class JNDIStateFactoryImplTest {
 
     private JNDIStateFactoryImpl impl = new JNDIStateFactoryImpl();
     private final Remote remote = createStrictStub(Remote.class);
-    private Hashtable<String,Object> env = new Hashtable<>();
+    private Hashtable<String, Object> env = new Hashtable<>();
     private ORB orb = createStrictStub(JndiOrb.class);
 
     private List<Memento> mementos = new ArrayList<>();
@@ -60,7 +60,8 @@ public class JNDIStateFactoryImplTest {
 
     @After
     public void tearDown() throws Exception {
-        for (Memento memento : mementos) memento.revert();
+        for (Memento memento : mementos)
+            memento.revert();
     }
 
     @Before

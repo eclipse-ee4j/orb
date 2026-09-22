@@ -29,34 +29,25 @@ import java.util.Map;
 
 import org.omg.CORBA_2_3.portable.InputStream;
 
-public class TypeCodeInputStream extends EncapsInputStream implements TypeCodeReader
-{
-    private Map<Integer,TypeCodeImpl> typeMap = null;
+public class TypeCodeInputStream extends EncapsInputStream implements TypeCodeReader {
+    private Map<Integer, TypeCodeImpl> typeMap = null;
     private InputStream enclosure = null;
 
     public TypeCodeInputStream(org.omg.CORBA.ORB orb, byte[] data, int size) {
         super(orb, data, size);
     }
 
-    public TypeCodeInputStream(org.omg.CORBA.ORB orb,
-                               byte[] data,
-                               int size,
-                               ByteOrder byteOrder,
-                               GIOPVersion version) {
+    public TypeCodeInputStream(org.omg.CORBA.ORB orb, byte[] data, int size, ByteOrder byteOrder, GIOPVersion version) {
         super(orb, data, size, byteOrder, version);
     }
 
-    TypeCodeInputStream(org.omg.CORBA.ORB orb,
-                               ByteBuffer byteBuffer,
-                               int size,
-                               ByteOrder byteOrder,
-                               GIOPVersion version) {
+    TypeCodeInputStream(org.omg.CORBA.ORB orb, ByteBuffer byteBuffer, int size, ByteOrder byteOrder, GIOPVersion version) {
         super(orb, byteBuffer, size, byteOrder, version);
     }
 
     public void addTypeCodeAtPosition(TypeCodeImpl tc, int position) {
         if (typeMap == null) {
-            typeMap = new HashMap<Integer,TypeCodeImpl>(16);
+            typeMap = new HashMap<Integer, TypeCodeImpl>(16);
         }
         typeMap.put(position, tc);
     }
@@ -78,7 +69,7 @@ public class TypeCodeInputStream extends EncapsInputStream implements TypeCodeRe
         if (enclosure == null)
             return this;
         if (enclosure instanceof TypeCodeReader)
-            return ((TypeCodeReader)enclosure).getTopLevelStream();
+            return ((TypeCodeReader) enclosure).getTopLevelStream();
         return this;
     }
 
@@ -88,7 +79,7 @@ public class TypeCodeInputStream extends EncapsInputStream implements TypeCodeRe
             // The enclosed stream has to consider if the enclosing stream
             // had to read the enclosed stream completely when creating it.
             // This is why the size of the enclosed stream needs to be substracted.
-            int topPos = ((TypeCodeReader)enclosure).getTopLevelPosition();
+            int topPos = ((TypeCodeReader) enclosure).getTopLevelPosition();
             // Subtract getBufferLength from the parents pos because it read this stream
             // from its own when creating it
             return topPos - getBufferLength() + getPosition();
@@ -109,8 +100,7 @@ public class TypeCodeInputStream extends EncapsInputStream implements TypeCodeRe
         // create an encapsulation using the marshal buffer
         if (is instanceof CDRInputObject) {
             encap = EncapsInputStreamFactory.newTypeCodeInputStream(_orb, encapBuffer, encapBuffer.length,
-                                            ((CDRInputObject)is).getByteOrder(),
-                                            ((CDRInputObject)is).getGIOPVersion());
+                    ((CDRInputObject) is).getByteOrder(), ((CDRInputObject) is).getGIOPVersion());
         } else {
             encap = EncapsInputStreamFactory.newTypeCodeInputStream(_orb, encapBuffer, encapBuffer.length);
         }
@@ -127,10 +117,9 @@ public class TypeCodeInputStream extends EncapsInputStream implements TypeCodeRe
     @Override
     public void printTypeMap() {
         System.out.println("typeMap = {");
-        for (Integer pos : typeMap.keySet() ) {
-            System.out.println( "  key = " + pos + ", value = " +
-                typeMap.get(pos).description() ) ;
+        for (Integer pos : typeMap.keySet()) {
+            System.out.println("  key = " + pos + ", value = " + typeMap.get(pos).description());
         }
-        System.out.println("}") ;
+        System.out.println("}");
     }
 }

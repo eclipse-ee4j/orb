@@ -17,21 +17,20 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.impl.orb ;
+package com.sun.corba.ee.impl.orb;
 
 import com.sun.corba.ee.spi.ior.ObjectKey;
 import com.sun.corba.ee.spi.orb.ObjectKeyCacheEntry;
 
 public abstract class ObjectKeyCacheEntryBase implements ObjectKeyCacheEntry {
-    private ObjectKey okey ;
+    private ObjectKey okey;
 
-    public ObjectKeyCacheEntryBase( ObjectKey okey ) {
-        this.okey = okey ;
+    public ObjectKeyCacheEntryBase(ObjectKey okey) {
+        this.okey = okey;
     }
 
     @Override
     public ObjectKey getObjectKey() {
-        return okey ;
+        return okey;
     }
 }
-

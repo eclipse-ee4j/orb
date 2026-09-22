@@ -17,7 +17,7 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.impl.protocol ;
+package com.sun.corba.ee.impl.protocol;
 
 import com.sun.corba.ee.spi.ior.IOR;
 import com.sun.corba.ee.spi.oa.OADestroyed;
@@ -26,26 +26,20 @@ import com.sun.corba.ee.spi.orb.ORB;
 
 import org.omg.CORBA.portable.ServantObject;
 
-public class MinimalServantCacheLocalCRDImpl extends ServantCacheLocalCRDBase
-{
-    public MinimalServantCacheLocalCRDImpl( ORB orb, int scid, IOR ior )
-    {
-        super( (com.sun.corba.ee.spi.orb.ORB)orb, scid, ior ) ;
+public class MinimalServantCacheLocalCRDImpl extends ServantCacheLocalCRDBase {
+    public MinimalServantCacheLocalCRDImpl(ORB orb, int scid, IOR ior) {
+        super((com.sun.corba.ee.spi.orb.ORB) orb, scid, ior);
     }
 
     @Override
-    public ServantObject internalPreinvoke( org.omg.CORBA.Object self,
-        String operation, Class expectedType ) throws OADestroyed
-    {
-        OAInvocationInfo cachedInfo = getCachedInfo() ;
-        if (checkForCompatibleServant( cachedInfo, expectedType ))
-            return cachedInfo ;
+    public ServantObject internalPreinvoke(org.omg.CORBA.Object self, String operation, Class expectedType) throws OADestroyed {
+        OAInvocationInfo cachedInfo = getCachedInfo();
+        if (checkForCompatibleServant(cachedInfo, expectedType))
+            return cachedInfo;
         else
-            return null ;
+            return null;
     }
 
-    public void servant_postinvoke(org.omg.CORBA.Object self,
-                                   ServantObject servantobj)
-    {
+    public void servant_postinvoke(org.omg.CORBA.Object self, ServantObject servantobj) {
     }
 }

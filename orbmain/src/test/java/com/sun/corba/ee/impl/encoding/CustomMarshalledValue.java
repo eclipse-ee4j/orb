@@ -28,19 +28,19 @@ import java.io.Serializable;
  * A serializable class that implements both readObject and writeObject for custom marshalling.
  */
 class CustomMarshalledValue implements Serializable {
-  private static final long serialVersionUID = 8785518479276270702L;
-  transient double customDouble;
-  double aDouble;
-  Value1 value1;
-  float aFloat;
+    private static final long serialVersionUID = 8785518479276270702L;
+    transient double customDouble;
+    double aDouble;
+    Value1 value1;
+    float aFloat;
 
-  private void readObject(ObjectInputStream aInputStream) throws ClassNotFoundException, IOException {
-    aInputStream.defaultReadObject();
-    customDouble = aInputStream.readDouble();
-  }
+    private void readObject(ObjectInputStream aInputStream) throws ClassNotFoundException, IOException {
+        aInputStream.defaultReadObject();
+        customDouble = aInputStream.readDouble();
+    }
 
-  private void writeObject(ObjectOutputStream aOutputStream) throws IOException {
-    aOutputStream.defaultWriteObject();
-    aOutputStream.writeDouble(customDouble);
-  }
+    private void writeObject(ObjectOutputStream aOutputStream) throws IOException {
+        aOutputStream.defaultWriteObject();
+        aOutputStream.writeDouble(customDouble);
+    }
 }

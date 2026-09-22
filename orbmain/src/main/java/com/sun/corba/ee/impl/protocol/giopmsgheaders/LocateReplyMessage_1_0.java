@@ -35,11 +35,9 @@ import org.omg.CORBA_2_3.portable.InputStream;
  * @version 1.0
  */
 
-public final class LocateReplyMessage_1_0 extends Message_1_0
-        implements LocateReplyMessage {
+public final class LocateReplyMessage_1_0 extends Message_1_0 implements LocateReplyMessage {
 
-    private static final ORBUtilSystemException wrapper =
-        ORBUtilSystemException.self ;
+    private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
     // Instance variables
 
@@ -54,8 +52,7 @@ public final class LocateReplyMessage_1_0 extends Message_1_0
         this.orb = orb;
     }
 
-    LocateReplyMessage_1_0(ORB orb, int _request_id,
-            int _locate_status, IOR _ior) {
+    LocateReplyMessage_1_0(ORB orb, int _request_id, int _locate_status, IOR _ior) {
         super(Message.GIOPBigMagic, false, Message.GIOPLocateReply, 0);
         this.orb = orb;
         request_id = _request_id;
@@ -82,7 +79,7 @@ public final class LocateReplyMessage_1_0 extends Message_1_0
 
     @Override
     public SystemException getSystemException(String message) {
-        return null;  // 1.0 LocateReply body does not contain SystemException
+        return null; // 1.0 LocateReply body does not contain SystemException
     }
 
     @Override
@@ -102,7 +99,7 @@ public final class LocateReplyMessage_1_0 extends Message_1_0
         // The code below reads the reply body if status is OBJECT_FORWARD
         if (this.locate_status == OBJECT_FORWARD) {
             CDRInputObject cdr = (CDRInputObject) istream;
-            this.ior = IORFactories.makeIOR( orb, cdr ) ;
+            this.ior = IORFactories.makeIOR(orb, cdr);
         }
     }
 
@@ -119,19 +116,17 @@ public final class LocateReplyMessage_1_0 extends Message_1_0
 
     public static void isValidReplyStatus(int replyStatus) {
         switch (replyStatus) {
-        case UNKNOWN_OBJECT :
-        case OBJECT_HERE :
-        case OBJECT_FORWARD :
-            break;
-        default :
-            throw wrapper.illegalReplyStatus() ;
+            case UNKNOWN_OBJECT:
+            case OBJECT_HERE:
+            case OBJECT_FORWARD:
+                break;
+            default:
+                throw wrapper.illegalReplyStatus();
         }
     }
 
     @Override
-    public void callback(MessageHandler handler)
-        throws java.io.IOException
-    {
+    public void callback(MessageHandler handler) throws java.io.IOException {
         handler.handleInput(this);
     }
 } // class LocateReplyMessage_1_0

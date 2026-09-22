@@ -37,11 +37,9 @@ import java.util.List;
 
 import org.omg.CORBA.COMM_FAILURE;
 
-
 /**
  *
- * An implementation of a <code>MessageParser</code> that knows how to parse
- * bytes into a GIOP protocol data unit.
+ * An implementation of a <code>MessageParser</code> that knows how to parse bytes into a GIOP protocol data unit.
  *
  *
  */
@@ -58,13 +56,10 @@ public class MessageParserImpl implements MessageParser {
     private int nextMsgStartPos;
     private int sizeNeeded;
     /**
-     * A list of request ids awaiting final fragments.  When the size of
-     * this list is larger than 0, we have received a fragmented message
-     * and expecting to receive more message fragments for that given
-     * request id on this list.  Hence, if there are entries in this list
-     * we are expecting more data to arrive.
-     * We are using a List here rather than a Set since the size of the
-     * List is expected to be rather small, (i.e. less than size 10).
+     * A list of request ids awaiting final fragments. When the size of this list is larger than 0, we have received a
+     * fragmented message and expecting to receive more message fragments for that given request id on this list. Hence, if
+     * there are entries in this list we are expecting more data to arrive. We are using a List here rather than a Set since
+     * the size of the List is expected to be rather small, (i.e. less than size 10).
      */
     private List<RequestId> fragmentList;
     private ByteBuffer msgByteBuffer;
@@ -77,7 +72,9 @@ public class MessageParserImpl implements MessageParser {
     private Connection connection;
     private boolean expectingFragments;
 
-    /** Creates a new instance of MessageParserImpl
+    /**
+     * Creates a new instance of MessageParserImpl
+     * 
      * @param orb the ORB
      */
     public MessageParserImpl(ORB orb) {
@@ -100,17 +97,16 @@ public class MessageParserImpl implements MessageParser {
         // Set byteBuffer position to the start position of data to be
         // copied into the re-allocated ByteBuffer.
         byteBuffer.position(getNextMessageStartPosition());
-        ByteBuffer newByteBuffer = orb.getByteBufferPool().reAllocate(byteBuffer,
-                        getSizeNeeded());
+        ByteBuffer newByteBuffer = orb.getByteBufferPool().reAllocate(byteBuffer, getSizeNeeded());
         setNextMessageStartPosition(0);
         return newByteBuffer;
     }
 
     /**
      * Is this MessageParser expecting more data ?
-     * @return - True if more bytes are needed to construct at least one
-     *           GIOP protocol data unit.  False, if no additional bytes are
-     *           remain to be parsed into a GIOP protocol data unit.
+     * 
+     * @return - True if more bytes are needed to construct at least one GIOP protocol data unit. False, if no additional
+     * bytes are remain to be parsed into a GIOP protocol data unit.
      */
     @Override
     public boolean isExpectingMoreData() {
@@ -131,7 +127,8 @@ public class MessageParserImpl implements MessageParser {
     public void offerBuffer(ByteBuffer buffer) {
         msgByteBuffer = null;
         messageMediator = null;
-        if (buffer == null) return;
+        if (buffer == null)
+            return;
 
         if (!containsFullHeader(buffer) || !containsFullMessage(buffer))
             remainderBuffer = buffer;
@@ -146,9 +143,8 @@ public class MessageParserImpl implements MessageParser {
     }
 
     /**
-     * Splits the specified buffer at the specified position, returning the first part and
-     * setting {@link #remainderBuffer} to the second, or null if there is no data in the second.
-     * The split position must be no greater than the limit.
+     * Splits the specified buffer at the specified position, returning the first part and setting {@link #remainderBuffer}
+     * to the second, or null if there is no data in the second. The split position must be no greater than the limit.
      */
     private ByteBuffer splitAndReturnRemainder(ByteBuffer buffer, int splitPosition) {
         assert splitPosition <= buffer.limit();
@@ -198,7 +194,8 @@ public class MessageParserImpl implements MessageParser {
 
     @Override
     public void checkTimeout(long timeSinceLastInput) {
-        if (isMidMessage() && timeLimitExceeded(timeSinceLastInput)) throw new COMM_FAILURE();
+        if (isMidMessage() && timeLimitExceeded(timeSinceLastInput))
+            throw new COMM_FAILURE();
     }
 
     private boolean timeLimitExceeded(long timeSinceLastInput) {
@@ -213,7 +210,7 @@ public class MessageParserImpl implements MessageParser {
     @Transport
     public Message parseBytes(ByteBuffer byteBuffer, Connection connection) {
         expectingMoreData = false;
-        remainderBuffer  = byteBuffer;
+        remainderBuffer = byteBuffer;
         Message message = null;
         int bytesInBuffer = byteBuffer.limit() - nextMsgStartPos;
         // is there enough bytes available for a message header?
@@ -226,8 +223,7 @@ public class MessageParserImpl implements MessageParser {
 
                 // slice the ByteBuffer into a GIOP PDU
                 int savedLimit = byteBuffer.limit();
-                byteBuffer.position(nextMsgStartPos).
-                        limit(nextMsgStartPos + message.getSize());
+                byteBuffer.position(nextMsgStartPos).limit(nextMsgStartPos + message.getSize());
                 msgByteBuffer = byteBuffer.slice();
                 // update nextMsgStartPos and byteBuffer state
                 nextMsgStartPos = byteBuffer.limit();
@@ -243,7 +239,8 @@ public class MessageParserImpl implements MessageParser {
                 }
 
                 moreBytesToParse = byteBuffer.hasRemaining();
-                if (!moreBytesToParse) byteBuffer.limit(byteBuffer.capacity());
+                if (!moreBytesToParse)
+                    byteBuffer.limit(byteBuffer.capacity());
                 sizeNeeded = orb.getORBData().getReadByteBufferSize();
             } else {
                 // set state for next parseBytes invocation
@@ -271,15 +268,13 @@ public class MessageParserImpl implements MessageParser {
     }
 
     private boolean isEndOfFragmentList(Message message) {
-        return message.getType() == MessageBase.GIOPFragment ||
-            message.getType() == MessageBase.GIOPCancelRequest;
+        return message.getType() == MessageBase.GIOPFragment || message.getType() == MessageBase.GIOPCancelRequest;
     }
 
     private void removeRequestIdFromFragmentList(Message message, ByteBuffer byteBuffer) {
         // remove request id from fragmentList
         RequestId requestId = MessageBase.getRequestIdFromMessageBytes(message, byteBuffer);
-        if (fragmentList.size() > 0 &&
-            fragmentList.remove(requestId)) {
+        if (fragmentList.size() > 0 && fragmentList.remove(requestId)) {
         }
     }
 
@@ -292,15 +287,13 @@ public class MessageParserImpl implements MessageParser {
     }
 
     /**
-     * Are there more bytes to be parsed in the <code>ByteBuffer</code> given
-     * to this MessageParser's <code>parseBytes</code> ?
+     * Are there more bytes to be parsed in the <code>ByteBuffer</code> given to this MessageParser's
+     * <code>parseBytes</code> ?
      *
-     * This method is typically called after a call to <code>parseBytes()</code>
-     * to determine if the <code>ByteBuffer</code> has more bytes which need to
-     * parsed into a <code>Message</code>.
+     * This method is typically called after a call to <code>parseBytes()</code> to determine if the <code>ByteBuffer</code>
+     * has more bytes which need to parsed into a <code>Message</code>.
      *
-     * @return <code>true</code> if there are more bytes to be parsed.
-     *         Otherwise <code>false</code>.
+     * @return <code>true</code> if there are more bytes to be parsed. Otherwise <code>false</code>.
      */
     @Override
     public boolean hasMoreBytesToParse() {
@@ -308,8 +301,8 @@ public class MessageParserImpl implements MessageParser {
     }
 
     /**
-     * Set the starting position where the next message in the
-     * <code>ByteBuffer</code> given to <code>parseBytes()</code> begins.
+     * Set the starting position where the next message in the <code>ByteBuffer</code> given to <code>parseBytes()</code>
+     * begins.
      */
     @Override
     public void setNextMessageStartPosition(int position) {
@@ -317,8 +310,8 @@ public class MessageParserImpl implements MessageParser {
     }
 
     /**
-     * Get the starting position where the next message in the
-     * <code>ByteBuffer</code> given to <code>parseBytes()</code> begins.
+     * Get the starting position where the next message in the <code>ByteBuffer</code> given to <code>parseBytes()</code>
+     * begins.
      */
     @Override
     public int getNextMessageStartPosition() {
@@ -343,8 +336,7 @@ public class MessageParserImpl implements MessageParser {
     }
 
     /**
-     * Return the suggested number of bytes needed to hold the next message
-     * to be parsed.
+     * Return the suggested number of bytes needed to hold the next message to be parsed.
      */
     @Override
     public int getSizeNeeded() {

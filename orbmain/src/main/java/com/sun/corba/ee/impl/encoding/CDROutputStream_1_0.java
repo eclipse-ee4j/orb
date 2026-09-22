@@ -95,7 +95,7 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
     Map<String, Map<String, EnumDesc>> enumCache = null;
 
     // Codebase cache
-    // Note that a CacheTable here fails badly on read.  Why?
+    // Note that a CacheTable here fails badly on read. Why?
     // This suggests that different codebase strings with the
     // same characters are being used, but that does not explain
     // the read-side failure.
@@ -114,7 +114,7 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
 
     // Beginning with the resolution to interop issue 3526,
     // only enclosing chunked valuetypes are taken into account
-    // when computing the nesting level.  However, we still need
+    // when computing the nesting level. However, we still need
     // the old computation around for interoperability with our
     // older ORBs.
     private int chunkedValueNestingLevel = 0;
@@ -142,11 +142,8 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
     // REVISIT - This should be re-factored so that including whether
     // to use pool byte buffers or not doesn't need to be known.
     @Override
-    public void init(org.omg.CORBA.ORB orb,
-                     BufferManagerWrite bufferManager,
-                     byte streamFormatVersion,
-                     boolean usePooledByteBuffers) {
-        // ORB must not be null.  See CDROutputStream constructor.
+    public void init(org.omg.CORBA.ORB orb, BufferManagerWrite bufferManager, byte streamFormatVersion, boolean usePooledByteBuffers) {
+        // ORB must not be null. See CDROutputStream constructor.
         this.orb = (ORB) orb;
 
         this.bufferManagerWrite = bufferManager;
@@ -157,8 +154,7 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
         createRepositoryIdHandlers();
     }
 
-    static ByteBuffer allocateBuffer(org.omg.CORBA.ORB orb, BufferManagerWrite bufferManager,
-                                     boolean usePooledByteBuffers) {
+    static ByteBuffer allocateBuffer(org.omg.CORBA.ORB orb, BufferManagerWrite bufferManager, boolean usePooledByteBuffers) {
         int bufferSize = bufferManager.getBufferSize();
         ByteBuffer buffer;
         if (usePooledByteBuffers) {
@@ -239,7 +235,7 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
     }
 
     //
-    // Default implementation of grow.  Subclassers may override this.
+    // Default implementation of grow. Subclassers may override this.
     // Always grow the single buffer. This needs to delegate
     // fragmentation policy for IIOP 1.1.
     //
@@ -433,7 +429,7 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
             return;
         }
 
-        alignAndReserve(1, 1);  // this gives the code the chance to do the eight-byte alignment, if needed
+        alignAndReserve(1, 1); // this gives the code the chance to do the eight-byte alignment, if needed
 
         int numWritten = 0;
         while (numWritten < length) {
@@ -463,7 +459,7 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
     }
 
     @Override
-    @SuppressWarnings({"deprecation"})
+    @SuppressWarnings({ "deprecation" })
     public void write_Principal(org.omg.CORBA.Principal p) {
         write_long(p.name().length);
         write_octet_array(p.name(), 0, p.name().length);
@@ -623,8 +619,7 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
     }
 
     @CdrWrite
-    private void writeValueBase(org.omg.CORBA.portable.ValueBase object,
-                                Class clazz) {
+    private void writeValueBase(org.omg.CORBA.portable.ValueBase object, Class clazz) {
         // _REVISIT_ could check to see whether chunking really needed
         mustChunk = true;
 
@@ -643,8 +638,7 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
     // We know that object is not null, because that was checked in
     // write_value( Serializable, String )
     @CdrWrite
-    private void writeRMIIIOPValueType(Serializable object, Class clazz,
-                                       ClassInfoCache.ClassInfo cinfo) {
+    private void writeRMIIIOPValueType(Serializable object, Class clazz, ClassInfoCache.ClassInfo cinfo) {
 
         if (valueHandler == null) {
             valueHandler = ORBUtility.createValueHandler();
@@ -692,8 +686,7 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
     }
 
     @CdrWrite
-    private void callWriteValue(org.omg.CORBA.portable.OutputStream parent,
-                                java.io.Serializable object, byte streamFormatVersion) {
+    private void callWriteValue(org.omg.CORBA.portable.OutputStream parent, java.io.Serializable object, byte streamFormatVersion) {
         if (valueHandler == null) {
             valueHandler = ORBUtility.createValueHandler();
         }
@@ -832,7 +825,7 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
     }
 
     @Override
-    @SuppressWarnings({"deprecation"})
+    @SuppressWarnings({ "deprecation" })
     @CdrWrite
     public void write_value(Serializable object, BoxedValueHelper factory) {
         if (object == null) {
@@ -904,7 +897,7 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
         short modifier;
         try {
             modifier = factory.get_type().type_modifier();
-        } catch (BadKind ex) {  // tk_value_box
+        } catch (BadKind ex) { // tk_value_box
             modifier = VM_NONE.value;
         }
         return modifier;
@@ -938,7 +931,7 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
 
     // Utility method which will hopefully decrease chunking complexity
     // by allowing us to end_block and update chunk lengths without
-    // calling alignAndReserve.  Otherwise, it's possible to get into
+    // calling alignAndReserve. Otherwise, it's possible to get into
     // recursive scenarios which lose the chunking state.
     protected void writeLongWithoutAlign(int x) {
         byteBuffer.putInt(x);
@@ -970,13 +963,13 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
         // Test to see if the block was of zero length
         // If so, remove the block instead of ending it
         // (This can happen if the last field written
-        //  in a value was another value)
+        // in a value was another value)
         blockSizePosition(blockSizePosition);
 
         if (get_offset() == blockSizePosition) {
             removingZeroLengthBlock();
 
-            // Need to assert that blockSizeIndex == bbwi.position()?  REVISIT
+            // Need to assert that blockSizeIndex == bbwi.position()? REVISIT
 
             byteBuffer.position(byteBuffer.position() - 4);
             blockSizeIndex = -1;
@@ -1038,18 +1031,17 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
     }
 
     /**
-     * Reserves space for the next run of a primitive array and reports how
-     * many whole elements fit in the current buffer.
+     * Reserves space for the next run of a primitive array and reports how many whole elements fit in the current buffer.
      *
-     * <p>Writing these arrays an element at a time meant an
-     * {@link #alignAndReserve} per element and left the JIT nothing to
-     * vectorise. The bulk put operations lower to a memory copy, which is
-     * where the JDK's own vectorised implementation lives.
+     * <p>
+     * Writing these arrays an element at a time meant an {@link #alignAndReserve} per element and left the JIT nothing to
+     * vectorise. The bulk put operations lower to a memory copy, which is where the JDK's own vectorised implementation
+     * lives.
      *
-     * <p>Each pass re-aligns and grows exactly as the per element version
-     * did, so a fragmenting buffer manager still gets to emit a fragment at
-     * the same points; within a pass the elements are contiguous and
-     * self-aligned, and a chunk cannot end inside an array of primitives.
+     * <p>
+     * Each pass re-aligns and grows exactly as the per element version did, so a fragmenting buffer manager still gets to
+     * emit a fragment at the same points; within a pass the elements are contiguous and self-aligned, and a chunk cannot
+     * end inside an array of primitives.
      *
      * @param elementSize the CDR size and alignment of one element
      * @param remaining number of elements still to write
@@ -1215,7 +1207,7 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
         }
     }
 
-    //--------------------------------------------------------------------//
+    // --------------------------------------------------------------------//
     // CDROutputStream state management.
     //
 
@@ -1258,12 +1250,10 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
         }
     }
 
-    private void updateIndirectionTable(int indirection,
-                                        java.lang.Object key) {
+    private void updateIndirectionTable(int indirection, java.lang.Object key) {
 
         if (valueCache == null) {
-            valueCache = new CacheTable<java.lang.Object>("Output valueCache",
-                    orb, true);
+            valueCache = new CacheTable<java.lang.Object>("Output valueCache", orb, true);
         }
         valueCache.put(key, indirection);
     }
@@ -1291,7 +1281,7 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
             }
         }
 
-        // Write it as a string.  Note that we have already done the
+        // Write it as a string. Note that we have already done the
         // special case conversion of non-Latin-1 characters to escaped
         // Latin-1 sequences in RepositoryId.
 
@@ -1372,7 +1362,7 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
         return indirection;
     }
 
-    @SuppressWarnings({"deprecation"})
+    @SuppressWarnings({ "deprecation" })
     @CdrWrite
     private void writeIDLValue(Serializable object, String repID) {
         if (object instanceof StreamableValue) {
@@ -1383,11 +1373,9 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
             BoxedValueHelper helper = Utility.getHelper(object.getClass(), null, repID);
             boolean isCustom = false;
 
-            if (helper instanceof com.sun.org.omg.CORBA.portable.ValueHelper &&
-                    object instanceof CustomMarshal) {
+            if (helper instanceof com.sun.org.omg.CORBA.portable.ValueHelper && object instanceof CustomMarshal) {
                 try {
-                    if (((com.sun.org.omg.CORBA.portable.ValueHelper) helper)
-                            .get_type().type_modifier() == VM_CUSTOM.value) {
+                    if (((com.sun.org.omg.CORBA.portable.ValueHelper) helper).get_type().type_modifier() == VM_CUSTOM.value) {
                         isCustom = true;
                     }
                 } catch (BadKind ex) {
@@ -1410,13 +1398,13 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
             if (get_offset() == end_flag_position) {
                 if (byteBuffer.position() == end_flag_index) {
                     // We are exactly at the same position and index as the
-                    // end of the last end tag.  Thus, we can back up over it
+                    // end of the last end tag. Thus, we can back up over it
                     // and compact the tags.
                     byteBuffer.position(byteBuffer.position() - 4);
-                } else {                                            // reg - is this even possible any more?
+                } else { // reg - is this even possible any more?
                     // Special case in which we're at the beginning of a new
-                    // fragment, but the position is the same.  We can't back up,
-                    // so we just write the new end tag without compaction.  This
+                    // fragment, but the position is the same. We can't back up,
+                    // so we just write the new end tag without compaction. This
                     // occurs when a value ends and calls start_block to open a
                     // continuation chunk, but it's called at the very end of
                     // a fragment.
@@ -1438,22 +1426,18 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
     }
 
     /**
-     * Handles ORB versioning of the end tag.  Should only
-     * be called if chunking.
+     * Handles ORB versioning of the end tag. Should only be called if chunking.
      * <p/>
-     * If talking to our older ORBs (Standard Extension,
-     * Kestrel, and Ladybird), write the end flag that takes
-     * into account all enclosing valuetypes.
+     * If talking to our older ORBs (Standard Extension, Kestrel, and Ladybird), write the end flag that takes into account
+     * all enclosing valuetypes.
      * <p/>
-     * If talking a newer or foreign ORB, or if the orb
-     * instance is null, write the end flag that only takes
-     * into account the enclosing chunked valuetypes.
+     * If talking a newer or foreign ORB, or if the orb instance is null, write the end flag that only takes into account
+     * the enclosing chunked valuetypes.
      */
     @CdrWrite
     private void writeNestingLevel() {
-        if (orb == null ||
-                ORBVersionFactory.getFOREIGN().equals(orb.getORBVersion()) ||
-                ORBVersionFactory.getNEWER().compareTo(orb.getORBVersion()) <= 0) {
+        if (orb == null || ORBVersionFactory.getFOREIGN().equals(orb.getORBVersion())
+                || ORBVersionFactory.getNEWER().compareTo(orb.getORBVersion()) <= 0) {
 
             write_long(chunkedValueNestingLevel);
         } else {
@@ -1462,8 +1446,7 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
     }
 
     @CdrWrite
-    private void writeClass(String repository_id, Class clz,
-                            ClassInfoCache.ClassInfo cinfo) {
+    private void writeClass(String repository_id, Class clz, ClassInfoCache.ClassInfo cinfo) {
 
         if (repository_id == null) {
             repository_id = repIdStrs.getClassDescValueRepId();
@@ -1481,13 +1464,12 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
     }
 
     // Pre-Merlin/J2EE 1.3 ORBs wrote the repository ID
-    // and codebase strings in the wrong order.  This handles
+    // and codebase strings in the wrong order. This handles
     // backwards compatibility.
     @CdrWrite
     private void writeClassBody(Class clz, ClassInfoCache.ClassInfo cinfo) {
-        if (orb == null ||
-                ORBVersionFactory.getFOREIGN().equals(orb.getORBVersion()) ||
-                ORBVersionFactory.getNEWER().compareTo(orb.getORBVersion()) <= 0) {
+        if (orb == null || ORBVersionFactory.getFOREIGN().equals(orb.getORBVersion())
+                || ORBVersionFactory.getNEWER().compareTo(orb.getORBVersion()) <= 0) {
 
             write_value(getCodebase(clz));
             write_value(repIdStrs.createForAnyType(clz, cinfo));
@@ -1516,23 +1498,18 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
         // Write the IDLEntity using reflection
         try {
             ClassLoader clazzLoader = (clazz == null ? null : clazz.getClassLoader());
-            final Class helperClass = Utility.loadClassForClass(
-                    clazz.getName() + "Helper", codebase, clazzLoader,
-                    clazz, clazzLoader);
+            final Class helperClass = Utility.loadClassForClass(clazz.getName() + "Helper", codebase, clazzLoader, clazz, clazzLoader);
 
             // getDeclaredMethod requires RuntimePermission accessDeclaredMembers
             // if a different class loader is used (even though the javadoc says otherwise)
             Method writeMethod;
             try {
-                writeMethod = AccessController.doPrivileged(
-                        new PrivilegedExceptionAction<Method>() {
-                            @Override
-                            public Method run() throws NoSuchMethodException {
-                                return helperClass.getDeclaredMethod(kWriteMethod,
-                                        org.omg.CORBA.portable.OutputStream.class, clazz);
-                            }
-                        }
-                );
+                writeMethod = AccessController.doPrivileged(new PrivilegedExceptionAction<Method>() {
+                    @Override
+                    public Method run() throws NoSuchMethodException {
+                        return helperClass.getDeclaredMethod(kWriteMethod, org.omg.CORBA.portable.OutputStream.class, clazz);
+                    }
+                });
             } catch (PrivilegedActionException pae) {
                 // this gets caught below
                 throw (NoSuchMethodException) pae.getException();
@@ -1665,7 +1642,7 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
     }
 
     private final static String _id = "IDL:omg.org/CORBA/DataOutputStream:1.0";
-    private final static String[] _ids = {_id};
+    private final static String[] _ids = { _id };
 
     @Override
     public String[] _truncatable_ids() {
@@ -1679,7 +1656,7 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
     @Override
     public void writeIndirection(int tag, int posIndirectedTo) {
         // Must ensure that there are no chunks between the tag
-        // and the actual indirection value.  This isn't talked about
+        // and the actual indirection value. This isn't talked about
         // in the spec, but seems to cause headaches in our code.
         // At the very least, this method isolates the indirection code
         // that was duplicated so often.
@@ -1691,11 +1668,10 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
 
         // write indirection
         // Use parent.getRealIndex() so that it can be overridden by TypeCodeOutputStreams
-/*
-        System.out.println("CDROutputStream_1_0 writing indirection pos " + posIndirectedTo +
-                           " - real index " + parent.getRealIndex(get_offset()) + " = " +
-                           (posIndirectedTo - parent.getRealIndex(get_offset())));
-*/
+        /*
+         * System.out.println("CDROutputStream_1_0 writing indirection pos " + posIndirectedTo + " - real index " +
+         * parent.getRealIndex(get_offset()) + " = " + (posIndirectedTo - parent.getRealIndex(get_offset())));
+         */
         write_long(posIndirectedTo - parent.getRealIndex(get_offset()));
 
         handleSpecialChunkEnd();
@@ -1761,14 +1737,14 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
         writeEndTag(true);
 
         // Check to see if we need to start another block for a
-        // possible outer value.  Since we're in the stream
+        // possible outer value. Since we're in the stream
         // format 2 custom type contained by another custom
         // type, mustChunk should always be true.
         //
         // Here's why we need to open a continuation chunk:
         //
         // We need to enclose the default data of the
-        // next subclass down in chunks.  There won't be
+        // next subclass down in chunks. There won't be
         // an end tag separating the superclass optional
         // data and the subclass's default data.
 

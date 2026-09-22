@@ -30,15 +30,14 @@ import org.omg.DynamicAny.DynFixed;
 import org.omg.DynamicAny.DynAnyPackage.InvalidValue;
 import org.omg.DynamicAny.DynAnyPackage.TypeMismatch;
 
-public class DynFixedImpl extends DynAnyBasicImpl implements DynFixed
-{
+public class DynFixedImpl extends DynAnyBasicImpl implements DynFixed {
     private static final long serialVersionUID = -426296363713464920L;
     //
     // Constructors
     //
 
     private DynFixedImpl() {
-        this(null, (Any)null, false);
+        this(null, (Any) null, false);
     }
 
     protected DynFixedImpl(ORB orb, Any any, boolean copyValue) {
@@ -54,19 +53,17 @@ public class DynFixedImpl extends DynAnyBasicImpl implements DynFixed
     //
     // DynAny interface methods
     //
-/*
-    public int component_count() {
-        return 0;
-    }
-*/
+    /*
+     * public int component_count() { return 0; }
+     */
     //
     // DynFixed interface methods
     //
 
     @Override
-    public String get_value () {
+    public String get_value() {
         if (status == STATUS_DESTROYED) {
-            throw wrapper.dynAnyDestroyed() ;
+            throw wrapper.dynAnyDestroyed();
         }
         return any.extract_fixed().toString();
     }
@@ -89,12 +86,10 @@ public class DynFixedImpl extends DynAnyBasicImpl implements DynFixed
     // other than leading or trailing white space, the operation raises TypeMismatch.
     //
     @Override
-    public boolean set_value (String val)
-        throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch,
-               org.omg.DynamicAny.DynAnyPackage.InvalidValue
-    {
+    public boolean set_value(String val)
+            throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch, org.omg.DynamicAny.DynAnyPackage.InvalidValue {
         if (status == STATUS_DESTROYED) {
-            throw wrapper.dynAnyDestroyed() ;
+            throw wrapper.dynAnyDestroyed();
         }
         int digits = 0;
         boolean preservedPrecision = true;
@@ -139,7 +134,7 @@ public class DynFixedImpl extends DynAnyBasicImpl implements DynFixed
             fractionPart = null;
             currentScale = 0;
             currentDigits = integerPart.length();
-        } else if (dotIndex == 0 ) {
+        } else if (dotIndex == 0) {
             integerPart = null;
             fractionPart = string;
             currentScale = fractionPart.length();
@@ -151,15 +146,14 @@ public class DynFixedImpl extends DynAnyBasicImpl implements DynFixed
             currentDigits = integerPart.length() + currentScale;
         }
 
-        int integerPartLength = (integerPart == null) ? 0
-            : integerPart.length() ;
+        int integerPartLength = (integerPart == null) ? 0 : integerPart.length();
 
         // Let's see if we have to drop some precision
         if (currentDigits > digits) {
             preservedPrecision = false;
             // truncate the fraction part
             if (integerPartLength < digits) {
-                fractionPart = fractionPart.substring(0, digits - integerPartLength ) ;
+                fractionPart = fractionPart.substring(0, digits - integerPartLength);
             } else if (integerPartLength == digits) {
                 // currentScale > 0
                 // drop the fraction completely
@@ -174,11 +168,9 @@ public class DynFixedImpl extends DynAnyBasicImpl implements DynFixed
         // the operation raises InvalidValue.
         // Reinterpreted to mean raise InvalidValue only if the integer part exceeds precision,
         // which is handled above (integerPart.length() > digits)
-/*
-        if (currentScale > scale) {
-            throw new InvalidValue("Scale exceeds " + scale);
-        }
-*/
+        /*
+         * if (currentScale > scale) { throw new InvalidValue("Scale exceeds " + scale); }
+         */
         // Now check whether both parts are valid numbers
         BigDecimal result;
         try {

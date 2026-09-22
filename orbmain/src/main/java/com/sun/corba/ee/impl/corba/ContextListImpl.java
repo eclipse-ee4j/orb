@@ -26,36 +26,30 @@ import java.util.List;
 import org.omg.CORBA.Bounds;
 import org.omg.CORBA.ContextList;
 
-public class ContextListImpl extends ContextList
-{
-    private final static int     INITIAL_CAPACITY       = 2;
+public class ContextListImpl extends ContextList {
+    private final static int INITIAL_CAPACITY = 2;
 
     private org.omg.CORBA.ORB _orb;
     private List<String> _contexts;
 
-    public ContextListImpl(org.omg.CORBA.ORB orb)
-    {
+    public ContextListImpl(org.omg.CORBA.ORB orb) {
         // Note: This orb could be an instanceof ORBSingleton or ORB
         _orb = orb;
         _contexts = new ArrayList<String>(INITIAL_CAPACITY);
     }
 
     @Override
-    public synchronized int count()
-    {
+    public synchronized int count() {
         return _contexts.size();
     }
 
     @Override
-    public synchronized void add(String ctxt)
-    {
+    public synchronized void add(String ctxt) {
         _contexts.add(ctxt);
     }
 
     @Override
-    public synchronized String item(int index)
-        throws Bounds
-    {
+    public synchronized String item(int index) throws Bounds {
         try {
             return _contexts.get(index);
         } catch (IndexOutOfBoundsException e) {
@@ -64,9 +58,7 @@ public class ContextListImpl extends ContextList
     }
 
     @Override
-    public synchronized void remove(int index)
-        throws Bounds
-    {
+    public synchronized void remove(int index) throws Bounds {
         try {
             _contexts.remove(index);
         } catch (IndexOutOfBoundsException e) {
