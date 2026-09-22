@@ -27,7 +27,7 @@ import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate;
 import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.trace.Transport;
 
-import java.util.Iterator ;
+import java.util.Iterator;
 
 /**
  * @author Harold Carr

@@ -27,7 +27,7 @@ import com.sun.corba.ee.spi.logging.OMGSystemException;
 import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.protocol.MessageMediator;
-import com.sun.corba.ee.spi.trace.MonitorRead ;
+import com.sun.corba.ee.spi.trace.MonitorRead;
 import com.sun.corba.ee.spi.trace.Transport;
 import com.sun.corba.ee.spi.transport.Connection;
 import com.sun.org.omg.SendingContext.CodeBase;

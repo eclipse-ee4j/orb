@@ -19,11 +19,11 @@
 
 package com.sun.corba.ee.impl.protocol;
 
-import com.sun.corba.ee.spi.oa.ObjectAdapterFactory ;
-import com.sun.corba.ee.spi.protocol.ClientRequestDispatcher ;
-import com.sun.corba.ee.spi.protocol.LocalClientRequestDispatcherFactory ;
-import com.sun.corba.ee.spi.protocol.RequestDispatcherRegistry ;
-import com.sun.corba.ee.spi.protocol.ServerRequestDispatcher ;
+import com.sun.corba.ee.spi.oa.ObjectAdapterFactory;
+import com.sun.corba.ee.spi.protocol.ClientRequestDispatcher;
+import com.sun.corba.ee.spi.protocol.LocalClientRequestDispatcherFactory;
+import com.sun.corba.ee.spi.protocol.RequestDispatcherRegistry;
+import com.sun.corba.ee.spi.protocol.ServerRequestDispatcher;
 
 import java.util.Collections;
 import java.util.HashMap;

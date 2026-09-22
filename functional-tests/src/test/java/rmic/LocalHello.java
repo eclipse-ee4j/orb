@@ -19,7 +19,6 @@
  */
 
 package rmic;
-import javax.rmi.CORBA.Stub;
 
 public interface LocalHello extends java.rmi.Remote {
     public String sayHello(String to) throws java.rmi.RemoteException;

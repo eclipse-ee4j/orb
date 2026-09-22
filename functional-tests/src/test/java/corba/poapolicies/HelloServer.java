@@ -20,8 +20,9 @@
 
 package corba.poapolicies;
 
-import Util.ServantFactoryHelper;
 import org.omg.PortableServer.POA;
+
+import Util.ServantFactoryHelper;
 
 class Waiter extends Thread {
     BasicObjectFactoryImpl f;

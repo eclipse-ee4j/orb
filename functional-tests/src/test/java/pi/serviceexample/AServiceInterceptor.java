@@ -29,15 +29,15 @@ import org.omg.CORBA.BAD_PARAM;
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.TCKind;
 import org.omg.IOP.Codec;
-import org.omg.IOP.CodecPackage.FormatMismatch;
-import org.omg.IOP.CodecPackage.TypeMismatch;
 import org.omg.IOP.ServiceContext;
 import org.omg.IOP.TaggedComponent;
-import org.omg.PortableInterceptor.ClientRequestInterceptor;
+import org.omg.IOP.CodecPackage.FormatMismatch;
+import org.omg.IOP.CodecPackage.TypeMismatch;
 import org.omg.PortableInterceptor.ClientRequestInfo;
+import org.omg.PortableInterceptor.ClientRequestInterceptor;
 import org.omg.PortableInterceptor.InvalidSlot;
-import org.omg.PortableInterceptor.ServerRequestInterceptor;
 import org.omg.PortableInterceptor.ServerRequestInfo;
+import org.omg.PortableInterceptor.ServerRequestInterceptor;
 
 public class AServiceInterceptor
     extends org.omg.CORBA.LocalObject

@@ -19,44 +19,36 @@
 
 package corba.copyobjectpolicy;
 
-import java.util.Map ;
-import java.util.HashMap ;
-import java.util.Hashtable ;
-import java.util.List ;
-import java.util.ArrayList ;
-import java.util.Properties ;
+import com.sun.corba.ee.spi.extension.CopyObjectPolicy;
+import com.sun.corba.ee.spi.extension.ServantCachingPolicy;
 
-import java.io.PrintStream ;
-import java.io.DataInputStream ;
+import corba.framework.InternalProcess;
+import corba.framework.MethodEvent;
+import corba.framework.TraceElement;
 
-import java.rmi.RemoteException ;
+import java.io.PrintStream;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
-import javax.rmi.PortableRemoteObject ;
+import javax.rmi.PortableRemoteObject;
 
-import org.omg.CORBA.Policy ;
-import org.omg.CORBA.ORB ;
-
-import org.omg.PortableServer.POA ;
-import org.omg.PortableServer.Servant ;
-import org.omg.PortableServer.ServantLocator ;
-import org.omg.PortableServer.ServantManager ;
-import org.omg.PortableServer.ServantRetentionPolicyValue ;
-import org.omg.PortableServer.RequestProcessingPolicyValue ;
-import org.omg.PortableServer.LifespanPolicyValue ;
-import org.omg.PortableServer.POAPackage.WrongPolicy ;
-import org.omg.PortableServer.POAPackage.InvalidPolicy ;
-import org.omg.PortableServer.POAPackage.AdapterAlreadyExists ;
-
-import org.omg.PortableServer.ServantLocatorPackage.CookieHolder ;
-
-import com.sun.corba.ee.spi.misc.ORBConstants ;
-
-import com.sun.corba.ee.spi.extension.ServantCachingPolicy ;
-import com.sun.corba.ee.spi.extension.CopyObjectPolicy ;
-
-import corba.framework.TraceElement ;
-import corba.framework.MethodEvent ;
-import corba.framework.InternalProcess ;
+import org.omg.CORBA.ORB;
+import org.omg.CORBA.Policy;
+import org.omg.PortableServer.LifespanPolicyValue;
+import org.omg.PortableServer.POA;
+import org.omg.PortableServer.RequestProcessingPolicyValue;
+import org.omg.PortableServer.Servant;
+import org.omg.PortableServer.ServantLocator;
+import org.omg.PortableServer.ServantRetentionPolicyValue;
+import org.omg.PortableServer.POAPackage.AdapterAlreadyExists;
+import org.omg.PortableServer.POAPackage.InvalidPolicy;
+import org.omg.PortableServer.POAPackage.WrongPolicy;
+import org.omg.PortableServer.ServantLocatorPackage.CookieHolder;
 
 public class Client implements InternalProcess
 {

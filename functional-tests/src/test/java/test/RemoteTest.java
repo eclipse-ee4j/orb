@@ -20,16 +20,15 @@
 
 package test;
 
+import com.sun.corba.ee.impl.util.Utility;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.PrintStream;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Properties;
 import java.util.Vector;
-import java.io.IOException;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import javax.naming.NamingException;
-import java.util.HashSet;
-import com.sun.corba.ee.impl.util.Utility;
-import java.io.File;
 
 /*
  * @test

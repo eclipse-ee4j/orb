@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.impl.presentation.rmi;
 
-import com.sun.corba.ee.impl.util.Utility ;
+import com.sun.corba.ee.impl.util.Utility;
 import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
 
 public abstract class StubFactoryFactoryBase implements

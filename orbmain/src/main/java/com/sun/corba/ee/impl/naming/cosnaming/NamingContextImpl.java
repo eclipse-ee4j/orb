@@ -20,7 +20,7 @@
 package com.sun.corba.ee.impl.naming.cosnaming;
 
 import com.sun.corba.ee.impl.naming.namingutil.INSURLHandler;
-import com.sun.corba.ee.spi.logging.NamingSystemException ;
+import com.sun.corba.ee.spi.logging.NamingSystemException;
 import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.trace.Naming;
 

@@ -19,7 +19,7 @@
 
 package corba.cdrext;
 
-import java.rmi.*;
+import java.rmi.RemoteException;
 
 public interface AbsTester
 {

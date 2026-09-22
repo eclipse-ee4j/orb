@@ -21,18 +21,21 @@
 package javax.rmi.download;
 
 import com.sun.corba.ee.spi.JndiConstants;
-import org.glassfish.pfl.test.JUnitReportHelper;
-import org.omg.CORBA.ORB;
-import test.Util;
-import test.WebServer;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.rmi.PortableRemoteObject;
 import java.io.File;
 import java.util.Hashtable;
 import java.util.Properties;
 import java.util.Vector;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.rmi.PortableRemoteObject;
+
+import org.glassfish.pfl.test.JUnitReportHelper;
+import org.omg.CORBA.ORB;
+
+import test.Util;
+import test.WebServer;
 
 /*
  * @test

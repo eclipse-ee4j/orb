@@ -24,28 +24,21 @@
 
 package corba.folb_8_1;
 
+import com.sun.corba.ee.impl.transport.ContactInfoListImpl;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.ORB;
+//import com.sun.corba.ee.impl.orbutil.newtimer.generated.TimingPoints;
+import com.sun.corba.ee.spi.protocol.ClientDelegate;
+import com.sun.corba.ee.spi.transport.ContactInfo;
+import com.sun.corba.ee.spi.transport.SocketInfo;
+import com.sun.corba.ee.spi.transport.TransportManager;
+
 import java.io.File;
 import java.util.Properties;
 
-
-import com.sun.corba.ee.spi.transport.TransportManager;
-import com.sun.corba.ee.spi.transport.ContactInfo;
-
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.transport.SocketInfo;
-
-import com.sun.corba.ee.spi.misc.ORBConstants;
-
-import com.sun.corba.ee.impl.transport.ContactInfoListImpl;
-//import com.sun.corba.ee.impl.orbutil.newtimer.generated.TimingPoints;
-import com.sun.corba.ee.spi.protocol.ClientDelegate;
-import org.glassfish.pfl.tf.timer.spi.LogEventHandler;
 import org.glassfish.pfl.tf.timer.spi.Timer;
-import org.glassfish.pfl.tf.timer.spi.TimerEventController;
-import org.glassfish.pfl.tf.timer.spi.TimerFactory;
-import org.glassfish.pfl.tf.timer.spi.TimerManager;
 
-// import corba.framework.TimerUtils ;
+// import corba.framework.TimerUtils;
 
 /**
  * @author Harold Carr

@@ -20,8 +20,6 @@
 
 package javax.rmi.fvd;
 
-import java.util.Random;
-
 public abstract class ParentClass implements java.io.Serializable {
 
     public long getTotal(){

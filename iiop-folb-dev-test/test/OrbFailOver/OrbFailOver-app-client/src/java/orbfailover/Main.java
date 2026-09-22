@@ -46,12 +46,12 @@ import javax.naming.Context;
 import javax.naming.NameClassPair;
 import javax.naming.NamingEnumeration;
 
-import testtools.Test ;
-import testtools.Base ;
+import testtools.Test;
+import testtools.Base;
 import testtools.Post;
 import testtools.Pre;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.protocol.ClientDelegate;
 import java.lang.reflect.Field;
 import javax.rmi.CORBA.Stub;

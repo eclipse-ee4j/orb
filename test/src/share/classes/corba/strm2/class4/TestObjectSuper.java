@@ -17,8 +17,11 @@
  * Classpath-exception-2.0
  */
 
-import java.io.*;
-import java.math.*;
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.OptionalDataException;
+import java.io.Serializable;
+import java.math.BigInteger;
 
 public class TestObjectSuper implements Serializable
 {

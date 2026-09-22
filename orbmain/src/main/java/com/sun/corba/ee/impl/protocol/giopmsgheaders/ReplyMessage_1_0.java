@@ -24,7 +24,7 @@ import com.sun.corba.ee.impl.misc.ORBUtility;
 import com.sun.corba.ee.spi.ior.IOR;
 import com.sun.corba.ee.spi.ior.IORFactories;
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.servicecontext.ServiceContextDefaults;
 import com.sun.corba.ee.spi.servicecontext.ServiceContexts;

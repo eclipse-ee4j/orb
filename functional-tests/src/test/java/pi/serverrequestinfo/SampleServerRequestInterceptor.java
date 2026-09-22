@@ -19,8 +19,6 @@
 
 package pi.serverrequestinfo;
 
-import org.omg.CORBA.*;
-
 import org.omg.PortableInterceptor.ForwardRequest;
 import org.omg.PortableInterceptor.ServerRequestInfo;
 import org.omg.PortableInterceptor.ServerRequestInterceptor;

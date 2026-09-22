@@ -19,15 +19,15 @@
 
 package com.sun.corba.ee.spi.ior.iiop ;
 
-import com.sun.corba.ee.spi.ior.IOR ;
+import com.sun.corba.ee.spi.ior.IOR;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.orb.ORBVersion;
 import com.sun.corba.ee.spi.orb.ORBVersionFactory;
 
-import org.glassfish.gmbal.Description ;
-import org.glassfish.gmbal.ManagedAttribute ;
-import org.glassfish.gmbal.ManagedData ;
+import org.glassfish.gmbal.Description;
+import org.glassfish.gmbal.ManagedAttribute;
+import org.glassfish.gmbal.ManagedData;
 
 @ManagedData
 @Description( "The maximum GIOP version supported by this IOR" )

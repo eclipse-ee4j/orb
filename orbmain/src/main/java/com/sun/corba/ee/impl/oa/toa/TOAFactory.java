@@ -20,16 +20,16 @@
 
 package com.sun.corba.ee.impl.oa.toa ;
 
-import com.sun.corba.ee.impl.ior.ObjectKeyTemplateBase ;
-import com.sun.corba.ee.impl.javax.rmi.CORBA.Util ;
-import com.sun.corba.ee.spi.ior.ObjectAdapterId ;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
-import com.sun.corba.ee.spi.oa.ObjectAdapter ;
-import com.sun.corba.ee.spi.oa.ObjectAdapterFactory ;
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.impl.ior.ObjectKeyTemplateBase;
+import com.sun.corba.ee.impl.javax.rmi.CORBA.Util;
+import com.sun.corba.ee.spi.ior.ObjectAdapterId;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+import com.sun.corba.ee.spi.oa.ObjectAdapter;
+import com.sun.corba.ee.spi.oa.ObjectAdapterFactory;
+import com.sun.corba.ee.spi.orb.ORB;
 
-import java.util.HashMap ;
-import java.util.Map ;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.glassfish.gmbal.AMXMetadata;
 import org.glassfish.gmbal.Description;

@@ -19,21 +19,15 @@
 
 package pi.clientinterceptor;
 
-import org.omg.CORBA.*;
-import org.omg.CosNaming.*;
-import com.sun.corba.ee.impl.corba.AnyImpl;
-import com.sun.corba.ee.spi.misc.ORBConstants;
-import com.sun.corba.ee.impl.interceptors.*;
-import org.omg.PortableInterceptor.*;
-import corba.framework.*;
+import corba.framework.InternalProcess;
 
-import java.util.*;
-import java.io.*;
-import java.rmi.*;
-import javax.naming.*;
-import javax.rmi.*;
+import java.io.PrintStream;
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import java.util.Properties;
 
-import ClientRequestInterceptor.*;
+import javax.naming.InitialContext;
+import javax.rmi.PortableRemoteObject;
 
 /**
  * Tests RMI Local invocation (with a co-located orb)

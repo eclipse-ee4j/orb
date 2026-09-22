@@ -20,8 +20,12 @@
 package pi.serverinterceptor;
 
 import com.sun.corba.ee.spi.misc.ORBConstants;
-import corba.framework.*;
-import java.util.*;
+
+import corba.framework.CORBATest;
+import corba.framework.Controller;
+import corba.framework.Options;
+
+import java.util.Properties;
 
 /**
  * Tests ServerInterceptor as per Portable Interceptors spec

@@ -19,7 +19,8 @@
 
 package corba.custom;
 
-import java.rmi.RemoteException ;
+import java.rmi.RemoteException;
+
 import javax.rmi.PortableRemoteObject;
 
 public class VerifierImpl extends PortableRemoteObject implements Verifier

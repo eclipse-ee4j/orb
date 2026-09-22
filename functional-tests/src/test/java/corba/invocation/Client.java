@@ -19,13 +19,14 @@
 
 package corba.invocation;
 
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+
+import java.util.Properties;
+
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.Object;
 import org.omg.CORBA.SystemException;
-import java.util.*;
-
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
-import com.sun.corba.ee.spi.misc.ORBConstants;
 
 public class Client implements Runnable {
 

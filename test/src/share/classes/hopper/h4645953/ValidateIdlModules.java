@@ -19,8 +19,8 @@
 
 package hopper.h4645953;
 
-import test.Test;
-import corba.framework.*;
+import corba.framework.CORBATest;
+import corba.framework.Options;
 
 /**
  * A test to check that the IDL with module names starting with 'service' is

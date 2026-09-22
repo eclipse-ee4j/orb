@@ -19,8 +19,8 @@
 
 package com.sun.corba.ee.spi.transport.connection;
 
-import java.io.IOException ;
-import java.util.Collection ;
+import java.io.IOException;
+import java.util.Collection;
 
 /** An instance of a ConnectionFinder may be supplied to the
  * OutboundConnectionCache.get method.

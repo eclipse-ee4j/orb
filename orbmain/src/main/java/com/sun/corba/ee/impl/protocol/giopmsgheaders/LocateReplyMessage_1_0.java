@@ -22,7 +22,7 @@ package com.sun.corba.ee.impl.protocol.giopmsgheaders;
 import com.sun.corba.ee.impl.encoding.CDRInputObject;
 import com.sun.corba.ee.spi.ior.IOR;
 import com.sun.corba.ee.spi.ior.IORFactories;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import com.sun.corba.ee.spi.orb.ORB;
 
 import org.omg.CORBA.SystemException;

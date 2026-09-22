@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.spi.folb;
 
-import java.io.Serializable ;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

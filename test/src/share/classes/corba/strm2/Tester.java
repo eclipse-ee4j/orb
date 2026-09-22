@@ -19,8 +19,8 @@
 
 package corba.strm2;
 
-import java.rmi.*;
-import java.io.*;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 public interface Tester extends Remote {
 

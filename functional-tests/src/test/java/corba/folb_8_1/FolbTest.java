@@ -24,8 +24,8 @@
 
 package corba.folb_8_1;
 
-import corba.framework.Controller;
 import corba.framework.CORBATest;
+import corba.framework.Controller;
 
 /**
  * @author Harold Carr

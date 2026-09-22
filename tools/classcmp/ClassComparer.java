@@ -17,11 +17,18 @@
  * Classpath-exception-2.0
  */
 
-import sun.tools.java.*;
-import sun.io.*;
-import java.lang.reflect.*;
-import java.util.*;
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
+import sun.tools.java.ClassFile;
+import sun.tools.java.ClassPath;
 
 /**
  * Given two classpaths and a list of common classes, this

@@ -19,37 +19,26 @@
 
 package corba.simpledynamic;
 
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.ORB;
+
+import corba.nortel.NortelSocketFactory;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.rmi.MarshalException;
+import java.rmi.RemoteException;
+import java.util.Properties;
+
 import org.glassfish.pfl.basic.func.NullaryFunction;
-//import com.sun.corba.ee.impl.orbutil.newtimer.generated.TimingPoints;
-import org.glassfish.pfl.tf.timer.spi.TimerManager;
-import org.glassfish.pfl.tf.timer.spi.TimerGroup;
-import org.glassfish.pfl.tf.timer.spi.LogEventHandler;
-import java.io.IOException ;
-import java.io.ObjectInputStream ;
-import java.io.ObjectOutputStream ;
-import java.io.Serializable ;
+import org.testng.Assert;
+import org.testng.annotations.BeforeGroups;
+import org.testng.annotations.Test;
 
-import java.rmi.MarshalException ;
-
-import java.util.Properties ;
-
-import java.rmi.RemoteException ;
-
-
-
-import org.testng.Assert ;
-import org.testng.annotations.Test ;
-import org.testng.annotations.BeforeGroups ;
-
-import corba.nortel.NortelSocketFactory ;
-
-import com.sun.corba.ee.spi.misc.ORBConstants ;
-
-import com.sun.corba.ee.spi.orb.ORB ;
-
-import corba.misc.Buck ;
-
-import static corba.framework.PRO.* ;
+import static corba.framework.PRO.narrow;
+import static corba.framework.PRO.toStub;
 
 public class FrameworkClient extends Framework {
     private static final boolean RUN_FRAGMENT_TEST = false ;
@@ -202,8 +191,9 @@ public class FrameworkClient extends Framework {
 
     private int[] makeIntArray( int size ) {
         int[] result = new int[size] ;
-        for (int ctr=0; ctr<size; ctr++)
+        for (int ctr=0; ctr<size; ctr++) {
             result[ctr] = ctr ;
+        }
         return result ;
     }
 

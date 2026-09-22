@@ -20,8 +20,9 @@
 
 package test;
 
-import rmic.HelloTest;
 import com.sun.corba.ee.impl.util.Version;
+
+import rmic.HelloTest;
 
 /*
  * @test

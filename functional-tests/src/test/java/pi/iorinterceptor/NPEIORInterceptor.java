@@ -19,11 +19,9 @@
 
 package pi.iorinterceptor;
 
-import java.io.*;
+import java.io.PrintStream;
 
 import org.omg.CORBA.LocalObject;
-
-import org.omg.PortableInterceptor.ForwardRequest;
 import org.omg.PortableInterceptor.IORInfo;
 import org.omg.PortableInterceptor.IORInterceptor;
 import org.omg.PortableInterceptor.ObjectReferenceTemplate;

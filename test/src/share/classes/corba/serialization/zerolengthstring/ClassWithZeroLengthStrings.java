@@ -27,7 +27,10 @@
  */
 package corba.serialization.zerolengthstring;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 public class ClassWithZeroLengthStrings implements Serializable {
     private int field1;

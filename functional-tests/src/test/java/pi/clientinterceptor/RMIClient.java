@@ -19,20 +19,15 @@
 
 package pi.clientinterceptor;
 
-import org.omg.CORBA.*;
-import org.omg.CosNaming.*;
-import com.sun.corba.ee.impl.corba.AnyImpl;
-import com.sun.corba.ee.spi.misc.ORBConstants;
-import com.sun.corba.ee.impl.interceptors.*;
-import org.omg.PortableInterceptor.*;
-import corba.framework.*;
+import corba.framework.InternalProcess;
 
-import java.rmi.*;
+import java.io.PrintStream;
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import java.util.Properties;
 
-import java.util.*;
-import java.io.*;
-import javax.naming.*;
-import javax.rmi.*;
+import javax.naming.InitialContext;
+import javax.rmi.PortableRemoteObject;
 
 public class RMIClient
     extends ClientCommon

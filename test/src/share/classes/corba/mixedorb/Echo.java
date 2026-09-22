@@ -19,8 +19,8 @@
 
 package corba.mixedorb;
 
-import java.rmi.Remote ;
-import java.rmi.RemoteException ;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 public interface Echo extends Remote {
     Echo say( Echo obj ) throws RemoteException ;

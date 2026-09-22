@@ -19,9 +19,9 @@
 
 package com.sun.corba.ee.spi.ior ;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
-import org.omg.CORBA_2_3.portable.InputStream ;
+import org.omg.CORBA_2_3.portable.InputStream;
 
 /** Factory interface for creating Identifiables.
  */

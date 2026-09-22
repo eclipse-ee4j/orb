@@ -24,10 +24,10 @@ import com.sun.corba.ee.spi.threadpool.ThreadPool;
 import com.sun.corba.ee.spi.threadpool.ThreadPoolChooser;
 import com.sun.corba.ee.spi.threadpool.ThreadPoolManager;
 
-import java.io.IOException ;
-import java.security.AccessController ;
+import java.io.IOException;
+import java.security.AccessController;
 import java.security.PrivilegedAction;
-import java.util.concurrent.atomic.AtomicInteger ;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ThreadPoolManagerImpl implements ThreadPoolManager
 {

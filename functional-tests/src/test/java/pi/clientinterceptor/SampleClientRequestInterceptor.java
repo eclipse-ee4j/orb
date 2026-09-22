@@ -19,14 +19,11 @@
 
 package pi.clientinterceptor;
 
-import org.omg.CORBA.*;
-
-import org.omg.PortableInterceptor.ForwardRequest;
+import org.omg.CORBA.UNKNOWN;
 import org.omg.PortableInterceptor.ClientRequestInfo;
 import org.omg.PortableInterceptor.ClientRequestInterceptor;
+import org.omg.PortableInterceptor.ForwardRequest;
 import org.omg.PortableInterceptor.RequestInfo;
-
-//import ORBInitTest.*;
 
 /**
  * Sample ClientRequestInterceptor for use in testing

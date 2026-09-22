@@ -42,10 +42,18 @@
 
 package ibmspace.server;
 
-import ibmspace.common.*;
-import java.util.Vector;
 import java.lang.reflect.Array;
 import java.rmi.RemoteException;
+import java.util.Vector;
+
+import ibmspace.common.BudgetSummary;
+import ibmspace.common.Fleet;
+import ibmspace.common.GameView;
+import ibmspace.common.ID;
+import ibmspace.common.Journey;
+import ibmspace.common.PlanetView;
+import ibmspace.common.ShipDesign;
+import ibmspace.common.TechProfile;
 
 
 public class GameViewImpl implements GameView, java.io.Serializable

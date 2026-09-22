@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.impl.protocol;
 
-import com.sun.corba.ee.spi.protocol.LocalClientRequestDispatcher ;
+import com.sun.corba.ee.spi.protocol.LocalClientRequestDispatcher;
 
 import org.omg.CORBA.portable.ServantObject;
 

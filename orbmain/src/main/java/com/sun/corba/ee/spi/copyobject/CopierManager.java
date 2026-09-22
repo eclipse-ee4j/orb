@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.spi.copyobject ;
 
-import org.glassfish.pfl.dynamic.copyobject.spi.ObjectCopierFactory ;
+import org.glassfish.pfl.dynamic.copyobject.spi.ObjectCopierFactory;
 
 /** Manager of ObjectCopier implementations used to support javax.rmi.CORBA.Util.copyObject(s).
  * This provides simple methods for registering all supported ObjectCopier factories.

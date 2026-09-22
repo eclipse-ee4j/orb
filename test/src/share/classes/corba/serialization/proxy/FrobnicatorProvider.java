@@ -19,7 +19,7 @@
 
 package corba.serialization.proxy;
 
-import java.rmi.*;
+import java.rmi.RemoteException;
 
 public interface FrobnicatorProvider  extends java.rmi.Remote {
 

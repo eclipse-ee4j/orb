@@ -22,14 +22,9 @@
 package test;
 
 import com.sun.corba.ee.impl.util.JDKBridge;
-import com.sun.corba.ee.spi.misc.ORBConstants;
 import com.sun.corba.ee.spi.JndiConstants;
-import org.omg.CORBA.ORB;
-import sun.rmi.rmic.Main;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.rmi.PortableRemoteObject;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -37,6 +32,14 @@ import java.rmi.Remote;
 import java.util.Hashtable;
 import java.util.Properties;
 import java.util.Vector;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.rmi.PortableRemoteObject;
+
+import org.omg.CORBA.ORB;
+
+import sun.rmi.rmic.Main;
 
 public class Util {
 

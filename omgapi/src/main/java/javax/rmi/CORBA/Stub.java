@@ -23,7 +23,7 @@ package javax.rmi.CORBA;
 import com.sun.corba.ee.org.omg.CORBA.GetPropertyAction;
 
 import java.io.IOException;
-import java.net.MalformedURLException ;
+import java.net.MalformedURLException;
 import java.rmi.RemoteException;
 import java.rmi.server.RMIClassLoader;
 import java.security.AccessController;

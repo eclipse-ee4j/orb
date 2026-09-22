@@ -19,13 +19,13 @@
 
 package pi.serverrequestinfo;
 
-import org.omg.CORBA.*;
+import java.io.PrintStream;
 
-import java.util.*;
-import java.io.*;
-import org.omg.PortableInterceptor.*;
+import org.omg.CORBA.IMP_LIMIT;
 
-import ServerRequestInfo.*;
+import ServerRequestInfo.ExampleException;
+import ServerRequestInfo.INVOKE_SAY_HELLO;
+import ServerRequestInfo.INVOKE_SAY_SYSTEM_EXCEPTION;
 
 /**
  * Servant implementation.

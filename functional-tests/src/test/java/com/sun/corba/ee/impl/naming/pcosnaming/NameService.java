@@ -19,16 +19,19 @@
 
 package com.sun.corba.ee.impl.naming.pcosnaming;
 
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.ORB;
+
 import java.io.File;
 
 import org.omg.CORBA.Policy;
 import org.omg.CosNaming.NamingContext;
 import org.omg.CosNaming.NamingContextHelper;
-import org.omg.PortableServer.*;
-
-import com.sun.corba.ee.spi.orb.ORB ;
-
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import org.omg.PortableServer.IdAssignmentPolicyValue;
+import org.omg.PortableServer.LifespanPolicyValue;
+import org.omg.PortableServer.POA;
+import org.omg.PortableServer.RequestProcessingPolicyValue;
+import org.omg.PortableServer.ServantRetentionPolicyValue;
 
 /**
  * @version     1.3, 00/04/06

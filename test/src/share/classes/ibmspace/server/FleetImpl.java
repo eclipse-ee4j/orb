@@ -20,11 +20,9 @@
 
 package ibmspace.server;
 
-import ibmspace.common.ShipDesign;
-import ibmspace.common.ID;
 import ibmspace.common.Fleet;
-import ibmspace.common.Planet;
-import ibmspace.common.Journey;
+import ibmspace.common.ID;
+import ibmspace.common.ShipDesign;
 
 
 public class FleetImpl implements Fleet, java.io.Serializable

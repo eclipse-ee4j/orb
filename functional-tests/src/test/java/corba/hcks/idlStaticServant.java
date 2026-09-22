@@ -24,10 +24,7 @@
 
 package corba.hcks;
 
-import org.omg.CORBA.*;
-import org.omg.CORBA.portable.UnknownException;
-import org.omg.PortableServer.*;
-import java.util.Properties;
+import org.omg.CORBA.ORB;
 
 class idlStaticServant
     extends

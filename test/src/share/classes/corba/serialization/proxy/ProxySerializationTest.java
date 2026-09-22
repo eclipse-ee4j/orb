@@ -19,8 +19,10 @@
 
 package corba.serialization.proxy;
 
-import test.Test;
-import corba.framework.*;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
+import corba.framework.Options;
+
 import java.util.Properties;
 
 public class ProxySerializationTest extends CORBATest {

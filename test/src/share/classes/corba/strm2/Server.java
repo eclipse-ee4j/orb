@@ -19,10 +19,7 @@
 
 package corba.strm2;
 
-import java.rmi.*;
-import javax.rmi.PortableRemoteObject;
-import javax.naming.*;
-import java.util.*;
+import javax.naming.InitialContext;
 
 public class Server
 {

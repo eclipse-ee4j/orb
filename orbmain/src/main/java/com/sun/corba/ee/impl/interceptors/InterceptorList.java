@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.impl.interceptors;
 
-import com.sun.corba.ee.spi.logging.InterceptorsSystemException ;
+import com.sun.corba.ee.spi.logging.InterceptorsSystemException;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;

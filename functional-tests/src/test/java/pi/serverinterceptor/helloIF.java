@@ -21,8 +21,8 @@ package pi.serverinterceptor;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import org.omg.PortableInterceptor.*;
-import ServerRequestInterceptor.*;
+
+import org.omg.PortableInterceptor.ForwardRequest;
 
 /**
  * Hello interface for RMI-IIOP version of test

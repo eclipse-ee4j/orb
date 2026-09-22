@@ -21,31 +21,31 @@
 
 package com.sun.corba.ee.impl.misc;
 
-import com.sun.corba.ee.impl.corba.CORBAObjectImpl ;
+import com.sun.corba.ee.impl.corba.CORBAObjectImpl;
 import com.sun.corba.ee.impl.ior.iiop.JavaSerializationComponent;
 import com.sun.corba.ee.impl.javax.rmi.CORBA.Util;
-import com.sun.corba.ee.spi.ior.IOR ;
+import com.sun.corba.ee.spi.ior.IOR;
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 import com.sun.corba.ee.spi.ior.iiop.IIOPProfile;
 import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate;
-import com.sun.corba.ee.spi.logging.OMGSystemException ;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import com.sun.corba.ee.spi.logging.OMGSystemException;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import com.sun.corba.ee.spi.misc.ORBClassLoader;
-import com.sun.corba.ee.spi.misc.ORBConstants ;
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.orb.ORBVersionFactory ;
-import com.sun.corba.ee.spi.presentation.rmi.StubAdapter ;
-import com.sun.corba.ee.spi.protocol.ClientDelegate ;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.orb.ORBVersionFactory;
+import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
+import com.sun.corba.ee.spi.protocol.ClientDelegate;
 import com.sun.corba.ee.spi.protocol.MessageMediator;
-import com.sun.corba.ee.spi.transport.ContactInfoList ;
+import com.sun.corba.ee.spi.transport.ContactInfoList;
 
-import java.io.IOException ;
-import java.io.PrintStream ;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.io.Serializable;
 import java.lang.System.Logger;
-import java.net.SocketAddress ;
-import java.nio.ByteBuffer ;
-import java.nio.channels.SocketChannel ;
+import java.net.SocketAddress;
+import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
 import java.security.AccessController;
 import java.security.PermissionCollection;
 import java.security.Policy;
@@ -60,15 +60,15 @@ import java.util.StringTokenizer;
 import javax.rmi.CORBA.ValueHandler;
 import javax.rmi.CORBA.ValueHandlerMultiFormat;
 
-import org.omg.CORBA.Any ;
-import org.omg.CORBA.CompletionStatus ;
-import org.omg.CORBA.StructMember ;
-import org.omg.CORBA.SystemException ;
-import org.omg.CORBA.TCKind ;
-import org.omg.CORBA.TypeCode ;
-import org.omg.CORBA.TypeCodePackage.BadKind ;
-import org.omg.CORBA.portable.InputStream ;
-import org.omg.CORBA.portable.OutputStream ;
+import org.omg.CORBA.Any;
+import org.omg.CORBA.CompletionStatus;
+import org.omg.CORBA.StructMember;
+import org.omg.CORBA.SystemException;
+import org.omg.CORBA.TCKind;
+import org.omg.CORBA.TypeCode;
+import org.omg.CORBA.TypeCodePackage.BadKind;
+import org.omg.CORBA.portable.InputStream;
+import org.omg.CORBA.portable.OutputStream;
 
 import static java.lang.System.Logger.Level.DEBUG;
 

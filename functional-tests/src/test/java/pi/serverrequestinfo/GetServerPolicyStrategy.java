@@ -19,13 +19,11 @@
 
 package pi.serverrequestinfo;
 
-import org.omg.CORBA.*;
-import org.omg.PortableServer.*;
-import com.sun.corba.ee.impl.interceptors.*;
-import org.omg.PortableInterceptor.*;
-import org.omg.Messaging.*;
-
-import java.util.*;
+import org.omg.CORBA.INV_POLICY;
+import org.omg.CORBA.Policy;
+import org.omg.PortableInterceptor.ServerRequestInfo;
+import org.omg.PortableServer.ID_UNIQUENESS_POLICY_ID;
+import org.omg.PortableServer.IdUniquenessPolicy;
 
 /**
  * Strategy to test get_server_policy.

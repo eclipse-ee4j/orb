@@ -22,7 +22,7 @@ package com.sun.corba.ee.impl.corba;
 
 import com.sun.corba.ee.impl.encoding.CDRInputObject;
 import com.sun.corba.ee.impl.encoding.CDROutputObject;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

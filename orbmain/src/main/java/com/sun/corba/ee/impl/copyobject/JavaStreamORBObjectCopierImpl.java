@@ -24,8 +24,8 @@ import com.sun.corba.ee.impl.util.Utility;
 
 import java.rmi.Remote;
 
-import org.glassfish.pfl.dynamic.copyobject.impl.JavaStreamObjectCopierImpl ;
-import org.omg.CORBA.ORB ;
+import org.glassfish.pfl.dynamic.copyobject.impl.JavaStreamObjectCopierImpl;
+import org.omg.CORBA.ORB;
 
 
 public class JavaStreamORBObjectCopierImpl extends JavaStreamObjectCopierImpl {

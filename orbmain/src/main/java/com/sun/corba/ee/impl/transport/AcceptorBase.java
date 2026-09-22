@@ -46,7 +46,7 @@ import com.sun.corba.ee.spi.transport.Selector;
 import com.sun.corba.ee.spi.transport.SocketInfo;
 import com.sun.corba.ee.spi.transport.TransportManager;
 
-import java.net.Socket ;
+import java.net.Socket;
 import java.nio.channels.SelectionKey;
 import java.util.Iterator;
 

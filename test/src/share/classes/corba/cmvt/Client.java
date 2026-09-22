@@ -19,15 +19,11 @@
 
 package corba.cmvt;
 
-import javax.rmi.PortableRemoteObject;
-import org.omg.CosNaming.*;
-import org.omg.CORBA.*;
-import java.util.* ;
-import java.rmi.RemoteException;
-import java.io.*;
+import java.io.FileInputStream;
 
-import com.sun.corba.ee.spi.misc.ORBConstants;
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
+import javax.rmi.PortableRemoteObject;
+
+import org.omg.CORBA.ORB;
 
 public class Client
 {

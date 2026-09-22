@@ -19,10 +19,9 @@
 
 package pi.serverrequestinfo;
 
-import com.sun.corba.ee.impl.interceptors.*;
-import org.omg.PortableInterceptor.*;
-import org.omg.CORBA.*;
-import ServerRequestInfo.*;
+import org.omg.CORBA.IMP_LIMIT;
+
+import ServerRequestInfo.ExampleException;
 
 /**
  * Invocation strategy in which four calls are made.

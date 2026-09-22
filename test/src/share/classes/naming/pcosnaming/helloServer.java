@@ -19,17 +19,19 @@
 
 package naming.pcosnaming;
 
-import HelloApp._helloImplBase ;
 import corba.framework.Controller;
 import corba.framework.InternalProcess;
-import java.io.PrintStream;
 
-import java.util.Properties;
+import java.io.PrintStream;
 import java.util.Hashtable;
+import java.util.Properties;
+
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContext;
 import org.omg.CosNaming.NamingContextHelper;
+
+import HelloApp._helloImplBase;
 
 class helloServant extends _helloImplBase
 {
