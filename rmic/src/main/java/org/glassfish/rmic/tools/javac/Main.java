@@ -53,14 +53,17 @@ class Main implements Constants {
         }
     }
 
+    @Deprecated
     public static String getText(String key, String fixed) {
         return getText(key, fixed, null);
     }
 
+    @Deprecated
     public static String getText(String key, String fixed1, String fixed2) {
         return getText(key, fixed1, fixed2, null);
     }
 
+    @Deprecated
     static String getText(String key, String fixed1,
                           String fixed2, String fixed3) {
         if (messageRB == null) {

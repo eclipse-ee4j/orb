@@ -42,42 +42,49 @@ public final class ContextImpl extends Context {
         // Ignore: no wrapper available
     }
 
+    @Override
     public String context_name()
     {
         throw wrapper.contextNotImplemented() ;
     }
 
+    @Override
     public Context parent()
     {
         throw wrapper.contextNotImplemented() ;
     }
 
+    @Override
     public Context create_child(String name)
     {
         throw wrapper.contextNotImplemented() ;
     }
 
+    @Override
     public void set_one_value(String propName, Any propValue)
     {
         throw wrapper.contextNotImplemented() ;
     }
 
+    @Override
     public void set_values(NVList values)
     {
         throw wrapper.contextNotImplemented() ;
     }
 
 
+    @Override
     public void delete_values(String propName)
     {
         throw wrapper.contextNotImplemented() ;
     }
 
+    @Override
     public NVList get_values(String startScope,
                              int opFlags,
                              String propName)
     {
         throw wrapper.contextNotImplemented() ;
     }
-};
+}
 

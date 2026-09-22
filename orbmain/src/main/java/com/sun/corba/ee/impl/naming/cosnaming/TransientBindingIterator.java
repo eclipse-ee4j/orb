@@ -75,6 +75,7 @@ public class TransientBindingIterator extends BindingIteratorImpl
    * @param b The Binding as an out parameter.
    * @return true if there were more bindings.
    */
+    @Override
     final public boolean nextOneImpl(org.omg.CosNaming.BindingHolder b)
     {
         // If there are more elements get the next element
@@ -94,6 +95,7 @@ public class TransientBindingIterator extends BindingIteratorImpl
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA
      * system exceptions.
      */
+    @Override
     final public void destroyImpl()
     {
         // Remove the object from the Active Object Map.
@@ -113,6 +115,7 @@ public class TransientBindingIterator extends BindingIteratorImpl
      * Returns the remaining number of elements in the iterator.
      * @return the remaining number of elements in the iterator.
      */
+    @Override
     public final int remainingElementsImpl() {
         return currentSize;
     }

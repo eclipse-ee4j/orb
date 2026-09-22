@@ -41,7 +41,7 @@ interface Constants extends RuntimeConstants {
      * enabled at runtime, otherwise we save the space/time overhead.
      * Should normally be 'false' for a release version.
      */
-    public static final boolean tracing = true;
+    boolean tracing = true;
 
     /*
      * Frequently used identifiers

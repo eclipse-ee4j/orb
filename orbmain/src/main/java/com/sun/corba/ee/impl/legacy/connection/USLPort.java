@@ -44,6 +44,7 @@ public class USLPort
     @ManagedAttribute
     @Description( "The TCP port number" )
     public int    getPort  () { return port; }
+    @Override
     public String toString () { return type + ":" + port; }
 }
 

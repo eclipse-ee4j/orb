@@ -169,6 +169,7 @@ public interface PresentationManager
      * @return static or dynamic stub factory.
      * @deprecated use {@link #getDynamicStubFactoryFactory()} or {@link #getStaticStubFactoryFactory()}
      */
+    @Deprecated
     StubFactoryFactory getStubFactoryFactory( boolean isDynamic ) ;
 
     /** Return the registered static StubFactoryFactory.

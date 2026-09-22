@@ -128,6 +128,7 @@ public class RemoteClass implements org.glassfish.rmic.RMIConstants {
      * Return string representation of this object, consisting of
      * the string "remote class " followed by the class name.
      */
+    @Override
     public String toString() {
         return "remote class " + implClassDef.getName().toString();
     }
@@ -693,6 +694,7 @@ public class RemoteClass implements org.glassfish.rmic.RMIConstants {
         /**
          * Return the string representation of this method.
          */
+        @Override
         public String toString() {
             return memberDef.toString();
         }
@@ -758,6 +760,7 @@ public class RemoteClass implements org.glassfish.rmic.RMIConstants {
         /**
          * Cloning is supported by returning a shallow copy of this object.
          */
+        @Override
         protected Object clone() {
             try {
                 return super.clone();

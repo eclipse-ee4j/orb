@@ -45,14 +45,14 @@ public interface GroupInfoService
      * @param x observer to add
      * @return true if the given observer is added.  False otherwise.
      */
-    public boolean addObserver(GroupInfoServiceObserver x);
+    boolean addObserver(GroupInfoServiceObserver x);
 
     /**
      * Causes the
      * <code>membershipChange</code>
      * method to be called on each registered observer.
      */
-    public void notifyObservers();
+    void notifyObservers();
 
     /**
      * This is a separate call
@@ -64,7 +64,7 @@ public interface GroupInfoService
      * @param adapterName name of cluster
      * @return information about instances in the cluster
      */
-    public List<ClusterInstanceInfo> getClusterInstanceInfo(
+    List<ClusterInstanceInfo> getClusterInstanceInfo(
         String[] adapterName);
 
     /**
@@ -77,7 +77,7 @@ public interface GroupInfoService
      * @param endpoints  endpoints of cluster
      * @return info on cluster
      */
-    public List<ClusterInstanceInfo> getClusterInstanceInfo(
+    List<ClusterInstanceInfo> getClusterInstanceInfo(
         String[] adapterName, List<String> endpoints );
 
     /**
@@ -85,7 +85,7 @@ public interface GroupInfoService
      * @param adapterName name to add
      * @return if addresses should be added
      */
-    public boolean shouldAddAddressesToNonReferenceFactory(
+    boolean shouldAddAddressesToNonReferenceFactory(
         String[] adapterName);
 
     /**
@@ -93,7 +93,7 @@ public interface GroupInfoService
      * @param adapterName name to add
      * @return if label should be added
      */
-    public boolean shouldAddMembershipLabel (String[] adapterName);
+    boolean shouldAddMembershipLabel (String[] adapterName);
 }
 
 // End of file.

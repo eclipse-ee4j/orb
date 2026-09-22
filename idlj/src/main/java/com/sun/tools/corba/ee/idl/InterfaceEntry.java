@@ -36,7 +36,6 @@ public class InterfaceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry imple
 
   protected InterfaceEntry ()
   {
-    super ();
   } // ctor
 
   protected InterfaceEntry (InterfaceEntry that)

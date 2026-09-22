@@ -26,13 +26,14 @@ import javax.rmi.PortableRemoteObject;
 public class RmiIIServant extends PortableRemoteObject implements RmiII {
 
     public RmiIIServant() throws RemoteException {
-        super();
     }
 
+    @Override
     public String sayHello() {
         return "Hello, World!";
     }
 
+    @Override
     public int sendBytes (byte[] x)
     {
         if (x == null)
@@ -40,27 +41,33 @@ public class RmiIIServant extends PortableRemoteObject implements RmiII {
         return x.length;
     }
 
+    @Override
     public Object sendOneObject(Object x) throws RmiIMyException {
         return x;
     }
 
+    @Override
     public Object sendTwoObjects (Object x, Object y)
     {
         return x;
     }
 
+    @Override
     public String makeColocatedCallFromServant() throws RemoteException {
         return "";
     }
 
+    @Override
     public String colocatedCallFromServant (String a) throws RemoteException {
         return "B" + a;
     }
 
+    @Override
     public String throwThreadDeathInServant (String a) throws RemoteException, ThreadDeath {
         throw new ThreadDeath();
     }
 
+    @Override
     public Object returnObjectFromServer (boolean isSerializable) throws RemoteException {
         return isSerializable ? "" : new RmiIIServant();
     }

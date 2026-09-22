@@ -45,6 +45,7 @@ public class ForwardValueGen implements com.sun.tools.corba.ee.idl.ForwardValueG
   /**
    *
    **/
+  @Override
   public void generate (Hashtable symbolTable, ForwardValueEntry v, PrintWriter str)
   {
     this.symbolTable = symbolTable;
@@ -136,16 +137,19 @@ public class ForwardValueGen implements com.sun.tools.corba.ee.idl.ForwardValueG
   ///////////////
   // From JavaGenerator
 
+  @Override
   public int helperType (int index, String indent, com.sun.tools.corba.ee.idl.toJavaPortable.TCOffsets tcoffsets, String name, SymtabEntry entry, PrintWriter stream)
   {
     return index;
   } // helperType
 
+  @Override
   public int type (int index, String indent, com.sun.tools.corba.ee.idl.toJavaPortable.TCOffsets tcoffsets, String name, SymtabEntry entry, PrintWriter stream) {
     stream.println (indent + name + " = " + com.sun.tools.corba.ee.idl.toJavaPortable.Util.helperName(entry, true) + ".type ();"); // <d61056>
     return index;
   } // type
 
+  @Override
   public void helperRead (String entryName, SymtabEntry entry, PrintWriter stream)
   {
     stream.println ("    " + entryName + " value = new " + entryName + " ();");
@@ -153,16 +157,19 @@ public class ForwardValueGen implements com.sun.tools.corba.ee.idl.ForwardValueG
     stream.println ("    return value;");
   } // helperRead
 
+  @Override
   public int read (int index, String indent, String name, SymtabEntry entry, PrintWriter stream)
   {
     return index;
   } // read
 
+  @Override
   public void helperWrite (SymtabEntry entry, PrintWriter stream)
   {
     write (0, "    ", "value", entry, stream);
   } // helperWrite
 
+  @Override
   public int write (int index, String indent, String name, SymtabEntry entry, PrintWriter stream)
   {
     return index;

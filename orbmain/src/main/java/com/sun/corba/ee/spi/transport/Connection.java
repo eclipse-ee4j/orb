@@ -53,7 +53,7 @@ public interface Connection
      *
      * @return <code>true</code> if it should be registered.
      */
-    public boolean shouldRegisterReadEvent();
+    boolean shouldRegisterReadEvent();
 
     /**
      * Used to determine if the <code>Connection</code> should register
@@ -66,25 +66,25 @@ public interface Connection
      *
      * @return <code>true</code> if it should be registered.
      */
-    public boolean shouldRegisterServerReadEvent(); // REVISIT - why special?
+    boolean shouldRegisterServerReadEvent(); // REVISIT - why special?
 
     /**
      * Called to read incoming messages.
      *
      * @return <code>true</code> if the thread calling read can be released.
      */
-    public boolean read();
+    boolean read();
 
-    public void close();
+    void close();
 
     // REVISIT: replace next two with PlugInFactory (implemented by ContactInfo
     // and Acceptor).
 
-    public Acceptor getAcceptor();
+    Acceptor getAcceptor();
 
-    public ContactInfo getContactInfo();
+    ContactInfo getContactInfo();
 
-    public EventHandler getEventHandler();
+    EventHandler getEventHandler();
 
     /**
      * Indicates whether a CorbaContactInfo or CorbaAcceptor
@@ -94,14 +94,14 @@ public interface Connection
      * @return <code>true</code> if a CorbaAcceptor
      * created the <code>Connection</code>.
      */
-    public boolean isServer();
+    boolean isServer();
 
     /**
      * Indicates if the <code>Connection</code> is closed.
      *
      * @return <code>true</code> if the <code>Connection</code> is closed.
      */
-    public boolean isClosed();
+    boolean isClosed();
 
     /**
      * Indicates if the <code>Connection</code> is in the process of
@@ -109,7 +109,7 @@ public interface Connection
      *
      * @return <code>true</code> if the <code>Connection</code> is busy.
      */
-    public boolean isBusy();
+    boolean isBusy();
 
     /**
      * Timestamps are used for connection management, in particular, for
@@ -117,7 +117,7 @@ public interface Connection
      *
      * @return the "time" the <code>Connection</code> was last used.
      */
-    public long getTimeStamp();
+    long getTimeStamp();
 
     /**
      * Timestamps are used for connection management, in particular, for
@@ -125,14 +125,14 @@ public interface Connection
      *
      * @param time - the "time" the <code>Connection</code> was last used.
      */
-    public void setTimeStamp(long time);
+    void setTimeStamp(long time);
 
     /**
      * The "state" of the <code>Connection</code>.
      *
      * @param state state to set
      */
-    public void setState(String state);
+    void setState(String state);
 
     /**
      * Grab a write lock on the <code>Connection</code>.
@@ -143,12 +143,12 @@ public interface Connection
      * {@link #writeUnlock}
      * when it is done.
      */
-    public void writeLock();
+    void writeLock();
 
     /**
      * Release a write lock on the <code>Connection</code>.
      */
-    public void writeUnlock();
+    void writeUnlock();
 
     /*
      * Send the data encoded in
@@ -157,7 +157,7 @@ public interface Connection
      *
      * @param outputObject encoded data to send
      */
-    public void sendWithoutLock(CDROutputObject outputObject);
+    void sendWithoutLock(CDROutputObject outputObject);
 
     /**
      * Register an invocation's CorbaMessageMediator
@@ -167,7 +167,7 @@ public interface Connection
      *
      * @param messageMediator mediator to register
      */
-    public void registerWaiter(MessageMediator messageMediator);
+    void registerWaiter(MessageMediator messageMediator);
 
     /**
      * If a message expect's a response then this method is called.
@@ -180,7 +180,7 @@ public interface Connection
      * @param messageMediator mediator to process
      * @return stream
      */
-    public CDRInputObject waitForResponse(MessageMediator messageMediator);
+    CDRInputObject waitForResponse(MessageMediator messageMediator);
 
     /**
      * Unregister an invocation's * CorbaMessageMediator
@@ -188,48 +188,48 @@ public interface Connection
      *
      * @param messageMediator mediator to unregister
      */
-    public void unregisterWaiter(MessageMediator messageMediator);
+    void unregisterWaiter(MessageMediator messageMediator);
 
-    public void setConnectionCache(ConnectionCache connectionCache);
+    void setConnectionCache(ConnectionCache connectionCache);
 
-    public ConnectionCache getConnectionCache();
-    public boolean hasSocketChannel();
+    ConnectionCache getConnectionCache();
+    boolean hasSocketChannel();
 
-    public void write(ByteBuffer byteBuffer)
+    void write(ByteBuffer byteBuffer)
         throws IOException;
 
-    public int getNextRequestId();
-    public ORB getBroker();
-    public CodeSetComponentInfo.CodeSetContext getCodeSetContext();
-    public void setCodeSetContext(CodeSetComponentInfo.CodeSetContext csc);
+    int getNextRequestId();
+    ORB getBroker();
+    CodeSetComponentInfo.CodeSetContext getCodeSetContext();
+    void setCodeSetContext(CodeSetComponentInfo.CodeSetContext csc);
 
     // Facade to ResponseWaitingRoom.
-    public MessageMediator clientRequestMapGet(int requestId);
+    MessageMediator clientRequestMapGet(int requestId);
 
-    public void clientReply_1_1_Put(MessageMediator x);
-    public MessageMediator clientReply_1_1_Get();
-    public void clientReply_1_1_Remove();
+    void clientReply_1_1_Put(MessageMediator x);
+    MessageMediator clientReply_1_1_Get();
+    void clientReply_1_1_Remove();
 
-    public void serverRequest_1_1_Put(MessageMediator x);
-    public MessageMediator serverRequest_1_1_Get();
-    public void serverRequest_1_1_Remove();
+    void serverRequest_1_1_Put(MessageMediator x);
+    MessageMediator serverRequest_1_1_Get();
+    void serverRequest_1_1_Remove();
 
-    public boolean isPostInitialContexts();
+    boolean isPostInitialContexts();
 
     // Can never be unset...
-    public void setPostInitialContexts();
+    void setPostInitialContexts();
 
-    public void purgeCalls(SystemException systemException,
+    void purgeCalls(SystemException systemException,
                            boolean die, boolean lockHeld);
 
     //
     // Connection status
     //
-    public static final int OPENING = 1;
-    public static final int ESTABLISHED = 2;
-    public static final int CLOSE_SENT = 3;
-    public static final int CLOSE_RECVD = 4;
-    public static final int ABORT = 5;
+    int OPENING = 1;
+    int ESTABLISHED = 2;
+    int CLOSE_SENT = 3;
+    int CLOSE_RECVD = 4;
+    int ABORT = 5;
 
     // Begin Code Base methods ---------------------------------------
     //
@@ -255,42 +255,42 @@ public interface Connection
 
     // End Code Base methods -----------------------------------------
 
-    public void sendCloseConnection(GIOPVersion giopVersion)
+    void sendCloseConnection(GIOPVersion giopVersion)
         throws IOException;
 
-    public void sendMessageError(GIOPVersion giopVersion)
+    void sendMessageError(GIOPVersion giopVersion)
         throws IOException;
 
-    public void sendCancelRequest(GIOPVersion giopVersion, int requestId)
+    void sendCancelRequest(GIOPVersion giopVersion, int requestId)
         throws
             IOException;
 
     // NOTE: This method can throw a connection rebind SystemException.
-    public void sendCancelRequestWithLock(GIOPVersion giopVersion,
+    void sendCancelRequestWithLock(GIOPVersion giopVersion,
                                           int requestId)
         throws
             IOException;
 
-    public ResponseWaitingRoom getResponseWaitingRoom();
+    ResponseWaitingRoom getResponseWaitingRoom();
 
-    public void serverRequestMapPut(int requestId,
+    void serverRequestMapPut(int requestId,
                                     MessageMediator messageMediator);
-    public MessageMediator serverRequestMapGet(int requestId);
-    public void serverRequestMapRemove(int requestId);
+    MessageMediator serverRequestMapGet(int requestId);
+    void serverRequestMapRemove(int requestId);
 
-    public Queue<MessageMediator> getFragmentList(RequestId corbaRequestId);
-    public void removeFragmentList(RequestId corbaRequestId);
+    Queue<MessageMediator> getFragmentList(RequestId corbaRequestId);
+    void removeFragmentList(RequestId corbaRequestId);
 
     // REVISIT: WRONG: should not expose sockets here.
-    public SocketChannel getSocketChannel();
+    SocketChannel getSocketChannel();
 
     // REVISIT - CorbaMessageMediator parameter?
-    public void serverRequestProcessingBegins();
-    public void serverRequestProcessingEnds();
+    void serverRequestProcessingBegins();
+    void serverRequestProcessingEnds();
 
     /** Clean up all connection resources.  Used when shutting down an ORB.
      */
-    public void closeConnectionResources() ;
+    void closeConnectionResources() ;
 }
 
 // End of file.

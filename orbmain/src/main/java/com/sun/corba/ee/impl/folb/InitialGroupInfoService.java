@@ -77,7 +77,7 @@ public class InitialGroupInfoService {
         ORBUtilSystemException.self ;
 
     public interface InitialGIS extends Remote {
-        public List<ClusterInstanceInfo> getClusterInstanceInfo()
+        List<ClusterInstanceInfo> getClusterInstanceInfo()
             throws RemoteException ;
     }
 
@@ -88,13 +88,13 @@ public class InitialGroupInfoService {
         private ORB orb;
 
         public InitialGISImpl(ORB orb) throws RemoteException {
-            super() ;
             this.orb = orb;
         }
 
         @InfoMethod
         private void exceptionReport( Exception exc ) { }
 
+        @Override
         @Folb
         public List<ClusterInstanceInfo> getClusterInstanceInfo()
             throws RemoteException {
@@ -115,6 +115,7 @@ public class InitialGroupInfoService {
 
     public static class InitialGISServantLocator extends LocalObject
         implements ServantLocator {
+        private static final long serialVersionUID = 7106016097699105498L;
         private Servant servant ;
         private InitialGISImpl impl = null;
 
@@ -135,12 +136,14 @@ public class InitialGroupInfoService {
             return servant._all_interfaces(null, null)[0];
         }
 
+        @Override
         public synchronized Servant preinvoke( byte[] oid, POA adapter,
             String operation, CookieHolder the_cookie
         ) throws ForwardRequest {
             return servant ;
         }
 
+        @Override
         public void postinvoke( byte[] oid, POA adapter,
             String operation, Object the_cookie, Servant the_servant ) {
         }

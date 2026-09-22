@@ -27,29 +27,36 @@ import org.omg.PortableServer.IdUniquenessPolicyValue;
 final class IdUniquenessPolicyImpl
     extends org.omg.CORBA.LocalObject implements IdUniquenessPolicy {
 
+    private static final long serialVersionUID = 3651939851142969815L;
+
     public IdUniquenessPolicyImpl(IdUniquenessPolicyValue value) {
         this.value = value;
     }
 
+    @Override
     public IdUniquenessPolicyValue value() {
         return value;
     }
 
+    @Override
     public int policy_type()
     {
         return ID_UNIQUENESS_POLICY_ID.value ;
     }
 
+    @Override
     public Policy copy() {
         return new IdUniquenessPolicyImpl(value);
     }
 
+    @Override
     public void destroy() {
         value = null;
     }
 
     private IdUniquenessPolicyValue value;
 
+    @Override
     public String toString()
     {
         return "IdUniquenessPolicy[" +

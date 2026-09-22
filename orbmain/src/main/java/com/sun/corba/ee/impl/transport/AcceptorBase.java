@@ -84,24 +84,29 @@ public abstract class AcceptorBase
 
     protected InboundConnectionCache connectionCache;
 
+    @Override
     public int getPort() {
         return port ;
     }
 
+    @Override
     public String getInterfaceName() {
         String result = name.equals(LegacyServerSocketEndPointInfo.NO_NAME) ? this.toString() : name;
         return result;
     }
 
     // Need this for the work interface.
+    @Override
     public String getName() {
         return getInterfaceName() ;
     }
 
+    @Override
     public String getType() {
         return type ;
     }
 
+    @Override
     public boolean isLazy() {
         return false ;
     }
@@ -124,6 +129,7 @@ public abstract class AcceptorBase
         this.type = type;
     }
 
+    @Override
     @Transport
     public void processSocket( Socket socket ) {
         Connection connection =
@@ -143,6 +149,7 @@ public abstract class AcceptorBase
         getConnectionCache().reclaim();
     }
 
+    @Override
     @Transport
     public void addToIORTemplate(IORTemplate iorTemplate, Policies policies, String codebase) {
         Iterator iterator = iorTemplate.iteratorById(TAG_INTERNET_IOP.value);
@@ -222,71 +229,88 @@ public abstract class AcceptorBase
             + ", shouldUseWorkerThreadForEvent=" + shouldUseWorkerThreadForEvent() + "]";
     }
 
+    @Override
     public String getHost() {
         return hostname;
     }
 
+    @Override
     public String getHostName() {
         return hostname;
     }
 
+    @Override
     public int getLocatorPort() {
         return locatorPort;
     }
 
+    @Override
     public void setLocatorPort(int port) {
         locatorPort = port;
     }
 
+    @Override
     public InboundConnectionCache getConnectionCache() {
         return connectionCache;
     }
 
+    @Override
     public String getConnectionCacheType() {
         return TransportManager.SOCKET_OR_CHANNEL_CONNECTION_CACHE;
     }
 
+    @Override
     public long getEnqueueTime() {
         return enqueueTime;
     }
 
+    @Override
     public String getMonitoringName() {
         return "AcceptedConnections";
     }
 
+    @Override
     public synchronized boolean initialized() {
         return initialized;
     }
 
+    @Override
     public void setConnectionCache(InboundConnectionCache connectionCache) {
         this.connectionCache = connectionCache;
     }
 
+    @Override
     public void setEnqueueTime(long timeInMillis) {
         enqueueTime = timeInMillis;
     }
 
+    @Override
     public EventHandler getEventHandler() {
         return this;
     }
 
+    @Override
     public Acceptor getAcceptor() {
         return this;
     }
 
+    @Override
     public Connection getConnection() {
         throw new RuntimeException("Should not happen.");
     }
 
+    @Override
     public CDROutputObject createOutputObject(ORB broker, MessageMediator messageMediator) {
         return OutputStreamFactory.newCDROutputObject(broker, messageMediator,
             messageMediator.getReplyHeader(), messageMediator.getStreamFormatVersion());
     }
 
+    @Override
     public boolean shouldRegisterAcceptEvent() {
         return true;
     }
 
+    @Override
     public int getInterestOps() {
         return SelectionKey.OP_ACCEPT;
     }

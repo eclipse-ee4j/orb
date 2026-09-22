@@ -46,41 +46,49 @@ public class GenericTaggedProfile extends GenericIdentifiable implements TaggedP
         this.orb = orb ;
     }
 
+    @Override
     public TaggedProfileTemplate getTaggedProfileTemplate()
     {
         return null ;
     }
 
+    @Override
     public ObjectId getObjectId()
     {
         return null ;
     }
 
+    @Override
     public ObjectKeyTemplate getObjectKeyTemplate()
     {
         return null ;
     }
 
+    @Override
     public ObjectKey getObjectKey()
     {
         return null ;
     }
 
+    @Override
     public boolean isEquivalent( TaggedProfile prof )
     {
         return equals( prof ) ;
     }
 
+    @Override
     public void makeImmutable()
     {
         // NO-OP
     }
 
+    @Override
     public boolean isLocal()
     {
         return false ;
     }
 
+    @Override
     public org.omg.IOP.TaggedProfile getIOPProfile()
     {
         EncapsOutputStream os = OutputStreamFactory.newEncapsOutputStream( orb ) ;

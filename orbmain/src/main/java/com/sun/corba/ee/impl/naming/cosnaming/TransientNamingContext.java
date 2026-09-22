@@ -97,6 +97,7 @@ public class TransientNamingContext extends NamingContextImpl implements NamingC
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA
      * system exceptions.
      */
+    @Override
     @Naming
     public final void bindImpl(NameComponent n, org.omg.CORBA.Object obj,
                            BindingType bt)
@@ -128,6 +129,7 @@ public class TransientNamingContext extends NamingContextImpl implements NamingC
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA
      * system exceptions.
      */
+    @Override
     @Naming
     public final org.omg.CORBA.Object resolveImpl(NameComponent n,
                                               BindingTypeHolder bth)
@@ -160,6 +162,7 @@ public class TransientNamingContext extends NamingContextImpl implements NamingC
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA
      * system exceptions.
      */
+    @Override
     @Naming
     public final org.omg.CORBA.Object unbindImpl(NameComponent n)
         throws org.omg.CORBA.SystemException
@@ -187,6 +190,7 @@ public class TransientNamingContext extends NamingContextImpl implements NamingC
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA
      * system exceptions.
      */
+    @Override
     @Naming
     public final void listImpl(int how_many, BindingListHolder bl,
                            BindingIteratorHolder bi)
@@ -229,6 +233,7 @@ public class TransientNamingContext extends NamingContextImpl implements NamingC
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA
      * system exceptions.
      */
+    @Override
     @Naming
     public final org.omg.CosNaming.NamingContext newContextImpl()
         throws org.omg.CORBA.SystemException
@@ -252,6 +257,7 @@ public class TransientNamingContext extends NamingContextImpl implements NamingC
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA
      * system exceptions.
      */
+    @Override
     @Naming
     public final void destroyImpl()
         throws org.omg.CORBA.SystemException
@@ -279,6 +285,7 @@ public class TransientNamingContext extends NamingContextImpl implements NamingC
      * this request to the hash table.
      * @return true if this NamingContext contains no bindings.
      */
+    @Override
     public final boolean isEmptyImpl() {
         return bindingMap.isEmpty();
     }

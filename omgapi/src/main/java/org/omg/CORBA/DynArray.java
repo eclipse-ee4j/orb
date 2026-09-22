@@ -34,7 +34,7 @@ public interface DynArray extends org.omg.CORBA.Object, org.omg.CORBA.DynAny
      *         for this <code>DynArray</code> object
      * @see #set_elements(org.omg.CORBA.Any[])
      */
-    public org.omg.CORBA.Any[] get_elements();
+    @Deprecated org.omg.CORBA.Any[] get_elements();
 
     /**
      * Sets the value of this
@@ -44,6 +44,6 @@ public interface DynArray extends org.omg.CORBA.Object, org.omg.CORBA.DynAny
      * @exception org.omg.CORBA.DynAnyPackage.InvalidSeq if the sequence is bad
      * @see #get_elements()
      */
-    public void set_elements(org.omg.CORBA.Any[] value)
+    @Deprecated void set_elements(org.omg.CORBA.Any[] value)
         throws org.omg.CORBA.DynAnyPackage.InvalidSeq;
 }

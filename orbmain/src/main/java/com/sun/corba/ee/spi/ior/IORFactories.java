@@ -184,6 +184,7 @@ public class IORFactories {
         // Create and register the factory for the Object Reference Template
         // implementation.
         ValueFactory vf = new ValueFactory() {
+            @Override
             public Serializable read_value( InputStream is )
             {
                 return new ObjectReferenceTemplateImpl( is ) ;
@@ -195,6 +196,7 @@ public class IORFactories {
         // Create and register the factory for the Object Reference Factory
         // implementation.
         vf = new ValueFactory() {
+            @Override
             public Serializable read_value( InputStream is )
             {
                 return new ObjectReferenceFactoryImpl( is ) ;

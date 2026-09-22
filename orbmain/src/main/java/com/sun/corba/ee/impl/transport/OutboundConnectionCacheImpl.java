@@ -53,10 +53,11 @@ public class OutboundConnectionCacheImpl
     public OutboundConnectionCacheImpl(ORB orb, ContactInfo contactInfo)
     {
         super(orb, contactInfo.getConnectionCacheType(),
-              ((ContactInfo)contactInfo).getMonitoringName());
+              contactInfo.getMonitoringName());
         this.connectionCache = new HashMap<ContactInfo,Connection>();
     }
 
+    @Override
     @Transport
     public Connection get(ContactInfo contactInfo)
     {
@@ -66,6 +67,7 @@ public class OutboundConnectionCacheImpl
         }
     }
 
+    @Override
     @Transport
     public void put(ContactInfo contactInfo, Connection connection)
     {
@@ -77,6 +79,7 @@ public class OutboundConnectionCacheImpl
         }
     }
 
+    @Override
     @Transport
     public void remove(ContactInfo contactInfo)
     {
@@ -94,11 +97,13 @@ public class OutboundConnectionCacheImpl
     // Implementation
     //
 
+    @Override
     public Collection values()
     {
         return connectionCache.values();
     }
 
+    @Override
     protected Object backingStore()
     {
         return connectionCache;

@@ -70,21 +70,25 @@ public class ObjectKeyImpl implements ObjectKey
         return oktemp.hashCode() ^ id.hashCode() ;
     }
 
+    @Override
     public ObjectKeyTemplate getTemplate()
     {
         return oktemp ;
     }
 
+    @Override
     public ObjectId getId()
     {
         return id ;
     }
 
+    @Override
     public void write( OutputStream os )
     {
         oktemp.write( id, os ) ;
     }
 
+    @Override
     public synchronized byte[] getBytes(org.omg.CORBA.ORB orb)
     {
         if (array == null) {

@@ -52,15 +52,17 @@ public class InboundConnectionCacheImpl
     public InboundConnectionCacheImpl(ORB orb, Acceptor acceptor)
     {
         super(orb, acceptor.getConnectionCacheType(),
-              ((Acceptor)acceptor).getMonitoringName());
+              acceptor.getMonitoringName());
         this.connectionCache = new ArrayList<Connection>();
     }
 
+    @Override
     public Connection get(Acceptor acceptor)
     {
         throw wrapper.methodShouldNotBeCalled();
     }
 
+    @Override
     @Transport
     public void put(Acceptor acceptor, Connection connection)
     {
@@ -72,6 +74,7 @@ public class InboundConnectionCacheImpl
         }
     }
 
+    @Override
     @Transport
     public void remove(Connection connection)
     {
@@ -87,11 +90,13 @@ public class InboundConnectionCacheImpl
     // Implementation
     //
 
+    @Override
     public Collection values()
     {
         return connectionCache;
     }
 
+    @Override
     protected Object backingStore()
     {
         return connectionCache;

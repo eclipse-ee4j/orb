@@ -34,6 +34,8 @@ package com.sun.corba.ee.impl.io;
  * @since   JDK1.1
  */
 public class OptionalDataException extends java.io.IOException {
+    private static final long serialVersionUID = -8894078306363334626L;
+
     /*
      * Create an <code>OptionalDataException</code> with a length.
      */

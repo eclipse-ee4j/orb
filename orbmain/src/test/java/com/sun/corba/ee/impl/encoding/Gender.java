@@ -55,6 +55,7 @@ class Gender implements Serializable {
 
     private static class SerializedForm implements Serializable {
 
+        private static final long serialVersionUID = 3780935859720519666L;
         final static SerializedForm MALE_FORM = new SerializedForm(0);
         final static SerializedForm FEMALE_FORM = new SerializedForm(1);
 

@@ -42,6 +42,8 @@ package org.omg.CORBA;
 // @SuppressWarnings({"serial"})
 public final class BAD_PARAM extends SystemException {
 
+    private static final long serialVersionUID = -175811286143311865L;
+
     /**
      * Constructs a <code>BAD_PARAM</code> exception with a default
      * minor code of 0 and a completion state of COMPLETED_NO.

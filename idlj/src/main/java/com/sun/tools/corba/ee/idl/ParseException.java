@@ -25,6 +25,8 @@ package com.sun.tools.corba.ee.idl;
  **/
 class ParseException extends Exception
 {
+  private static final long serialVersionUID = 2304105100379750674L;
+
   /**
    * Constructor: print the supplied message to Standard.err
    * and create a new ParseException

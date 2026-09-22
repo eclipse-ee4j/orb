@@ -37,6 +37,7 @@ class ConstantExpression extends Expression {
     /**
      * Return true if constant
      */
+    @Override
     public boolean isConstant() {
         return true;
     }

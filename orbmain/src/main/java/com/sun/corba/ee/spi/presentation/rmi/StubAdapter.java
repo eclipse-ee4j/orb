@@ -193,7 +193,7 @@ public abstract class StubAdapter
     {
         if (stub instanceof DynamicStub) {
             ((DynamicStub)stub).connect(
-                (com.sun.corba.ee.spi.orb.ORB)orb ) ;
+                orb ) ;
         } else if (stub instanceof javax.rmi.CORBA.Stub) {
             ((javax.rmi.CORBA.Stub)stub).connect( orb ) ;
         } else if (stub instanceof ObjectImpl) {

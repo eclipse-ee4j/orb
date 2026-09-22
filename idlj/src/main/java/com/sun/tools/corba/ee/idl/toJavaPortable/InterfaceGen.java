@@ -64,6 +64,7 @@ public class InterfaceGen implements com.sun.tools.corba.ee.idl.InterfaceGen, Ja
    * 5.) Generate the stub if required by calling generateStub ()
    * 6.) Generate the interface by calling generateInterface ()
    **/
+  @Override
   public void generate (Hashtable symbolTable, InterfaceEntry i, PrintWriter stream)
   {
     if (!isPseudo(i))
@@ -432,6 +433,7 @@ public class InterfaceGen implements com.sun.tools.corba.ee.idl.InterfaceGen, Ja
     return index;
   } // helperType
 
+  @Override
   public int type (int index, String indent, com.sun.tools.corba.ee.idl.toJavaPortable.TCOffsets tcoffsets, String name, SymtabEntry entry, PrintWriter stream) {
     stream.println (indent + name + " = " + com.sun.tools.corba.ee.idl.toJavaPortable.Util.helperName(entry, true) + ".type ();"); // <d61056>
     return index;
@@ -454,6 +456,7 @@ public class InterfaceGen implements com.sun.tools.corba.ee.idl.InterfaceGen, Ja
   } // helperRead
 
   */
+  @Override
   public void helperRead (String entryName, SymtabEntry entry, PrintWriter stream)
   {
     InterfaceEntry i = (InterfaceEntry)entry;
@@ -474,6 +477,7 @@ public class InterfaceGen implements com.sun.tools.corba.ee.idl.InterfaceGen, Ja
       write (0, "    ", "value", entry, stream);
   } // helperWrite
   */
+  @Override
   public void helperWrite (SymtabEntry entry, PrintWriter stream)
   {
     write (0, "    ", "value", entry, stream);
@@ -496,6 +500,7 @@ public class InterfaceGen implements com.sun.tools.corba.ee.idl.InterfaceGen, Ja
     return index;
   } // read
   */
+  @Override
   public int read (int index, String indent, String name, SymtabEntry entry, PrintWriter stream)
   {
     InterfaceEntry i = (InterfaceEntry)entry;
@@ -523,6 +528,7 @@ public class InterfaceGen implements com.sun.tools.corba.ee.idl.InterfaceGen, Ja
     return index;
   } // write
   */
+  @Override
   public int write (int index, String indent, String name, SymtabEntry entry, PrintWriter stream)
   {
     InterfaceEntry i = (InterfaceEntry)entry;

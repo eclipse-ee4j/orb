@@ -78,9 +78,8 @@ public abstract class LongSeqHelper
 
     public static int[] read (org.omg.CORBA.portable.InputStream istream)
     {
-        int value[] = null;
         int _len0 = istream.read_long ();
-        value = new int[_len0];
+        int value[] = new int[_len0];
         istream.read_long_array (value, 0, _len0);
         return value;
     }

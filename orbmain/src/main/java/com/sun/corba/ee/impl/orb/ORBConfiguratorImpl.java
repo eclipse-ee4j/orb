@@ -87,10 +87,11 @@ public class ORBConfiguratorImpl implements ORBConfigurator {
 
         public ConfigParser( ORB orb ) {
             this.orb = orb ;
-        } ;
+        }
 
         public Class<?>[] userConfigurators = null ;
 
+        @Override
         public PropertyParser makeParser()
         {
             PropertyParser parser = new PropertyParser() ;
@@ -199,7 +200,9 @@ public class ORBConfiguratorImpl implements ORBConfigurator {
             // use a ContactInfoList that will use the legacy socket factory.
             contactInfoListFactory =
                 new ContactInfoListFactory() {
+                        @Override
                         public void setORB(ORB orb) { }
+                        @Override
                         public ContactInfoList create( IOR ior ) {
                             return new SocketFactoryContactInfoListImpl(
                                 orb, ior);
@@ -300,6 +303,7 @@ public class ORBConfiguratorImpl implements ORBConfigurator {
         try {
             AccessController.doPrivileged(
                 new PrivilegedExceptionAction<Object>() {
+                    @Override
                     public Object run()
                         throws InstantiationException, IllegalAccessException
                     {
@@ -372,6 +376,7 @@ public class ORBConfiguratorImpl implements ORBConfigurator {
         // Register the Dynamic Any factory
         NullaryFunction<org.omg.CORBA.Object> closure =
             new NullaryFunction<org.omg.CORBA.Object>() {
+                @Override
                 public org.omg.CORBA.Object evaluate() {
                     return new DynAnyFactoryImpl( orb ) ;
                 }

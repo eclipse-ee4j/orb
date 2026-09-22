@@ -102,6 +102,7 @@ public class ImplementationType extends ClassType {
     /**
      * Return a string describing this type.
      */
+    @Override
     public String getTypeDescription () {
         return "Implementation";
     }

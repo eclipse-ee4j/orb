@@ -129,6 +129,7 @@ class SwitchDataEnumeration implements Enumeration<Integer> {
     /**
      * Are there more keys to return?
      */
+    @Override
     public boolean hasMoreElements() {
         return current_index < table.length;
     }
@@ -136,6 +137,7 @@ class SwitchDataEnumeration implements Enumeration<Integer> {
     /**
      * Return the next key.
      */
+    @Override
     public Integer nextElement() {
         return table[current_index++];
     }

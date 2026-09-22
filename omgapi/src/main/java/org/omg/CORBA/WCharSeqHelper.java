@@ -78,9 +78,8 @@ public abstract class WCharSeqHelper
 
     public static char[] read (org.omg.CORBA.portable.InputStream istream)
     {
-        char value[] = null;
         int _len0 = istream.read_long ();
-        value = new char[_len0];
+        char value[] = new char[_len0];
         istream.read_wchar_array (value, 0, _len0);
         return value;
     }

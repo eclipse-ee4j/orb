@@ -60,6 +60,7 @@ public class IORTemplateListImpl extends FreezableList<IORTemplate>
         super.makeImmutable() ;
     }
 
+    @Override
     public void write( OutputStream os )
     {
         os.write_long( size() ) ;
@@ -68,11 +69,13 @@ public class IORTemplateListImpl extends FreezableList<IORTemplate>
         }
     }
 
+    @Override
     public IOR makeIOR( ORB orb, String typeid, ObjectId oid )
     {
         return new IORImpl( orb, typeid, this, oid ) ;
     }
 
+    @Override
     public boolean isEquivalent( IORFactory other )
     {
         if (!(other instanceof IORTemplateList))

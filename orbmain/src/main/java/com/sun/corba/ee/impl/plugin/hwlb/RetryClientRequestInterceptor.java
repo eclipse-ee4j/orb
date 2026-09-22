@@ -39,6 +39,8 @@ public class RetryClientRequestInterceptor
     extends org.omg.CORBA.LocalObject
     implements ORBInitializer, ClientRequestInterceptor
 {
+    private static final long serialVersionUID = 2807697897883498641L;
+
     private static final String baseMsg =
         RetryClientRequestInterceptor.class.getName();
 
@@ -72,6 +74,7 @@ public class RetryClientRequestInterceptor
     // NOTE: Cannot use slots since they are reset on retry.
     private ThreadLocal backoffAndStartTime =
         new ThreadLocal() {
+            @Override
             protected Object initialValue() {
                 return new BackoffAndStartTime();
             }
@@ -127,11 +130,13 @@ public class RetryClientRequestInterceptor
     // Interceptor operations
     //
 
+    @Override
     public String name()
     {
         return baseMsg;
     }
 
+    @Override
     public void destroy()
     {
     }
@@ -141,19 +146,23 @@ public class RetryClientRequestInterceptor
     // ClientRequestInterceptor
     //
 
+    @Override
     public void send_request(ClientRequestInfo ri)
     {
     }
 
+    @Override
     public void send_poll(ClientRequestInfo ri)
     {
     }
 
+    @Override
     public void receive_reply(ClientRequestInfo ri)
     {
         setBackoff(initialBackoff);
     }
 
+    @Override
     public void receive_exception(ClientRequestInfo ri)
         throws ForwardRequest
     {
@@ -214,6 +223,7 @@ public class RetryClientRequestInterceptor
         }
     }
 
+    @Override
     public void receive_other(ClientRequestInfo ri)
     {
         setBackoff(initialBackoff);
@@ -224,10 +234,12 @@ public class RetryClientRequestInterceptor
     // ORBInitializer
     //
 
+    @Override
     public void pre_init(ORBInitInfo info)
     {
     }
 
+    @Override
     public void post_init(ORBInitInfo info)
     {
         try {

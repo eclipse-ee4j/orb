@@ -61,41 +61,49 @@ public class DynamicStubImpl extends ObjectImpl
         ior = null ;
     }
 
+    @Override
     public void setDelegate( Delegate delegate )
     {
         _set_delegate( delegate ) ;
     }
 
+    @Override
     public Delegate getDelegate()
     {
         return _get_delegate() ;
     }
 
+    @Override
     public ORB getORB()
     {
         return _orb() ;
     }
 
+    @Override
     public String[] _ids()
     {
         return typeIds.clone() ;
     }
 
+    @Override
     public String[] getTypeIds()
     {
         return _ids() ;
     }
 
+    @Override
     public void connect( ORB orb ) throws RemoteException
     {
         ior = StubConnectImpl.connect( ior, self, this, orb ) ;
     }
 
+    @Override
     public boolean isLocal()
     {
         return _is_local() ;
     }
 
+    @Override
     public OutputStream request( String operation,
         boolean responseExpected )
     {

@@ -37,6 +37,7 @@ public class IIOPEndpointInfo
     private String host;
     private int port;
 
+    @Override
     public String toString() {
         return "IIOPEndpointInfo[" + major + "." + minor
             + " " + host + ":" + port + "]" ;

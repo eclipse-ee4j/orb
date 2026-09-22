@@ -49,6 +49,8 @@ public final class IORInfoImpl
     // State values that determine which methods are allowed.
     // get_effective_policy, manager_id, and adapter_state are valid unless STATE_DONE
 
+    private static final long serialVersionUID = 2506007825496516728L;
+
     // add_component, and add_component_to_profile are valid.
     private static final int STATE_INITIAL = 0 ;
 
@@ -99,6 +101,7 @@ public final class IORInfoImpl
      *   If the given policy type is known, but no policy of that type is
      *   in effect, then this operation will return a nil object reference.
      */
+    @Override
     public Policy get_effective_policy (int type) {
         checkState( STATE_INITIAL, STATE_ESTABLISHED ) ;
 
@@ -115,6 +118,7 @@ public final class IORInfoImpl
      *
      * @param tagged_component The IOP::TaggedComponent to add
      */
+    @Override
     public void add_ior_component (TaggedComponent tagged_component) {
         checkState( STATE_INITIAL ) ;
 
@@ -139,6 +143,7 @@ public final class IORInfoImpl
      * @param profile_id The IOP::ProfileId tof the profile to which this
      *     component will be added.
      */
+    @Override
     public void add_ior_component_to_profile (
         TaggedComponent tagged_component, int profile_id )
     {
@@ -156,6 +161,7 @@ public final class IORInfoImpl
      * @return The listen port number for that type.
      * @throws UnknownType if no port of the given type is found.
      */
+    @Override
     public int getServerPort(String type)
         throws UnknownType
     {
@@ -170,11 +176,13 @@ public final class IORInfoImpl
         return port;
     }
 
+    @Override
     public ObjectAdapter getObjectAdapter()
     {
         return adapter;
     }
 
+    @Override
     public int manager_id()
     {
         checkState( STATE_INITIAL, STATE_ESTABLISHED) ;
@@ -182,6 +190,7 @@ public final class IORInfoImpl
         return adapter.getManagerId() ;
     }
 
+    @Override
     public short state()
     {
         checkState( STATE_INITIAL, STATE_ESTABLISHED) ;
@@ -189,6 +198,7 @@ public final class IORInfoImpl
         return adapter.getState() ;
     }
 
+    @Override
     public ObjectReferenceTemplate adapter_template()
     {
         checkState( STATE_ESTABLISHED) ;
@@ -208,6 +218,7 @@ public final class IORInfoImpl
         return adapter.getAdapterTemplate() ;
     }
 
+    @Override
     public ObjectReferenceFactory current_factory()
     {
         checkState( STATE_ESTABLISHED) ;
@@ -215,6 +226,7 @@ public final class IORInfoImpl
         return adapter.getCurrentFactory() ;
     }
 
+    @Override
     public void current_factory( ObjectReferenceFactory factory )
     {
         checkState( STATE_ESTABLISHED) ;

@@ -44,6 +44,7 @@ public class ObjectReferenceFactoryImpl extends ObjectReferenceProducerBase
 {
     // private static long serialVersionUID = 0 ;
 
+    private static final long serialVersionUID = 3952675680107247254L;
     transient private IORTemplateList iorTemplates ;
 
     public ObjectReferenceFactoryImpl( InputStream is )
@@ -84,11 +85,13 @@ public class ObjectReferenceFactoryImpl extends ObjectReferenceProducerBase
     public static final String repositoryId =
         "IDL:com/sun/corba/ee/impl/ior/ObjectReferenceFactoryImpl:1.0" ;
 
+    @Override
     public String[] _truncatable_ids()
     {
         return new String[] { repositoryId } ;
     }
 
+    @Override
     public TypeCode _type()
     {
         return ObjectReferenceFactoryHelper.type() ;
@@ -97,6 +100,7 @@ public class ObjectReferenceFactoryImpl extends ObjectReferenceProducerBase
     /** Read the data into a (presumably) empty ObjectReferenceFactoryImpl.
     * This sets the orb to the ORB of the InputStream.
     */
+    @Override
     public void _read( InputStream is )
     {
         org.omg.CORBA_2_3.portable.InputStream istr =
@@ -107,6 +111,7 @@ public class ObjectReferenceFactoryImpl extends ObjectReferenceProducerBase
 
     /** Write the state to the OutputStream.
      */
+    @Override
     public void _write( OutputStream os )
     {
         org.omg.CORBA_2_3.portable.OutputStream ostr =
@@ -115,11 +120,13 @@ public class ObjectReferenceFactoryImpl extends ObjectReferenceProducerBase
         iorTemplates.write( ostr ) ;
     }
 
+    @Override
     public IORFactory getIORFactory()
     {
         return iorTemplates ;
     }
 
+    @Override
     public IORTemplateList getIORTemplateList()
     {
         return iorTemplates ;

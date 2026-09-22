@@ -102,6 +102,7 @@ class Node implements Constants, Cloneable {
     /**
      * Clone this object.
      */
+    @Override
     public Object clone() {
         try {
             return super.clone();
@@ -114,6 +115,7 @@ class Node implements Constants, Cloneable {
     /*
      * Useful for simple debugging
      */
+    @Override
     public String toString() {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         print(new PrintStream(bos));

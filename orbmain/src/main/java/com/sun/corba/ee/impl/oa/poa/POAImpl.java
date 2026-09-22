@@ -872,6 +872,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>create_POA</code>
      * <b>Section 3.3.8.2</b>
      */
+    @Override
     @Poa
     public POA create_POA(String name, POAManager
         theManager, Policy[] policies) throws AdapterAlreadyExists,
@@ -944,6 +945,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
     /** <code>find_POA</code>
      * <b>Section 3.3.8.3</b>
      */
+    @Override
     @Poa
     public POA find_POA(String name, boolean activate) throws AdapterNonExistent {
         AdapterActivator act = null ;
@@ -1108,6 +1110,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>destroy</code>
      * <b>Section 3.3.8.4</b>
      */
+    @Override
     public void destroy(boolean etherealize, boolean wait_for_completion)
     {
         // This is to avoid deadlock
@@ -1123,6 +1126,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>create_thread_policy</code>
      * <b>Section 3.3.8.5</b>
      */
+    @Override
     public ThreadPolicy create_thread_policy(
         ThreadPolicyValue value)
     {
@@ -1133,6 +1137,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>create_lifespan_policy</code>
      * <b>Section 3.3.8.5</b>
      */
+    @Override
     public LifespanPolicy create_lifespan_policy(
         LifespanPolicyValue value)
     {
@@ -1143,6 +1148,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>create_id_uniqueness_policy</code>
      * <b>Section 3.3.8.5</b>
      */
+    @Override
     public IdUniquenessPolicy create_id_uniqueness_policy(
         IdUniquenessPolicyValue value)
     {
@@ -1153,6 +1159,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>create_id_assignment_policy</code>
      * <b>Section 3.3.8.5</b>
      */
+    @Override
     public IdAssignmentPolicy create_id_assignment_policy(
         IdAssignmentPolicyValue value)
     {
@@ -1163,6 +1170,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>create_implicit_activation_policy</code>
      * <b>Section 3.3.8.5</b>
      */
+    @Override
     public ImplicitActivationPolicy create_implicit_activation_policy(
         ImplicitActivationPolicyValue value)
     {
@@ -1173,6 +1181,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>create_servant_retention_policy</code>
      * <b>Section 3.3.8.5</b>
      */
+    @Override
     public ServantRetentionPolicy create_servant_retention_policy(
         ServantRetentionPolicyValue value)
     {
@@ -1183,6 +1192,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>create_request_processing_policy</code>
      * <b>Section 3.3.8.5</b>
      */
+    @Override
     public RequestProcessingPolicy create_request_processing_policy(
         RequestProcessingPolicyValue value)
     {
@@ -1193,6 +1203,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>the_name</code>
      * <b>Section 3.3.8.6</b>
      */
+    @Override
     @ManagedAttribute( id="POAName")
     @Description( "The name of this POA")
     public String the_name()
@@ -1210,6 +1221,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>the_parent</code>
      * <b>Section 3.3.8.7</b>
      */
+    @Override
     @ManagedAttribute( id="POAParent")
     @Description( "The parent of this POA")
     public POA the_parent()
@@ -1237,6 +1249,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
         }
     }
 
+    @Override
     public org.omg.PortableServer.POA[] the_children()
     {
         try {
@@ -1277,6 +1290,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>the_POAManager</code>
      * <b>Section 3.3.8.8</b>
      */
+    @Override
     public POAManager the_POAManager()
     {
         try {
@@ -1292,6 +1306,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>the_activator</code>
      * <b>Section 3.3.8.9</b>
      */
+    @Override
     @ManagedAttribute( id="Activator")
     @Description( "The AdapterActivator of this POA")
     public AdapterActivator the_activator()
@@ -1309,6 +1324,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>the_activator</code>
      * <b>Section 3.3.8.9</b>
      */
+    @Override
     @Poa
     public void the_activator(AdapterActivator activator)
     {
@@ -1325,6 +1341,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>get_servant_manager</code>
      * <b>Section 3.3.8.10</b>
      */
+    @Override
     public ServantManager get_servant_manager() throws WrongPolicy
     {
         try {
@@ -1350,6 +1367,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>set_servant_manager</code>
      * <b>Section 3.3.8.10</b>
      */
+    @Override
     @Poa
     public void set_servant_manager(ServantManager servantManager)
         throws WrongPolicy
@@ -1367,6 +1385,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>get_servant</code>
      * <b>Section 3.3.8.12</b>
      */
+    @Override
     public Servant get_servant() throws NoServant, WrongPolicy
     {
         try {
@@ -1394,6 +1413,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>set_servant</code>
      * <b>Section 3.3.8.13</b>
      */
+    @Override
     @Poa
     public void set_servant(Servant defaultServant)
         throws WrongPolicy
@@ -1411,6 +1431,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>activate_object</code>
      * <b>Section 3.3.8.14</b>
      */
+    @Override
     @Poa
     public byte[] activate_object(Servant servant)
         throws ServantAlreadyActive, WrongPolicy
@@ -1441,6 +1462,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>activate_object_with_id</code>
      * <b>Section 3.3.8.15</b>
      */
+    @Override
     @Poa
     public void activate_object_with_id(byte[] id,
                                                      Servant servant)
@@ -1463,6 +1485,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>deactivate_object</code>
      * <b>3.3.8.16</b>
      */
+    @Override
     @Poa
     public void deactivate_object(byte[] id)
         throws ObjectNotActive, WrongPolicy
@@ -1480,6 +1503,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>create_reference</code>
      * <b>3.3.8.17</b>
      */
+    @Override
     @Poa
     public org.omg.CORBA.Object create_reference(String repId)
         throws WrongPolicy
@@ -1497,6 +1521,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>create_reference_with_id</code>
      * <b>3.3.8.18</b>
      */
+    @Override
     @Poa
     public org.omg.CORBA.Object
         create_reference_with_id(byte[] oid, String repId)
@@ -1518,6 +1543,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>servant_to_id</code>
      * <b>3.3.8.19</b>
      */
+    @Override
     @Poa
     public byte[] servant_to_id(Servant servant)
         throws ServantNotActive, WrongPolicy
@@ -1535,6 +1561,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>servant_to_reference</code>
      * <b>3.3.8.20</b>
      */
+    @Override
     @Poa
     public org.omg.CORBA.Object servant_to_reference(Servant servant)
         throws ServantNotActive, WrongPolicy
@@ -1554,6 +1581,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>reference_to_servant</code>
      * <b>3.3.8.21</b>
      */
+    @Override
     @Poa
     public Servant reference_to_servant(org.omg.CORBA.Object reference)
         throws ObjectNotActive, WrongPolicy, WrongAdapter
@@ -1579,6 +1607,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>reference_to_id</code>
      * <b>3.3.8.22</b>
      */
+    @Override
     @Poa
     public byte[] reference_to_id(org.omg.CORBA.Object reference)
         throws WrongAdapter, WrongPolicy
@@ -1600,6 +1629,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>id_to_servant</code>
      * <b>3.3.8.23</b>
      */
+    @Override
     @Poa
     public Servant id_to_servant(byte[] id)
         throws ObjectNotActive, WrongPolicy
@@ -1620,6 +1650,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>id_to_reference</code>
      * <b>3.3.8.24</b>
      */
+    @Override
     @Poa
     public org.omg.CORBA.Object id_to_reference(byte[] id)
         throws ObjectNotActive, WrongPolicy
@@ -1644,6 +1675,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
      * <code>id</code>
      * <b>11.3.8.26 in ptc/00-08-06</b>
      */
+    @Override
     public byte[] id()
     {
         try {

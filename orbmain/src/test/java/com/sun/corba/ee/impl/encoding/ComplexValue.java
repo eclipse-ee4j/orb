@@ -23,6 +23,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+// FIXME: Don't add the serialVersionUID constant to the class, it would
+//        break the CDROutputValueTest#valuesFollowingChunkedValuesNeedNotBeChunked test (why?)
 public class ComplexValue implements Serializable {
     static final String REPID = "RMI:com.sun.corba.ee.impl.encoding.ComplexValue:526A075F52D4A68C:31E83A657AE82D48";
     int anInt;

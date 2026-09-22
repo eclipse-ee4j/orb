@@ -116,6 +116,7 @@ public class BootstrapResolverImpl implements Resolver {
         return inStream;
     }
 
+    @Override
     public org.omg.CORBA.Object resolve( String identifier )
     {
         InputStream inStream = null ;
@@ -135,6 +136,7 @@ public class BootstrapResolverImpl implements Resolver {
         return result ;
     }
 
+    @Override
     public Set<String> list()
     {
         InputStream inStream = null ;

@@ -34,5 +34,5 @@ public interface JavaCodebaseComponent extends TaggedComponent
 {
     @ManagedAttribute
     @Description( "List of URLs in the codebase" )
-    public String getURLs() ;
+    String getURLs() ;
 }

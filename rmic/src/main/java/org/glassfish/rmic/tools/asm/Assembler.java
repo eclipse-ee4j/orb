@@ -470,7 +470,7 @@ class Assembler implements Constants {
         boolean begseg = false;
         boolean begmeth = false;
         @SuppressWarnings("deprecation")
-        long whereClass = ((SourceClass)c).getWhere();
+        long whereClass = c.getWhere();
         Vector<Long> whereTry = new Vector<>();
         int numberTry = 0;
         int count = 0;
@@ -681,11 +681,10 @@ public void GenJCov(Environment env) {
            DataInputStream JCovd = new DataInputStream(
                                                        new BufferedInputStream(
                                                                                new FileInputStream(outFile)));
-           String CurrLine = null;
            boolean first = true;
            String Class;
 
-           CurrLine = JCovd.readLine();
+           String CurrLine = JCovd.readLine();
            if ((CurrLine != null) && CurrLine.startsWith(JcovMagicLine)) {
                 // this is a good Jcov file
 

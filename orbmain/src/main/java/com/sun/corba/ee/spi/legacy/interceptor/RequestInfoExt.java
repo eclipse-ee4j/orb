@@ -34,5 +34,5 @@ public interface RequestInfoExt
      *         The return value will be null when a local transport
      *         is used.
      */
-    public Connection connection();
+    Connection connection();
 }

@@ -26,22 +26,22 @@ package com.sun.corba.ee.impl.naming.namingutil;
  * @author Hemanth
  */
 public interface INSURL {
-    public boolean getRIRFlag( );
+    boolean getRIRFlag( );
 
     // There can be one or more Endpoint's in the URL, so the return value is
     // a List
-    public java.util.List getEndpointInfo( );
+    java.util.List getEndpointInfo( );
 
-    public String getKeyString( );
+    String getKeyString( );
 
-    public String getStringifiedName( );
+    String getStringifiedName( );
 
     // This method will return true only in CorbanameURL, It is provided because
     // corbaname: URL needs special handling.
-    public boolean isCorbanameURL( );
+    boolean isCorbanameURL( );
 
     // A debug method, which is not required for normal operation
-    public void dPrint( );
+    void dPrint( );
 }
 
 

@@ -40,28 +40,26 @@ import org.glassfish.gmbal.ManagedObject ;
 @AMXMetadata( isSingleton=true )
 public interface TransportManager {
 
-    public ByteBufferPool getByteBufferPool(int id);
+    ByteBufferPool getByteBufferPool(int id);
 
     @ManagedAttribute
-    @Description( "The Selector, which listens for all I/O events" )
-    public Selector getSelector();
+    @Description("The Selector, which listens for all I/O events")
+    Selector getSelector();
 
-    public Selector getSelector(int id);
+    Selector getSelector(int id);
 
-    public void close();
+    void close();
 
-    public static final String SOCKET_OR_CHANNEL_CONNECTION_CACHE =
-        "SocketOrChannelConnectionCache";
+    String SOCKET_OR_CHANNEL_CONNECTION_CACHE = "SocketOrChannelConnectionCache";
 
     @ManagedAttribute
-    @Description( "List of all Acceptors in this ORB" )
-    public Collection<Acceptor> getAcceptors() ;
+    @Description("List of all Acceptors in this ORB")
+    Collection<Acceptor> getAcceptors();
 
-    public Collection<Acceptor> getAcceptors(String objectAdapterManagerId,
-                                   ObjectAdapterId objectAdapterId);
+    Collection<Acceptor> getAcceptors(String objectAdapterManagerId, ObjectAdapterId objectAdapterId);
 
     // REVISIT - POA specific policies
-    public void addToIORTemplate(IORTemplate iorTemplate,
+    void addToIORTemplate(IORTemplate iorTemplate,
                                  Policies policies,
                                  String codebase,
                                  String objectAdapterManagerId,
@@ -75,26 +73,23 @@ public interface TransportManager {
      *
      * @return MessageTraceManager for the current thread
      */
-    MessageTraceManager getMessageTraceManager() ;
+    MessageTraceManager getMessageTraceManager();
 
-    public OutboundConnectionCache getOutboundConnectionCache(
-        ContactInfo contactInfo);
+    OutboundConnectionCache getOutboundConnectionCache(ContactInfo contactInfo);
 
     @ManagedAttribute
-    @Description( "Outbound Connection Cache (client initiated connections)" )
-    public Collection<OutboundConnectionCache> getOutboundConnectionCaches();
+    @Description("Outbound Connection Cache (client initiated connections)")
+    Collection<OutboundConnectionCache> getOutboundConnectionCaches();
 
-    public InboundConnectionCache getInboundConnectionCache(Acceptor acceptor);
+    InboundConnectionCache getInboundConnectionCache(Acceptor acceptor);
 
     // Only used for MBeans
     @ManagedAttribute
-    @Description( "Inbound Connection Cache (server accepted connections)" )
-    public Collection<InboundConnectionCache> getInboundConnectionCaches();
+    @Description("Inbound Connection Cache (server accepted connections)")
+    Collection<InboundConnectionCache> getInboundConnectionCaches();
 
-    public void registerAcceptor(Acceptor acceptor);
+    void registerAcceptor(Acceptor acceptor);
 
-    public void unregisterAcceptor(Acceptor acceptor);
+    void unregisterAcceptor(Acceptor acceptor);
 
 }
-
-// End of file.

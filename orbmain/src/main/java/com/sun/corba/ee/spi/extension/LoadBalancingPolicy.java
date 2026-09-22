@@ -30,6 +30,8 @@ import org.omg.CORBA.Policy ;
 */
 public class LoadBalancingPolicy extends LocalObject implements Policy
 {
+    private static final long serialVersionUID = 7757353627990823740L;
+
     private static final ORBUtilSystemException wrapper =
         ORBUtilSystemException.self ;
 
@@ -51,16 +53,19 @@ public class LoadBalancingPolicy extends LocalObject implements Policy
         return value;
     }
 
+    @Override
     public int policy_type()
     {
         return ORBConstants.LOAD_BALANCING_POLICY ;
     }
 
+    @Override
     public org.omg.CORBA.Policy copy()
     {
         return this;
     }
 
+    @Override
     public void destroy()
     {
         // NO-OP
