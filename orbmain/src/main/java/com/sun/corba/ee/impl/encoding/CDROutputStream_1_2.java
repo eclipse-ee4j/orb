@@ -23,6 +23,8 @@ import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 import com.sun.corba.ee.spi.trace.CdrWrite;
 
+import java.nio.ByteOrder;
+
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 
 @CdrWrite
@@ -360,6 +362,21 @@ public class CDROutputStream_1_2 extends CDROutputStream_1_1
         }
 
         CodeSetConversion.CTBConverter converter = getWCharConverter();
+
+        ByteOrder utf16Order = converter.getUtf16ByteOrder();
+        if (utf16Order != null) {
+            // UTF-16 is the negotiated wchar code set in practice, and every
+            // Java String sent over RMI-IIOP is a wstring. Its encoded form
+            // is the chars themselves, so write them without the encoder.
+            boolean byteOrderMark = converter.writesUtf16ByteOrderMark();
+            int numBytes = (byteOrderMark ? 2 : 0) + 2 * value.length();
+
+            handleSpecialChunkBegin(computeAlignment(4) + 4 + numBytes);
+            write_long(numBytes);
+            writeUtf16CodeUnits(value, utf16Order, byteOrderMark);
+            handleSpecialChunkEnd();
+            return;
+        }
 
         converter.convert(value);
 

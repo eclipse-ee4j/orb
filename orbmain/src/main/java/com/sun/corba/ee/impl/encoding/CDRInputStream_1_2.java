@@ -23,6 +23,8 @@ import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 import com.sun.corba.ee.spi.trace.CdrRead;
 
+import java.nio.ByteOrder;
+
 @CdrRead
 public class CDRInputStream_1_2 extends CDRInputStream_1_1
 {
@@ -144,8 +146,17 @@ public class CDRInputStream_1_2 extends CDRInputStream_1_1
 
         checkForNegativeLength(len);
 
-        return new String(getConvertedChars(len, getWCharConverter()),
+        CodeSetConversion.BTCConverter converter = getWCharConverter();
+        ByteOrder utf16Order = converter.getUtf16DefaultByteOrder();
+        if (utf16Order != null && (len & 1) == 0) {
+            // UTF-16, the negotiated wchar code set in practice: read the
+            // code units directly. An odd length is malformed and is left to
+            // the converter to report.
+            return readUtf16String(len, utf16Order, converter);
+        }
+
+        return new String(getConvertedChars(len, converter),
                           0,
-                          getWCharConverter().getNumChars());
+                          converter.getNumChars());
     }
 }
