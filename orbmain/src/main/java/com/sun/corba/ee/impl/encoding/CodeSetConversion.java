@@ -573,8 +573,6 @@ public class CodeSetConversion
         }
 
         @Override
-<<<<<<< HEAD
-=======
         public ByteOrder getUtf16DefaultByteOrder() {
             return defaultByteOrder;
         }
