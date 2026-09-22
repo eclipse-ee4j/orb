@@ -157,6 +157,12 @@ public class MessageMediatorImpl
     // time this CorbaMessageMediator (Work) was added to a WorkQueue.
     private long enqueueTime;
 
+    // The next fragment of this message, when this thread is to process it
+    // straight after this one; see resumeOptimizedReadProcessing. Both fields
+    // are only touched by the thread running doWork on this mediator.
+    private MessageMediatorImpl nextFragment;
+    private boolean inDoWork;
+
     //
     // Client-side constructor.
     //
@@ -804,15 +810,22 @@ public class MessageMediatorImpl
                 }
             }
 
-            // Add CorbaMessageMediator to ThreadPool's WorkQueue to process the
-            // next fragment.
-            // Although we could call messageMeditor.doWork() rather than putting
-            // the messageMediator on the WorkQueue, we do not because calling
-            // doWork() would increase the depth of the call stack. Since this
-            // thread is done processing the Work it was given, it is very likely
-            // it will be the thread that executes the Work (messageMediator)we
-            // put the on the WorkQueue here.
-            addMessageMediatorToWorkQueue(messageMediator);
+            if (canProcessNextFragmentHere(message, messageMediator)) {
+                // This thread only moved a fragment into its stream and has
+                // nothing else to do: it processes the next one itself, when
+                // doWork returns, rather than through the work queue. That
+                // is what queueing it here counted on - "it is very likely it
+                // will be the thread that executes the Work" - but the queue
+                // cannot promise it, and when another thread takes the item,
+                // a thread hand-off lands on the path of every fragment.
+                // doWork runs the fragments in a loop, not by recursion, so
+                // the stack does not grow with them.
+                nextFragment = (MessageMediatorImpl) messageMediator;
+            } else {
+                // Add CorbaMessageMediator to ThreadPool's WorkQueue to process the
+                // next fragment.
+                addMessageMediatorToWorkQueue(messageMediator);
+            }
         } else {
             if (message.getType() == Message.GIOPFragment ||
                 message.getType() == Message.GIOPCancelRequest) {
@@ -824,6 +837,21 @@ public class MessageMediatorImpl
                 connection.removeFragmentList(requestId);
             }
         }
+    }
+
+    /**
+     * Whether the next fragment can be processed by this thread when it is
+     * done. Only when this thread is itself processing a fragment: a thread
+     * processing the first message of a fragmented request goes on to
+     * unmarshal it and waits for the fragments, so they must go to other
+     * threads. And only for the same thread pool, which request partitioning
+     * may choose per message.
+     */
+    private boolean canProcessNextFragmentHere(Message message, MessageMediator next) {
+        return inDoWork
+            && message.getType() == Message.GIOPFragment
+            && next instanceof MessageMediatorImpl
+            && next.getThreadPoolToUse() == getThreadPoolToUse();
     }
 
     @InfoMethod
@@ -2297,10 +2325,19 @@ public class MessageMediatorImpl
     @Override
     @Subcontract
     public void doWork() {
-        try {
-            dispatch();
-        } catch (Throwable t) {
-            ignoringThrowable(t);
+        MessageMediatorImpl current = this;
+        while (current != null) {
+            current.inDoWork = true;
+            try {
+                current.dispatch();
+            } catch (Throwable t) {
+                current.ignoringThrowable(t);
+            } finally {
+                current.inDoWork = false;
+            }
+            MessageMediatorImpl next = current.nextFragment;
+            current.nextFragment = null;
+            current = next;
         }
     }
 
