@@ -99,6 +99,10 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
 
     protected BufferManagerRead bufferManagerRead;
     protected ByteBuffer byteBuffer;
+    // A fragmented string must be made contiguous before the charset decoder
+    // can consume it. Reuse that temporary storage across strings in this
+    // stream instead of allocating a full payload-sized byte[] each time.
+    private byte[] fragmentedStringBytes;
 
     protected ORB orb;
     protected ValueHandler valueHandler = null;
@@ -541,9 +545,9 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
 
         // Straddles a fragment boundary. Collect the bytes first, exactly as
         // getConvertedChars does in the same situation.
-        byte[] bytes = new byte[numBytes];
+        byte[] bytes = getFragmentedStringBytes(numBytes);
         read_octet_array(bytes, 0, numBytes);
-        return new String(bytes, charset);
+        return new String(bytes, 0, numBytes, charset);
     }
 
     @Override
@@ -2392,7 +2396,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
             // Stretches across buffers.  Unless we provide an
             // incremental conversion interface, allocate and
             // copy the bytes.
-            byte[] bytes = new byte[numBytes];
+            byte[] bytes = getFragmentedStringBytes(numBytes);
 
             // REVISIT - We should avoid getting the bytes into an array if
             //  possible.  Extend the logic used above for the if() case , send
@@ -2404,6 +2408,13 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
 
             return converter.getChars(bytes, 0, numBytes);
         }
+    }
+
+    private byte[] getFragmentedStringBytes(int length) {
+        if (fragmentedStringBytes == null || fragmentedStringBytes.length < length) {
+            fragmentedStringBytes = new byte[length];
+        }
+        return fragmentedStringBytes;
     }
 
     protected CodeSetConversion.BTCConverter getCharConverter() {
