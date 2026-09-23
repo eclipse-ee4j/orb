@@ -231,7 +231,9 @@ public class CodeSetConversion
         // before writing the array to the stream.
         private ByteBuffer buffer;
 
-        WeakHashMap<String, ByteBuffer> cacheEncoder = new WeakHashMap<String, ByteBuffer>();
+        // Negotiated code sets are few; avoid the first resize on the common
+        // small-string path while retaining weak keys for bounded lifetime.
+        WeakHashMap<String, ByteBuffer> cacheEncoder = new WeakHashMap<String, ByteBuffer>(4);
 
         public JavaCTBConverter(OSFCodeSetRegistry.Entry codeset,
                                 int alignmentForEncoding) {
