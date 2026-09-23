@@ -889,14 +889,14 @@ public class CodeSetConversion
         cacheBTCC = new ThreadLocal() {
         @Override
         public HashMap<OSFCodeSetRegistry.Entry, BTCConverter> initialValue() {
-            return new HashMap<OSFCodeSetRegistry.Entry, BTCConverter>() ;
+            return new HashMap<OSFCodeSetRegistry.Entry, BTCConverter>(4) ;
         }
     };
     private ThreadLocal <HashMap<OSFCodeSetRegistry.Entry, CTBConverter>>
         cacheCTBC = new ThreadLocal() {
         @Override
         public HashMap<OSFCodeSetRegistry.Entry, CTBConverter> initialValue() {
-            return new HashMap<OSFCodeSetRegistry.Entry, CTBConverter>() ;
+            return new HashMap<OSFCodeSetRegistry.Entry, CTBConverter>(4) ;
         }
     };
 }
