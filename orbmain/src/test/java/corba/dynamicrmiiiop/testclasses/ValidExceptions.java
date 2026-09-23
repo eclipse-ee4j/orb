@@ -24,14 +24,8 @@ package corba.dynamicrmiiiop.testclasses;
  */
 public class ValidExceptions {
 
-    public static final Class[] CLASSES = {
-        ValidException1.class,
-        ValidException2.class,
-        ValidException3.class,
-        ValidException4.class,
-        ValidException5.class,
-        ValidException6.class
-    };
+    public static final Class[] CLASSES = { ValidException1.class, ValidException2.class, ValidException3.class, ValidException4.class,
+            ValidException5.class, ValidException6.class };
 
     public class ValidException1 extends java.lang.Exception {
 

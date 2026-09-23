@@ -33,22 +33,16 @@ import java.net.SocketException;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 
-public class DefaultSocketFactoryImpl
-    implements ORBSocketFactory
-{
+public class DefaultSocketFactoryImpl implements ORBSocketFactory {
     private ORB orb;
 
     @Override
-    public void setORB(ORB orb)
-    {
+    public void setORB(ORB orb) {
         this.orb = orb;
     }
 
     @Override
-    public ServerSocket createServerSocket(String type,
-                                           InetSocketAddress inetSocketAddress)
-        throws IOException
-    {
+    public ServerSocket createServerSocket(String type, InetSocketAddress inetSocketAddress) throws IOException {
         ServerSocketChannel serverSocketChannel = null;
         ServerSocket serverSocket = null;
 
@@ -63,10 +57,7 @@ public class DefaultSocketFactoryImpl
     }
 
     @Override
-    public Socket createSocket(String type,
-                               InetSocketAddress inetSocketAddress)
-        throws IOException
-    {
+    public Socket createSocket(String type, InetSocketAddress inetSocketAddress) throws IOException {
         SocketChannel socketChannel = null;
         Socket socket = null;
 
@@ -74,8 +65,7 @@ public class DefaultSocketFactoryImpl
             socketChannel = ORBUtility.openSocketChannel(inetSocketAddress);
             socket = socketChannel.socket();
         } else {
-            socket = new Socket(inetSocketAddress.getHostName(),
-                                inetSocketAddress.getPort());
+            socket = new Socket(inetSocketAddress.getHostName(), inetSocketAddress.getPort());
         }
 
         // Disable Nagle's algorithm (i.e., always send immediately).
@@ -85,11 +75,7 @@ public class DefaultSocketFactoryImpl
     }
 
     @Override
-    public void setAcceptedSocketOptions(Acceptor acceptor,
-                                         ServerSocket serverSocket,
-                                         Socket socket)
-        throws SocketException
-    {
+    public void setAcceptedSocketOptions(Acceptor acceptor, ServerSocket serverSocket, Socket socket) throws SocketException {
         // Disable Nagle's algorithm (i.e., always send immediately).
         socket.setTcpNoDelay(true);
     }

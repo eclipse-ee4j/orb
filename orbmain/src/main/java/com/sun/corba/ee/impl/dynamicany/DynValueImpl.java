@@ -25,15 +25,14 @@ import org.omg.CORBA.Any;
 import org.omg.CORBA.TypeCode;
 import org.omg.DynamicAny.DynValue;
 
-public class DynValueImpl extends DynValueCommonImpl implements DynValue
-{
+public class DynValueImpl extends DynValueCommonImpl implements DynValue {
     private static final long serialVersionUID = 4860224542389276556L;
     //
     // Constructors
     //
 
     private DynValueImpl() {
-        this(null, (Any)null, false);
+        this(null, (Any) null, false);
     }
 
     protected DynValueImpl(ORB orb, Any any, boolean copyValue) {

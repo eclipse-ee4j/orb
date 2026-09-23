@@ -73,7 +73,7 @@ public class StubInvocationHandlerImplTest {
     static class CalledObject extends ObjectImpl {
         private Delegate delegate = createStrictStub(ClientDelegateFake.class, this);
 
-        @SuppressWarnings({"WeakerAccess", "unused"})
+        @SuppressWarnings({ "WeakerAccess", "unused" })
         public void throwException() throws Exception {
             throw new TestException("thrown in test");
         }
@@ -159,10 +159,8 @@ public class StubInvocationHandlerImplTest {
         private OAInvocationInfo invocationInfo = new OAInvocationInfo(null, new byte[0]);
 
         public ORBFake() {
-            invocationInfo.setCopierFactory(
-                    CopyobjectDefaults.makeFallbackObjectCopierFactory(
-                            CopyobjectDefaults.makeReflectObjectCopierFactory(this),
-                            CopyobjectDefaults.makeORBStreamObjectCopierFactory(this)));
+            invocationInfo.setCopierFactory(CopyobjectDefaults.makeFallbackObjectCopierFactory(
+                    CopyobjectDefaults.makeReflectObjectCopierFactory(this), CopyobjectDefaults.makeORBStreamObjectCopierFactory(this)));
         }
 
         @Override
@@ -201,6 +199,4 @@ public class StubInvocationHandlerImplTest {
         }
     }
 
-
 }
-

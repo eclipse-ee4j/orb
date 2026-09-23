@@ -27,58 +27,43 @@ import com.sun.corba.ee.spi.servicecontext.ServiceContextBase;
 import org.omg.CORBA_2_3.portable.InputStream;
 import org.omg.CORBA_2_3.portable.OutputStream;
 
-public class MaxStreamFormatVersionServiceContextImpl extends ServiceContextBase
-    implements MaxStreamFormatVersionServiceContext
-{
+public class MaxStreamFormatVersionServiceContextImpl extends ServiceContextBase implements MaxStreamFormatVersionServiceContext {
     private byte maxStreamFormatVersion;
 
     // The singleton uses the maximum version indicated by our
     // ValueHandler.
-    public static final MaxStreamFormatVersionServiceContext singleton
-        = new MaxStreamFormatVersionServiceContextImpl();
+    public static final MaxStreamFormatVersionServiceContext singleton = new MaxStreamFormatVersionServiceContextImpl();
 
-    private MaxStreamFormatVersionServiceContextImpl()
-    {
+    private MaxStreamFormatVersionServiceContextImpl() {
         maxStreamFormatVersion = ORBUtility.getMaxStreamFormatVersion();
     }
 
-    public MaxStreamFormatVersionServiceContextImpl(byte maxStreamFormatVersion)
-    {
+    public MaxStreamFormatVersionServiceContextImpl(byte maxStreamFormatVersion) {
         this.maxStreamFormatVersion = maxStreamFormatVersion;
     }
 
-    public MaxStreamFormatVersionServiceContextImpl(InputStream is, GIOPVersion gv)
-    {
-        super(is) ;
+    public MaxStreamFormatVersionServiceContextImpl(InputStream is, GIOPVersion gv) {
+        super(is);
 
         maxStreamFormatVersion = is.read_octet();
     }
 
     @Override
-    public int getId()
-    {
+    public int getId() {
         return SERVICE_CONTEXT_ID;
     }
 
     @Override
-    public void writeData(OutputStream os)
-    {
+    public void writeData(OutputStream os) {
         os.write_octet(maxStreamFormatVersion);
     }
 
-    public byte getMaximumStreamFormatVersion()
-    {
+    public byte getMaximumStreamFormatVersion() {
         return maxStreamFormatVersion;
     }
 
     @Override
-    public String toString()
-    {
-        return "MaxStreamFormatVersionServiceContextImpl["
-            + maxStreamFormatVersion + "]";
+    public String toString() {
+        return "MaxStreamFormatVersionServiceContextImpl[" + maxStreamFormatVersion + "]";
     }
 }
-
-
-
-

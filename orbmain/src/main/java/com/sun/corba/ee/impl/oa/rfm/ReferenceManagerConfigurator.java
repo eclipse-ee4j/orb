@@ -35,36 +35,28 @@ import org.omg.PortableInterceptor.ORBInitializer;
 import org.omg.PortableInterceptor.ObjectReferenceTemplate;
 import org.omg.PortableServer.POA;
 
-/** Used to initialize the ReferenceManager in the ORB.
- * The ReferenceManager is an optional component built
- * on top of the ORB that is used to manage a group
- * of POAs that require reconfigurability.  This class
- * sets up the ORB as follows:
+/**
+ * Used to initialize the ReferenceManager in the ORB. The ReferenceManager is an optional component built on top of the
+ * ORB that is used to manage a group of POAs that require reconfigurability. This class sets up the ORB as follows:
  * <ol>
- * <li>Create an instance of ReferenceFactoryManagerImpl and register it with
- * register_local_reference.
- * <li>Create and register an IORInterceptor that prevent outside POAs from
- * interfering with the ReferenceManager.
+ * <li>Create an instance of ReferenceFactoryManagerImpl and register it with register_local_reference.
+ * <li>Create and register an IORInterceptor that prevent outside POAs from interfering with the ReferenceManager.
  * </ol>
  */
 public class ReferenceManagerConfigurator implements ORBConfigurator {
-    private static final POASystemException wrapper =
-        POASystemException.self ;
+    private static final POASystemException wrapper = POASystemException.self;
 
-    private static class RMIORInterceptor
-        extends LocalObject
-        implements IORInterceptor_3_0
-    {
+    private static class RMIORInterceptor extends LocalObject implements IORInterceptor_3_0 {
         private static final long serialVersionUID = -4216430013437495980L;
-        private ReferenceFactoryManagerImpl rm ;
+        private ReferenceFactoryManagerImpl rm;
 
-        public RMIORInterceptor( ReferenceFactoryManagerImpl rm ) {
-            this.rm = rm ;
+        public RMIORInterceptor(ReferenceFactoryManagerImpl rm) {
+            this.rm = rm;
         }
 
         @Override
         public String name() {
-            return "##" + this.getClass().getName() + "##" ;
+            return "##" + this.getClass().getName() + "##";
         }
 
         @Override
@@ -73,73 +65,69 @@ public class ReferenceManagerConfigurator implements ORBConfigurator {
         }
 
         @Override
-        public void establish_components( IORInfo info ) {
+        public void establish_components(IORInfo info) {
             // NO-OP
         }
 
         @Override
-        public void adapter_manager_state_changed( int id, short state ) {
+        public void adapter_manager_state_changed(int id, short state) {
             // NO-OP
         }
 
         @Override
-        public void adapter_state_changed( ObjectReferenceTemplate[] templates, short state ) {
+        public void adapter_state_changed(ObjectReferenceTemplate[] templates, short state) {
             // NO-OP
         }
 
         // We must do the checking here, because exceptions are not
-        // ignored.  All exceptions thrown in establish_components
-        // are ignored.  The whole purpose of this interceptor is
+        // ignored. All exceptions thrown in establish_components
+        // are ignored. The whole purpose of this interceptor is
         // to throw an exception if an error is detected.
         @Override
-        public void components_established( IORInfo info ) {
-            IORInfoExt ext = IORInfoExt.class.cast( info ) ;
-            ObjectAdapter oa = ext.getObjectAdapter() ;
+        public void components_established(IORInfo info) {
+            IORInfoExt ext = IORInfoExt.class.cast(info);
+            ObjectAdapter oa = ext.getObjectAdapter();
             if (!(oa instanceof POA)) {
                 return;
             } // if not POA, then there is no chance of a conflict.
-            POA poa = POA.class.cast( oa ) ;
-            rm.validatePOACreation( poa ) ;
+            POA poa = POA.class.cast(oa);
+            rm.validatePOACreation(poa);
         }
     }
 
-    private static class RMORBInitializer
-        extends LocalObject
-        implements ORBInitializer
-    {
+    private static class RMORBInitializer extends LocalObject implements ORBInitializer {
         private static final long serialVersionUID = 7706519649836464399L;
-        private IORInterceptor_3_0 interceptor ;
+        private IORInterceptor_3_0 interceptor;
 
-        public RMORBInitializer( IORInterceptor_3_0 interceptor ) {
-            this.interceptor = interceptor ;
+        public RMORBInitializer(IORInterceptor_3_0 interceptor) {
+            this.interceptor = interceptor;
         }
 
         @Override
-        public void pre_init( ORBInitInfo info ) {
+        public void pre_init(ORBInitInfo info) {
             // NO-OP
         }
 
         @Override
-        public void post_init( ORBInitInfo info ) {
+        public void post_init(ORBInitInfo info) {
             try {
-                info.add_ior_interceptor( interceptor ) ;
+                info.add_ior_interceptor(interceptor);
             } catch (Exception exc) {
-                throw wrapper.rfmPostInitException( exc ) ;
+                throw wrapper.rfmPostInitException(exc);
             }
         }
     }
 
     @Override
-    public void configure( DataCollector collector, ORB orb )
-    {
+    public void configure(DataCollector collector, ORB orb) {
         try {
-            ReferenceFactoryManagerImpl rm = new ReferenceFactoryManagerImpl( orb ) ;
-            orb.register_initial_reference( ORBConstants.REFERENCE_FACTORY_MANAGER, rm ) ;
-            IORInterceptor_3_0 interceptor = new RMIORInterceptor( rm ) ;
-            ORBInitializer initializer = new RMORBInitializer( interceptor ) ;
-            orb.getORBData().addORBInitializer( initializer ) ;
+            ReferenceFactoryManagerImpl rm = new ReferenceFactoryManagerImpl(orb);
+            orb.register_initial_reference(ORBConstants.REFERENCE_FACTORY_MANAGER, rm);
+            IORInterceptor_3_0 interceptor = new RMIORInterceptor(rm);
+            ORBInitializer initializer = new RMORBInitializer(interceptor);
+            orb.getORBData().addORBInitializer(initializer);
         } catch (Exception exc) {
-            throw wrapper.rfmConfigureException( exc ) ;
+            throw wrapper.rfmConfigureException(exc);
         }
     }
 }

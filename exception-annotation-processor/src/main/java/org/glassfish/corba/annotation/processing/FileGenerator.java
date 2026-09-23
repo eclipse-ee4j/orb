@@ -38,8 +38,8 @@ import org.glassfish.pfl.basic.logex.ExceptionWrapper;
 import org.glassfish.pfl.basic.logex.Message;
 
 /**
-* This class generates properties files based on annotations.
-*/
+ * This class generates properties files based on annotations.
+ */
 class FileGenerator {
     private Element classElement;
     private List<Element> methodElements = new ArrayList<Element>();
@@ -85,8 +85,8 @@ class FileGenerator {
     }
 
     private void writePropertyLine(Writer writer, Element methodElement) throws IOException {
-        writer.append('.').append(methodElement.getSimpleName()).append("=\"").append(getPrefix())
-              .append(": ").append(getMessage(methodElement)).append("\"\n");
+        writer.append('.').append(methodElement.getSimpleName()).append("=\"").append(getPrefix()).append(": ")
+                .append(getMessage(methodElement)).append("\"\n");
     }
 
     private String getMessage(Element methodElement) {

@@ -33,10 +33,9 @@ import org.omg.CORBA.Any;
 import org.omg.CORBA.TypeCode;
 import org.omg.CORBA_2_3.portable.InputStream;
 
-public class WrapperInputStream extends org.omg.CORBA_2_3.portable.InputStream implements TypeCodeReader
-{
+public class WrapperInputStream extends org.omg.CORBA_2_3.portable.InputStream implements TypeCodeReader {
     private CDRInputObject stream;
-    private Map<Integer,TypeCodeImpl> typeMap = null;
+    private Map<Integer, TypeCodeImpl> typeMap = null;
     private int startPos = 0;
 
     public WrapperInputStream(CDRInputObject s) {
@@ -45,134 +44,239 @@ public class WrapperInputStream extends org.omg.CORBA_2_3.portable.InputStream i
     }
 
     @Override
-    public int read() throws IOException { return stream.read(); }
+    public int read() throws IOException {
+        return stream.read();
+    }
+
     @Override
-    public int read(byte b[]) throws IOException { return stream.read(b); }
+    public int read(byte b[]) throws IOException {
+        return stream.read(b);
+    }
+
     @Override
     public int read(byte b[], int off, int len) throws IOException {
         return stream.read(b, off, len);
     }
+
     @Override
-    public long skip(long n) throws IOException { return stream.skip(n); }
+    public long skip(long n) throws IOException {
+        return stream.skip(n);
+    }
+
     @Override
-    public int available() throws IOException { return stream.available(); }
+    public int available() throws IOException {
+        return stream.available();
+    }
+
     @Override
-    public void close() throws IOException { stream.close(); }
+    public void close() throws IOException {
+        stream.close();
+    }
+
     @Override
-    public void mark(int readlimit) { stream.mark(readlimit); }
+    public void mark(int readlimit) {
+        stream.mark(readlimit);
+    }
+
     @Override
-    public void reset() { stream.reset(); }
+    public void reset() {
+        stream.reset();
+    }
+
     @Override
-    public boolean markSupported() { return stream.markSupported(); }
+    public boolean markSupported() {
+        return stream.markSupported();
+    }
+
     @Override
-    public int getPosition() { return stream.getPosition(); }
+    public int getPosition() {
+        return stream.getPosition();
+    }
+
     @Override
-    public void consumeEndian() { stream.consumeEndian(); }
+    public void consumeEndian() {
+        stream.consumeEndian();
+    }
+
     @Override
-    public boolean read_boolean() { return stream.read_boolean(); }
+    public boolean read_boolean() {
+        return stream.read_boolean();
+    }
+
     @Override
-    public char read_char() { return stream.read_char(); }
+    public char read_char() {
+        return stream.read_char();
+    }
+
     @Override
-    public char read_wchar() { return stream.read_wchar(); }
+    public char read_wchar() {
+        return stream.read_wchar();
+    }
+
     @Override
-    public byte read_octet() { return stream.read_octet(); }
+    public byte read_octet() {
+        return stream.read_octet();
+    }
+
     @Override
-    public short read_short() { return stream.read_short(); }
+    public short read_short() {
+        return stream.read_short();
+    }
+
     @Override
-    public short read_ushort() { return stream.read_ushort(); }
+    public short read_ushort() {
+        return stream.read_ushort();
+    }
+
     @Override
-    public int read_long() { return stream.read_long(); }
+    public int read_long() {
+        return stream.read_long();
+    }
+
     @Override
-    public int read_ulong() { return stream.read_ulong(); }
+    public int read_ulong() {
+        return stream.read_ulong();
+    }
+
     @Override
-    public long read_longlong() { return stream.read_longlong(); }
+    public long read_longlong() {
+        return stream.read_longlong();
+    }
+
     @Override
-    public long read_ulonglong() { return stream.read_ulonglong(); }
+    public long read_ulonglong() {
+        return stream.read_ulonglong();
+    }
+
     @Override
-    public float read_float() { return stream.read_float(); }
+    public float read_float() {
+        return stream.read_float();
+    }
+
     @Override
-    public double read_double() { return stream.read_double(); }
+    public double read_double() {
+        return stream.read_double();
+    }
+
     @Override
-    public String read_string() { return stream.read_string(); }
+    public String read_string() {
+        return stream.read_string();
+    }
+
     @Override
-    public String read_wstring() { return stream.read_wstring(); }
+    public String read_wstring() {
+        return stream.read_wstring();
+    }
 
     @Override
     public void read_boolean_array(boolean[] value, int offset, int length) {
         stream.read_boolean_array(value, offset, length);
     }
+
     @Override
     public void read_char_array(char[] value, int offset, int length) {
         stream.read_char_array(value, offset, length);
     }
+
     @Override
     public void read_wchar_array(char[] value, int offset, int length) {
         stream.read_wchar_array(value, offset, length);
     }
+
     @Override
     public void read_octet_array(byte[] value, int offset, int length) {
         stream.read_octet_array(value, offset, length);
     }
+
     @Override
     public void read_short_array(short[] value, int offset, int length) {
         stream.read_short_array(value, offset, length);
     }
+
     @Override
     public void read_ushort_array(short[] value, int offset, int length) {
         stream.read_ushort_array(value, offset, length);
     }
+
     @Override
     public void read_long_array(int[] value, int offset, int length) {
         stream.read_long_array(value, offset, length);
     }
+
     @Override
     public void read_ulong_array(int[] value, int offset, int length) {
         stream.read_ulong_array(value, offset, length);
     }
+
     @Override
     public void read_longlong_array(long[] value, int offset, int length) {
         stream.read_longlong_array(value, offset, length);
     }
+
     @Override
     public void read_ulonglong_array(long[] value, int offset, int length) {
         stream.read_ulonglong_array(value, offset, length);
     }
+
     @Override
     public void read_float_array(float[] value, int offset, int length) {
         stream.read_float_array(value, offset, length);
     }
+
     @Override
     public void read_double_array(double[] value, int offset, int length) {
         stream.read_double_array(value, offset, length);
     }
 
     @Override
-    public org.omg.CORBA.Object read_Object() { return stream.read_Object(); }
-    @Override
-    public java.io.Serializable read_value() {return stream.read_value();}
-    @Override
-    public TypeCode read_TypeCode() { return stream.read_TypeCode(); }
-    @Override
-    public Any read_any() { return stream.read_any(); }
-    @Override
-    @SuppressWarnings({"deprecation"})
-    public org.omg.CORBA.Principal read_Principal() { return stream.read_Principal(); }
-    @Override
-    public java.math.BigDecimal read_fixed() { return stream.read_fixed(); }
-    @Override
-    public org.omg.CORBA.Context read_Context() { return stream.read_Context(); }
+    public org.omg.CORBA.Object read_Object() {
+        return stream.read_Object();
+    }
 
     @Override
-    public org.omg.CORBA.ORB orb() { return stream.orb(); }
+    public java.io.Serializable read_value() {
+        return stream.read_value();
+    }
+
+    @Override
+    public TypeCode read_TypeCode() {
+        return stream.read_TypeCode();
+    }
+
+    @Override
+    public Any read_any() {
+        return stream.read_any();
+    }
+
+    @Override
+    @SuppressWarnings({ "deprecation" })
+    public org.omg.CORBA.Principal read_Principal() {
+        return stream.read_Principal();
+    }
+
+    @Override
+    public java.math.BigDecimal read_fixed() {
+        return stream.read_fixed();
+    }
+
+    @Override
+    public org.omg.CORBA.Context read_Context() {
+        return stream.read_Context();
+    }
+
+    @Override
+    public org.omg.CORBA.ORB orb() {
+        return stream.orb();
+    }
 
     @Override
     public void addTypeCodeAtPosition(TypeCodeImpl tc, int position) {
         if (typeMap == null) {
-            //if (TypeCodeImpl.debug) System.out.println("Creating typeMap");
-            typeMap = new HashMap<Integer,TypeCodeImpl>(16);
+            // if (TypeCodeImpl.debug) System.out.println("Creating typeMap");
+            typeMap = new HashMap<Integer, TypeCodeImpl>(16);
         }
-        //if (TypeCodeImpl.debug) System.out.println(this + " adding tc "
-        //  + tc + " at position " + position);
+        // if (TypeCodeImpl.debug) System.out.println(this + " adding tc "
+        // + tc + " at position " + position);
         typeMap.put(position, tc);
     }
 
@@ -180,8 +284,8 @@ public class WrapperInputStream extends org.omg.CORBA_2_3.portable.InputStream i
     public TypeCodeImpl getTypeCodeAtPosition(int position) {
         if (typeMap == null)
             return null;
-        //if (TypeCodeImpl.debug) System.out.println("Getting tc "
-        //    + typeMap.get(position) + " at position " + position);
+        // if (TypeCodeImpl.debug) System.out.println("Getting tc "
+        // + typeMap.get(position) + " at position " + position);
         return typeMap.get(position);
     }
 
@@ -198,9 +302,9 @@ public class WrapperInputStream extends org.omg.CORBA_2_3.portable.InputStream i
 
     @Override
     public int getTopLevelPosition() {
-        //if (TypeCodeImpl.debug) System.out.println("WrapperInputStream.getTopLevelPosition " +
-            //"returning getPosition " + getPosition() + " - startPos " + startPos +
-            //" = " + (getPosition() - startPos));
+        // if (TypeCodeImpl.debug) System.out.println("WrapperInputStream.getTopLevelPosition " +
+        // "returning getPosition " + getPosition() + " - startPos " + startPos +
+        // " = " + (getPosition() - startPos));
         return getPosition() - startPos;
     }
 

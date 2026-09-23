@@ -26,16 +26,15 @@ import com.sun.corba.ee.spi.trace.CdrWrite;
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 
 @CdrWrite
-public class CDROutputStream_1_2 extends CDROutputStream_1_1
-{
+public class CDROutputStream_1_2 extends CDROutputStream_1_1 {
     // There's a situation with chunking with fragmentation
     // in which the alignment for a primitive value is needed
     // to fill fragment N, but the primitive won't fit so
-    // must go into fragment N + 1.  The behavior is the same
+    // must go into fragment N + 1. The behavior is the same
     // as that for specialChunks.
     //
     // Unfortunately, given the current code, we can't reuse
-    // specialChunk.  If you wrap each of the following
+    // specialChunk. If you wrap each of the following
     // write calls with handleSpecialChunkBegin/End, you
     // will lose your state because the primitive calls will
     // change the variables, etc.
@@ -54,23 +53,23 @@ public class CDROutputStream_1_2 extends CDROutputStream_1_1
     //
     protected boolean primitiveAcrossFragmentedChunk = false;
 
-    // Used in chunking.  Here's how this works:
+    // Used in chunking. Here's how this works:
     //
     // When chunking and writing an array of primitives, a string, or a
-    // wstring, _AND_ it won't fit in the buffer do the following.  (As
+    // wstring, _AND_ it won't fit in the buffer do the following. (As
     // you can see, this is a very "special" chunk.)
     //
-    //     1.  Write the length of the chunk including the array length
-    //     2.  Set specialChunk to true
+    // 1. Write the length of the chunk including the array length
+    // 2. Set specialChunk to true
     // 3 applies to ALL chunking:
-    //     3.  In grow, if we need to fragment and specialChunk is false
-    //               a) call end_block
-    //               b) fragment
+    // 3. In grow, if we need to fragment and specialChunk is false
+    // a) call end_block
+    // b) fragment
     // Now back to the array only case:
-    //     [write the data]
-    //     4.  if specialChunk is true
-    //               a) Close the chunk
-    //               b) Set specialChunk to false
+    // [write the data]
+    // 4. if specialChunk is true
+    // a) Close the chunk
+    // b) Set specialChunk to false
 
     protected boolean specialChunk = false;
 
@@ -81,22 +80,23 @@ public class CDROutputStream_1_2 extends CDROutputStream_1_1
     private boolean headerPadding;
 
     @InfoMethod
-    private void specialChunkCase() { }
+    private void specialChunkCase() {
+    }
 
     @CdrWrite
     @Override
     protected void handleSpecialChunkBegin(int requiredSize) {
         // If we're chunking and the item won't fit in the buffer
         if (inBlock && requiredSize + byteBuffer.position() > byteBuffer.limit()) {
-            specialChunkCase() ;
+            specialChunkCase();
 
-            // Duplicating some code from end_block.  Compute
+            // Duplicating some code from end_block. Compute
             // and write the total chunk length.
 
             int oldSize = byteBuffer.position();
             byteBuffer.position(blockSizeIndex - 4);
 
-            //write_long(oldSize - blockSizeIndex);
+            // write_long(oldSize - blockSizeIndex);
             writeLongWithoutAlign((oldSize - blockSizeIndex) + requiredSize);
             byteBuffer.position(oldSize);
 
@@ -114,7 +114,7 @@ public class CDROutputStream_1_2 extends CDROutputStream_1_1
             specialChunkCase();
 
             // This is unnecessary, but I just want to show that
-            // we're done with the current chunk.  (the end_block
+            // we're done with the current chunk. (the end_block
             // call is inappropriate here)
             inBlock = false;
             blockSizeIndex = -1;
@@ -133,8 +133,7 @@ public class CDROutputStream_1_2 extends CDROutputStream_1_1
 
     // Called after writing primitives
     @CdrWrite
-    private void checkPrimitiveAcrossFragmentedChunk()
-    {
+    private void checkPrimitiveAcrossFragmentedChunk() {
         if (primitiveAcrossFragmentedChunk) {
             primitiveAcrossFragmentedChunk = false;
 
@@ -150,7 +149,6 @@ public class CDROutputStream_1_2 extends CDROutputStream_1_1
             start_block();
         }
     }
-
 
     @Override
     public void write_octet(byte x) {
@@ -199,23 +197,24 @@ public class CDROutputStream_1_2 extends CDROutputStream_1_1
 
         // In GIOP 1.2, we always end fragments at our
         // fragment size, which is an "evenly divisible
-        // 8 byte boundary" (aka divisible by 16).  A fragment can
+        // 8 byte boundary" (aka divisible by 16). A fragment can
         // end with appropriate alignment padding, but no padding
         // is needed with respect to the next GIOP fragment
         // header since it ends on an 8 byte boundary.
 
         byteBuffer.position(byteBuffer.position() + computeAlignment(align));
 
-        if (byteBuffer.position() + n  > byteBuffer.limit())
+        if (byteBuffer.position() + n > byteBuffer.limit())
             grow(align, n);
     }
 
     @InfoMethod
-    private void outOfSequenceWrite() { }
+    private void outOfSequenceWrite() {
+    }
 
     @InfoMethod
-    private void handlingFragmentCase() { }
-
+    private void handlingFragmentCase() {
+    }
 
     @Override
     @CdrWrite
@@ -247,13 +246,13 @@ public class CDROutputStream_1_2 extends CDROutputStream_1_1
         byteBuffer = bufferManagerWrite.overflow(byteBuffer, n);
 
         // At this point, if we fragmented, we should have a ByteBuffer
-        // with the fragment header already marshaled.  The buflen and position
+        // with the fragment header already marshaled. The buflen and position
         // should be updated accordingly.
         if (bufferManagerWrite.isFragmentOnOverflow()) {
 
             // Update fragmentOffset so indirections work properly.
             // At this point, oldSize is the entire length of the
-            // previous buffer.  bbwi.position() is the length of the
+            // previous buffer. bbwi.position() is the length of the
             // fragment header of this buffer.
             fragmentOffset += (oldSize - byteBuffer.position());
 
@@ -270,11 +269,10 @@ public class CDROutputStream_1_2 extends CDROutputStream_1_1
     }
 
     @Override
-    public void write_wchar(char x)
-    {
+    public void write_wchar(char x) {
         // In GIOP 1.2, a wchar is encoded as an unsigned octet length
-        // followed by the octets of the converted wchar.  This is good,
-        // but it causes problems with our chunking code.  We don't
+        // followed by the octets of the converted wchar. This is good,
+        // but it causes problems with our chunking code. We don't
         // want that octet to get put in a different chunk at the end
         // of the previous fragment.
         //
@@ -286,7 +284,7 @@ public class CDROutputStream_1_2 extends CDROutputStream_1_1
 
         handleSpecialChunkBegin(1 + converter.getNumBytes());
 
-        write_octet((byte)converter.getNumBytes());
+        write_octet((byte) converter.getNumBytes());
 
         byte[] result = converter.getBytes();
 
@@ -298,8 +296,7 @@ public class CDROutputStream_1_2 extends CDROutputStream_1_1
     }
 
     @Override
-    public void write_wchar_array(char[] value, int offset, int length)
-    {
+    public void write_wchar_array(char[] value, int offset, int length) {
         if (value == null) {
             throw wrapper.nullParam();
         }
@@ -308,13 +305,13 @@ public class CDROutputStream_1_2 extends CDROutputStream_1_1
 
         // Unfortunately, because of chunking, we have to convert the
         // entire char[] to a byte[] array first so we can know how
-        // many bytes we're writing ahead of time.  You can't split
+        // many bytes we're writing ahead of time. You can't split
         // an array of primitives into multiple chunks.
         int totalNumBytes = 0;
 
         // Remember that every wchar starts with an octet telling
-        // its length.  The buffer size is an upper bound estimate.
-        int maxLength = (int)Math.ceil(converter.getMaxBytesPerChar() * length);
+        // its length. The buffer size is an upper bound estimate.
+        int maxLength = (int) Math.ceil(converter.getMaxBytesPerChar() * length);
         byte[] buffer = new byte[maxLength + length];
 
         for (int i = 0; i < length; i++) {
@@ -322,12 +319,10 @@ public class CDROutputStream_1_2 extends CDROutputStream_1_1
             converter.convert(value[offset + i]);
 
             // Make sure to add the octet length
-            buffer[totalNumBytes++] = (byte)converter.getNumBytes();
+            buffer[totalNumBytes++] = (byte) converter.getNumBytes();
 
             // Copy it into our buffer
-            System.arraycopy(converter.getBytes(), 0,
-                             buffer, totalNumBytes,
-                             converter.getNumBytes());
+            System.arraycopy(converter.getBytes(), 0, buffer, totalNumBytes, converter.getNumBytes());
 
             totalNumBytes += converter.getNumBytes();
         }
@@ -350,7 +345,7 @@ public class CDROutputStream_1_2 extends CDROutputStream_1_1
             throw wrapper.nullParam();
         }
 
-        // In GIOP 1.2, wstrings are not terminated by a null.  The
+        // In GIOP 1.2, wstrings are not terminated by a null. The
         // length is the number of octets in the converted format.
         // A zero length string is represented with the 4 byte length
         // value of 0.

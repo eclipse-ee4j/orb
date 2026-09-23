@@ -30,30 +30,25 @@ import org.omg.CORBA_2_3.portable.InputStream;
 /**
  * @author Ken Cavanaugh
  */
-public class TaggedComponentFactoryFinderImpl
-    extends IdentifiableFactoryFinderBase<TaggedComponent>
-    implements TaggedComponentFactoryFinder
-{
-    public TaggedComponentFactoryFinderImpl( ORB orb )
-    {
-        super( orb ) ;
+public class TaggedComponentFactoryFinderImpl extends IdentifiableFactoryFinderBase<TaggedComponent>
+        implements TaggedComponentFactoryFinder {
+    public TaggedComponentFactoryFinderImpl(ORB orb) {
+        super(orb);
     }
 
     @Override
-    public TaggedComponent handleMissingFactory( int id, InputStream is ) {
-        return new GenericTaggedComponent( id, is ) ;
+    public TaggedComponent handleMissingFactory(int id, InputStream is) {
+        return new GenericTaggedComponent(id, is);
     }
 
     @Override
-    public TaggedComponent create( org.omg.CORBA.ORB orb,
-        org.omg.IOP.TaggedComponent comp )
-    {
-        EncapsOutputStream os = OutputStreamFactory.newEncapsOutputStream( (ORB)orb ) ;
-        org.omg.IOP.TaggedComponentHelper.write( os, comp ) ;
-        InputStream is = (InputStream)(os.create_input_stream() ) ;
+    public TaggedComponent create(org.omg.CORBA.ORB orb, org.omg.IOP.TaggedComponent comp) {
+        EncapsOutputStream os = OutputStreamFactory.newEncapsOutputStream((ORB) orb);
+        org.omg.IOP.TaggedComponentHelper.write(os, comp);
+        InputStream is = (InputStream) (os.create_input_stream());
         // Skip the component ID: we just wrote it out above
-        is.read_ulong() ;
+        is.read_ulong();
 
-        return create( comp.tag, is ) ;
+        return create(comp.tag, is);
     }
 }

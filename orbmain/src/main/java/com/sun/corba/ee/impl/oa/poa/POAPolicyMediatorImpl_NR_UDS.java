@@ -17,7 +17,7 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.impl.oa.poa ;
+package com.sun.corba.ee.impl.oa.poa;
 
 import org.omg.PortableServer.ForwardRequest;
 import org.omg.PortableServer.Servant;
@@ -29,15 +29,14 @@ import org.omg.PortableServer.POAPackage.ServantAlreadyActive;
 import org.omg.PortableServer.POAPackage.ServantNotActive;
 import org.omg.PortableServer.POAPackage.WrongPolicy;
 
-/** Implementation of POAPolicyMediator that provides policy specific
- * operations on the POA.
+/**
+ * Implementation of POAPolicyMediator that provides policy specific operations on the POA.
  */
 public class POAPolicyMediatorImpl_NR_UDS extends POAPolicyMediatorBase {
-    private Servant defaultServant ;
+    private Servant defaultServant;
 
-    POAPolicyMediatorImpl_NR_UDS( Policies policies, POAImpl poa )
-    {
-        super( policies, poa ) ;
+    POAPolicyMediatorImpl_NR_UDS(Policies policies, POAImpl poa) {
+        super(policies, poa);
 
         // assert !policies.retainServants() && policies.useDefaultServant()
         if (policies.retainServants()) {
@@ -48,14 +47,13 @@ public class POAPolicyMediatorImpl_NR_UDS extends POAPolicyMediatorBase {
             throw wrapper.policyMediatorBadPolicyInFactory();
         }
 
-        defaultServant = null ;
+        defaultServant = null;
     }
 
     @Override
-    protected java.lang.Object internalGetServant( byte[] id,
-        String operation ) throws ForwardRequest {
+    protected java.lang.Object internalGetServant(byte[] id, String operation) throws ForwardRequest {
 
-        poa.readLock() ;
+        poa.readLock();
         try {
             if (defaultServant == null) {
                 throw wrapper.poaNoDefaultServant();
@@ -63,43 +61,37 @@ public class POAPolicyMediatorImpl_NR_UDS extends POAPolicyMediatorBase {
 
             return defaultServant;
         } finally {
-            poa.readUnlock() ;
+            poa.readUnlock();
         }
     }
 
     @Override
-    public void returnServant()
-    {
+    public void returnServant() {
         // NO-OP
     }
 
     @Override
-    public void etherealizeAll()
-    {
+    public void etherealizeAll() {
         // NO-OP
     }
 
     @Override
-    public void clearAOM()
-    {
+    public void clearAOM() {
         // NO-OP
     }
 
     @Override
-    public ServantManager getServantManager() throws WrongPolicy
-    {
+    public ServantManager getServantManager() throws WrongPolicy {
         throw new WrongPolicy();
     }
 
     @Override
-    public void setServantManager( ServantManager servantManager ) throws WrongPolicy
-    {
+    public void setServantManager(ServantManager servantManager) throws WrongPolicy {
         throw new WrongPolicy();
     }
 
     @Override
-    public Servant getDefaultServant() throws NoServant, WrongPolicy
-    {
+    public Servant getDefaultServant() throws NoServant, WrongPolicy {
         if (defaultServant == null) {
             throw new NoServant();
         }
@@ -107,39 +99,32 @@ public class POAPolicyMediatorImpl_NR_UDS extends POAPolicyMediatorBase {
     }
 
     @Override
-    public void setDefaultServant( Servant servant ) throws WrongPolicy
-    {
+    public void setDefaultServant(Servant servant) throws WrongPolicy {
         this.defaultServant = servant;
         setDelegate(defaultServant, "DefaultServant".getBytes());
     }
 
     @Override
-    public final void activateObject(byte[] id, Servant servant)
-        throws WrongPolicy, ServantAlreadyActive, ObjectAlreadyActive
-    {
+    public final void activateObject(byte[] id, Servant servant) throws WrongPolicy, ServantAlreadyActive, ObjectAlreadyActive {
         throw new WrongPolicy();
     }
 
     @Override
-    public Servant deactivateObject( byte[] id ) throws ObjectNotActive, WrongPolicy
-    {
+    public Servant deactivateObject(byte[] id) throws ObjectNotActive, WrongPolicy {
         throw new WrongPolicy();
     }
 
     @Override
-    public byte[] servantToId( Servant servant ) throws ServantNotActive, WrongPolicy
-    {
+    public byte[] servantToId(Servant servant) throws ServantNotActive, WrongPolicy {
         throw new WrongPolicy();
     }
 
     @Override
-    public Servant idToServant( byte[] id )
-        throws WrongPolicy, ObjectNotActive
-    {
+    public Servant idToServant(byte[] id) throws WrongPolicy, ObjectNotActive {
         if (defaultServant != null) {
             return defaultServant;
         }
 
-        throw new ObjectNotActive() ;
+        throw new ObjectNotActive();
     }
 }

@@ -34,9 +34,9 @@ import org.omg.DynamicAny.DynAnyPackage.InvalidValue;
 // _REVIST_ Could make this a subclass of DynArrayImpl
 // But that would mean that an object that implements DynSequence also implements DynArray
 // which the spec doesn't mention (it also doesn't forbid it).
-public class DynSequenceImpl extends DynAnyCollectionImpl implements DynSequence
-{
+public class DynSequenceImpl extends DynAnyCollectionImpl implements DynSequence {
     private static final long serialVersionUID = 5355861023015151151L;
+
     //
     // Constructors
     //
@@ -68,7 +68,7 @@ public class DynSequenceImpl extends DynAnyCollectionImpl implements DynSequence
         components = new DynAny[length];
         anys = new Any[length];
 
-        for (int i=0; i<length; i++) {
+        for (int i = 0; i < length; i++) {
             // _REVISIT_ Could use read_xxx_array() methods on InputStream for efficiency
             // but only for primitive types
             anys[i] = DynAnyUtil.extractAnyFromStream(contentType, input, orb);
@@ -96,9 +96,9 @@ public class DynSequenceImpl extends DynAnyCollectionImpl implements DynSequence
         OutputStream out = any.create_output_stream();
         // Writing the length first is the only difference to supers implementation
         out.write_long(components.length);
-        for (int i=0; i<components.length; i++) {
+        for (int i = 0; i < components.length; i++) {
             if (components[i] instanceof DynAnyImpl) {
-                ((DynAnyImpl)components[i]).writeAny(out);
+                ((DynAnyImpl) components[i]).writeAny(out);
             } else {
                 // Not our implementation. Nothing we can do to prevent copying.
                 components[i].to_any().write_value(out);
@@ -108,7 +108,6 @@ public class DynSequenceImpl extends DynAnyCollectionImpl implements DynSequence
         return true;
     }
 
-
     //
     // DynSequence interface methods
     //
@@ -117,7 +116,7 @@ public class DynSequenceImpl extends DynAnyCollectionImpl implements DynSequence
     @Override
     public int get_length() {
         if (status == STATUS_DESTROYED) {
-            throw wrapper.dynAnyDestroyed() ;
+            throw wrapper.dynAnyDestroyed();
         }
         return (checkInitComponents() ? components.length : 0);
     }
@@ -145,11 +144,9 @@ public class DynSequenceImpl extends DynAnyCollectionImpl implements DynSequence
     // ?f the current position indicates a valid element and that element is removed, the
     // current position is set to -1.
     @Override
-    public void set_length(int len)
-        throws org.omg.DynamicAny.DynAnyPackage.InvalidValue
-    {
+    public void set_length(int len) throws org.omg.DynamicAny.DynAnyPackage.InvalidValue {
         if (status == STATUS_DESTROYED) {
-            throw wrapper.dynAnyDestroyed() ;
+            throw wrapper.dynAnyDestroyed();
         }
         int bound = getBound();
         if (bound > 0 && len > bound) {
@@ -170,7 +167,7 @@ public class DynSequenceImpl extends DynAnyCollectionImpl implements DynSequence
 
             // Newly added elements are default-initialized
             TypeCode contentType = getContentType();
-            for (int i=oldLength; i<len; i++) {
+            for (int i = oldLength; i < len; i++) {
                 createDefaultComponentAt(i, contentType);
             }
 
@@ -188,9 +185,9 @@ public class DynSequenceImpl extends DynAnyCollectionImpl implements DynSequence
             // It is probably right not to destroy the released component DynAnys.
             // Some other DynAny or a user variable might still hold onto them
             // and if not then the garbage collector will take care of it.
-            //for (int i=len; i<oldLength; i++) {
-            //    components[i].destroy();
-            //}
+            // for (int i=len; i<oldLength; i++) {
+            // components[i].destroy();
+            // }
             components = newComponents;
             anys = newAnys;
 
@@ -220,20 +217,17 @@ public class DynSequenceImpl extends DynAnyCollectionImpl implements DynSequence
     // the operation raises InvalidValue.
     // If value contains one or more elements whose TypeCode is not equivalent
     // to the element TypeCode of the DynSequence, the operation raises TypeMismatch.
-/*
-    public void set_elements(org.omg.CORBA.Any[] value)
-        throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch,
-               org.omg.DynamicAny.DynAnyPackage.InvalidValue;
-*/
+    /*
+     * public void set_elements(org.omg.CORBA.Any[] value) throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch,
+     * org.omg.DynamicAny.DynAnyPackage.InvalidValue;
+     */
 
     //
     // Utility methods
     //
 
     @Override
-    protected void checkValue(Object[] value)
-        throws org.omg.DynamicAny.DynAnyPackage.InvalidValue
-    {
+    protected void checkValue(Object[] value) throws org.omg.DynamicAny.DynAnyPackage.InvalidValue {
         if (value == null || value.length == 0) {
             clearData();
             index = NO_INDEX;

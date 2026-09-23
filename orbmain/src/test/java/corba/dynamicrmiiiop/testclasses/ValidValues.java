@@ -24,10 +24,8 @@ package corba.dynamicrmiiiop.testclasses;
  */
 public class ValidValues {
 
-    public static final Class[] CLASSES = {
-        ValidValue1.class, ValidValue2.class,
-        java.util.Date.class, java.lang.Integer.class, java.lang.String.class
-    };
+    public static final Class[] CLASSES = { ValidValue1.class, ValidValue2.class, java.util.Date.class, java.lang.Integer.class,
+            java.lang.String.class };
 
     public class ValidValue1 implements java.io.Serializable {
 

@@ -25,11 +25,17 @@ import org.omg.CORBA_2_3.portable.InputStream;
 
 public interface TypeCodeReader extends MarshalInputStream {
     void addTypeCodeAtPosition(TypeCodeImpl tc, int position);
+
     TypeCodeImpl getTypeCodeAtPosition(int position);
+
     void setEnclosingInputStream(InputStream enclosure);
+
     TypeCodeReader getTopLevelStream();
+
     int getTopLevelPosition();
+
     @Override
     int getPosition();
+
     void printTypeMap();
 }

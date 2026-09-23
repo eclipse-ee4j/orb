@@ -20,31 +20,28 @@
 package org.omg.CORBA;
 
 /**
- * Exception  indicates that the request carried a null transaction context,
- * but an active transaction is required.<P>
- * It contains a minor code, which gives information about
- * what caused the exception, and a completion status. It may also contain
- * a string describing the exception.
- * The OMG Transaction Service specfication has details.
+ * Exception indicates that the request carried a null transaction context, but an active transaction is required.
+ * <P>
+ * It contains a minor code, which gives information about what caused the exception, and a completion status. It may
+ * also contain a string describing the exception. The OMG Transaction Service specfication has details.
  *
- * @see <A href="../../../../guide/idl/jidlExceptions.html">documentation on
- * Java&nbsp;IDL exceptions</A>
- * @version     1.5 09/09/97
+ * @see <A href="../../../../guide/idl/jidlExceptions.html">documentation on Java&nbsp;IDL exceptions</A>
+ * @version 1.5 09/09/97
  */
 
 public final class TRANSACTION_REQUIRED extends SystemException {
     /**
-     * Constructs a <code>TRANSACTION_REQUIRED</code> exception with a default minor code
-     * of 0, a completion state of CompletionStatus.COMPLETED_NO,
-     * and a null description.
+     * Constructs a <code>TRANSACTION_REQUIRED</code> exception with a default minor code of 0, a completion state of
+     * CompletionStatus.COMPLETED_NO, and a null description.
      */
     public TRANSACTION_REQUIRED() {
         this("");
     }
 
     /**
-     * Constructs a <code>TRANSACTION_REQUIRED</code> exception with the specified
-     * description message, a minor code of 0, and a completion state of COMPLETED_NO.
+     * Constructs a <code>TRANSACTION_REQUIRED</code> exception with the specified description message, a minor code of 0,
+     * and a completion state of COMPLETED_NO.
+     * 
      * @param s the String containing a detail message
      */
     public TRANSACTION_REQUIRED(String s) {
@@ -52,8 +49,8 @@ public final class TRANSACTION_REQUIRED extends SystemException {
     }
 
     /**
-     * Constructs a <code>TRANSACTION_REQUIRED</code> exception with the specified
-     * minor code and completion status.
+     * Constructs a <code>TRANSACTION_REQUIRED</code> exception with the specified minor code and completion status.
+     * 
      * @param minor the minor code
      * @param completed the completion status
      */
@@ -62,8 +59,9 @@ public final class TRANSACTION_REQUIRED extends SystemException {
     }
 
     /**
-     * Constructs a <code>TRANSACTION_REQUIRED</code> exception with the specified description
-     * message, minor code, and completion status.
+     * Constructs a <code>TRANSACTION_REQUIRED</code> exception with the specified description message, minor code, and
+     * completion status.
+     * 
      * @param s the String containing a description message
      * @param minor the minor code
      * @param completed the completion status

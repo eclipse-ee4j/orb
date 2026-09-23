@@ -25,13 +25,11 @@ import com.sun.corba.ee.spi.misc.ORBConstants;
 import org.omg.CORBA_2_3.portable.OutputStream;
 
 /**
- * Tagged component that contains a value that indicates the Java
- * serialization version supported by the ORB.
+ * Tagged component that contains a value that indicates the Java serialization version supported by the ORB.
  *
- * ORB Java serialization uses IIOP as the transport protocol, but uses
- * Java serialization mechanism and its accompanying encodings, instead
- * of IIOP CDR serialization mechanism. Java serialization is generally
- * observed to be faster than CDR.
+ * ORB Java serialization uses IIOP as the transport protocol, but uses Java serialization mechanism and its
+ * accompanying encodings, instead of IIOP CDR serialization mechanism. Java serialization is generally observed to be
+ * faster than CDR.
  */
 public class JavaSerializationComponent extends TaggedComponentBase {
 
@@ -40,8 +38,7 @@ public class JavaSerializationComponent extends TaggedComponentBase {
     private static JavaSerializationComponent singleton;
 
     static {
-        singleton = new JavaSerializationComponent(
-                                               ORBConstants.JAVA_ENC_VERSION);
+        singleton = new JavaSerializationComponent(ORBConstants.JAVA_ENC_VERSION);
     }
 
     public static JavaSerializationComponent singleton() {

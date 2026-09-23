@@ -42,72 +42,61 @@ import org.omg.CORBA_2_3.portable.OutputStream;
 import org.omg.IOP.TAG_INTERNET_IOP;
 
 /**
- * @author
- * If getMinorVersion==0, this does not contain any tagged components
+ * @author If getMinorVersion==0, this does not contain any tagged components
  */
-public class IIOPProfileTemplateImpl extends TaggedProfileTemplateBase
-    implements IIOPProfileTemplate, SocketInfo
-{
-    private ORB orb ;
-    private GIOPVersion giopVersion ;
-    private IIOPAddress primary ;
+public class IIOPProfileTemplateImpl extends TaggedProfileTemplateBase implements IIOPProfileTemplate, SocketInfo {
+    private ORB orb;
+    private GIOPVersion giopVersion;
+    private IIOPAddress primary;
 
     @Override
     public Iterator<TaggedComponent> getTaggedComponents() {
-        return iterator() ;
+        return iterator();
     }
 
     @Override
     public String toString() {
-        return String.format("IIOPProfileTemplateImpl[giopVersion=%d.%d primary=%s:%d]",
-              giopVersion.getMajor(), giopVersion.getMinor(), primary.getHost(), primary.getPort());
+        return String.format("IIOPProfileTemplateImpl[giopVersion=%d.%d primary=%s:%d]", giopVersion.getMajor(), giopVersion.getMinor(),
+                primary.getHost(), primary.getPort());
     }
 
     @Override
-    public boolean equals( Object obj )
-    {
+    public boolean equals(Object obj) {
         if (!(obj instanceof IIOPProfileTemplateImpl))
-            return false ;
+            return false;
 
-        IIOPProfileTemplateImpl other = (IIOPProfileTemplateImpl)obj ;
+        IIOPProfileTemplateImpl other = (IIOPProfileTemplateImpl) obj;
 
-        return super.equals( obj ) && giopVersion.equals( other.giopVersion ) &&
-            primary.equals( other.primary ) ;
+        return super.equals(obj) && giopVersion.equals(other.giopVersion) && primary.equals(other.primary);
     }
 
     @Override
-    public int hashCode()
-    {
-        return super.hashCode() ^ giopVersion.hashCode() ^ primary.hashCode() ;
+    public int hashCode() {
+        return super.hashCode() ^ giopVersion.hashCode() ^ primary.hashCode();
     }
 
     @Override
-    public TaggedProfile create( ObjectKeyTemplate oktemp, ObjectId id )
-    {
-        return IIOPFactories.makeIIOPProfile( orb, oktemp, id, this ) ;
+    public TaggedProfile create(ObjectKeyTemplate oktemp, ObjectId id) {
+        return IIOPFactories.makeIIOPProfile(orb, oktemp, id, this);
     }
 
     @Override
-    public GIOPVersion getGIOPVersion()
-    {
-        return giopVersion ;
+    public GIOPVersion getGIOPVersion() {
+        return giopVersion;
     }
 
     @Override
-    public IIOPAddress getPrimaryAddress()
-    {
-        return primary ;
+    public IIOPAddress getPrimaryAddress() {
+        return primary;
     }
 
     @Override
-    public SocketInfo getPrimarySocketInfo()
-    {
+    public SocketInfo getPrimarySocketInfo() {
         return this;
     }
 
     @Override
-    public String getType()
-    {
+    public String getType() {
         return stream().anyMatch(this::isSslTaggedComponent) ? SocketInfo.SSL_PREFIX : SocketInfo.IIOP_CLEAR_TEXT;
     }
 
@@ -116,91 +105,82 @@ public class IIOPProfileTemplateImpl extends TaggedProfileTemplateBase
     }
 
     @Override
-    public String getHost()
-    {
+    public String getHost() {
         return primary.getHost();
     }
 
     @Override
-    public int getPort()
-    {
+    public int getPort() {
         return primary.getPort();
     }
 
-    public IIOPProfileTemplateImpl( ORB orb, GIOPVersion version, IIOPAddress primary )
-    {
-        this.orb = orb ;
-        this.giopVersion = version ;
-        this.primary = primary ;
+    public IIOPProfileTemplateImpl(ORB orb, GIOPVersion version, IIOPAddress primary) {
+        this.orb = orb;
+        this.giopVersion = version;
+        this.primary = primary;
         if (giopVersion.getMinor() == 0)
             // Adding tagged components is not allowed for IIOP 1.0,
             // so this template is complete and should be made immutable.
-            makeImmutable() ;
+            makeImmutable();
     }
 
-    public IIOPProfileTemplateImpl( InputStream istr )
-    {
-        byte major = istr.read_octet() ;
-        byte minor = istr.read_octet() ;
-        giopVersion = GIOPVersion.getInstance( major, minor ) ;
-        primary = new IIOPAddressImpl( istr ) ;
-        orb = (ORB)(istr.orb()) ;
+    public IIOPProfileTemplateImpl(InputStream istr) {
+        byte major = istr.read_octet();
+        byte minor = istr.read_octet();
+        giopVersion = GIOPVersion.getInstance(major, minor);
+        primary = new IIOPAddressImpl(istr);
+        orb = (ORB) (istr.orb());
         // Handle any tagged components (if applicable)
         if (minor > 0)
-            EncapsulationUtility.readIdentifiableSequence(
-                this, orb.getTaggedComponentFactoryFinder(), istr ) ;
+            EncapsulationUtility.readIdentifiableSequence(this, orb.getTaggedComponentFactoryFinder(), istr);
 
-        makeImmutable() ;
+        makeImmutable();
     }
 
     @Override
-    public void write( ObjectKeyTemplate okeyTemplate, ObjectId id, OutputStream os)
-    {
-        giopVersion.write( os ) ;
-        primary.write( os ) ;
+    public void write(ObjectKeyTemplate okeyTemplate, ObjectId id, OutputStream os) {
+        giopVersion.write(os);
+        primary.write(os);
 
         // Note that this is NOT an encapsulation: do not marshal
-        // the endianness flag.  However, the length is required.
+        // the endianness flag. However, the length is required.
         // Note that this cannot be accomplished with a codec!
 
         // Use the byte order of the given stream
-        OutputStream encapsulatedOS = OutputStreamFactory.newEncapsOutputStream( (ORB)os.orb()
-        ) ;
+        OutputStream encapsulatedOS = OutputStreamFactory.newEncapsOutputStream((ORB) os.orb());
 
-        okeyTemplate.write( id, encapsulatedOS ) ;
-        EncapsulationUtility.writeOutputStream( encapsulatedOS, os ) ;
-
-        if (giopVersion.getMinor() > 0)
-            EncapsulationUtility.writeIdentifiableSequence( this, os ) ;
-    }
-
-    /** Write out this IIOPProfileTemplateImpl only.
-    */
-    @Override
-    public void writeContents( OutputStream os)
-    {
-        giopVersion.write( os ) ;
-        primary.write( os ) ;
+        okeyTemplate.write(id, encapsulatedOS);
+        EncapsulationUtility.writeOutputStream(encapsulatedOS, os);
 
         if (giopVersion.getMinor() > 0)
-            EncapsulationUtility.writeIdentifiableSequence( this, os ) ;
+            EncapsulationUtility.writeIdentifiableSequence(this, os);
+    }
+
+    /**
+     * Write out this IIOPProfileTemplateImpl only.
+     */
+    @Override
+    public void writeContents(OutputStream os) {
+        giopVersion.write(os);
+        primary.write(os);
+
+        if (giopVersion.getMinor() > 0)
+            EncapsulationUtility.writeIdentifiableSequence(this, os);
     }
 
     @Override
-    public int getId()
-    {
-        return TAG_INTERNET_IOP.value ;
+    public int getId() {
+        return TAG_INTERNET_IOP.value;
     }
 
     @Override
-    public boolean isEquivalent( TaggedProfileTemplate temp )
-    {
+    public boolean isEquivalent(TaggedProfileTemplate temp) {
         if (!(temp instanceof IIOPProfileTemplateImpl))
-            return false ;
+            return false;
 
-        IIOPProfileTemplateImpl tempimp = (IIOPProfileTemplateImpl)temp ;
+        IIOPProfileTemplateImpl tempimp = (IIOPProfileTemplateImpl) temp;
 
-        return primary.equals( tempimp.primary )  ;
+        return primary.equals(tempimp.primary);
     }
 
 }

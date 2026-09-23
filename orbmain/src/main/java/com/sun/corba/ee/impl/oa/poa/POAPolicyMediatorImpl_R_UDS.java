@@ -17,7 +17,7 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.impl.oa.poa ;
+package com.sun.corba.ee.impl.oa.poa;
 
 import org.omg.PortableServer.ForwardRequest;
 import org.omg.PortableServer.Servant;
@@ -26,29 +26,29 @@ import org.omg.PortableServer.POAPackage.NoServant;
 import org.omg.PortableServer.POAPackage.ObjectNotActive;
 import org.omg.PortableServer.POAPackage.WrongPolicy;
 
-/** Implementation of POARequesHandler that provides policy specific
- * operations on the POA.
+/**
+ * Implementation of POARequesHandler that provides policy specific operations on the POA.
  */
 public class POAPolicyMediatorImpl_R_UDS extends POAPolicyMediatorBase_R {
-    private Servant defaultServant ;
+    private Servant defaultServant;
 
-    POAPolicyMediatorImpl_R_UDS( Policies policies, POAImpl poa ) {
+    POAPolicyMediatorImpl_R_UDS(Policies policies, POAImpl poa) {
         // assert policies.retainServants()
-        super( policies, poa ) ;
-        defaultServant = null ;
+        super(policies, poa);
+        defaultServant = null;
 
         // policies.useDefaultServant()
         if (!policies.useDefaultServant()) {
             throw wrapper.policyMediatorBadPolicyInFactory();
-        } }
+        }
+    }
 
     @Override
-    protected java.lang.Object internalGetServant( byte[] id,
-        String operation ) throws ForwardRequest {
+    protected java.lang.Object internalGetServant(byte[] id, String operation) throws ForwardRequest {
 
-        poa.readLock() ;
+        poa.readLock();
         try {
-            Servant servant = internalIdToServant( id ) ;
+            Servant servant = internalIdToServant(id);
             if (servant == null) {
                 servant = defaultServant;
             }
@@ -57,7 +57,7 @@ public class POAPolicyMediatorImpl_R_UDS extends POAPolicyMediatorBase_R {
                 throw wrapper.poaNoDefaultServant();
             }
 
-            return servant ;
+            return servant;
         } finally {
             poa.readUnlock();
         }
@@ -74,8 +74,7 @@ public class POAPolicyMediatorImpl_R_UDS extends POAPolicyMediatorBase_R {
     }
 
     @Override
-    public void setServantManager(
-        ServantManager servantManager ) throws WrongPolicy {
+    public void setServantManager(ServantManager servantManager) throws WrongPolicy {
         throw new WrongPolicy();
     }
 
@@ -89,16 +88,15 @@ public class POAPolicyMediatorImpl_R_UDS extends POAPolicyMediatorBase_R {
     }
 
     @Override
-    public void setDefaultServant( Servant servant ) throws WrongPolicy {
+    public void setDefaultServant(Servant servant) throws WrongPolicy {
         defaultServant = servant;
         setDelegate(defaultServant, "DefaultServant".getBytes());
     }
 
     @Override
-    public Servant idToServant( byte[] id )
-        throws WrongPolicy, ObjectNotActive {
+    public Servant idToServant(byte[] id) throws WrongPolicy, ObjectNotActive {
 
-        ActiveObjectMap.Key key = new ActiveObjectMap.Key( id ) ;
+        ActiveObjectMap.Key key = new ActiveObjectMap.Key(id);
         Servant s = internalKeyToServant(key);
 
         if (s == null) {

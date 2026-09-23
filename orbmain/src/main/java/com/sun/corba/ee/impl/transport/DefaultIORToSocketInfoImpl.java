@@ -32,25 +32,21 @@ import java.util.List;
 
 import org.omg.IOP.TAG_ALTERNATE_IIOP_ADDRESS;
 
-public class DefaultIORToSocketInfoImpl
-    implements IORToSocketInfo
-{
-    public List<? extends SocketInfo> getSocketInfo(IOR ior,
-        List<? extends SocketInfo> previous) {
+public class DefaultIORToSocketInfoImpl implements IORToSocketInfo {
+    public List<? extends SocketInfo> getSocketInfo(IOR ior, List<? extends SocketInfo> previous) {
 
         // 6152681
-        if (! previous.isEmpty()) {
+        if (!previous.isEmpty()) {
             return previous;
         }
 
         SocketInfo socketInfo;
         List<SocketInfo> result = new ArrayList<SocketInfo>();
 
-        IIOPProfileTemplate iiopProfileTemplate = (IIOPProfileTemplate)
-            ior.getProfile().getTaggedProfileTemplate() ;
-        IIOPAddress primary = iiopProfileTemplate.getPrimaryAddress() ;
+        IIOPProfileTemplate iiopProfileTemplate = (IIOPProfileTemplate) ior.getProfile().getTaggedProfileTemplate();
+        IIOPAddress primary = iiopProfileTemplate.getPrimaryAddress();
         String hostname = primary.getHost().toLowerCase();
-        int    port     = primary.getPort();
+        int port = primary.getPort();
         // NOTE: we could check for 0 (i.e., CSIv2) but, for a
         // non-CSIv2-configured client ORB talking to a CSIv2 configured
         // server ORB you might end up with an empty contact info list
@@ -59,26 +55,32 @@ public class DefaultIORToSocketInfoImpl
         socketInfo = createSocketInfo(hostname, port);
         result.add(socketInfo);
 
-        Iterator iterator = iiopProfileTemplate.iteratorById(
-            TAG_ALTERNATE_IIOP_ADDRESS.value);
+        Iterator iterator = iiopProfileTemplate.iteratorById(TAG_ALTERNATE_IIOP_ADDRESS.value);
 
         while (iterator.hasNext()) {
-            AlternateIIOPAddressComponent alternate =
-                (AlternateIIOPAddressComponent) iterator.next();
+            AlternateIIOPAddressComponent alternate = (AlternateIIOPAddressComponent) iterator.next();
             hostname = alternate.getAddress().getHost().toLowerCase();
-            port     = alternate.getAddress().getPort();
-            socketInfo= createSocketInfo(hostname, port);
+            port = alternate.getAddress().getPort();
+            socketInfo = createSocketInfo(hostname, port);
             result.add(socketInfo);
         }
         return result;
     }
 
-    private SocketInfo createSocketInfo(final String hostname, final int port)
-    {
+    private SocketInfo createSocketInfo(final String hostname, final int port) {
         return new SocketInfo() {
-            public String getType() { return SocketInfo.IIOP_CLEAR_TEXT; }
-            public String getHost() { return hostname; }
-            public int    getPort() { return port; }};
+            public String getType() {
+                return SocketInfo.IIOP_CLEAR_TEXT;
+            }
+
+            public String getHost() {
+                return hostname;
+            }
+
+            public int getPort() {
+                return port;
+            }
+        };
     }
 }
 

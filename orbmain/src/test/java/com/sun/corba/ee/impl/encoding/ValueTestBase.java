@@ -114,7 +114,7 @@ public class ValueTestBase extends EncodingTestBase {
     }
 
     protected void writeStringValue_1_2(String value) throws IOException {
-        writeInt(2 + 2*value.length());
+        writeInt(2 + 2 * value.length());
         writeBigEndianMarker();
         for (char aChar : value.toCharArray()) {
             out.write(0);
@@ -180,11 +180,11 @@ public class ValueTestBase extends EncodingTestBase {
 
     @SuppressWarnings("unchecked")
     protected <T> T readValueFromGeneratedBody(Class<?> valueClass) {
-      setMessageBody(getGeneratedBody());
+        setMessageBody(getGeneratedBody());
 
-      Object object = getInputObject().read_value();
-      assertTrue(valueClass.isInstance(object));
-      return (T) object;
+        Object object = getInputObject().read_value();
+        assertTrue(valueClass.isInstance(object));
+        return (T) object;
     }
 
     static class DataByteOutputStream extends DataOutputStream {

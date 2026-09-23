@@ -19,17 +19,14 @@
 
 package corba.dynamicrmiiiop.testclasses;
 
-public final class TestStruct implements org.omg.CORBA.portable.IDLEntity
-{
+public final class TestStruct implements org.omg.CORBA.portable.IDLEntity {
     private static final long serialVersionUID = -5909818179592918125L;
-    public short x = (short)0;
+    public short x = (short) 0;
 
-    public TestStruct ()
-    {
+    public TestStruct() {
     }
 
-    public TestStruct (short _x)
-    {
+    public TestStruct(short _x) {
         x = _x;
     }
 }
