@@ -30,70 +30,59 @@ import com.sun.corba.ee.spi.orb.ORB;
 
 import org.omg.CORBA_2_3.portable.InputStream;
 
-public class GenericTaggedProfile extends GenericIdentifiable implements TaggedProfile
-{
-    private ORB orb ;
+public class GenericTaggedProfile extends GenericIdentifiable implements TaggedProfile {
+    private ORB orb;
 
-    public GenericTaggedProfile( int id, InputStream is )
-    {
-        super( id, is ) ;
-        this.orb = (ORB)(is.orb()) ;
+    public GenericTaggedProfile(int id, InputStream is) {
+        super(id, is);
+        this.orb = (ORB) (is.orb());
     }
 
-    public GenericTaggedProfile( ORB orb, int id, byte[] data )
-    {
-        super( id, data ) ;
-        this.orb = orb ;
+    public GenericTaggedProfile(ORB orb, int id, byte[] data) {
+        super(id, data);
+        this.orb = orb;
     }
 
     @Override
-    public TaggedProfileTemplate getTaggedProfileTemplate()
-    {
-        return null ;
+    public TaggedProfileTemplate getTaggedProfileTemplate() {
+        return null;
     }
 
     @Override
-    public ObjectId getObjectId()
-    {
-        return null ;
+    public ObjectId getObjectId() {
+        return null;
     }
 
     @Override
-    public ObjectKeyTemplate getObjectKeyTemplate()
-    {
-        return null ;
+    public ObjectKeyTemplate getObjectKeyTemplate() {
+        return null;
     }
 
     @Override
-    public ObjectKey getObjectKey()
-    {
-        return null ;
+    public ObjectKey getObjectKey() {
+        return null;
     }
 
     @Override
-    public boolean isEquivalent( TaggedProfile prof )
-    {
-        return equals( prof ) ;
+    public boolean isEquivalent(TaggedProfile prof) {
+        return equals(prof);
     }
 
     @Override
-    public void makeImmutable()
-    {
+    public void makeImmutable() {
         // NO-OP
     }
 
     @Override
-    public boolean isLocal()
-    {
-        return false ;
+    public boolean isLocal() {
+        return false;
     }
 
     @Override
-    public org.omg.IOP.TaggedProfile getIOPProfile()
-    {
-        EncapsOutputStream os = OutputStreamFactory.newEncapsOutputStream( orb ) ;
-        write( os ) ;
-        InputStream is = (InputStream)(os.create_input_stream()) ;
-        return org.omg.IOP.TaggedProfileHelper.read( is ) ;
+    public org.omg.IOP.TaggedProfile getIOPProfile() {
+        EncapsOutputStream os = OutputStreamFactory.newEncapsOutputStream(orb);
+        write(os);
+        InputStream is = (InputStream) (os.create_input_stream());
+        return org.omg.IOP.TaggedProfileHelper.read(is);
     }
 }

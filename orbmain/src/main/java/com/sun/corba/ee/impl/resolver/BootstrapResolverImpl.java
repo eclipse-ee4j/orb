@@ -17,7 +17,7 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.impl.resolver ;
+package com.sun.corba.ee.impl.resolver;
 
 import com.sun.corba.ee.impl.ior.ObjectIdImpl;
 import com.sun.corba.ee.impl.ior.ObjectKeyImpl;
@@ -42,38 +42,32 @@ import org.omg.CORBA.portable.OutputStream;
 import org.omg.CORBA.portable.RemarshalException;
 
 public class BootstrapResolverImpl implements Resolver {
-    private org.omg.CORBA.portable.Delegate bootstrapDelegate ;
-    private static final ORBUtilSystemException wrapper =
-        ORBUtilSystemException.self ;
+    private org.omg.CORBA.portable.Delegate bootstrapDelegate;
+    private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
     public BootstrapResolverImpl(ORB orb, String host, int port) {
         // Create a new IOR with the magic of INIT
         byte[] initialKey = "INIT".getBytes();
-        ObjectKey okey = new ObjectKeyImpl(orb.getWireObjectKeyTemplate(),
-                                           new ObjectIdImpl(initialKey));
+        ObjectKey okey = new ObjectKeyImpl(orb.getWireObjectKeyTemplate(), new ObjectIdImpl(initialKey));
 
-        IIOPAddress addr = IIOPFactories.makeIIOPAddress( host, port ) ;
-        IIOPProfileTemplate ptemp = IIOPFactories.makeIIOPProfileTemplate(
-            orb, GIOPVersion.V1_0, addr);
+        IIOPAddress addr = IIOPFactories.makeIIOPAddress(host, port);
+        IIOPProfileTemplate ptemp = IIOPFactories.makeIIOPProfileTemplate(orb, GIOPVersion.V1_0, addr);
 
-        IORTemplate iortemp = IORFactories.makeIORTemplate( okey.getTemplate() ) ;
-        iortemp.add( ptemp ) ;
+        IORTemplate iortemp = IORFactories.makeIORTemplate(okey.getTemplate());
+        iortemp.add(ptemp);
 
-        IOR initialIOR = iortemp.makeIOR( orb, "", okey.getId() ) ;
+        IOR initialIOR = iortemp.makeIOR(orb, "", okey.getId());
 
-        bootstrapDelegate = ORBUtility.makeClientDelegate( initialIOR ) ;
+        bootstrapDelegate = ORBUtility.makeClientDelegate(initialIOR);
     }
 
     /**
-     * For the BootStrap operation we do not expect to have more than one
-     * parameter. We do not want to extend BootStrap protocol any further,
-     * as INS handles most of what BootStrap can handle in a portable way.
+     * For the BootStrap operation we do not expect to have more than one parameter. We do not want to extend BootStrap
+     * protocol any further, as INS handles most of what BootStrap can handle in a portable way.
      *
-     * @return InputStream which contains the response from the
-     * BootStrapOperation.
+     * @return InputStream which contains the response from the BootStrapOperation.
      */
-    private InputStream invoke( String operationName, String parameter )
-    {
+    private InputStream invoke(String operationName, String parameter) {
         boolean remarshal = true;
 
         // Invoke.
@@ -86,29 +80,28 @@ public class BootstrapResolverImpl implements Resolver {
         // does not take the location forward info into account.
 
         while (remarshal) {
-            org.omg.CORBA.Object objref = null ;
+            org.omg.CORBA.Object objref = null;
             remarshal = false;
 
-            OutputStream os = bootstrapDelegate.request(objref, operationName,
-                true);
+            OutputStream os = bootstrapDelegate.request(objref, operationName, true);
 
-            if ( parameter != null ) {
-                os.write_string( parameter );
+            if (parameter != null) {
+                os.write_string(parameter);
             }
 
             try {
                 // The only reason a null objref is passed is to get the version of
-                // invoke used by streams.  Otherwise the PortableInterceptor
+                // invoke used by streams. Otherwise the PortableInterceptor
                 // call stack will become unbalanced since the version of
                 // invoke which only takes the stream does not call
                 // PortableInterceptor ending points.
                 // Note that the first parameter is ignored inside invoke.
 
-                inStream = bootstrapDelegate.invoke( objref, os);
+                inStream = bootstrapDelegate.invoke(objref, os);
             } catch (ApplicationException e) {
-                throw wrapper.bootstrapApplicationException( e ) ;
+                throw wrapper.bootstrapApplicationException(e);
             } catch (RemarshalException e) {
-                wrapper.bootstrapRemarshalException( e ) ;
+                wrapper.bootstrapRemarshalException(e);
                 remarshal = true;
             }
         }
@@ -117,45 +110,43 @@ public class BootstrapResolverImpl implements Resolver {
     }
 
     @Override
-    public org.omg.CORBA.Object resolve( String identifier )
-    {
-        InputStream inStream = null ;
-        org.omg.CORBA.Object result = null ;
+    public org.omg.CORBA.Object resolve(String identifier) {
+        InputStream inStream = null;
+        org.omg.CORBA.Object result = null;
 
         try {
-            inStream = invoke( "get", identifier ) ;
+            inStream = invoke("get", identifier);
 
             result = inStream.read_Object();
 
             // NOTE: do note trap and ignore errors.
             // Let them flow out.
         } finally {
-            bootstrapDelegate.releaseReply( null, inStream ) ;
+            bootstrapDelegate.releaseReply(null, inStream);
         }
 
-        return result ;
+        return result;
     }
 
     @Override
-    public Set<String> list()
-    {
-        InputStream inStream = null ;
-        java.util.Set result = new java.util.HashSet() ;
+    public Set<String> list() {
+        InputStream inStream = null;
+        java.util.Set result = new java.util.HashSet();
 
         try {
-            inStream = invoke( "list", null ) ;
+            inStream = invoke("list", null);
 
             int count = inStream.read_long();
-            for (int i=0; i < count; i++) {
+            for (int i = 0; i < count; i++) {
                 result.add(inStream.read_string());
             }
 
             // NOTE: do note trap and ignore errors.
             // Let them flow out.
         } finally {
-            bootstrapDelegate.releaseReply( null, inStream ) ;
+            bootstrapDelegate.releaseReply(null, inStream);
         }
 
-        return result ;
+        return result;
     }
 }

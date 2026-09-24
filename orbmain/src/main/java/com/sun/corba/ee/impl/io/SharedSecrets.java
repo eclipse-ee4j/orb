@@ -20,14 +20,11 @@
 package com.sun.corba.ee.impl.io;
 
 /**
- * A repository of "shared secrets", which are a mechanism for
- * calling implementation-private methods in another package without
- * using reflection. A package-private class implements a public
- * interface and provides the ability to call package-private methods
- * within that package; the object implementing that interface is
- * provided through a third package to which access is restricted.
- * This framework avoids the primary disadvantage of using reflection
- * for this purpose, namely the loss of compile-time checking.
+ * A repository of "shared secrets", which are a mechanism for calling implementation-private methods in another package
+ * without using reflection. A package-private class implements a public interface and provides the ability to call
+ * package-private methods within that package; the object implementing that interface is provided through a third
+ * package to which access is restricted. This framework avoids the primary disadvantage of using reflection for this
+ * purpose, namely the loss of compile-time checking.
  */
 public class SharedSecrets {
     private static JavaCorbaAccess javaCorbaAccess;

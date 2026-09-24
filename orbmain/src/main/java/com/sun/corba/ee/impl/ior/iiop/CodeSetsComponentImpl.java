@@ -29,48 +29,40 @@ import org.omg.CORBA_2_3.portable.InputStream;
 import org.omg.CORBA_2_3.portable.OutputStream;
 import org.omg.IOP.TAG_CODE_SETS;
 
-public class CodeSetsComponentImpl extends TaggedComponentBase
-    implements CodeSetsComponent
-{
-    CodeSetComponentInfo csci ;
+public class CodeSetsComponentImpl extends TaggedComponentBase implements CodeSetsComponent {
+    CodeSetComponentInfo csci;
 
     @Override
-    public boolean equals( Object obj )
-    {
+    public boolean equals(Object obj) {
         if (!(obj instanceof CodeSetsComponentImpl))
-            return false ;
+            return false;
 
-        CodeSetsComponentImpl other = (CodeSetsComponentImpl)obj ;
+        CodeSetsComponentImpl other = (CodeSetsComponentImpl) obj;
 
-        return csci.equals( other.csci ) ;
+        return csci.equals(other.csci);
     }
 
     @Override
-    public int hashCode()
-    {
-        return csci.hashCode() ;
+    public int hashCode() {
+        return csci.hashCode();
     }
 
     @Override
-    public String toString()
-    {
-        return "CodeSetsComponentImpl[csci=" + csci + "]" ;
+    public String toString() {
+        return "CodeSetsComponentImpl[csci=" + csci + "]";
     }
 
-    public CodeSetsComponentImpl()
-    {
+    public CodeSetsComponentImpl() {
         // Uses our default code sets (see CodeSetComponentInfo)
-        csci = new CodeSetComponentInfo() ;
+        csci = new CodeSetComponentInfo();
     }
 
-    public CodeSetsComponentImpl( InputStream is )
-    {
-        csci = new CodeSetComponentInfo() ;
-        csci.read( (MarshalInputStream)is ) ;
+    public CodeSetsComponentImpl(InputStream is) {
+        csci = new CodeSetComponentInfo();
+        csci.read((MarshalInputStream) is);
     }
 
-    public CodeSetsComponentImpl(com.sun.corba.ee.spi.orb.ORB orb)
-    {
+    public CodeSetsComponentImpl(com.sun.corba.ee.spi.orb.ORB orb) {
         if (orb == null)
             csci = new CodeSetComponentInfo();
         else
@@ -78,20 +70,17 @@ public class CodeSetsComponentImpl extends TaggedComponentBase
     }
 
     @Override
-    public CodeSetComponentInfo getCodeSetComponentInfo()
-    {
-        return csci ;
+    public CodeSetComponentInfo getCodeSetComponentInfo() {
+        return csci;
     }
 
     @Override
-    public void writeContents(OutputStream os)
-    {
-        csci.write( (MarshalOutputStream)os ) ;
+    public void writeContents(OutputStream os) {
+        csci.write((MarshalOutputStream) os);
     }
 
     @Override
-    public int getId()
-    {
-        return TAG_CODE_SETS.value ; // 1 in CORBA 2.3.1 13.6.3
+    public int getId() {
+        return TAG_CODE_SETS.value; // 1 in CORBA 2.3.1 13.6.3
     }
 }

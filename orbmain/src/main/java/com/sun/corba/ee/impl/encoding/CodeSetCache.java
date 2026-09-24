@@ -26,61 +26,54 @@ import java.util.HashMap;
 /**
  * Thread local cache of sun.io code set converters for performance.
  *
- * The thread local class contains a single reference to a Map[]
- * containing two small HashMaps. One for CharsetEncoders and
- * one for CharsetDecoders. Charset names are drawn from the finite
- * negotiated code-set registry, so weak-key eviction only adds lookup
- * overhead and provides no useful reclamation here.
+ * The thread local class contains a single reference to a Map[] containing two small HashMaps. One for CharsetEncoders
+ * and one for CharsetDecoders. Charset names are drawn from the finite negotiated code-set registry, so weak-key
+ * eviction only adds lookup overhead and provides no useful reclamation here.
  *
  * This is used internally by CodeSetConversion.
  */
-class CodeSetCache
-{
-    private ThreadLocal<HashMap<String,CharsetEncoder>> ctbMapLocal =
-        new ThreadLocal<HashMap<String,CharsetEncoder>>() {
-            @Override
-            protected HashMap<String,CharsetEncoder> initialValue() {
-                return new HashMap<String,CharsetEncoder>(4) ;
-            }
-        } ;
+class CodeSetCache {
+    private ThreadLocal<HashMap<String, CharsetEncoder>> ctbMapLocal = new ThreadLocal<HashMap<String, CharsetEncoder>>() {
+        @Override
+        protected HashMap<String, CharsetEncoder> initialValue() {
+            return new HashMap<String, CharsetEncoder>(4);
+        }
+    };
 
-    private ThreadLocal<HashMap<String,CharsetDecoder>> btcMapLocal =
-        new ThreadLocal<HashMap<String,CharsetDecoder>>() {
-            @Override
-            protected HashMap<String,CharsetDecoder> initialValue() {
-                return new HashMap<String,CharsetDecoder>(4) ;
-            }
-        } ;
+    private ThreadLocal<HashMap<String, CharsetDecoder>> btcMapLocal = new ThreadLocal<HashMap<String, CharsetDecoder>>() {
+        @Override
+        protected HashMap<String, CharsetDecoder> initialValue() {
+            return new HashMap<String, CharsetDecoder>(4);
+        }
+    };
 
     /**
      * Retrieve a CharsetDecoder from the Map using the given key.
      */
     CharsetDecoder getByteToCharConverter(String key) {
-        return btcMapLocal.get().get( key ) ;
+        return btcMapLocal.get().get(key);
     }
 
     /**
      * Retrieve a CharsetEncoder from the Map using the given key.
      */
     CharsetEncoder getCharToByteConverter(String key) {
-        return ctbMapLocal.get().get( key ) ;
+        return ctbMapLocal.get().get(key);
     }
 
     /**
-     * Stores the given CharsetDecoder in the thread local cache,
-     * and returns the same converter.
+     * Stores the given CharsetDecoder in the thread local cache, and returns the same converter.
      */
     CharsetDecoder setConverter(String key, CharsetDecoder converter) {
-        btcMapLocal.get().put( key, converter ) ;
+        btcMapLocal.get().put(key, converter);
         return converter;
     }
 
     /**
-     * Stores the given CharsetEncoder in the thread local cache,
-     * and returns the same converter.
+     * Stores the given CharsetEncoder in the thread local cache, and returns the same converter.
      */
     CharsetEncoder setConverter(String key, CharsetEncoder converter) {
-        ctbMapLocal.get().put( key, converter ) ;
+        ctbMapLocal.get().put(key, converter);
         return converter;
     }
 }

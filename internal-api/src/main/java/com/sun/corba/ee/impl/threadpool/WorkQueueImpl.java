@@ -28,9 +28,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.LongAdder;
 
-import org.glassfish.gmbal.Description ;
-import org.glassfish.gmbal.ManagedAttribute ;
-import org.glassfish.gmbal.NameValue ;
+import org.glassfish.gmbal.Description;
+import org.glassfish.gmbal.ManagedAttribute;
+import org.glassfish.gmbal.NameValue;
 
 /**
  * The queue between the threads that accept work - the selector, a
@@ -82,8 +82,7 @@ import org.glassfish.gmbal.NameValue ;
  * least one side sees the other: either the worker finds the item and stays,
  * or addWork finds no waiting thread and starts one.
  */
-public class WorkQueueImpl implements WorkQueue
-{
+public class WorkQueueImpl implements WorkQueue {
     public static final String WORKQUEUE_DEFAULT_NAME = "default-workqueue";
 
     final private LinkedTransferQueue<Work> queue = new LinkedTransferQueue<>();
@@ -206,7 +205,7 @@ public class WorkQueueImpl implements WorkQueue
      * Returns the total number of Work items added to the Queue.
      */
     @ManagedAttribute
-    @Description( "Total number of items added to the queue" )
+    @Description("Total number of items added to the queue")
     public long totalWorkItemsAdded() {
         return workItemsAdded.sum();
     }
@@ -215,7 +214,7 @@ public class WorkQueueImpl implements WorkQueue
      * Returns the total number of Work items in the Queue to be processed.
      */
     @ManagedAttribute
-    @Description( "Total number of items in the queue to be processed" )
+    @Description("Total number of items in the queue to be processed")
     public int workItemsInQueue() {
         return queued.get();
     }
@@ -225,11 +224,11 @@ public class WorkQueueImpl implements WorkQueue
      * to be processed.
      */
     @ManagedAttribute
-    @Description( "Average time work items spend waiting in the queue in milliseconds" )
+    @Description("Average time work items spend waiting in the queue in milliseconds")
     public long averageTimeInQueue() {
         long dequeued = workItemsDequeued.sum();
         if (dequeued == 0) {
-            return 0 ;
+            return 0;
         } else {
             return (totalTimeInQueue.sum()/dequeued);
         }

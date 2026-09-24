@@ -30,8 +30,7 @@ import org.omg.DynamicAny.DynEnum;
 import org.omg.DynamicAny.DynAnyPackage.InvalidValue;
 import org.omg.DynamicAny.DynAnyPackage.TypeMismatch;
 
-public class DynEnumImpl extends DynAnyBasicImpl implements DynEnum
-{
+public class DynEnumImpl extends DynAnyBasicImpl implements DynEnum {
     private static final long serialVersionUID = 5049811482452048762L;
     //
     // Instance variables
@@ -45,7 +44,7 @@ public class DynEnumImpl extends DynAnyBasicImpl implements DynEnum
     //
 
     private DynEnumImpl() {
-        this(null, (Any)null, false);
+        this(null, (Any) null, false);
     }
 
     // The current position of a DynEnum is always -1.
@@ -97,7 +96,7 @@ public class DynEnumImpl extends DynAnyBasicImpl implements DynEnum
 
     private int computeCurrentEnumeratorIndex(String value) {
         int memberCount = memberCount();
-        for (int i=0; i<memberCount; i++) {
+        for (int i = 0; i < memberCount; i++) {
             if (memberName(i).equals(value)) {
                 return i;
             }
@@ -118,11 +117,9 @@ public class DynEnumImpl extends DynAnyBasicImpl implements DynEnum
     // Calling current_component on a DynAny that cannot have components,
     // such as a DynEnum or an empty exception, raises TypeMismatch.
     @Override
-    public org.omg.DynamicAny.DynAny current_component()
-        throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch
-    {
+    public org.omg.DynamicAny.DynAny current_component() throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch {
         if (status == STATUS_DESTROYED) {
-            throw wrapper.dynAnyDestroyed() ;
+            throw wrapper.dynAnyDestroyed();
         }
         throw new TypeMismatch();
     }
@@ -133,9 +130,9 @@ public class DynEnumImpl extends DynAnyBasicImpl implements DynEnum
 
     // Returns the value of the DynEnum as an IDL identifier.
     @Override
-    public String get_as_string () {
+    public String get_as_string() {
         if (status == STATUS_DESTROYED) {
-            throw wrapper.dynAnyDestroyed() ;
+            throw wrapper.dynAnyDestroyed();
         }
         return memberName(currentEnumeratorIndex);
     }
@@ -145,11 +142,9 @@ public class DynEnumImpl extends DynAnyBasicImpl implements DynEnum
     // If value contains a string that is not a valid IDL identifier
     // for the corresponding enumerated type, the operation raises InvalidValue.
     @Override
-    public void set_as_string (String value)
-        throws org.omg.DynamicAny.DynAnyPackage.InvalidValue
-    {
+    public void set_as_string(String value) throws org.omg.DynamicAny.DynAnyPackage.InvalidValue {
         if (status == STATUS_DESTROYED) {
-            throw wrapper.dynAnyDestroyed() ;
+            throw wrapper.dynAnyDestroyed();
         }
         int newIndex = computeCurrentEnumeratorIndex(value);
         if (newIndex == NO_INDEX) {
@@ -163,9 +158,9 @@ public class DynEnumImpl extends DynAnyBasicImpl implements DynEnum
     // Enumerators have ordinal values 0 to n-1,
     // as they appear from left to right in the corresponding IDL definition.
     @Override
-    public int get_as_ulong () {
+    public int get_as_ulong() {
         if (status == STATUS_DESTROYED) {
-            throw wrapper.dynAnyDestroyed() ;
+            throw wrapper.dynAnyDestroyed();
         }
         return currentEnumeratorIndex;
     }
@@ -174,11 +169,9 @@ public class DynEnumImpl extends DynAnyBasicImpl implements DynEnum
     // If value contains a value that is outside the range of ordinal values
     // for the corresponding enumerated type, the operation raises InvalidValue.
     @Override
-    public void set_as_ulong (int value)
-        throws org.omg.DynamicAny.DynAnyPackage.InvalidValue
-    {
+    public void set_as_ulong(int value) throws org.omg.DynamicAny.DynAnyPackage.InvalidValue {
         if (status == STATUS_DESTROYED) {
-            throw wrapper.dynAnyDestroyed() ;
+            throw wrapper.dynAnyDestroyed();
         }
         if (value < 0 || value >= memberCount()) {
             throw new InvalidValue();

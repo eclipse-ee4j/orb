@@ -24,8 +24,7 @@ import org.omg.PortableServer.THREAD_POLICY_ID;
 import org.omg.PortableServer.ThreadPolicy;
 import org.omg.PortableServer.ThreadPolicyValue;
 
-final class ThreadPolicyImpl
-    extends org.omg.CORBA.LocalObject implements ThreadPolicy {
+final class ThreadPolicyImpl extends org.omg.CORBA.LocalObject implements ThreadPolicy {
 
     private static final long serialVersionUID = -6388306703277788966L;
 
@@ -39,9 +38,8 @@ final class ThreadPolicyImpl
     }
 
     @Override
-    public int policy_type()
-    {
-        return THREAD_POLICY_ID.value ;
+    public int policy_type() {
+        return THREAD_POLICY_ID.value;
     }
 
     @Override
@@ -57,10 +55,8 @@ final class ThreadPolicyImpl
     private ThreadPolicyValue value;
 
     @Override
-    public String toString()
-    {
-        return "ThreadPolicy[" +
-            ((value.value() == ThreadPolicyValue._SINGLE_THREAD_MODEL) ?
-                "SINGLE_THREAD_MODEL" : "ORB_CTRL_MODEL" + "]") ;
+    public String toString() {
+        return "ThreadPolicy["
+                + ((value.value() == ThreadPolicyValue._SINGLE_THREAD_MODEL) ? "SINGLE_THREAD_MODEL" : "ORB_CTRL_MODEL" + "]");
     }
 }

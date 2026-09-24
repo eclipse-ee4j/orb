@@ -23,37 +23,30 @@ import com.sun.corba.ee.spi.oa.rfm.ReferenceFactory;
 
 import org.omg.CORBA.LocalObject;
 
-public class ReferenceFactoryImpl extends LocalObject implements ReferenceFactory
-{
+public class ReferenceFactoryImpl extends LocalObject implements ReferenceFactory {
     private static final long serialVersionUID = 567087954462959814L;
-    private ReferenceFactoryManagerImpl manager ;
-    private String name ;
-    private String repositoryId ;
+    private ReferenceFactoryManagerImpl manager;
+    private String name;
+    private String repositoryId;
 
-    public ReferenceFactoryImpl( ReferenceFactoryManagerImpl manager,
-        String name, String repositoryId ) {
-        this.manager = manager ;
-        this.name = name ;
-        this.repositoryId = repositoryId ;
+    public ReferenceFactoryImpl(ReferenceFactoryManagerImpl manager, String name, String repositoryId) {
+        this.manager = manager;
+        this.name = name;
+        this.repositoryId = repositoryId;
     }
 
     @Override
-    public org.omg.CORBA.Object createReference( byte[] key ) {
-        return manager.createReference( name, key, repositoryId ) ;
+    public org.omg.CORBA.Object createReference(byte[] key) {
+        return manager.createReference(name, key, repositoryId);
     }
 
     @Override
     public void destroy() {
-        manager.destroy( name ) ;
+        manager.destroy(name);
     }
 
     @Override
-    public String toString()
-    {
-        return "ReferenceFactoryImpl["
-            + name
-            + ", "
-            + repositoryId
-            + "]";
+    public String toString() {
+        return "ReferenceFactoryImpl[" + name + ", " + repositoryId + "]";
     }
 }

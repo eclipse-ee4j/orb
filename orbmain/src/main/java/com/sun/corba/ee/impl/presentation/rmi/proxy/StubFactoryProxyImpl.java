@@ -17,7 +17,7 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.impl.presentation.rmi.proxy ;
+package com.sun.corba.ee.impl.presentation.rmi.proxy;
 
 import com.sun.corba.ee.impl.presentation.rmi.StubFactoryDynamicBase;
 import com.sun.corba.ee.spi.presentation.rmi.DynamicStub;
@@ -28,26 +28,20 @@ import java.lang.reflect.Proxy;
 import org.glassfish.pfl.basic.proxy.InvocationHandlerFactory;
 import org.glassfish.pfl.basic.proxy.LinkedInvocationHandler;
 
-public class StubFactoryProxyImpl extends StubFactoryDynamicBase
-{
-    public StubFactoryProxyImpl( PresentationManager.ClassData classData,
-        ClassLoader loader )
-    {
-        super( classData, loader ) ;
+public class StubFactoryProxyImpl extends StubFactoryDynamicBase {
+    public StubFactoryProxyImpl(PresentationManager.ClassData classData, ClassLoader loader) {
+        super(classData, loader);
     }
 
     @Override
-    public org.omg.CORBA.Object makeStub()
-    {
+    public org.omg.CORBA.Object makeStub() {
         // Construct the dynamic proxy that implements this stub
         // using the composite handler
-        InvocationHandlerFactory factory = classData.getInvocationHandlerFactory() ;
-        LinkedInvocationHandler handler =
-            (LinkedInvocationHandler)factory.getInvocationHandler() ;
-        Class[] interfaces = factory.getProxyInterfaces() ;
-        DynamicStub stub = (DynamicStub)Proxy.newProxyInstance( loader, interfaces,
-            handler ) ;
-        handler.setProxy( (Proxy)stub ) ;
-        return stub ;
+        InvocationHandlerFactory factory = classData.getInvocationHandlerFactory();
+        LinkedInvocationHandler handler = (LinkedInvocationHandler) factory.getInvocationHandler();
+        Class[] interfaces = factory.getProxyInterfaces();
+        DynamicStub stub = (DynamicStub) Proxy.newProxyInstance(loader, interfaces, handler);
+        handler.setProxy((Proxy) stub);
+        return stub;
     }
 }

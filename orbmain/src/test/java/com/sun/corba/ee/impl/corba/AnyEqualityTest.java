@@ -50,7 +50,7 @@ public class AnyEqualityTest {
         any = orb.create_any();
         any1 = orb.create_any();
         any2 = orb.create_any();
-     }
+    }
 
     @After
     public void tearDown() throws Exception {

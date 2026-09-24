@@ -26,19 +26,15 @@ import java.io.PrintWriter;
 
 public class ORBProperties {
 
-    public static final String ORB_CLASS =
-        "org.omg.CORBA.ORBClass=com.sun.corba.ee.impl.orb.ORBImpl";
-    public static final String ORB_SINGLETON_CLASS =
-        "org.omg.CORBA.ORBSingletonClass=com.sun.corba.ee.impl.orb.ORBSingleton";
+    public static final String ORB_CLASS = "org.omg.CORBA.ORBClass=com.sun.corba.ee.impl.orb.ORBImpl";
+    public static final String ORB_SINGLETON_CLASS = "org.omg.CORBA.ORBSingletonClass=com.sun.corba.ee.impl.orb.ORBSingleton";
 
-    public static void main (String[] args) {
+    public static void main(String[] args) {
 
         try {
             // Check if orb.properties exists
             String javaHome = System.getProperty("java.home");
-            File propFile = new File(javaHome + File.separator
-                                     + "lib" + File.separator
-                                     + "orb.properties");
+            File propFile = new File(javaHome + File.separator + "lib" + File.separator + "orb.properties");
 
             if (propFile.exists())
                 return;
@@ -55,7 +51,8 @@ public class ORBProperties {
                 out.close();
             }
 
-        } catch (Exception ex) { }
+        } catch (Exception ex) {
+        }
 
     }
 }

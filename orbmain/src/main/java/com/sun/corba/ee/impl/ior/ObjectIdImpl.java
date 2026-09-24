@@ -29,59 +29,53 @@ import org.omg.CORBA_2_3.portable.OutputStream;
 /**
  * @author Ken Cavanaugh
  */
-public final class ObjectIdImpl implements ObjectId
-{
+public final class ObjectIdImpl implements ObjectId {
     private byte[] id;
 
     @Override
-    public boolean equals( Object obj )
-    {
+    public boolean equals(Object obj) {
         if (!(obj instanceof ObjectIdImpl))
-            return false ;
+            return false;
 
-        ObjectIdImpl other = (ObjectIdImpl)obj ;
+        ObjectIdImpl other = (ObjectIdImpl) obj;
 
-        return Arrays.equals( this.id, other.id ) ;
+        return Arrays.equals(this.id, other.id);
     }
 
     @Override
-    public int hashCode()
-    {
-        int result = 17 ;
-        for (int ctr=0; ctr<id.length; ctr++)
-            result = 37*result + id[ctr] ;
-        return result ;
+    public int hashCode() {
+        int result = 17;
+        for (int ctr = 0; ctr < id.length; ctr++)
+            result = 37 * result + id[ctr];
+        return result;
     }
 
-    public ObjectIdImpl( byte[] id )
-    {
+    public ObjectIdImpl(byte[] id) {
         if (id == null) {
-            this.id = null ;
+            this.id = null;
         } else {
-            this.id = id.clone() ;
+            this.id = id.clone();
         }
     }
 
     @Override
     public String getIdString() {
-        return ORBUtility.dumpBinary( id ) ;
+        return ORBUtility.dumpBinary(id);
     }
 
     @Override
     public String toString() {
-        return "ObjectIdImpl[" + getIdString() + "]" ;
+        return "ObjectIdImpl[" + getIdString() + "]";
     }
 
     @Override
-    public byte[] getId()
-    {
-        return id.clone() ;
+    public byte[] getId() {
+        return id.clone();
     }
 
     @Override
-    public void write( OutputStream os )
-    {
-        os.write_long( id.length ) ;
-        os.write_octet_array( id, 0, id.length ) ;
+    public void write(OutputStream os) {
+        os.write_long(id.length);
+        os.write_octet_array(id, 0, id.length);
     }
 }

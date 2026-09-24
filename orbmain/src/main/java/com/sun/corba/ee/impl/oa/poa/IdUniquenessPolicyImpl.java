@@ -24,8 +24,7 @@ import org.omg.PortableServer.ID_UNIQUENESS_POLICY_ID;
 import org.omg.PortableServer.IdUniquenessPolicy;
 import org.omg.PortableServer.IdUniquenessPolicyValue;
 
-final class IdUniquenessPolicyImpl
-    extends org.omg.CORBA.LocalObject implements IdUniquenessPolicy {
+final class IdUniquenessPolicyImpl extends org.omg.CORBA.LocalObject implements IdUniquenessPolicy {
 
     private static final long serialVersionUID = 3651939851142969815L;
 
@@ -39,9 +38,8 @@ final class IdUniquenessPolicyImpl
     }
 
     @Override
-    public int policy_type()
-    {
-        return ID_UNIQUENESS_POLICY_ID.value ;
+    public int policy_type() {
+        return ID_UNIQUENESS_POLICY_ID.value;
     }
 
     @Override
@@ -57,10 +55,7 @@ final class IdUniquenessPolicyImpl
     private IdUniquenessPolicyValue value;
 
     @Override
-    public String toString()
-    {
-        return "IdUniquenessPolicy[" +
-            ((value.value() == IdUniquenessPolicyValue._UNIQUE_ID) ?
-                "UNIQUE_ID" : "MULTIPLE_ID" + "]") ;
+    public String toString() {
+        return "IdUniquenessPolicy[" + ((value.value() == IdUniquenessPolicyValue._UNIQUE_ID) ? "UNIQUE_ID" : "MULTIPLE_ID" + "]");
     }
 }

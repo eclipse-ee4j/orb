@@ -26,8 +26,6 @@ import java.io.Serializable;
 import java.lang.reflect.Proxy;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.Map;
-import java.util.WeakHashMap;
 
 import org.omg.CORBA.UserException;
 import org.omg.CORBA.portable.CustomValue;
@@ -37,29 +35,24 @@ import org.omg.CORBA.portable.Streamable;
 import org.omg.CORBA.portable.StreamableValue;
 import org.omg.CORBA.portable.ValueBase;
 
-/** This class caches information about classes that is somewhat expensive
- * to obtain, notably the results of isInterface(), isArray(), and isAssignableFrom.
- * A user simply calls ClassInfoCache.get( Class ) to get the information about
- * a class.
+/**
+ * This class caches information about classes that is somewhat expensive to obtain, notably the results of
+ * isInterface(), isArray(), and isAssignableFrom. A user simply calls ClassInfoCache.get( Class ) to get the
+ * information about a class.
  * <P>
- * All of the isA methods on ClassInfo need to be passed the same Class that was
- * used in the get call!  This is an awkward interface, but the alternative is
- * to store the class in the ClassInfo, which would create a strong reference from
- * the value to the key, keeping the class, and its loader, alive.  It also appears to be
- * difficult to use a weak or soft reference here, because I can't handle the
- * case of an empty reference to the class inside the ClassInfo object.
- * If ClassInfoCache supported the methods directly, we could work around this,
- * but then we would in some case be doing multiple lookups for a class to get
- * class information, which would slow things down significantly (the get call
- * is a significant cost in the benchmarks).
+ * All of the isA methods on ClassInfo need to be passed the same Class that was used in the get call! This is an
+ * awkward interface, but the alternative is to store the class in the ClassInfo, which would create a strong reference
+ * from the value to the key, keeping the class, and its loader, alive. It also appears to be difficult to use a weak or
+ * soft reference here, because I can't handle the case of an empty reference to the class inside the ClassInfo object.
+ * If ClassInfoCache supported the methods directly, we could work around this, but then we would in some case be doing
+ * multiple lookups for a class to get class information, which would slow things down significantly (the get call is a
+ * significant cost in the benchmarks).
  * <P>
- * XXX There is a better solution: add MORE information to the cache.  In
- * particular, use a ClassAnalyzer to construct the linearized inheritance
- * chain (order doesn't matter in this case, but we already have the implementation)
- * and implement all of the isA methods by a simple check on whether the class
- * is in the chain (or perhaps convert to Set).  We can statically fill the cache
- * with all of the basic objects (e.g. Streamable, Serializable, etc.) needs
- * in a static initializer.
+ * XXX There is a better solution: add MORE information to the cache. In particular, use a ClassAnalyzer to construct
+ * the linearized inheritance chain (order doesn't matter in this case, but we already have the implementation) and
+ * implement all of the isA methods by a simple check on whether the class is in the chain (or perhaps convert to Set).
+ * We can statically fill the cache with all of the basic objects (e.g. Streamable, Serializable, etc.) needs in a
+ * static initializer.
  */
 
 public class ClassInfoCache {
@@ -68,84 +61,70 @@ public class ClassInfoCache {
     public static class ClassInfo {
 
         public static class LazyWrapper {
-            private static final byte UNKNOWN = 0 ;
-            private static final byte NO = 1 ;
-            private static final byte YES = 2 ;
+            private static final byte UNKNOWN = 0;
+            private static final byte NO = 1;
+            private static final byte YES = 2;
 
-            Class<?> isAClass ;
+            Class<?> isAClass;
 
-            // Written at most once per thread that races here, and always
-            // with the same value for a given class, so no lock is needed:
-            // a thread that reads UNKNOWN just computes it again. The
-            // monitor this used to take was entered on every type test of
-            // every marshalled value.
-            private volatile byte state = UNKNOWN ;
+            // Written at most once per thread that races here, and always with the same value for a given class, so no
+            // lock is needed: a thread that reads UNKNOWN just computes it again. The monitor this used to take was
+            // entered on every type test of every marshalled value.
+            private volatile byte state = UNKNOWN;
 
-            public LazyWrapper( Class<?> isAClass ) {
-                this.isAClass = isAClass ;
+            public LazyWrapper(Class<?> isAClass) {
+                this.isAClass = isAClass;
             }
 
-            boolean get( Class<?> cls ) {
-                byte current = state ;
+            boolean get(Class<?> cls) {
+                byte current = state;
                 if (current == UNKNOWN) {
-                    current = isAClass.isAssignableFrom( cls ) ? YES : NO ;
-                    state = current ;
+                    current = isAClass.isAssignableFrom(cls) ? YES : NO;
+                    state = current;
                 }
 
-                return current == YES ;
+                return current == YES;
             }
         }
 
-        private boolean isAValueBase ;
-        private boolean isAString ;
-        private boolean isAIDLEntity ;
+        private boolean isAValueBase;
+        private boolean isAString;
+        private boolean isAIDLEntity;
 
-        private LazyWrapper isARemote = new LazyWrapper(
-            Remote.class ) ;
-        private LazyWrapper isARemoteException = new LazyWrapper(
-            RemoteException.class ) ;
-        private LazyWrapper isAUserException = new LazyWrapper(
-            UserException.class ) ;
-        private LazyWrapper isAObjectImpl = new LazyWrapper(
-            ObjectImpl.class ) ;
-        private LazyWrapper isAORB = new LazyWrapper(
-            ORB.class ) ;
-        private LazyWrapper isAStreamable = new LazyWrapper(
-            Streamable.class ) ;
-        private LazyWrapper isAStreamableValue = new LazyWrapper(
-            StreamableValue.class ) ;
-        private LazyWrapper isACustomValue = new LazyWrapper(
-            CustomValue.class ) ;
-        private LazyWrapper isACORBAObject = new LazyWrapper(
-            org.omg.CORBA.Object.class ) ;
-        private LazyWrapper isASerializable = new LazyWrapper(
-            Serializable.class ) ;
-        private LazyWrapper isAExternalizable = new LazyWrapper(
-            Externalizable.class ) ;
-        private LazyWrapper isAClass = new LazyWrapper(
-            Class.class ) ;
+        private LazyWrapper isARemote = new LazyWrapper(Remote.class);
+        private LazyWrapper isARemoteException = new LazyWrapper(RemoteException.class);
+        private LazyWrapper isAUserException = new LazyWrapper(UserException.class);
+        private LazyWrapper isAObjectImpl = new LazyWrapper(ObjectImpl.class);
+        private LazyWrapper isAORB = new LazyWrapper(ORB.class);
+        private LazyWrapper isAStreamable = new LazyWrapper(Streamable.class);
+        private LazyWrapper isAStreamableValue = new LazyWrapper(StreamableValue.class);
+        private LazyWrapper isACustomValue = new LazyWrapper(CustomValue.class);
+        private LazyWrapper isACORBAObject = new LazyWrapper(org.omg.CORBA.Object.class);
+        private LazyWrapper isASerializable = new LazyWrapper(Serializable.class);
+        private LazyWrapper isAExternalizable = new LazyWrapper(Externalizable.class);
+        private LazyWrapper isAClass = new LazyWrapper(Class.class);
 
-        private volatile String repositoryId = null ;
+        private volatile String repositoryId = null;
 
-        private boolean isArray ;
-        private boolean isEnum ;
-        private boolean isInterface ;
-        private boolean isProxyClass ;
-        private ClassInfo superInfo ;
+        private boolean isArray;
+        private boolean isEnum;
+        private boolean isInterface;
+        private boolean isProxyClass;
+        private ClassInfo superInfo;
 
-        ClassInfo( Class<?> cls ) {
-            isArray = cls.isArray() ;
-            isEnum = isEnum(cls) ;
-            isInterface = cls.isInterface() ;
-            isProxyClass = Proxy.isProxyClass( cls ) ;
+        ClassInfo(Class<?> cls) {
+            isArray = cls.isArray();
+            isEnum = isEnum(cls);
+            isInterface = cls.isInterface();
+            isProxyClass = Proxy.isProxyClass(cls);
 
-            isAValueBase = ValueBase.class.isAssignableFrom( cls ) ;
-            isAString = String.class.isAssignableFrom( cls ) ;
-            isAIDLEntity = IDLEntity.class.isAssignableFrom( cls ) ;
+            isAValueBase = ValueBase.class.isAssignableFrom(cls);
+            isAString = String.class.isAssignableFrom(cls);
+            isAIDLEntity = IDLEntity.class.isAssignableFrom(cls);
 
-            Class<?> superClass = cls.getSuperclass() ;
+            Class<?> superClass = cls.getSuperclass();
             if (superClass != null) {
-                superInfo = ClassInfoCache.get( superClass ) ;
+                superInfo = ClassInfoCache.get(superClass);
             }
         }
 
@@ -153,119 +132,144 @@ public class ClassInfoCache {
             // Issue 11681
             // This ugly method is needed because isEnum returns FALSE
             // on enum.getClass().isEnum() if enum has an abstract method,
-            // which results in another subclass.  So for us, a class is an
+            // which results in another subclass. So for us, a class is an
             // enum if any superclass is java.lang.Enum.
-            Class<?> current = cls ;
+            Class<?> current = cls;
             while (current != null) {
-                if (current.equals( Enum.class )) {
-                    return true ;
+                if (current.equals(Enum.class)) {
+                    return true;
                 }
-                current = current.getSuperclass() ;
+                current = current.getSuperclass();
             }
 
-            return false ;
+            return false;
         }
 
         public String getRepositoryId() {
-            return repositoryId ;
+            return repositoryId;
         }
 
-        public void setRepositoryId( String repositoryId ) {
-            this.repositoryId = repositoryId ;
+        public void setRepositoryId(String repositoryId) {
+            this.repositoryId = repositoryId;
         }
 
-        public boolean isARemote( Class<?> cls ) {
-            return isARemote.get(cls) ;
-        }
-        public boolean isARemoteException( Class<?> cls ) {
-            return isARemoteException.get(cls) ;
-        }
-        public boolean isAUserException( Class<?> cls ) {
-            return isAUserException.get(cls) ;
-        }
-        public boolean isAObjectImpl( Class<?> cls ) {
-            return isAObjectImpl.get(cls) ;
-        }
-        public boolean isAORB( Class<?> cls ) {
-            return isAORB.get(cls) ;
-        }
-        public boolean isAIDLEntity( Class<?> cls ) {
-            return isAIDLEntity ;
-        }
-        public boolean isAStreamable( Class<?> cls ) {
-            return isAStreamable.get(cls) ;
-        }
-        public boolean isAStreamableValue( Class<?> cls ) {
-            return isAStreamableValue.get(cls) ;
-        }
-        public boolean isACustomValue( Class<?> cls ) {
-            return isACustomValue.get(cls) ;
-        }
-        public boolean isAValueBase( Class<?> cls ) {
-            return isAValueBase ;
-        }
-        public boolean isACORBAObject( Class<?> cls ) {
-            return isACORBAObject.get(cls) ;
-        }
-        public boolean isASerializable( Class<?> cls ) {
-            return isASerializable.get(cls) ;
-        }
-        public boolean isAExternalizable( Class<?> cls ) {
-            return isAExternalizable.get(cls) ;
-        }
-        public boolean isAString( Class<?> cls ) {
-            return isAString ;
-        }
-        public boolean isAClass( Class<?> cls ) {
-            return isAClass.get(cls) ;
+        public boolean isARemote(Class<?> cls) {
+            return isARemote.get(cls);
         }
 
-        public boolean isArray() { return isArray ; }
-        public boolean isEnum() { return isEnum ; }
-        public boolean isInterface() { return isInterface ; }
-        public boolean isProxyClass() { return isProxyClass ; }
-        public ClassInfo getSuper() { return superInfo ; }
+        public boolean isARemoteException(Class<?> cls) {
+            return isARemoteException.get(cls);
+        }
+
+        public boolean isAUserException(Class<?> cls) {
+            return isAUserException.get(cls);
+        }
+
+        public boolean isAObjectImpl(Class<?> cls) {
+            return isAObjectImpl.get(cls);
+        }
+
+        public boolean isAORB(Class<?> cls) {
+            return isAORB.get(cls);
+        }
+
+        public boolean isAIDLEntity(Class<?> cls) {
+            return isAIDLEntity;
+        }
+
+        public boolean isAStreamable(Class<?> cls) {
+            return isAStreamable.get(cls);
+        }
+
+        public boolean isAStreamableValue(Class<?> cls) {
+            return isAStreamableValue.get(cls);
+        }
+
+        public boolean isACustomValue(Class<?> cls) {
+            return isACustomValue.get(cls);
+        }
+
+        public boolean isAValueBase(Class<?> cls) {
+            return isAValueBase;
+        }
+
+        public boolean isACORBAObject(Class<?> cls) {
+            return isACORBAObject.get(cls);
+        }
+
+        public boolean isASerializable(Class<?> cls) {
+            return isASerializable.get(cls);
+        }
+
+        public boolean isAExternalizable(Class<?> cls) {
+            return isAExternalizable.get(cls);
+        }
+
+        public boolean isAString(Class<?> cls) {
+            return isAString;
+        }
+
+        public boolean isAClass(Class<?> cls) {
+            return isAClass.get(cls);
+        }
+
+        public boolean isArray() {
+            return isArray;
+        }
+
+        public boolean isEnum() {
+            return isEnum;
+        }
+
+        public boolean isInterface() {
+            return isInterface;
+        }
+
+        public boolean isProxyClass() {
+            return isProxyClass;
+        }
+
+        public ClassInfo getSuper() {
+            return superInfo;
+        }
     }
 
-    // This used to be a WeakHashMap behind a global lock, which showed up
-    // as a locking hotspot in heavy marshaling tests: every value marshalled
-    // anywhere in the process went through it. A ConcurrentHashMap was not
-    // an option because it would pin classes, and so application class
-    // loaders, after undeploy. ClassValue is the JDK's answer to exactly
-    // this: a per class value, read without locking, that does not keep the
-    // class alive. ClassInfo refers to no application class itself - only to
-    // the ClassInfo of the superclass and to ORB and JDK types - so it does
-    // not pin one either.
+    // This used to be a WeakHashMap behind a global lock, which showed up as a locking hotspot in heavy marshaling
+    // tests: every value marshalled anywhere in the process went through it. A ConcurrentHashMap was not an option
+    // because it would pin classes, and so application class loaders, after undeploy. ClassValue is the JDK's answer to
+    // exactly this: a per class value, read without locking, that does not keep the class alive. ClassInfo refers to no
+    // application class itself - only to the ClassInfo of the superclass and to ORB and JDK types - so it does not pin
+    // one either.
     private static final ClassValue<ClassInfo> classData = new ClassValue<ClassInfo>() {
         @Override
-        protected ClassInfo computeValue( Class<?> cls ) {
-            return new ClassInfo( cls ) ;
+        protected ClassInfo computeValue(Class<?> cls) {
+            return new ClassInfo(cls);
         }
-    } ;
+    };
 
-    public static ClassInfo get( Class<?> cls ) {
-        return cls == null ? null : classData.get( cls ) ;
+    public static ClassInfo get(Class<?> cls) {
+        return cls == null ? null : classData.get(cls);
     }
 
-    /** Find the class that is an enum in the superclass chain starting at cls.
-     * cinfo MUST be the ClassInfo for cls.
+    /**
+     * Find the class that is an enum in the superclass chain starting at cls. cinfo MUST be the ClassInfo for cls.
+     * 
      * @param cinfo ClassInfo for cls
      * @param cls Class which may have java.lang.Enum in its superclass chain.
-     * @return A class for which isEnum() is true, or null if no such class
-     * exists in the superclass chain of cls.
+     * @return A class for which isEnum() is true, or null if no such class exists in the superclass chain of cls.
      */
-    public static Class getEnumClass( ClassInfo cinfo, Class cls ) {
-        ClassInfo currInfo = cinfo ;
-        Class currClass = cls ;
+    public static Class getEnumClass(ClassInfo cinfo, Class cls) {
+        ClassInfo currInfo = cinfo;
+        Class currClass = cls;
         while (currClass != null) {
             if (currClass.isEnum()) {
-                break ;
+                break;
             }
 
-            currClass = currClass.getSuperclass() ;
-            currInfo = currInfo.getSuper() ;
+            currClass = currClass.getSuperclass();
+            currInfo = currInfo.getSuper();
         }
 
-        return currClass ;
+        return currClass;
     }
 }

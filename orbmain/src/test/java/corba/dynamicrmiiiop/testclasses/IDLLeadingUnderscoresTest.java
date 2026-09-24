@@ -24,18 +24,11 @@ public class IDLLeadingUnderscoresTest {
 
     //
     // Set of idl names corresponding to alphabetically sorted set of
-    // interface methods.  See TestIDLNameTranslator for sorting details.
+    // interface methods. See TestIDLNameTranslator for sorting details.
     //
     static final String[] IDL_NAMES = {
 
-        "J_0",
-        "J_J_",
-        "J__",
-        "J______________________________Z",
-        "J__a",
-        "J_a",
-        "J_jj"
-    };
+            "J_0", "J_J_", "J__", "J______________________________Z", "J__a", "J_a", "J_jj" };
 
     public static String[] getIDLNames() {
         return IDL_NAMES;

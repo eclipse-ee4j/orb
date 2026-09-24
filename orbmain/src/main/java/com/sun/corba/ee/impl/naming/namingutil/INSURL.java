@@ -20,28 +20,25 @@
 package com.sun.corba.ee.impl.naming.namingutil;
 
 /**
- * INS URL is a generic interface for two different types of URL's specified
- * in INS spec.
+ * INS URL is a generic interface for two different types of URL's specified in INS spec.
  *
  * @author Hemanth
  */
 public interface INSURL {
-    boolean getRIRFlag( );
+    boolean getRIRFlag();
 
     // There can be one or more Endpoint's in the URL, so the return value is
     // a List
-    java.util.List getEndpointInfo( );
+    java.util.List getEndpointInfo();
 
-    String getKeyString( );
+    String getKeyString();
 
-    String getStringifiedName( );
+    String getStringifiedName();
 
     // This method will return true only in CorbanameURL, It is provided because
     // corbaname: URL needs special handling.
-    boolean isCorbanameURL( );
+    boolean isCorbanameURL();
 
     // A debug method, which is not required for normal operation
-    void dPrint( );
+    void dPrint();
 }
-
-
