@@ -253,6 +253,15 @@ public class EncodingTestBase {
         expectFragment(0, expected);
     }
 
+    /**
+     * Finishes the message and returns every buffer handed to the connection,
+     * each still carrying its GIOP header.
+     */
+    protected final List<byte[]> finishAndGetFragments() {
+        getOutputObject().finishSendingMessage();
+        return fragments;
+    }
+
     protected final void dumpActual() {
         getOutputObject().finishSendingMessage();
         HexBuffer.dumpBuffers(fragments);

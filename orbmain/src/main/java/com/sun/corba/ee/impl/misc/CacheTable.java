@@ -56,6 +56,20 @@ public class CacheTable<K> {
     private boolean noReverseMap;
     private String cacheType;
 
+    /**
+     * Entries held before the hash tables exist. A stream's cache usually
+     * sees a handful of objects - the arguments of one request - and for
+     * those a linear identity scan beats hashing: it needs neither the two
+     * tables (allocated per stream) nor System.identityHashCode, whose first
+     * call on an object is not free and writes the hash into its header.
+     * Entries are appended in insertion order and scanned from the newest,
+     * which is the order the prepending hash chains give.
+     */
+    private static final int SMALL_CAPACITY = 8;
+    private Object[] smallKeys = new Object[SMALL_CAPACITY];
+    private int[] smallVals = new int[SMALL_CAPACITY];
+    private int smallCount;
+
     // size must be power of 2
     private static final int INITIAL_SIZE = 64;
     private static final int MAX_SIZE = 1 << 30;
@@ -75,7 +89,24 @@ public class CacheTable<K> {
         size = INITIAL_SIZE;
         threshhold = INITIAL_THRESHHOLD;
         entryCount = 0;
+    }
+
+    private boolean isSmall() {
+        return smallKeys != null;
+    }
+
+    /** Moves the small entries into the hash tables, oldest first. */
+    private void leaveSmallMode() {
         initTables();
+        for (int i = 0; i < smallCount; i++) {
+            @SuppressWarnings("unchecked")
+            K key = (K) smallKeys[i];
+            // Already checked for duplicates when it was put.
+            insert(hash(key), key, smallVals[i]);
+        }
+        smallKeys = null;
+        smallVals = null;
+        smallCount = 0;
     }
 
     private void initTables() {
@@ -98,10 +129,21 @@ public class CacheTable<K> {
         threshhold <<= 1;
 
         initTables();
-        // now rehash the entries into the new table
+        // Re-link existing entries in the same traversal/prepend order as
+        // put_table used. The pairs are already unique: checking them again
+        // and allocating replacement nodes only adds work during a resize.
         for (int i = 0; i < oldSize; i++) {
-            for (Entry<K> e = oldMap[i]; e != null; e = e.next) {
-                put_table(e.key, e.val);
+            for (Entry<K> e = oldMap[i]; e != null;) {
+                Entry<K> next = e.next;
+                int index = hash(e.key);
+                e.next = map[index];
+                map[index] = e;
+                if (!noReverseMap) {
+                    int rindex = hash(e.val);
+                    e.rnext = rmap[rindex];
+                    rmap[rindex] = e;
+                }
+                e = next;
             }
         }
     }
@@ -132,6 +174,22 @@ public class CacheTable<K> {
      * @param val Non-negative value
      */
     public final void put(K key, int val) {
+        if (isSmall()) {
+            if (!put_small(key, val)) {
+                return;
+            }
+            entryCount++;
+            if (smallCount <= SMALL_CAPACITY) {
+                return;
+            }
+            // One entry more than the small arrays are for: move them all,
+            // the new one last, to the hash tables.
+            leaveSmallMode();
+            if (entryCount > threshhold) {
+                grow();
+            }
+            return;
+        }
         if (put_table(key, val)) {
             entryCount++;
             if (entryCount > threshhold) {
@@ -162,6 +220,11 @@ public class CacheTable<K> {
             }
         }
 
+        insert(index, key, val);
+        return true;
+    }
+
+    private void insert(int index, K key, int val) {
         Entry<K> newEntry = new Entry<K>(key, val);
         newEntry.next = map[index];
         map[index] = newEntry;
@@ -170,7 +233,38 @@ public class CacheTable<K> {
             newEntry.rnext = rmap[rindex];
             rmap[rindex] = newEntry;
         }
+    }
 
+    /**
+     * The small-mode counterpart of put_table, with the same outcomes: false
+     * for a (key,val) pair already present, the duplicate indirection
+     * warning when the key is present with another value - that entry is
+     * still stored, so the newer mapping is the one found.
+     */
+    private boolean put_small(K key, int val) {
+        for (int i = smallCount - 1; i >= 0; i--) {
+            if (smallKeys[i] == key) {
+                if (smallVals[i] != val) {
+                    wrapper.duplicateIndirectionOffset();
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        if (smallCount == SMALL_CAPACITY) {
+            // Full. Make room for this entry so that put can move all of
+            // them, this one as the newest, to the hash tables.
+            Object[] keys = new Object[SMALL_CAPACITY + 1];
+            int[] vals = new int[SMALL_CAPACITY + 1];
+            System.arraycopy(smallKeys, 0, keys, 0, SMALL_CAPACITY);
+            System.arraycopy(smallVals, 0, vals, 0, SMALL_CAPACITY);
+            smallKeys = keys;
+            smallVals = vals;
+        }
+        smallKeys[smallCount] = key;
+        smallVals[smallCount] = val;
+        smallCount++;
         return true;
     }
 
@@ -185,6 +279,15 @@ public class CacheTable<K> {
      * @return Value found
      */
     public final int getVal(K key) {
+        if (isSmall()) {
+            for (int i = smallCount - 1; i >= 0; i--) {
+                if (smallKeys[i] == key) {
+                    return smallVals[i];
+                }
+            }
+            return -1;
+        }
+
         int index = hash(key);
         for (Entry<K> e = map[index]; e != null; e = e.next) {
             if (e.key == key) {
@@ -210,6 +313,17 @@ public class CacheTable<K> {
             throw wrapper.getKeyInvalidInCacheTable();
         }
 
+        if (isSmall()) {
+            for (int i = smallCount - 1; i >= 0; i--) {
+                if (smallVals[i] == val) {
+                    @SuppressWarnings("unchecked")
+                    K key = (K) smallKeys[i];
+                    return key;
+                }
+            }
+            return null;
+        }
+
         int index = hash(val);
         for (Entry<K> e = rmap[index]; e != null; e = e.rnext) {
             if (e.val == val) {
@@ -223,5 +337,8 @@ public class CacheTable<K> {
     public void done() {
         map = null;
         rmap = null;
+        smallKeys = null;
+        smallVals = null;
+        smallCount = 0;
     }
 }

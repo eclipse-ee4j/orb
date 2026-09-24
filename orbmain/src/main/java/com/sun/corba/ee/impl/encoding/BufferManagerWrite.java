@@ -73,6 +73,24 @@ public abstract class BufferManagerWrite {
     public abstract boolean isFragmentOnOverflow();
 
     /**
+     * Offers a larger buffer when the data still fits in the current
+     * fragment, so that a stream can start with a small buffer and grow it
+     * rather than allocate a whole fragment for every message.
+     *
+     * <p>The stream calls this before {@link #overflow}. A non-null result
+     * holds the same bytes at the same positions and replaces the buffer;
+     * nothing is sent, and the stream carries on exactly as if the buffer
+     * had been that large from the start. Null means overflow as before.
+     *
+     * @param byteBuffer the stream's current buffer
+     * @param numBytesNeeded bytes about to be written at its position
+     * @return a larger buffer, or null
+     */
+    public ByteBuffer expandWithinFragment(ByteBuffer byteBuffer, int numBytesNeeded) {
+        return null;
+    }
+
+    /**
      * Called after Stub._invoke (i.e., before complete message has been sent).
      *
      * IIOPOutputStream.writeTo called from IIOPOutputStream.invoke
