@@ -147,6 +147,83 @@ public class CacheTableTest {
         assertSame(keys[3], table.getKey(9));
     }
 
+    @Test
+    public void a_table_that_stayed_small_is_empty_and_usable_after_done() {
+        CacheTable<Object> table = new CacheTable<>("test", null, false);
+        Object first = new Object();
+        table.put(first, 1);
+        table.done();
+        assertEquals(-1, table.getVal(first));
+        assertNull(table.getKey(1));
+
+        Object[] keys = new Object[30];
+        for (int i = 0; i < keys.length; i++) {
+            keys[i] = new Object();
+            table.put(keys[i], 10 + i);
+        }
+        for (int i = 0; i < keys.length; i++) {
+            assertEquals(10 + i, table.getVal(keys[i]));
+            assertSame(keys[i], table.getKey(10 + i));
+        }
+        table.done();
+    }
+
+    @Test
+    public void done_twice_does_not_give_the_same_arrays_to_two_tables() {
+        CacheTable<Object> first = new CacheTable<>("test", null, false);
+        for (int i = 0; i < 100; i++) {
+            first.put(new Object(), i);
+        }
+        first.done();
+        first.done();
+        CacheTable<Object> a = new CacheTable<>("test", null, false);
+        CacheTable<Object> b = new CacheTable<>("test", null, false);
+        Object[] aKeys = new Object[100];
+        Object[] bKeys = new Object[100];
+        for (int i = 0; i < 100; i++) {
+            aKeys[i] = new Object();
+            bKeys[i] = new Object();
+            a.put(aKeys[i], i);
+            b.put(bKeys[i], 1000 + i);
+        }
+        for (int i = 0; i < 100; i++) {
+            assertEquals(i, a.getVal(aKeys[i]));
+            assertEquals(1000 + i, b.getVal(bKeys[i]));
+            assertEquals(-1, a.getVal(bKeys[i]));
+            assertSame(aKeys[i], a.getKey(i));
+            assertNull(a.getKey(1000 + i));
+        }
+        a.done();
+        b.done();
+    }
+
+    @Test
+    public void a_table_on_large_reused_arrays_answers_like_a_new_one() {
+        CacheTable<Object> large = new CacheTable<>("test", null, false);
+        for (int i = 0; i < 900; i++) {
+            large.put(new Object(), i);
+        }
+        large.done();
+        // Small, then just past the small capacity, on the large arrays.
+        for (int n : new int[] { 3, 9, 40 }) {
+            CacheTable<Object> table = new CacheTable<>("test", null, false);
+            Model model = new Model();
+            Object[] keys = new Object[n];
+            for (int i = 0; i < n; i++) {
+                keys[i] = new Object();
+                table.put(keys[i], 5 * i);
+                model.put(keys[i], 5 * i);
+            }
+            for (int i = 0; i < n; i++) {
+                assertEquals(model.getVal(keys[i]), table.getVal(keys[i]));
+            }
+            for (int v = 0; v < 5 * n + 5; v++) {
+                assertSame(model.getKey(v), table.getKey(v));
+            }
+            table.done();
+        }
+    }
+
     @Test(expected = org.omg.CORBA.INTERNAL.class)
     public void getKey_without_a_reverse_map_still_fails_in_small_mode() {
         CacheTable<Object> table = new CacheTable<>("test", null, true);
@@ -179,6 +256,8 @@ public class CacheTableTest {
             model.put(key, val);
             check(seed, table, legacy, model, keys, nextVal, noReverseMap);
         }
+        // The next seed's table, on this thread, starts from these arrays.
+        table.done();
     }
 
     private static void check(long seed, CacheTable<Object> table, LegacyCacheTable<Object> legacy, Model model,

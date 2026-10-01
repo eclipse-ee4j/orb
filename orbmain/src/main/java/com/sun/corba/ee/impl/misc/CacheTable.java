@@ -35,14 +35,19 @@ import java.util.Arrays;
  * the way readResolve works (see also GlassFish issue 1605).
  *
  * <p>The entries live in parallel arrays, in the order they were put, and two open addressing indexes of entry
- * numbers find them by key and by value. A table is made per stream and filled once per message, so the chained
- * version's node per entry, and the second node chain for the reverse map, were most of what a value heavy request
- * allocated; the arrays hold the same entries without an object each, and a lookup reads neighbouring slots instead
- * of following references.
+ * numbers find them by key and by value.
  *
  * <p>When a key is stored with several values, the key index names the newest of its entries and {@link #older}
  * links each to the previous one, so finding the key gives the newest value, and putting a pair that is already
  * present further down the chain is still recognised as a no-op. The value index names the newest entry for a value.
+ *
+ * <p>A table is made per stream and filled once per message, so without reuse every value heavy message grew its
+ * arrays from nothing again: a profile of a 50 node list showed that copying and re-indexing, not the lookups, was
+ * the cost. {@link #done()} therefore hands the arrays, emptied, to a pool kept by the calling thread, and a table
+ * that outgrows its small arrays takes them from there, the way serializers keep their reference tables between
+ * messages. A table that stays small never touches the pool, and one that is never done simply leaves its arrays to
+ * the collector. The pool is per thread, so it takes no lock, and arrays may
+ * move between threads with the streams that hold them: they carry no state once emptied.
  *
  * @since 1.1
  *
@@ -53,8 +58,8 @@ public class CacheTable<K> {
     private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
     /**
-     * Entries held before the indexes exist. A stream's cache usually sees a handful of objects - the arguments of one
-     * request - and for those a linear identity scan beats hashing: it needs no indexes and no
+     * Entries held before the indexes are used. A stream's cache usually sees a handful of objects - the arguments of
+     * one request - and for those a linear identity scan beats hashing: it needs no indexes and no
      * System.identityHashCode, whose first call on an object is not free and writes the hash into its header.
      */
     private static final int SMALL_CAPACITY = 8;
@@ -63,8 +68,17 @@ public class CacheTable<K> {
     private static final int INITIAL_INDEX_SIZE = 32;
     private static final int MAX_INDEX_SIZE = 1 << 30;
 
+    /** Arrays for more entries than this are not kept for reuse, so one large message does not pin them. */
+    private static final int MAX_POOLED_CAPACITY = 1024;
+
+    /** Emptied tables a thread keeps; a stream uses at most a few. */
+    private static final int MAX_POOLED_TABLES = 8;
+
     /** An empty slot in an index. Occupied slots hold an entry number. */
     private static final int EMPTY = -1;
+
+    private static final Object[] NO_KEYS = {};
+    private static final int[] NO_VALS = {};
 
     private final boolean noReverseMap;
 
@@ -73,11 +87,15 @@ public class CacheTable<K> {
     private int[] vals;
     private int count;
 
-    // Absent until the table outgrows SMALL_CAPACITY.
+    // Possibly from an earlier table: only meaningful once indexed.
+    private boolean indexed;
     private int[] keyHashes; // mixed identity hash of each key, kept so that rebuilding never asks for it again
     private int[] older; // the previous entry with the same key, or EMPTY
     private int[] keyIndex;
-    private int[] valIndex; // absent too when noReverseMap
+    private int[] valIndex; // unused when noReverseMap
+
+    /** Where this table's arrays go back to; null until it first gives them back. */
+    private Storage storage;
 
     public CacheTable(String cacheType, ORB orb, boolean u) {
         noReverseMap = u;
@@ -85,8 +103,50 @@ public class CacheTable<K> {
         vals = new int[SMALL_CAPACITY];
     }
 
+    /** The arrays of an emptied table, while they wait in a pool. */
+    private static final class Storage {
+        Object[] keys;
+        int[] vals;
+        int[] keyHashes;
+        int[] older;
+        int[] keyIndex;
+        int[] valIndex;
+
+        void clear() {
+            keys = null;
+            vals = null;
+            keyHashes = null;
+            older = null;
+            keyIndex = null;
+            valIndex = null;
+        }
+    }
+
+    /** A thread's emptied tables, newest on top. */
+    private static final class Pool {
+        private final Storage[] stack = new Storage[MAX_POOLED_TABLES];
+        private int size;
+
+        Storage take() {
+            if (size == 0) {
+                return null;
+            }
+            Storage s = stack[--size];
+            stack[size] = null;
+            return s;
+        }
+
+        void offer(Storage s) {
+            if (size < stack.length) {
+                stack[size++] = s;
+            }
+        }
+    }
+
+    private static final ThreadLocal<Pool> POOL = ThreadLocal.withInitial(Pool::new);
+
     private boolean isSmall() {
-        return keyIndex == null;
+        return !indexed;
     }
 
     /**
@@ -176,11 +236,14 @@ public class CacheTable<K> {
 
     /** Adds an entry to the arrays, growing them if they are full, and returns its number. */
     private int append(K key, int val) {
+        if (count == keys.length && keys.length == SMALL_CAPACITY && storage == null) {
+            takeFromPool();
+        }
         if (count == keys.length) {
-            int capacity = keys.length << 1;
+            int capacity = Math.max(SMALL_CAPACITY, keys.length << 1);
             keys = Arrays.copyOf(keys, capacity);
             vals = Arrays.copyOf(vals, capacity);
-            if (keyHashes != null) {
+            if (indexed) {
                 keyHashes = Arrays.copyOf(keyHashes, capacity);
                 older = Arrays.copyOf(older, capacity);
             }
@@ -188,6 +251,29 @@ public class CacheTable<K> {
         keys[count] = key;
         vals[count] = val;
         return count++;
+    }
+
+    /**
+     * Moves the small table's entries into arrays an earlier table gave back, if the thread has any. Only a table that
+     * outgrows {@link #SMALL_CAPACITY} gets here, so the tables of small messages never touch the pool.
+     */
+    private void takeFromPool() {
+        Storage reused = POOL.get().take();
+        if (reused == null) {
+            return;
+        }
+        storage = reused;
+        if (reused.keys.length > count) {
+            System.arraycopy(keys, 0, reused.keys, 0, count);
+            System.arraycopy(vals, 0, reused.vals, 0, count);
+            keys = reused.keys;
+            vals = reused.vals;
+        }
+        keyHashes = reused.keyHashes;
+        older = reused.older;
+        keyIndex = reused.keyIndex;
+        valIndex = reused.valIndex;
+        reused.clear();
     }
 
     /** Points the value index at an entry, which is the newest for its value. */
@@ -204,20 +290,27 @@ public class CacheTable<K> {
     }
 
     /**
-     * Builds both indexes at the given size from the entries, oldest first, so that each slot ends up naming the
-     * newest entry for its key or value. The first build is where the keys' identity hashes are first asked for;
-     * later ones reuse them.
+     * Builds both indexes, at least at the given size, from the entries, oldest first, so that each slot ends up
+     * naming the newest entry for its key or value. Arrays left by an earlier table are used when they are large
+     * enough. The first build is where the keys' identity hashes are first asked for; later ones reuse them.
      */
     private void buildIndexes(int size) {
-        if (keyHashes == null) {
-            keyHashes = new int[keys.length];
-            older = new int[keys.length];
+        if (!indexed) {
+            if (keyHashes == null || keyHashes.length < keys.length) {
+                keyHashes = new int[keys.length];
+                older = new int[keys.length];
+            }
             for (int i = 0; i < count; i++) {
                 keyHashes[i] = keyHash(keys[i]);
             }
+            indexed = true;
         }
 
-        keyIndex = new int[size];
+        if (keyIndex == null || keyIndex.length < size) {
+            keyIndex = new int[size];
+        } else {
+            size = keyIndex.length;
+        }
         Arrays.fill(keyIndex, EMPTY);
         int mask = size - 1;
         for (int i = 0; i < count; i++) {
@@ -235,7 +328,9 @@ public class CacheTable<K> {
         }
 
         if (!noReverseMap) {
-            valIndex = new int[size];
+            if (valIndex == null || valIndex.length < size) {
+                valIndex = new int[size];
+            }
             Arrays.fill(valIndex, EMPTY);
             for (int i = 0; i < count; i++) {
                 indexVal(i);
@@ -306,11 +401,35 @@ public class CacheTable<K> {
         return null;
     }
 
-    /** Empties the table, letting go of the keys it held. */
+    /**
+     * Empties the table, letting go of the keys it held, and gives its arrays to the calling thread's pool for the
+     * next table. The table stays usable: it starts again from nothing. Call it only when the stream that owns the
+     * table is finished with it.
+     */
     public void done() {
-        keys = new Object[SMALL_CAPACITY];
-        vals = new int[SMALL_CAPACITY];
+        if (storage == null && !indexed && keys.length <= SMALL_CAPACITY) {
+            // Never outgrew the small arrays: nothing worth keeping.
+            Arrays.fill(keys, 0, count, null);
+            count = 0;
+            return;
+        }
+        Object[] k = keys;
+        if (k != NO_KEYS && k.length <= MAX_POOLED_CAPACITY) {
+            Arrays.fill(k, 0, count, null);
+            Storage s = storage != null ? storage : new Storage();
+            s.keys = k;
+            s.vals = vals;
+            s.keyHashes = keyHashes;
+            s.older = older;
+            s.keyIndex = keyIndex;
+            s.valIndex = valIndex;
+            POOL.get().offer(s);
+        }
+        storage = null;
+        keys = NO_KEYS;
+        vals = NO_VALS;
         count = 0;
+        indexed = false;
         keyHashes = null;
         older = null;
         keyIndex = null;
