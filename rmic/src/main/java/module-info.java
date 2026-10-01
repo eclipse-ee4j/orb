@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -19,7 +19,7 @@ module org.glassfish.corba.rmic {
     requires java.rmi;
 
     requires org.objectweb.asm;
+    requires org.objectweb.asm.util;
     requires org.glassfish.corba.omgapi;
     requires org.glassfish.corba.orb;
-
 }
