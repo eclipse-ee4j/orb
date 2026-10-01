@@ -26,8 +26,6 @@ import java.io.Serializable;
 import java.lang.reflect.Proxy;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.Map;
-import java.util.WeakHashMap;
 
 import org.omg.CORBA.UserException;
 import org.omg.CORBA.portable.CustomValue;
@@ -44,9 +42,9 @@ import org.omg.CORBA.portable.ValueBase;
  * <P>
  * All of the isA methods on ClassInfo need to be passed the same Class that was used in the get call! This is an
  * awkward interface, but the alternative is to store the class in the ClassInfo, which would create a strong reference
- * from the value to the key, making the WeakHashMap useless. It also appears to be difficult to use a weak or soft
- * reference here, because I can't handle the case of an empty reference to the class inside the ClassInfo object. If
- * ClassInfoCache supported the methods directly, we could work around this, but then we would in some case be doing
+ * from the value to the key, keeping the class, and its loader, alive. It also appears to be difficult to use a weak or
+ * soft reference here, because I can't handle the case of an empty reference to the class inside the ClassInfo object.
+ * If ClassInfoCache supported the methods directly, we could work around this, but then we would in some case be doing
  * multiple lookups for a class to get class information, which would slow things down significantly (the get call is a
  * significant cost in the benchmarks).
  * <P>
@@ -63,23 +61,29 @@ public class ClassInfoCache {
     public static class ClassInfo {
 
         public static class LazyWrapper {
+            private static final byte UNKNOWN = 0;
+            private static final byte NO = 1;
+            private static final byte YES = 2;
+
             Class<?> isAClass;
-            boolean initialized;
-            boolean value;
+
+            // Written at most once per thread that races here, and always with the same value for a given class, so no
+            // lock is needed: a thread that reads UNKNOWN just computes it again. The monitor this used to take was
+            // entered on every type test of every marshalled value.
+            private volatile byte state = UNKNOWN;
 
             public LazyWrapper(Class<?> isAClass) {
                 this.isAClass = isAClass;
-                this.initialized = false;
-                this.value = false;
             }
 
-            synchronized boolean get(Class<?> cls) {
-                if (!initialized) {
-                    initialized = true;
-                    value = isAClass.isAssignableFrom(cls);
+            boolean get(Class<?> cls) {
+                byte current = state;
+                if (current == UNKNOWN) {
+                    current = isAClass.isAssignableFrom(cls) ? YES : NO;
+                    state = current;
                 }
 
-                return value;
+                return current == YES;
             }
         }
 
@@ -100,7 +104,7 @@ public class ClassInfoCache {
         private LazyWrapper isAExternalizable = new LazyWrapper(Externalizable.class);
         private LazyWrapper isAClass = new LazyWrapper(Class.class);
 
-        private String repositoryId = null;
+        private volatile String repositoryId = null;
 
         private boolean isArray;
         private boolean isEnum;
@@ -141,11 +145,11 @@ public class ClassInfoCache {
             return false;
         }
 
-        public synchronized String getRepositoryId() {
+        public String getRepositoryId() {
             return repositoryId;
         }
 
-        public synchronized void setRepositoryId(String repositoryId) {
+        public void setRepositoryId(String repositoryId) {
             this.repositoryId = repositoryId;
         }
 
@@ -230,33 +234,21 @@ public class ClassInfoCache {
         }
     }
 
-    // This shows up as a locking hotspot in heavy marshaling tests.
-    // Ideally we need a WeakConcurrentMap, which is not available in
-    // the JDK (Google's MapMaker can easily construct such a class).
-
-    /*
-     * Version using ConcurrentMap for testing ONLY (This would pin Classes (and thus ClassLoaders), leading to App server
-     * deployment memory leaks.
-     * 
-     * private static ConcurrentMap<Class,ClassInfo> classData = new ConcurrentHashMap<Class,ClassInfo>() ;
-     * 
-     * public static ClassInfo get( Class cls ) { ClassInfo result = classData.get( cls ) ; if (result == null) { final
-     * ClassInfo cinfo = new ClassInfo( cls ) ; final ClassInfo putResult = classData.putIfAbsent( cls, cinfo ) ; if
-     * (putResult == null) { result = cinfo ; } else { result = putResult ; } }
-     * 
-     * return result ; }
-     */
-
-    private static Map<Class, ClassInfo> classData = new WeakHashMap<Class, ClassInfo>();
-
-    public static synchronized ClassInfo get(Class<?> cls) {
-        ClassInfo result = classData.get(cls);
-        if (result == null && cls != null) {
-            result = new ClassInfo(cls);
-            classData.put(cls, result);
+    // This used to be a WeakHashMap behind a global lock, which showed up as a locking hotspot in heavy marshaling
+    // tests: every value marshalled anywhere in the process went through it. A ConcurrentHashMap was not an option
+    // because it would pin classes, and so application class loaders, after undeploy. ClassValue is the JDK's answer to
+    // exactly this: a per class value, read without locking, that does not keep the class alive. ClassInfo refers to no
+    // application class itself - only to the ClassInfo of the superclass and to ORB and JDK types - so it does not pin
+    // one either.
+    private static final ClassValue<ClassInfo> classData = new ClassValue<ClassInfo>() {
+        @Override
+        protected ClassInfo computeValue(Class<?> cls) {
+            return new ClassInfo(cls);
         }
+    };
 
-        return result;
+    public static ClassInfo get(Class<?> cls) {
+        return cls == null ? null : classData.get(cls);
     }
 
     /**

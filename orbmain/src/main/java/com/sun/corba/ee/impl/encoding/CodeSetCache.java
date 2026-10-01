@@ -21,28 +21,29 @@ package com.sun.corba.ee.impl.encoding;
 
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
-import java.util.WeakHashMap;
+import java.util.HashMap;
 
 /**
  * Thread local cache of sun.io code set converters for performance.
  *
- * The thread local class contains a single reference to a Map[] containing two WeakHashMaps. One for CharsetEncoders
- * and one for CharsetDecoders. Constants are defined for indexing.
+ * The thread local class contains a single reference to a Map[] containing two small HashMaps. One for CharsetEncoders
+ * and one for CharsetDecoders. Charset names are drawn from the finite negotiated code-set registry, so weak-key
+ * eviction only adds lookup overhead and provides no useful reclamation here.
  *
  * This is used internally by CodeSetConversion.
  */
 class CodeSetCache {
-    private ThreadLocal<WeakHashMap<String, CharsetEncoder>> ctbMapLocal = new ThreadLocal<WeakHashMap<String, CharsetEncoder>>() {
+    private ThreadLocal<HashMap<String, CharsetEncoder>> ctbMapLocal = new ThreadLocal<HashMap<String, CharsetEncoder>>() {
         @Override
-        protected WeakHashMap<String, CharsetEncoder> initialValue() {
-            return new WeakHashMap<String, CharsetEncoder>();
+        protected HashMap<String, CharsetEncoder> initialValue() {
+            return new HashMap<String, CharsetEncoder>(4);
         }
     };
 
-    private ThreadLocal<WeakHashMap<String, CharsetDecoder>> btcMapLocal = new ThreadLocal<WeakHashMap<String, CharsetDecoder>>() {
+    private ThreadLocal<HashMap<String, CharsetDecoder>> btcMapLocal = new ThreadLocal<HashMap<String, CharsetDecoder>>() {
         @Override
-        protected WeakHashMap<String, CharsetDecoder> initialValue() {
-            return new WeakHashMap<String, CharsetDecoder>();
+        protected HashMap<String, CharsetDecoder> initialValue() {
+            return new HashMap<String, CharsetDecoder>(4);
         }
     };
 

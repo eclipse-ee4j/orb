@@ -58,8 +58,8 @@ import java.lang.reflect.Proxy;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
 import java.nio.ByteOrder;
+import java.nio.charset.Charset;
 import java.rmi.server.RMIClassLoader;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
@@ -97,6 +97,10 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase implements Restorable
 
     protected BufferManagerRead bufferManagerRead;
     protected ByteBuffer byteBuffer;
+    // A fragmented string must be made contiguous before the charset decoder
+    // can consume it. Reuse that temporary storage across strings in this
+    // stream instead of allocating a full payload-sized byte[] each time.
+    private byte[] fragmentedStringBytes;
 
     protected ORB orb;
     protected ValueHandler valueHandler = null;
@@ -529,9 +533,9 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase implements Restorable
 
         // Straddles a fragment boundary. Collect the bytes first, exactly as
         // getConvertedChars does in the same situation.
-        byte[] bytes = new byte[numBytes];
+        byte[] bytes = getFragmentedStringBytes(numBytes);
         read_octet_array(bytes, 0, numBytes);
-        return new String(bytes, charset);
+        return new String(bytes, 0, numBytes, charset);
     }
 
     @Override
@@ -1693,6 +1697,116 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase implements Restorable
         byteBuffer.position(byteBuffer.position() + (count * elementSize));
     }
 
+    /**
+     * Reads a GIOP 1.2 wstring of {@code numBytes} octets in UTF-16, giving
+     * the same String, or the same exception, as decoding it with the
+     * converter would.
+     *
+     * <p>The decoder route copied the bytes out of the stream when the
+     * string crossed a fragment, ran a CharsetDecoder into a CharBuffer,
+     * copied that into a fresh char[], and new String copied it once more.
+     * Here the code units come out of the stream in one byte order aware
+     * bulk get per buffer and go into the String.
+     *
+     * <p>The byte order mark is recognised under the same rule as
+     * {@code UTF16BTCConverter}: only when there are at least four octets.
+     * The decoder treats exactly two kinds of code unit specially - a
+     * surrogate, which must be correctly paired, and U+FFFE, a reversed byte
+     * order mark that is malformed after the start. A string containing
+     * either is rebuilt into its original bytes and handed to the converter,
+     * so its result and its error reporting are unchanged.
+     *
+     * @param numBytes the octet count from the wire, even and positive
+     * @param defaultOrder the byte order when there is no byte order mark
+     * @param converter the stream's wchar converter, for the rare fallback
+     * @return the string
+     */
+    String readUtf16String(int numBytes, ByteOrder defaultOrder, CodeSetConversion.BTCConverter converter) {
+        final char[] units = new char[numBytes / 2];
+        readBigEndianCodeUnits(units);
+
+        int start = 0;
+        boolean littleEndian = defaultOrder == ByteOrder.LITTLE_ENDIAN;
+        if (numBytes >= 4) {
+            if (units[0] == '\uFEFF') {
+                start = 1;
+                littleEndian = false;
+            } else if (units[0] == '\uFFFE') {
+                start = 1;
+                littleEndian = true;
+            }
+        }
+
+        if (littleEndian) {
+            for (int i = start; i < units.length; i++) {
+                units[i] = Character.reverseBytes(units[i]);
+            }
+        }
+
+        // Both kinds of special code unit are at least 0xD800; see
+        // CDROutputStream_1_0.mayContainSurrogate for the filter.
+        if (CDROutputStream_1_0.mayContainSurrogate(units, start, units.length)) {
+            for (int i = start; i < units.length; i++) {
+                char c = units[i];
+                if (Character.isSurrogate(c) || c == '\uFFFE') {
+                    return decodeWithConverter(units, start, littleEndian, converter);
+                }
+            }
+        }
+
+        return new String(units, start, units.length - start);
+    }
+
+    private static String decodeWithConverter(char[] units, int start, boolean littleEndian,
+            CodeSetConversion.BTCConverter converter) {
+        if (littleEndian) {
+            for (int i = start; i < units.length; i++) {
+                units[i] = Character.reverseBytes(units[i]);
+            }
+        }
+        byte[] original = new byte[units.length * 2];
+        ByteBuffer.wrap(original).asCharBuffer().put(units);
+        char[] chars = converter.getChars(original, 0, original.length);
+        return new String(chars, 0, converter.getNumChars());
+    }
+
+    private void readBigEndianCodeUnits(char[] units) {
+        alignAndCheck(1, 1);
+
+        int done = 0;
+        while (done < units.length) {
+            if (!byteBuffer.hasRemaining()) {
+                grow(1, 1);
+            }
+
+            if (byteBuffer.remaining() == 1) {
+                // A code unit straddling the end of the buffer.
+                int first = byteBuffer.get() & 0xFF;
+                grow(1, 1);
+                int second = byteBuffer.get() & 0xFF;
+                units[done++] = (char) ((first << 8) | second);
+                continue;
+            }
+
+            int batch = Math.min(byteBuffer.remaining() / 2, units.length - done);
+            if (batch <= 16) {
+                for (int i = done; i < done + batch; i++) {
+                    int first = byteBuffer.get() & 0xFF;
+                    units[i] = (char) ((first << 8) | (byteBuffer.get() & 0xFF));
+                }
+            } else {
+                ByteOrder savedOrder = byteBuffer.order();
+                try {
+                    byteBuffer.order(ByteOrder.BIG_ENDIAN).asCharBuffer().get(units, done, batch);
+                } finally {
+                    byteBuffer.order(savedOrder);
+                }
+                advance(2, batch);
+            }
+            done += batch;
+        }
+    }
+
     @Override
     public final void read_short_array(short[] value, int offset, int length) {
         int done = 0;
@@ -2199,7 +2313,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase implements Restorable
             // Stretches across buffers. Unless we provide an
             // incremental conversion interface, allocate and
             // copy the bytes.
-            byte[] bytes = new byte[numBytes];
+            byte[] bytes = getFragmentedStringBytes(numBytes);
 
             // REVISIT - We should avoid getting the bytes into an array if
             // possible. Extend the logic used above for the if() case , send
@@ -2211,6 +2325,13 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase implements Restorable
 
             return converter.getChars(bytes, 0, numBytes);
         }
+    }
+
+    private byte[] getFragmentedStringBytes(int length) {
+        if (fragmentedStringBytes == null || fragmentedStringBytes.length < length) {
+            fragmentedStringBytes = new byte[length];
+        }
+        return fragmentedStringBytes;
     }
 
     protected CodeSetConversion.BTCConverter getCharConverter() {

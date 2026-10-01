@@ -102,24 +102,41 @@ public class ByteBufferPoolImpl implements ByteBufferPool {
      */
     @Override
     public ByteBuffer reAllocate(ByteBuffer oldByteBuffer, int minimumSize) {
-        int size = orb.getORBData().getReadByteBufferSize();
-        while (size <= minimumSize) {
-            size *= 2;
+        if (minimumSize < 0) {
+            throw new IllegalArgumentException("minimumSize must not be negative");
         }
 
+        // Grow from the buffer we actually have instead of restarting at the
+        // configured read size on every expansion. Message parsing commonly
+        // discovers a large body incrementally; retaining the previous
+        // capacity avoids a sequence of undersized allocations and copies.
+        final int oldCapacity = oldByteBuffer.capacity();
+        final int oldRemaining = oldByteBuffer.remaining();
+        final long required = Math.max(minimumSize, (long) oldRemaining);
+        long size = Math.max(orb.getORBData().getReadByteBufferSize(), required);
+        size = Math.max(size, (long) oldCapacity * 2L);
+
         if (size > orb.getORBData().getMaxReadByteBufferSizeThreshold()) {
-            if (minimumSize > orb.getORBData().getMaxReadByteBufferSizeThreshold()) {
-                throw wrapper.maximumReadByteBufferSizeExceeded(orb.getORBData().getMaxReadByteBufferSizeThreshold(), size,
-                        ORBConstants.MAX_READ_BYTE_BUFFER_SIZE_THRESHOLD_PROPERTY);
+            if (required > orb.getORBData().getMaxReadByteBufferSizeThreshold()) {
+                throw wrapper.maximumReadByteBufferSizeExceeded(orb.getORBData().getMaxReadByteBufferSizeThreshold(),
+                        (int) Math.min(size, Integer.MAX_VALUE), ORBConstants.MAX_READ_BYTE_BUFFER_SIZE_THRESHOLD_PROPERTY);
             } else {
-                // minimumSize is greater than 1/2 of size, and less than or
-                // equal to max read byte buffer size threshold. So, just
-                // re-allocate a ByteBuffer of minimumSize.
-                size = minimumSize;
+                // The growth target is too large, but the bytes that must be
+                // preserved still fit under the configured limit. Allocate
+                // exactly what is required rather than shrinking below the
+                // bytes that will be copied below.
+                size = required;
             }
         }
 
-        ByteBuffer newByteBuffer = getByteBuffer(size);
+        if (size > Integer.MAX_VALUE) {
+            throw wrapper.maximumReadByteBufferSizeExceeded(
+                    orb.getORBData().getMaxReadByteBufferSizeThreshold(),
+                    Integer.MAX_VALUE,
+                    ORBConstants.MAX_READ_BYTE_BUFFER_SIZE_THRESHOLD_PROPERTY);
+        }
+
+        ByteBuffer newByteBuffer = getByteBuffer((int) size);
 
         // copy oldByteBuffer into newByteBuffer
         newByteBuffer.put(oldByteBuffer);

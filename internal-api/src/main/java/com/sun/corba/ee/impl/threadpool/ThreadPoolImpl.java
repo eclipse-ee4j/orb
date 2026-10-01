@@ -31,8 +31,10 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.LongAdder;
 
 import org.glassfish.gmbal.Description;
 import org.glassfish.gmbal.ManagedAttribute;
@@ -47,6 +49,8 @@ public class ThreadPoolImpl implements ThreadPool {
     // serial counter useful for debugging
     private static final AtomicInteger threadCounter = new AtomicInteger(0);
 
+    // The counters used to be guarded by the WorkQueue's monitor, which every hand-off took; they are atomic now. See
+    // WorkQueueImpl for how the pool policy stays race free without the lock.
     // Any time currentThreadCount and/or availableWorkerThreads is updated
     // or accessed this ThreadPool's WorkQueue must be locked. And, it is
     // expected that this ThreadPool's WorkQueue is the only object that
@@ -56,10 +60,10 @@ public class ThreadPoolImpl implements ThreadPool {
     final private WorkQueue workQueue;
 
     // Stores the number of available worker threads
-    private int availableWorkerThreads = 0;
+    private final AtomicInteger availableWorkerThreads = new AtomicInteger();
 
     // Stores the number of threads in the threadpool currently
-    private int currentThreadCount = 0;
+    private final AtomicInteger currentThreadCount = new AtomicInteger();
 
     // Minimum number of worker threads created at instantiation of the threadpool
     final private int minWorkerThreads;
@@ -73,11 +77,16 @@ public class ThreadPoolImpl implements ThreadPool {
     // Running count of the work items processed
     // Set the value to 1 so that divide by zero is avoided in
     // averageWorkCompletionTime()
-    private AtomicLong processedCount = new AtomicLong(1);
+    // Updated by every worker after every work item: LongAdder keeps them from contending on one cache line. Starts at
+    // 1, as before, so that the average never divides by zero.
+    private final LongAdder processedCount = new LongAdder();
+    {
+        processedCount.increment();
+    }
 
     // Running aggregate of the time taken in millis to execute work items
     // processed by the threads in the threadpool
-    private AtomicLong totalTimeTaken = new AtomicLong(0);
+    private final LongAdder totalTimeTaken = new LongAdder();
 
     // Name of the ThreadPool
     final private String name;
@@ -87,9 +96,8 @@ public class ThreadPoolImpl implements ThreadPool {
 
     final private ClassLoader workerThreadClassLoader;
 
-    final Object workersLock = new Object();
-
-    List<WorkerThread> workers = new ArrayList<WorkerThread>();
+    // The live worker threads, for close(). Threads add and remove themselves; a concurrent set needs no lock for that.
+    final Set<WorkerThread> workers = ConcurrentHashMap.newKeySet();
 
     /**
      * Create an unbounded thread pool in the current thread group with the current context ClassLoader as the worker thread
@@ -144,10 +152,8 @@ public class ThreadPoolImpl implements ThreadPool {
         threadGroup = Thread.currentThread().getThreadGroup();
         name = threadpoolName;
         workerThreadClassLoader = defaultClassLoader;
-        synchronized (workQueue) {
-            for (int i = 0; i < minWorkerThreads; i++) {
-                createWorkerThread();
-            }
+        for (int i = 0; i < minWorkerThreads; i++) {
+            createWorkerThread();
         }
     }
 
@@ -156,9 +162,7 @@ public class ThreadPoolImpl implements ThreadPool {
     public void close() throws IOException {
         // Copy to avoid concurrent modification problems.
         List<WorkerThread> copy = null;
-        synchronized (workersLock) {
-            copy = new ArrayList<WorkerThread>(workers);
-        }
+        copy = new ArrayList<WorkerThread>(workers);
 
         for (WorkerThread wt : copy) {
             wt.close();
@@ -240,9 +244,7 @@ public class ThreadPoolImpl implements ThreadPool {
         // for the ORB code itself, which contains all permissions
         // in either Java SE or Java EE.
         WorkerThread thread = new WorkerThread(threadGroup, name);
-        synchronized (workersLock) {
-            workers.add(thread);
-        }
+        workers.add(thread);
 
         // The thread must be set to a daemon thread so the
         // VM can exit if the only threads left are PooledThreads
@@ -262,28 +264,44 @@ public class ThreadPoolImpl implements ThreadPool {
      * To be called from the WorkQueue to create worker threads when none available.
      */
     void createWorkerThread() {
-        final String lname = getName();
-        synchronized (workQueue) {
-            try {
-                if (System.getSecurityManager() == null) {
-                    createWorkerThreadHelper(lname);
-                } else {
-                    // If we get here, we need to create a thread.
-                    AccessController.doPrivileged(new PrivilegedAction() {
-                        @Override
-                        public Object run() {
-                            return createWorkerThreadHelper(lname);
-                        }
-                    });
-                }
-            } catch (Throwable t) {
-                // Decrementing the count of current worker threads.
-                // But, it will be increased in the finally block.
-                decrementCurrentNumberOfThreads();
-                Exceptions.self.workerThreadCreationFailure(t);
-            } finally {
-                incrementCurrentNumberOfThreads();
+        incrementCurrentNumberOfThreads();
+        startWorkerThread();
+    }
+
+    /**
+     * Adds a worker thread unless the pool is at its maximum. The slot is taken before the thread is started, so
+     * concurrent callers can never take the pool past the maximum.
+     */
+    void createWorkerThreadIfBelowMaximum() {
+        int current;
+        do {
+            current = currentThreadCount.get();
+            if (current >= maxWorkerThreads) {
+                return;
             }
+        } while (!currentThreadCount.compareAndSet(current, current + 1));
+
+        startWorkerThread();
+    }
+
+    // The caller has already counted the thread.
+    private void startWorkerThread() {
+        final String lname = getName();
+        try {
+            if (System.getSecurityManager() == null) {
+                createWorkerThreadHelper(lname);
+            } else {
+                // If we get here, we need to create a thread.
+                AccessController.doPrivileged(new PrivilegedAction() {
+                    @Override
+                    public Object run() {
+                        return createWorkerThreadHelper(lname);
+                    }
+                });
+            }
+        } catch (Throwable t) {
+            decrementCurrentNumberOfThreads();
+            Exceptions.self.workerThreadCreationFailure(t);
         }
     }
 
@@ -306,53 +324,43 @@ public class ThreadPoolImpl implements ThreadPool {
     @ManagedAttribute
     @Description("The current number of threads")
     public int currentNumberOfThreads() {
-        synchronized (workQueue) {
-            return currentThreadCount;
-        }
+        return currentThreadCount.get();
     }
 
     void decrementCurrentNumberOfThreads() {
-        synchronized (workQueue) {
-            currentThreadCount--;
-        }
+        currentThreadCount.decrementAndGet();
     }
 
     void incrementCurrentNumberOfThreads() {
-        synchronized (workQueue) {
-            currentThreadCount++;
-        }
+        currentThreadCount.incrementAndGet();
     }
 
     @Override
     @ManagedAttribute
     @Description("The number of available threads in this ThreadPool")
     public int numberOfAvailableThreads() {
-        synchronized (workQueue) {
-            return availableWorkerThreads;
-        }
+        return availableWorkerThreads.get();
     }
 
     @Override
     @ManagedAttribute
     @Description("The number of threads busy processing work in this ThreadPool")
     public int numberOfBusyThreads() {
-        synchronized (workQueue) {
-            return (currentNumberOfThreads() - numberOfAvailableThreads());
-        }
+        return (currentNumberOfThreads() - numberOfAvailableThreads());
     }
 
     @Override
     @ManagedAttribute
     @Description("The average time needed to complete a work item")
     public long averageWorkCompletionTime() {
-        return (totalTimeTaken.get() / processedCount.get());
+        return (totalTimeTaken.sum() / processedCount.sum());
     }
 
     @Override
     @ManagedAttribute
     @Description("The number of work items processed")
     public long currentProcessedCount() {
-        return processedCount.get();
+        return processedCount.sum();
     }
 
     @Override
@@ -374,13 +382,30 @@ public class ThreadPoolImpl implements ThreadPool {
     }
 
     /**
+     * Takes the calling idle thread off the available count, but only if more than the minimum number of threads would
+     * still be idle - the rule the pool has always used to let a thread end after its inactivity timeout. A
+     * compare-and-set makes the check and the update one step, so of several threads timing out at once only as many
+     * end as the rule allows. The caller must be counted as available.
+     *
+     * @return true when the caller may end and is no longer counted
+     */
+    boolean tryRetireAvailableThread() {
+        int available;
+        do {
+            available = availableWorkerThreads.get();
+            if (available <= minWorkerThreads) {
+                return false;
+            }
+        } while (!availableWorkerThreads.compareAndSet(available, available - 1));
+        return true;
+    }
+
+    /**
      * This method will decrement the number of available threads in the threadpool which are waiting for work. Called from
      * WorkQueueImpl.requestWork()
      */
     void decrementNumberOfAvailableThreads() {
-        synchronized (workQueue) {
-            availableWorkerThreads--;
-        }
+        availableWorkerThreads.decrementAndGet();
     }
 
     /**
@@ -388,9 +413,7 @@ public class ThreadPoolImpl implements ThreadPool {
      * WorkQueueImpl.requestWork()
      */
     void incrementNumberOfAvailableThreads() {
-        synchronized (workQueue) {
-            availableWorkerThreads++;
-        }
+        availableWorkerThreads.incrementAndGet();
     }
 
     private class WorkerThread extends Thread implements Closeable {
@@ -427,7 +450,8 @@ public class ThreadPoolImpl implements ThreadPool {
         }
 
         @Override
-        public synchronized void close() {
+        // closeCalled is volatile and interrupt() is thread safe: no lock.
+        public void close() {
             closeCalled = true;
             interrupt();
         }
@@ -470,8 +494,8 @@ public class ThreadPoolImpl implements ThreadPool {
                 ThreadStateValidator.checkValidators();
             }
             long elapsedTime = System.currentTimeMillis() - start;
-            totalTimeTaken.addAndGet(elapsedTime);
-            processedCount.incrementAndGet();
+            totalTimeTaken.add(elapsedTime);
+            processedCount.increment();
         }
 
         @Override
@@ -519,9 +543,7 @@ public class ThreadPoolImpl implements ThreadPool {
                 // This should not be possible
                 Exceptions.self.workerThreadCaughtUnexpectedThrowable(e, this);
             } finally {
-                synchronized (workersLock) {
-                    workers.remove(this);
-                }
+                workers.remove(this);
             }
         }
     } // End of WorkerThread class

@@ -161,11 +161,6 @@ public class BufferManagerReadStream implements BufferManagerRead, MarkAndResetH
     @Transport
     @Override
     public void close(ByteBuffer byteBuffer) {
-        int inputBbAddress = 0;
-
-        if (byteBuffer != null) {
-            inputBbAddress = System.identityHashCode(byteBuffer);
-        }
         ByteBufferPool byteBufferPool = getByteBufferPool();
 
         // release ByteBuffers on fragmentQueue
@@ -199,10 +194,12 @@ public class BufferManagerReadStream implements BufferManagerRead, MarkAndResetH
             // not be released to the ByteBufferPool.
 
             for (ByteBuffer aBuffer : fragmentStack) {
-                if (aBuffer != null) {
-                    if (inputBbAddress != System.identityHashCode(aBuffer)) {
-                        byteBufferPool.releaseByteBuffer(aBuffer);
-                    }
+                // An identity test. Comparing identity hash codes, as this
+                // did, could take two distinct buffers for one, and
+                // computing the hash of the caller's buffer on every close
+                // was measurable under load.
+                if (aBuffer != null && aBuffer != byteBuffer) {
+                    byteBufferPool.releaseByteBuffer(aBuffer);
                 }
             }
 

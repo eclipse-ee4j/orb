@@ -52,7 +52,6 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.IdentityHashMap;
 import java.util.Map;
-import java.util.WeakHashMap;
 
 import javax.rmi.CORBA.Tie;
 import javax.rmi.CORBA.ValueHandler;
@@ -102,9 +101,17 @@ public class Util implements javax.rmi.CORBA.UtilDelegate {
 
     // XXX Would like to have a WeakConcurrentHashMap here to reduce contention,
     // but that is only available with Google collections at present.
-    private WeakHashMap<java.lang.Class<?>, String> annotationMap = new WeakHashMap<>();
-
-    private static final java.lang.Object annotObj = new java.lang.Object();
+    // RMIClassLoader.getClassAnnotation per class, without a lock. The map
+    // this replaces cached null as "not cached", and null is the answer for
+    // the classes of a GlassFish application, so it asked the class loader
+    // again - copying its URL list - for every value marshalled. ClassValue
+    // holds a null result like any other and does not keep the class alive.
+    private final ClassValue<String> annotations = new ClassValue<String>() {
+        @Override
+        protected String computeValue(java.lang.Class<?> clz) {
+            return RMIClassLoader.getClassAnnotation(clz);
+        }
+    };
 
     static {
         // Note: there uses to be code here to use the JDK value handler for embedded
@@ -534,21 +541,7 @@ public class Util implements javax.rmi.CORBA.UtilDelegate {
      */
     @Override
     public String getCodebase(java.lang.Class clz) {
-        String annot;
-        synchronized (annotObj) {
-            annot = annotationMap.get(clz);
-        }
-
-        if (annot == null) {
-            // This can be an expensive operation, so don't hold the lock here.
-            annot = RMIClassLoader.getClassAnnotation(clz);
-
-            synchronized (annotObj) {
-                annotationMap.put(clz, annot);
-            }
-        }
-
-        return annot;
+        return annotations.get(clz);
     }
 
     /**

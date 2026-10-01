@@ -90,6 +90,35 @@ public class CodeSetConversion {
         // of array.length! The array may be used internally, so don't
         // save references.
         public abstract byte[] getBytes();
+
+        /**
+         * The byte order of the code units, when this converter writes plain
+         * UTF-16; null for every other code set.
+         *
+         * <p>For UTF-16 the encoded form of a string is its Java chars, byte
+         * swapped if need be, behind an optional byte order mark. A stream
+         * can then put the chars straight into its own buffer instead of
+         * running a CharsetEncoder into an intermediate ByteBuffer and
+         * copying that in afterwards. The one thing the encoder adds is error
+         * detection: an unpaired surrogate is malformed, and a caller taking
+         * this route has to reject it the same way. See
+         * {@link #writesUtf16ByteOrderMark}.
+         *
+         * @return the byte order, or null when the code set is not UTF-16
+         */
+        public ByteOrder getUtf16ByteOrder() {
+            return null;
+        }
+
+        /**
+         * Whether the encoded form starts with the byte order mark FE FF.
+         * Only meaningful when {@link #getUtf16ByteOrder} is not null.
+         *
+         * @return true when a byte order mark precedes the code units
+         */
+        public boolean writesUtf16ByteOrderMark() {
+            return false;
+        }
     }
 
     /**
@@ -134,6 +163,24 @@ public class CodeSetConversion {
         public Charset getSingleByteCharset() {
             return null;
         }
+
+        /**
+         * The byte order to assume when UTF-16 data carries no byte order
+         * mark; null when this converter does not decode UTF-16.
+         *
+         * <p>A caller that gets a non-null answer may read the code units
+         * itself, provided the result is identical to what
+         * {@link #getChars} would have produced. It is when there is neither
+         * a surrogate nor U+FFFE among them: those are the only code units
+         * the decoder rejects or treats specially, so anything else decodes
+         * to exactly its own value. Data that does contain one should be
+         * handed to {@link #getChars} as before.
+         *
+         * @return the default byte order, or null
+         */
+        public ByteOrder getUtf16DefaultByteOrder() {
+            return null;
+        }
     }
 
     /**
@@ -166,7 +213,9 @@ public class CodeSetConversion {
         // before writing the array to the stream.
         private ByteBuffer buffer;
 
-        WeakHashMap<String, ByteBuffer> cacheEncoder = new WeakHashMap<String, ByteBuffer>();
+        // Negotiated code sets are few; avoid the first resize on the common
+        // small-string path while retaining weak keys for bounded lifetime.
+        WeakHashMap<String, ByteBuffer> cacheEncoder = new WeakHashMap<String, ByteBuffer>(4);
 
         public JavaCTBConverter(OSFCodeSetRegistry.Entry codeset, int alignmentForEncoding) {
 
@@ -301,14 +350,32 @@ public class CodeSetConversion {
      * Special UTF16 converter which can either always write a BOM or use a specified byte order without one.
      */
     private class UTF16CTBConverter extends JavaCTBConverter {
-        // Using this constructor, we will always write a BOM
+        private final ByteOrder byteOrder;
+        private final boolean byteOrderMark;
+
+        // Using this constructor, we will always write a BOM. The JDK's
+        // UTF-16 encoder writes FE FF and then big endian code units.
         public UTF16CTBConverter() {
             super(OSFCodeSetRegistry.UTF_16, 2);
+            byteOrder = ByteOrder.BIG_ENDIAN;
+            byteOrderMark = true;
         }
 
         // Using this constructor, we don't use a BOM and use the byte order specified
         public UTF16CTBConverter(boolean littleEndian) {
             super(littleEndian ? OSFCodeSetRegistry.UTF_16LE : OSFCodeSetRegistry.UTF_16BE, 2);
+            byteOrder = littleEndian ? ByteOrder.LITTLE_ENDIAN : ByteOrder.BIG_ENDIAN;
+            byteOrderMark = false;
+        }
+
+        @Override
+        public ByteOrder getUtf16ByteOrder() {
+            return byteOrder;
+        }
+
+        @Override
+        public boolean writesUtf16ByteOrderMark() {
+            return byteOrderMark;
         }
     }
 
@@ -481,6 +548,10 @@ public class CodeSetConversion {
         }
 
         @Override
+        public ByteOrder getUtf16DefaultByteOrder() {
+            return defaultByteOrder;
+        }
+
         public char[] getChars(ByteBuffer byteBuffer, int offset, int numBytes) {
             byte[] marker = { byteBuffer.get(), byteBuffer.get() };
             byteBuffer.position(0);
@@ -779,13 +850,13 @@ public class CodeSetConversion {
     private ThreadLocal<HashMap<OSFCodeSetRegistry.Entry, BTCConverter>> cacheBTCC = new ThreadLocal() {
         @Override
         public HashMap<OSFCodeSetRegistry.Entry, BTCConverter> initialValue() {
-            return new HashMap<OSFCodeSetRegistry.Entry, BTCConverter>();
+            return new HashMap<OSFCodeSetRegistry.Entry, BTCConverter>(4);
         }
     };
     private ThreadLocal<HashMap<OSFCodeSetRegistry.Entry, CTBConverter>> cacheCTBC = new ThreadLocal() {
         @Override
         public HashMap<OSFCodeSetRegistry.Entry, CTBConverter> initialValue() {
-            return new HashMap<OSFCodeSetRegistry.Entry, CTBConverter>();
+            return new HashMap<OSFCodeSetRegistry.Entry, CTBConverter>(4);
         }
     };
 }
