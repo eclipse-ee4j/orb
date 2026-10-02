@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -24,6 +25,7 @@ import com.sun.corba.ee.impl.encoding.CDROutputObject;
 import com.sun.corba.ee.impl.encoding.CodeSetComponentInfo;
 import com.sun.corba.ee.spi.ior.IOR;
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.protocol.MessageMediator;
 import com.sun.corba.ee.spi.protocol.RequestId;
@@ -158,6 +160,23 @@ public interface Connection
      * @param outputObject encoded data to send
      */
     void sendWithoutLock(CDROutputObject outputObject);
+
+    /**
+     * Sends bytes that already hold one or more complete GIOP messages or fragments, each with its header, back to back.
+     * As with {@link #sendWithoutLock(CDROutputObject)}, the caller holds the write lock.
+     *
+     * <p>This default writes them with {@link #write(ByteBuffer)} and reports a failure as the write error that
+     * {@link #sendWithoutLock(CDROutputObject)} reports.
+     *
+     * @param messages the bytes to send, from position to limit
+     */
+    default void sendWithoutLock(ByteBuffer messages) {
+        try {
+            write(messages);
+        } catch (IOException e) {
+            throw ORBUtilSystemException.self.writeErrorSend(e);
+        }
+    }
 
     /**
      * Register an invocation's CorbaMessageMediator
