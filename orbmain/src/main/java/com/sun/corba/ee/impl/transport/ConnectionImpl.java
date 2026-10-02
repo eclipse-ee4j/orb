@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -55,6 +56,8 @@ import com.sun.org.omg.SendingContext.CodeBase;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.VarHandle;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.ByteBuffer;
@@ -120,10 +123,26 @@ public class ConnectionImpl extends EventHandlerBase implements Connection, Work
     // value in some protocols.
     protected AtomicInteger requestId = new AtomicInteger(5);
     protected ResponseWaitingRoom responseWaitingRoom;
-    private int state;
+    // Written under stateEvent where a waiter has to be woken, read without
+    // a lock by writeLock.
+    private volatile int state;
     protected final java.lang.Object stateEvent = new java.lang.Object();
     protected final java.lang.Object writeEvent = new java.lang.Object();
-    protected boolean writeLocked;
+    // Taken with a compare-and-set; see writeLock.
+    protected volatile boolean writeLocked;
+    // Threads in writeLock waiting on writeEvent. Changed under writeEvent,
+    // read without a lock by writeUnlock.
+    private volatile int writeWaiters;
+
+    private static final VarHandle WRITE_LOCKED;
+
+    static {
+        try {
+            WRITE_LOCKED = MethodHandles.lookup().findVarHandle(ConnectionImpl.class, "writeLocked", boolean.class);
+        } catch (ReflectiveOperationException e) {
+            throw new ExceptionInInitializerError(e);
+        }
+    }
     protected int serverRequestCount = 0;
 
     // Server request map: used on the server side of Connection
@@ -642,15 +661,19 @@ public class ConnectionImpl extends EventHandlerBase implements Connection, Work
      * Sets the writeLock for this connection. If the writeLock is already set by someone else, block till the writeLock is
      * released and can set by us. IMPORTANT: this connection's lock must be acquired before setting the writeLock and must
      * be unlocked after setting the writeLock.
+     *
+     * <p>Every fragment written takes and releases this lock, so the uncontended case takes no monitor: the state is
+     * read as a volatile and the lock is a compare-and-set. Only a thread that finds it taken waits on writeEvent, as
+     * before, and writeUnlock only takes that monitor when a thread is waiting.
      */
     @Override
     @Transport
     public void writeLock() {
         // Keep looping till we can set the writeLock.
         while (true) {
-            int localState;
-            synchronized (stateEvent) {
-                localState = getState();
+            int localState = getState();
+            if (localState == ESTABLISHED && WRITE_LOCKED.compareAndSet(this, false, true)) {
+                return;
             }
 
             localStateInfo(localState);
@@ -674,19 +697,23 @@ public class ConnectionImpl extends EventHandlerBase implements Connection, Work
 
                 case ESTABLISHED:
                     synchronized (writeEvent) {
-                        if (!writeLocked) {
-                            writeLocked = true;
-                            return;
-                        }
-
+                        // Counted before trying again: writeUnlock clears the
+                        // lock before reading the count, so either this try
+                        // sees it free or that read sees this waiter.
+                        writeWaiters++;
                         try {
                             // do not stay here too long if state != ESTABLISHED
                             // Bug 4752117
-                            while (getState() == ESTABLISHED && writeLocked) {
+                            while (getState() == ESTABLISHED) {
+                                if (WRITE_LOCKED.compareAndSet(this, false, true)) {
+                                    return;
+                                }
                                 writeEvent.wait(100);
                             }
                         } catch (InterruptedException ie) {
                             wrapper.establishedWaitInterrupted(ie);
+                        } finally {
+                            writeWaiters--;
                         }
                     }
                     // Loop back
@@ -720,9 +747,11 @@ public class ConnectionImpl extends EventHandlerBase implements Connection, Work
     @Override
     @Transport
     public void writeUnlock() {
-        synchronized (writeEvent) {
-            writeLocked = false;
-            writeEvent.notify(); // wake up one guy waiting to write
+        writeLocked = false;
+        if (writeWaiters > 0) {
+            synchronized (writeEvent) {
+                writeEvent.notify(); // wake up one guy waiting to write
+            }
         }
     }
 
