@@ -56,7 +56,8 @@ public class BufferManagerWriteStream extends BufferManagerWrite {
 
     private int fragmentCount = 0;
 
-    // Complete fragments, back to back, not yet written; null until the first.
+    // Complete fragments, back to back, not yet written; null until the first,
+    // then the thread's holding buffer until the message is sent or closed.
     private ByteBuffer held;
     private int heldFragments;
 
@@ -202,21 +203,8 @@ public class BufferManagerWriteStream extends BufferManagerWrite {
      * @param fragment the stream's buffer, its position at the end of the fragment
      */
     private void hold(ByteBuffer fragment) {
-        int length = fragment.position();
-        if (held == null || held.remaining() < length) {
-            // Room for four fragments to start with, as most messages that
-            // fragment at all are a few kilobytes; doubled when it is full.
-            int used = held == null ? 0 : held.position();
-            int capacity = held == null ? 4 * getFragmentSize() : 2 * held.capacity();
-            ByteBufferPool byteBufferPool = orb.getByteBufferPool();
-            ByteBuffer larger = byteBufferPool.getByteBuffer(Math.min(HELD_BYTES, Math.max(capacity, used + length)));
-            larger.clear();
-            if (held != null) {
-                held.flip();
-                larger.put(held);
-                byteBufferPool.releaseByteBuffer(held);
-            }
-            held = larger;
+        if (held == null) {
+            held = takeHoldingBuffer();
         }
 
         fragment.flip();
@@ -227,6 +215,30 @@ public class BufferManagerWriteStream extends BufferManagerWrite {
             sendHeld();
         }
     }
+
+    /**
+     * The calling thread's holding buffer, or a new one. A buffer per message cost an allocation as large as the
+     * message for every message that fragments - measured, more bytes allocated per call than grouping saved - so each
+     * thread keeps one between messages, as it keeps its indirection tables.
+     */
+    private ByteBuffer takeHoldingBuffer() {
+        Spare spare = SPARE.get();
+        ByteBuffer buffer = spare.buffer;
+        if (buffer != null) {
+            spare.buffer = null;
+        } else {
+            buffer = orb.getByteBufferPool().getByteBuffer(HELD_BYTES);
+        }
+        buffer.clear();
+        return buffer;
+    }
+
+    /** A thread's holding buffer while no message of the thread is using it. */
+    private static final class Spare {
+        ByteBuffer buffer;
+    }
+
+    private static final ThreadLocal<Spare> SPARE = ThreadLocal.withInitial(Spare::new);
 
     /** Writes the fragments held, under the connection's write lock, and empties the holding buffer. */
     private void sendHeld() {
@@ -268,9 +280,14 @@ public class BufferManagerWriteStream extends BufferManagerWrite {
         releaseHeld();
     }
 
+    /** Gives the holding buffer back to the calling thread, for its next message. */
     private void releaseHeld() {
         if (held != null) {
-            orb.getByteBufferPool().releaseByteBuffer(held);
+            held.clear();
+            Spare spare = SPARE.get();
+            if (spare.buffer == null) {
+                spare.buffer = held;
+            }
             held = null;
             heldFragments = 0;
         }
