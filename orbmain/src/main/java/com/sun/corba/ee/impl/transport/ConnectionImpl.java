@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -745,20 +746,35 @@ public class ConnectionImpl extends EventHandlerBase implements Connection, Work
             // socket.getOutputStream().flush();
 
         } catch (IOException exc) {
-            // Since IIOPOutputStream's msgheader is set only once, and not
-            // altered during sending multiple fragments, the original
-            // msgheader will always have the requestId.
-            // REVISIT This could be optimized to send a CancelRequest only
-            // if any fragments had been sent already.
-
-            // IIOPOutputStream will cleanup the connection info when it
-            // sees this exception.
-            final SystemException sysexc = (getState() == CLOSE_RECVD) ? wrapper.connectionRebindMaybe(exc) : wrapper.writeErrorSend(exc);
-
-            purgeCalls(sysexc, false, true);
-
-            throw sysexc;
+            throw writeFailed(exc);
         }
+    }
+
+    // Assumes the caller handles writeLock and writeUnlock, and fails as
+    // sendWithoutLock(CDROutputObject) does.
+    @Override
+    public void sendWithoutLock(ByteBuffer messages) {
+        try {
+            write(messages);
+        } catch (IOException exc) {
+            throw writeFailed(exc);
+        }
+    }
+
+    private SystemException writeFailed(IOException exc) {
+        // Since IIOPOutputStream's msgheader is set only once, and not
+        // altered during sending multiple fragments, the original
+        // msgheader will always have the requestId.
+        // REVISIT This could be optimized to send a CancelRequest only
+        // if any fragments had been sent already.
+
+        // IIOPOutputStream will cleanup the connection info when it
+        // sees this exception.
+        final SystemException sysexc = (getState() == CLOSE_RECVD) ? wrapper.connectionRebindMaybe(exc) : wrapper.writeErrorSend(exc);
+
+        purgeCalls(sysexc, false, true);
+
+        return sysexc;
     }
 
     @Override
