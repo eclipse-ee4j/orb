@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
@@ -150,18 +151,38 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
 
         this.bufferManagerWrite = bufferManager;
         byteBuffer = allocateBuffer(orb, bufferManager, usePooledByteBuffers);
+        initialBuffer = usePooledByteBuffers ? byteBuffer : null;
         byteBuffer.position(0);
         this.streamFormatVersion = streamFormatVersion;
 
         createRepositoryIdHandlers();
     }
 
+    /**
+     * The buffer this stream started with, while the stream still owns it; see {@link #close()}.
+     */
+    private ByteBuffer initialBuffer;
+
+    /**
+     * A buffer of the size streams start with, given back by the last stream this thread closed. Every request and
+     * reply allocated one, and the pool never kept them; a closed stream's buffer is not read again, so the next
+     * stream of the thread starts in it.
+     */
+    private static final ThreadLocal<ByteBuffer[]> SPARE_BUFFER = ThreadLocal.withInitial(() -> new ByteBuffer[1]);
+
     static ByteBuffer allocateBuffer(org.omg.CORBA.ORB orb, BufferManagerWrite bufferManager, boolean usePooledByteBuffers) {
         int bufferSize = bufferManager.getBufferSize();
         ByteBuffer buffer;
         if (usePooledByteBuffers) {
-            ByteBufferPool byteBufferPool = ((ORB) orb).getByteBufferPool();
-            buffer = byteBufferPool.getByteBuffer(bufferSize);
+            ByteBuffer[] spare = SPARE_BUFFER.get();
+            if (spare[0] != null && spare[0].capacity() == bufferSize) {
+                buffer = spare[0];
+                spare[0] = null;
+                buffer.clear();
+            } else {
+                ByteBufferPool byteBufferPool = ((ORB) orb).getByteBufferPool();
+                buffer = byteBufferPool.getByteBuffer(bufferSize);
+            }
         } else {
             // don't allocate from pool, allocate non-direct ByteBuffer
             buffer = ByteBuffer.allocate(bufferSize);
@@ -1921,16 +1942,26 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
         getBufferManager().close();
 
         if (byteBuffer != null) {
-
-            // release this stream's ByteBuffer to the pool
-            ByteBufferPool byteBufferPool = orb.getByteBufferPool();
-            byteBufferPool.releaseByteBuffer(byteBuffer);
+            if (byteBuffer == initialBuffer) {
+                // Still the buffer this stream started with, never handed to
+                // anything else: keep it for this thread's next stream.
+                ByteBuffer[] spare = SPARE_BUFFER.get();
+                if (spare[0] == null) {
+                    spare[0] = byteBuffer;
+                }
+            } else {
+                // release this stream's ByteBuffer to the pool
+                ByteBufferPool byteBufferPool = orb.getByteBufferPool();
+                byteBufferPool.releaseByteBuffer(byteBuffer);
+            }
             byteBuffer = null;
         }
+        initialBuffer = null;
     }
 
     @Override
     void dereferenceBuffer() {
         byteBuffer = null;
+        initialBuffer = null;
     }
 }
