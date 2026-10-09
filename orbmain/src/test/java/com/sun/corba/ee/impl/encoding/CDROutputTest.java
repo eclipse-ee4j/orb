@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  * Copyright (c) 2012, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -332,11 +333,33 @@ public class CDROutputTest extends EncodingTestBase {
     }
 
     @Test
-    public void WhenOutputStreamClosed_releaseBuffer() throws IOException {
+    public void WhenOutputStreamClosed_itsBufferStartsTheThreadsNextStream() throws IOException {
         getOutputObject().write_ulong(123);
         getOutputObject().close();
+        assertEquals("kept for the thread, not handed to the pool", 0, getNumBuffersReleased());
 
-        assertEquals(1, getNumBuffersReleased());
+        int allocated = getNumBuffersAllocated();
+        CDROutputObject next = createAnotherOutputObject();
+        assertEquals("the next stream starts in the kept buffer", allocated, getNumBuffersAllocated());
+
+        next.write_ulong(456);
+        CDRInputObject inputObject = next.createInputObject(getOrb());
+        inputObject.setMessageMediator(next.getMessageMediator());
+        assertEquals(456, inputObject.read_ulong());
+    }
+
+    @Test
+    public void WhenBufferWasHandedToAnInputStream_itIsNotKept() throws IOException {
+        getOutputObject().write_ulong(123);
+        CDRInputObject inputObject = getOutputObject().createInputObject(getOrb());
+        getOutputObject().close();
+
+        int allocated = getNumBuffersAllocated();
+        createAnotherOutputObject().write_ulong(456);
+        assertEquals("the input stream still reads that buffer", allocated + 1, getNumBuffersAllocated());
+
+        inputObject.setMessageMediator(getOutputObject().getMessageMediator());
+        assertEquals(123, inputObject.read_ulong());
     }
 
     @Test
