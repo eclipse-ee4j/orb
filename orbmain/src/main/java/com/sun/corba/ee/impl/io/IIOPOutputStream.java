@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
  *
@@ -683,7 +684,7 @@ public class IIOPOutputStream extends com.sun.corba.ee.impl.io.OutputStreamHook 
     @ValueHandlerWrite
     private void writeObjectField(ObjectStreamField field, Object objectValue) throws IOException {
 
-        if (ObjectStreamClassCorbaExt.isAny(field.getTypeString())) {
+        if (field.isAny()) {
             Util.getInstance().writeAny(orbStream, objectValue);
         } else {
             Class<?> type = field.getType();
