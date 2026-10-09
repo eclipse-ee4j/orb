@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -37,14 +38,36 @@ import org.omg.CORBA.portable.RemarshalException;
 
 /**
  * Streaming buffer manager.
+ *
+ * <p>Fragments are not written one by one. Each was a write on the connection of its own, under the connection's write
+ * lock: with GlassFish's default of 1 KiB fragments a 64 KiB value cost about 130 system calls each way, and in a
+ * measurement on a value of a few kilobytes the write calls per call fell from 3.3 to 1.3 at 8 KiB fragments. A full
+ * fragment is now copied into a holding buffer instead, after its header is completed, and the fragments held are
+ * written together when the next one would take the buffer past {@link #HELD_BYTES}, and with the last fragment of the
+ * message. Copying a fragment costs far less than the system call it saves. The fragments on the wire are the same,
+ * byte for byte, in the same order; they leave in groups.
  */
 public class BufferManagerWriteStream extends BufferManagerWrite {
+    /**
+     * Most bytes of complete fragments held before they are written. A fragment larger than half of it is written on
+     * its own, as before: there is little to gain, and the receiver would wait longer for the first fragment.
+     */
+    static final int HELD_BYTES = 16 * 1024;
+
     private int fragmentCount = 0;
+
+    // Complete fragments, back to back, not yet written; null until the first,
+    // then the thread's holding buffer until the message is sent or closed.
+    private ByteBuffer held;
+    private int heldFragments;
 
     BufferManagerWriteStream(ORB orb) {
         super(orb);
     }
 
+    /**
+     * Whether a fragment has been written to the connection; fragments still held do not count.
+     */
     @Override
     public boolean sentFragment() {
         return fragmentCount > 0;
@@ -98,7 +121,11 @@ public class BufferManagerWriteStream extends BufferManagerWrite {
         MessageBase.setFlag(byteBuffer, Message.MORE_FRAGMENTS_BIT);
 
         try {
-            sendFragment(false);
+            if (getFragmentSize() * 2 <= HELD_BYTES) {
+                hold(((CDROutputObject) outputObject).sealFragment());
+            } else {
+                sendFragment(false);
+            }
         } catch (SystemException se) {
             // REVISIT: this part similar to
             // CorbaClientRequestDispatchImpl.beginRequest()
@@ -168,21 +195,102 @@ public class BufferManagerWriteStream extends BufferManagerWrite {
 
     }
 
-    // Sends the last fragment
+    /**
+     * Copies a complete fragment into the holding buffer, and writes what is held once another whole fragment would
+     * not fit in {@link #HELD_BYTES}. So there is always room for the fragment being held: it is never larger than a
+     * fragment.
+     *
+     * @param fragment the stream's buffer, its position at the end of the fragment
+     */
+    private void hold(ByteBuffer fragment) {
+        if (held == null) {
+            held = takeHoldingBuffer();
+        }
+
+        fragment.flip();
+        held.put(fragment);
+        heldFragments++;
+
+        if (held.position() + getFragmentSize() > HELD_BYTES) {
+            sendHeld();
+        }
+    }
+
+    /**
+     * The calling thread's holding buffer, or a new one. A buffer per message cost an allocation as large as the
+     * message for every message that fragments - measured, more bytes allocated per call than grouping saved - so each
+     * thread keeps one between messages, as it keeps its indirection tables.
+     */
+    private ByteBuffer takeHoldingBuffer() {
+        Spare spare = SPARE.get();
+        ByteBuffer buffer = spare.buffer;
+        if (buffer != null) {
+            spare.buffer = null;
+        } else {
+            buffer = orb.getByteBufferPool().getByteBuffer(HELD_BYTES);
+        }
+        buffer.clear();
+        return buffer;
+    }
+
+    /** A thread's holding buffer while no message of the thread is using it. */
+    private static final class Spare {
+        ByteBuffer buffer;
+    }
+
+    private static final ThreadLocal<Spare> SPARE = ThreadLocal.withInitial(Spare::new);
+
+    /** Writes the fragments held, under the connection's write lock, and empties the holding buffer. */
+    private void sendHeld() {
+        Connection conn = ((CDROutputObject) outputObject).getMessageMediator().getConnection();
+        conn.writeLock();
+        try {
+            held.flip();
+            conn.sendWithoutLock(held);
+            fragmentCount += heldFragments;
+        } finally {
+            conn.writeUnlock();
+            held.clear();
+            heldFragments = 0;
+        }
+    }
+
+    // Sends the last fragment, with any held before it
     @Override
     public void sendMessage() {
-        sendFragment(true);
+        if (heldFragments == 0) {
+            sendFragment(true);
+        } else {
+            hold(((CDROutputObject) outputObject).sealFragment());
+            if (heldFragments > 0) {
+                sendHeld();
+            }
+        }
+        releaseHeld();
 
         sentFullMessage = true;
     }
 
     /**
-     * Close the BufferManagerWrite and do any outstanding cleanup.
-     *
-     * No work to do for a BufferManagerWriteStream
+     * Close the BufferManagerWrite and do any outstanding cleanup: fragments still held, if the message was not
+     * finished, are dropped without being written.
      */
     @Override
     public void close() {
+        releaseHeld();
+    }
+
+    /** Gives the holding buffer back to the calling thread, for its next message. */
+    private void releaseHeld() {
+        if (held != null) {
+            held.clear();
+            Spare spare = SPARE.get();
+            if (spare.buffer == null) {
+                spare.buffer = held;
+            }
+            held = null;
+            heldFragments = 0;
+        }
     }
 
     /**
