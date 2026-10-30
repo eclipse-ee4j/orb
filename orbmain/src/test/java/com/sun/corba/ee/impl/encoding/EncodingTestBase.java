@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  * Copyright (c) 2012, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -59,6 +60,7 @@ import static com.sun.corba.ee.spi.ior.iiop.GIOPVersion.V1_1;
 import static com.sun.corba.ee.spi.ior.iiop.GIOPVersion.V1_2;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class EncodingTestBase {
@@ -260,6 +262,13 @@ public class EncodingTestBase {
     protected final List<byte[]> finishAndGetFragments() {
         getOutputObject().finishSendingMessage();
         return fragments;
+    }
+
+    /**
+     * The number of writes on the connection so far; one may carry several fragments.
+     */
+    protected final int getWriteCount() {
+        return connection.writes;
     }
 
     protected final void dumpActual() {
@@ -525,10 +534,37 @@ public class EncodingTestBase {
         }
 
         @Override
+        public void sendWithoutLock(ByteBuffer messages) {
+            try {
+                if (!locked)
+                    fail("sendWithoutLock called while connection is not locked");
+                write(messages);
+            } catch (IOException e) {
+                fail("Connection reported: " + e);
+            }
+        }
+
+        int writes;
+
+        /**
+         * Records each GIOP message or fragment written, splitting a write that carries several by their headers, and
+         * fails on bytes that are not whole messages.
+         */
+        @Override
         public void write(ByteBuffer byteBuffer) throws IOException {
-            byte[] buf = new byte[byteBuffer.remaining()];
-            byteBuffer.get(buf);
-            fragments.add(buf);
+            writes++;
+            while (byteBuffer.hasRemaining()) {
+                assertTrue("a write ends inside a GIOP header", byteBuffer.remaining() >= Message.GIOPMessageHeaderLength);
+                int start = byteBuffer.position();
+                boolean littleEndian = (byteBuffer.get(start + 6) & 0x01) != 0;
+                int size = byteBuffer.duplicate().order(littleEndian ? ByteOrder.LITTLE_ENDIAN : ByteOrder.BIG_ENDIAN)
+                        .getInt(start + 8);
+                int length = Message.GIOPMessageHeaderLength + size;
+                assertTrue("a write ends inside a GIOP message", byteBuffer.remaining() >= length);
+                byte[] buf = new byte[length];
+                byteBuffer.get(buf);
+                fragments.add(buf);
+            }
         }
 
     }
@@ -645,6 +681,10 @@ public class EncodingTestBase {
         @Override
         public void setSize(ByteBuffer byteBuffer, int size) {
             sizeInHeader = size;
+            // As the real headers do, so that what reaches the connection can
+            // be split back into messages. The fake header's flags are zero:
+            // big endian.
+            byteBuffer.putInt(8, size - GIOPMessageHeaderLength);
         }
 
         @Override
