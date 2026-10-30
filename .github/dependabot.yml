@@ -5,10 +5,3 @@ updates:
     schedule:
       interval: "daily"
       time: "02:00"
-    groups:
-      maven-plugins:
-        patterns:
-          - "*:*-plugin"
-      dependencies:
-        patterns:
-          - "*"
