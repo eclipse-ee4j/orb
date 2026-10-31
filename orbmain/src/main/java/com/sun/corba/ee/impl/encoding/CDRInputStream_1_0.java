@@ -2455,5 +2455,20 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase implements Restorable
             byteBufferPool.releaseByteBuffer(byteBuffer);
             byteBuffer = null;
         }
+
+        // A closed stream has given its buffer back and is not read again,
+        // so its indirection tables can go back for the next stream too.
+        if (valueCache != null) {
+            valueCache.done();
+            valueCache = null;
+        }
+        if (repositoryIdCache != null) {
+            repositoryIdCache.done();
+            repositoryIdCache = null;
+        }
+        if (codebaseCache != null) {
+            codebaseCache.done();
+            codebaseCache = null;
+        }
     }
 }

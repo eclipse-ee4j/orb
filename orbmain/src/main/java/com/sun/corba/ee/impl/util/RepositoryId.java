@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
  * Copyright (c) 2019-2020 Payara Services Ltd.
@@ -71,17 +72,32 @@ public class RepositoryId {
     private static final String defaultServerURL = JDKBridge.getLocalCodebase();
     private static final boolean useCodebaseOnly = JDKBridge.useCodebaseOnly();
 
-    private static final Map<Class<?>, String> classToRepStr = new WeakHashMap<>();
     private static final Map<Class<?>, String> classIDLToRepStr = new WeakHashMap<>();
     private static final Map<Class<?>, String> classSeqToRepStr = new WeakHashMap<>();
 
     private static final Map<String, byte[]> repStrToByteArray = new IdentityHashMap<>();
     /*
-     * Read by getAnyClassFromType with no lock at all, while the writes below happen under the classToRepStr monitor. With
+     * Read by getAnyClassFromType with no lock at all, while the writes happen in javaTypeRepIds. With
      * the previous SoftCache - a bare HashMap that mutates itself even inside get() - that was a data race, and two
      * concurrent readers were enough to corrupt it.
      */
     private static final ConcurrentSoftCache<String, Class<?>> repStrToClass = new ConcurrentSoftCache<>();
+
+    /*
+     * The repository ID of each normal Java type. It was a WeakHashMap under its own monitor, which every value written
+     * by every thread had to take just to read an ID computed once per class. A ClassValue is read without a lock and,
+     * like the weak keys, lets the value go with the class. computeValue may run more than once for a class when two
+     * threads race, with one result kept; the IDs are equal and putting one in repStrToClass twice is harmless.
+     */
+    private static final ClassValue<String> javaTypeRepIds = new ClassValue<String>() {
+        @Override
+        protected String computeValue(Class<?> clz) {
+            String repid = kValuePrefix + convertToISOLatin1(clz.getName()) + createHashString(clz);
+            repStrToClass.purge();
+            repStrToClass.put(repid, clz);
+            return repid;
+        }
+    };
 
     private String repId = null;
     private boolean isSupportedFormat = true;
@@ -699,23 +715,10 @@ public class RepositoryId {
      * interface which indicates it is an IDL Value type.
      **/
     public static String createForJavaType(java.io.Serializable ser) throws com.sun.corba.ee.impl.io.TypeMismatchException {
-        synchronized (classToRepStr) {
-            String repid = createForSpecialCase(ser);
-            if (repid != null)
-                return repid;
-            Class<?> clazz = ser.getClass();
-            repid = classToRepStr.get(clazz);
-
-            if (repid != null)
-                return repid;
-
-            repid = kValuePrefix + convertToISOLatin1(clazz.getName()) + createHashString(clazz);
-
-            classToRepStr.put(clazz, repid);
-            repStrToClass.purge();
-            repStrToClass.put(repid, clazz);
+        String repid = createForSpecialCase(ser);
+        if (repid != null)
             return repid;
-        }
+        return javaTypeRepIds.get(ser.getClass());
     }
 
     public static String createForJavaType(Class<?> clz) throws com.sun.corba.ee.impl.io.TypeMismatchException {
@@ -733,22 +736,10 @@ public class RepositoryId {
      **/
     public static String createForJavaType(Class<?> clz, ClassInfoCache.ClassInfo cinfo)
             throws com.sun.corba.ee.impl.io.TypeMismatchException {
-        synchronized (classToRepStr) {
-            String repid = createForSpecialCase(clz, cinfo);
-            if (repid != null)
-                return repid;
-
-            repid = classToRepStr.get(clz);
-            if (repid != null)
-                return repid;
-
-            repid = kValuePrefix + convertToISOLatin1(clz.getName()) + createHashString(clz);
-
-            classToRepStr.put(clz, repid);
-            repStrToClass.purge();
-            repStrToClass.put(repid, clz);
+        String repid = createForSpecialCase(clz, cinfo);
+        if (repid != null)
             return repid;
-        }
+        return javaTypeRepIds.get(clz);
     }
 
     /**
