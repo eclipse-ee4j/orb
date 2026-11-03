@@ -178,6 +178,18 @@ public class CDROutputObject extends org.omg.CORBA_2_3.portable.OutputStream
         // Update the GIOP MessageHeader size field.
         //
 
+        ByteBuffer byteBuffer = sealFragment();
+        byteBuffer.flip();
+        connection.write(byteBuffer);
+    }
+
+    /**
+     * Completes the message or fragment in the stream's buffer for sending: sets the size in its GIOP header and, when
+     * messages are traced, records it.
+     *
+     * @return the stream's buffer, its position at the end of the data
+     */
+    ByteBuffer sealFragment() {
         ByteBuffer byteBuffer = impl.getByteBuffer();
 
         getMessageHeader().setSize(byteBuffer, byteBuffer.position());
@@ -189,9 +201,7 @@ public class CDROutputObject extends org.omg.CORBA_2_3.portable.OutputStream
             if (mtm.isEnabled())
                 mtm.recordDataSent(byteBuffer);
         }
-
-        byteBuffer.flip();
-        connection.write(byteBuffer);
+        return byteBuffer;
     }
 
     /** overrides create_input_stream from CDROutputStream */
