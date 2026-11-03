@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  * Copyright (c) 2012, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -228,6 +229,15 @@ public class EncodingTestBase {
         message.body = values.clone();
     }
 
+    protected final int getNumBuffersAllocated() {
+        return pool.getNumBuffersAllocated();
+    }
+
+    /** A second output stream on the same ORB and connection, for tests that need one after the first is closed. */
+    protected final CDROutputObject createAnotherOutputObject() {
+        return createOutputObject();
+    }
+
     protected final int getNumBuffersReleased() {
         return pool.getNumBuffersReleased();
     }
@@ -383,9 +393,14 @@ public class EncodingTestBase {
 
     static abstract class ByteBufferPoolFake implements ByteBufferPool {
         private List<ByteBuffer> buffers = new ArrayList<ByteBuffer>();
+        private int allocated;
 
         protected int getNumBuffersReleased() {
             return buffers.size();
+        }
+
+        protected int getNumBuffersAllocated() {
+            return allocated;
         }
 
         @Override
@@ -395,6 +410,7 @@ public class EncodingTestBase {
 
         @Override
         public ByteBuffer getByteBuffer(int theSize) {
+            allocated++;
             return ByteBuffer.allocate(theSize);
         }
     }
