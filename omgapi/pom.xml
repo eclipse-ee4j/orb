@@ -64,6 +64,13 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
+                <configuration>
+                    <instructions>
+                        <!-- Explicitly mark java.applet as optional because it's not supported on Java 26, 
+                        then append everything else (*) Bnd finds -->
+                        <Import-Package>java.applet;resolution:=optional,*</Import-Package>
+                    </instructions>
+                </configuration>
             </plugin>
         </plugins>
     </build>
