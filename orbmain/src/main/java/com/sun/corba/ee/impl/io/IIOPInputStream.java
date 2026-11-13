@@ -1930,7 +1930,7 @@ public class IIOPInputStream extends com.sun.corba.ee.impl.io.InputStreamHook {
     private Object inputObjectField(ObjectStreamField field)
             throws InvalidClassException, StreamCorruptedException, ClassNotFoundException, IndirectionException, IOException {
 
-        if (ObjectStreamClassCorbaExt.isAny(field.getTypeString())) {
+        if (field.isAny()) {
             return Util.getInstance().readAny(orbStream);
         }
 

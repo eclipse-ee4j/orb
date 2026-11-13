@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
  *
@@ -79,6 +80,7 @@ public class ObjectStreamField implements Comparable {
         else
             signature = String.valueOf(type);
 
+        any = typeString != null && ObjectStreamClassCorbaExt.isAny(typeString);
     }
 
     public ObjectStreamField(Field field) {
@@ -147,6 +149,14 @@ public class ObjectStreamField implements Comparable {
 
     public String getTypeString() {
         return typeString;
+    }
+
+    /**
+     * Whether this field is marshalled as a CORBA any: declared as Object, Serializable or Externalizable. Asked for
+     * every field of every value read or written, so it is worked out once, here.
+     */
+    boolean isAny() {
+        return any;
     }
 
     Field getField() {
@@ -238,6 +248,7 @@ public class ObjectStreamField implements Comparable {
     private char type; // type first byte of the type signature
     private Field field; // Reflected field
     private String typeString; // iff object, typename
+    private final boolean any; // see isAny()
     private Class clazz; // the type of this field, if has been resolved
     private ClassInfoCache.ClassInfo cinfo;
 

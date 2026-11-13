@@ -1927,6 +1927,17 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
             byteBufferPool.releaseByteBuffer(byteBuffer);
             byteBuffer = null;
         }
+
+        // A closed stream has given its buffer back and is not written
+        // again, so its indirection tables can go back for the next stream.
+        if (valueCache != null) {
+            valueCache.done();
+            valueCache = null;
+        }
+        if (repositoryIdCache != null) {
+            repositoryIdCache.done();
+            repositoryIdCache = null;
+        }
     }
 
     @Override
